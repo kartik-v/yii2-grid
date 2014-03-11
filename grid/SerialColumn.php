@@ -202,8 +202,9 @@ class SerialColumn extends \yii\grid\SerialColumn
      * Get the raw footer cell content.
      * @return string the rendering result
      */
-    protected function getFooterCellContent() {
-         return $this->footer;
+    protected function getFooterCellContent()
+    {
+        return $this->footer;
     }
 
 }
