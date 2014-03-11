@@ -1,4 +1,4 @@
 yii2-grid
 =========
 
-GridView enhancements and utilities for Yii Framework 2.0
+Various GridView and Column enhancements for Yii Framework 2.0 with additional Bootstrap 3.x enhancements.
