@@ -72,8 +72,15 @@ class SerialColumn extends \yii\grid\SerialColumn
     public $hidePageSummary = false;
 
     /**
-     * @var array of data for each row in this column that will 
-     * be used to calculate the summary
+     * @var boolean whether to merge the header title row and the filter row
+     * This will not render the filter for the column and can be used when `filter`
+     * is set to `false`. Defaults to `false`. This is only applicable when `filterPosition`
+     * for the grid is set to FILTER_POS_BODY.
+     */
+    public $mergeHeader = true;
+
+    /**
+     * @var array of row data for the column for the current page 
      */
     private $_rows = [];
 
@@ -81,7 +88,7 @@ class SerialColumn extends \yii\grid\SerialColumn
     {
         $this->grid->formatColumn($this->halign, $this->valign, $this->width, $this->widthUnit, null, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
         parent::init();
-        $this->setSummaryRows();
+        $this->setPageRows();
     }
 
     /**
@@ -89,7 +96,7 @@ class SerialColumn extends \yii\grid\SerialColumn
      */
     public function renderHeaderCell()
     {
-        if ($this->grid->filterModel !== null && $this->grid->filterPosition !== GridView::FILTER_POS_FOOTER) {
+        if ($this->grid->filterModel !== null && $this->mergeHeader && $this->grid->filterPosition === GridView::FILTER_POS_BODY) {
             $this->headerOptions['rowspan'] = 2;
             Html::addCssClass($this->headerOptions, 'kv-merged-header');
         }
@@ -101,10 +108,16 @@ class SerialColumn extends \yii\grid\SerialColumn
      */
     public function renderFilterCell()
     {
-        return null;
+        if ($this->grid->filterPosition === GridView::FILTER_POS_BODY && $this->mergeHeader) {
+            return null;
+        }
+        return parent::renderFilterCell();
     }
 
-    protected function setSummaryRows()
+    /**
+     * Store all rows for the column for the current page
+     */
+    protected function setPageRows()
     {
         if ($this->grid->showPageSummary === true && isset($this->pageSummary) && $this->pageSummary !== false && !is_string($this->pageSummary)) {
             $provider = $this->grid->dataProvider;
@@ -164,7 +177,7 @@ class SerialColumn extends \yii\grid\SerialColumn
     {
         if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
             $summary = $this->calculateSummary();
-            return ($this->pageSummary === true) ? $summary : call_user_func($this->pageSummary, $summary, $this->_rows);
+            return ($this->pageSummary === true) ? $summary : call_user_func($this->pageSummary, $summary, $this->_rows, $this);
         }
         if ($this->pageSummary !== false) {
             return $this->pageSummary;
@@ -185,6 +198,10 @@ class SerialColumn extends \yii\grid\SerialColumn
         return ($content === null) ? $this->grid->emptyCell : $content;
     }
 
+    /**
+     * Get the raw footer cell content.
+     * @return string the rendering result
+     */
     protected function getFooterCellContent() {
          return $this->footer;
     }

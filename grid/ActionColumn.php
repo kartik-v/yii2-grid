@@ -88,6 +88,14 @@ class ActionColumn extends \yii\grid\ActionColumn
      */
     public $hidePageSummary = false;
 
+    /**
+     * @var boolean whether to merge the header title row and the filter row
+     * This will not render the filter for the column and can be used when `filter`
+     * is set to `false`. Defaults to `false`. This is only applicable when `filterPosition`
+     * for the grid is set to FILTER_POS_BODY.
+     */
+    public $mergeHeader = true;
+
     public function init()
     {
         $this->grid->formatColumn($this->halign, $this->valign, $this->width, $this->widthUnit, null, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
@@ -137,7 +145,7 @@ class ActionColumn extends \yii\grid\ActionColumn
      */
     public function renderHeaderCell()
     {
-        if ($this->grid->filterModel !== null && $this->grid->filterPosition !== GridView::FILTER_POS_FOOTER) {
+        if ($this->grid->filterModel !== null && $this->mergeHeader && $this->grid->filterPosition === GridView::FILTER_POS_BODY) {
             $this->headerOptions['rowspan'] = 2;
             Html::addCssClass($this->headerOptions, 'kv-merged-header');
         }
@@ -149,7 +157,10 @@ class ActionColumn extends \yii\grid\ActionColumn
      */
     public function renderFilterCell()
     {
-        return null;
+        if ($this->grid->filterPosition === GridView::FILTER_POS_BODY && $this->mergeHeader) {
+            return null;
+        }
+        return parent::renderFilterCell();
     }
 
     /**
@@ -182,8 +193,13 @@ class ActionColumn extends \yii\grid\ActionColumn
         return ($content == null) ? $this->grid->emptyCell : $content;
     }
 
-    protected function getFooterCellContent() {
-         return $this->footer;
+    /**
+     * Get the raw footer cell content.
+     * @return string the rendering result
+     */
+    protected function getFooterCellContent()
+    {
+        return $this->footer;
     }
 
 }

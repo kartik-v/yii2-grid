@@ -12,6 +12,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\Html;
+use yii\base\InvalidConfigException;
 
 /**
  * Enhances the Yii GridView widget with various options to include Bootstrap
@@ -218,7 +219,7 @@ EOT;
     /**
      * @array the HTML attributes for the summary row
      */
-    public $pageSummaryRowOptions = ['class' => 'kv-page-summary'];
+    public $pageSummaryRowOptions = ['class' => 'kv-page-summary warning'];
 
     /**
      * @var array the default alignment configuration for grid columns based on 
@@ -232,6 +233,11 @@ EOT;
 
     public function init()
     {
+        if ($this->filterPosition === self::FILTER_POS_HEADER) {
+            // Float header plugin misbehaves when Filter is placed on the first row
+            // So disable it when `filterPosition` is `header`.
+            $this->floatHeader = false;
+        }
         if ($this->bootstrap) {
             Html::addCssClass($this->tableOptions, 'table');
             if ($this->hover) {

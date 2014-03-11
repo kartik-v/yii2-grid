@@ -28,24 +28,6 @@ class FormulaColumn extends DataColumn
     const FOOTER = -20000;
 
     /**
-     * @var Closure anonymous function that returns the value to be 
-     * displayed for every  data model.
-     * The signature of this function is `function ($model, $index, $key, $widget)`
-     * - $model: mixed the data model
-     * - $index: integer the zero-based index of the data model among the models 
-     *   array returned by [[GridView::dataProvider]].
-     * 
-     * For example: To setup a formula with columns
-     * ```
-     * function ($model, $index, $widget) {
-     *     $p = compact('model', 'index');
-     *     return $widget->col(0, $p) + $widget->col(1, $p);
-     * }
-     * ```
-     */
-    public $value;
-
-    /**
      * @var boolean automatically generate the footer based on this format. If set
      * to `true`, it will use the same formula to generate the footer. If set to 
      * `false`, will use the default footer. 
@@ -99,7 +81,7 @@ class FormulaColumn extends DataColumn
     {
         if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
             $summary = call_user_func($this->value, null, self::SUMMARY, $this);
-            return ($this->pageSummary === true) ? $summary : call_user_func($this->pageSummary, $summary, []);
+            return ($this->pageSummary === true) ? $summary : call_user_func($this->pageSummary, $summary, [], $this);
         }
         return parent::getPageSummaryCellContent();
     }
@@ -129,7 +111,7 @@ class FormulaColumn extends DataColumn
     }
 
     /**
-     * Renders the page summary cell content.
+     * Get the raw footer cell content.
      * @return string the rendering result
      */
     protected function renderFooterCellContent()

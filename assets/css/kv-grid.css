@@ -58,5 +58,10 @@
 .kv-table-caption {
     font-size: 1.5em;
     padding: 8px;
+    border: 1px solid #ddd;
+    border-bottom: none;
+}
+.panel .kv-table-caption {
+    border: none;
     border-bottom: 1px solid #ddd;
 }
