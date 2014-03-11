@@ -9,9 +9,6 @@
  * Year: 2013
  * For more Yii related demos visit http://demos.krajee.com
  */
-.kv-table-footer {
-    font-weight: bold;
-}
 .kv-panel-pager .pagination {
     margin:0 0 -5px 0;
     padding:0;
@@ -49,4 +46,17 @@
 }
 .kv-merged-header {
     border-bottom: 2px solid #ddd!important;
+}
+.kv-page-summary {
+    border-top: 4px double #ddd;
+    font-weight: bold;
+}
+.kv-table-footer {
+    border-top: 4px double #ddd;
+    font-weight: bold;
+}
+.kv-table-caption {
+    font-size: 1.5em;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
 }

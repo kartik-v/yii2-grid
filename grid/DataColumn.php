@@ -62,31 +62,58 @@ class DataColumn extends \yii\grid\DataColumn
     public $mergeHeader = false;
 
     /**
-     * @var boolean whether to show a summary in the footer for this column. This will
-     * show the page wise summary only.
+     * @var boolean|string|Closure the page summary that is displayed above the footer. You can
+     * set it to one of the following:
+     * - `false`: the summary will not be displayed.
+     * - `true`: the page summary for the column will be calculated and displayed using the 
+     *   `summaryFunc` setting.
+     * - any `string`: will be displayed as is
+     * - `Closure`: you can set it to an anonymous function with the following signature:
+     *   ```
+     *   // example 1
+     *   function ($summary, $data) { return 'Count is ' . $summary; }
+     *   // example 2
+     *   function ($summary, $data) { return 'Range ' . min($data) . ' to ' . max($data); }
+     *   ```
+     *   the `$summary` variable will be replaced with the calculated summary using
+     *   the `summaryFunc` setting.
+     *   the `$data` variable will contain array of the selected page rows for the column.
      */
-    public $summary = true;
+    public $pageSummary = false;
 
     /**
      * @var string the summary function to call for the column
      */
-    public $summaryFunc = GridView::F_SUM;
+    public $pageSummaryFunc = GridView::F_SUM;
+
+    /**
+     * @var array HTML attributes for the page summary cell
+     */
+    public $pageSummaryOptions = [];
+
+    /**
+     * @var boolean whether to just hide the page summary display but still calculate
+     * the summary based on `pageSummary` settings
+     */
+    public $hidePageSummary = false;
 
     /**
      * @var array of data for each row in this column that will 
      * be used to calculate the summary
      */
     private $_rows = [];
-    private $tmp = 'KV SAYS:-> ';
 
     public function init()
     {
         if ($this->mergeHeader && !isset($this->valign)) {
             $this->valign = GridView::ALIGN_MIDDLE;
         }
-        $this->grid->formatColumn($this->halign, $this->valign, $this->width, $this->widthUnit, $this->format, $this->filterInputOptions, $this->headerOptions, $this->contentOptions, $this->footerOptions);
-        $this->setSummaryRows();
+        if ($this->grid->bootstrap === false) {
+            Html::removeCssClass($filterInputOptions, 'form-control');
+        }
+        $this->grid->formatColumn($this->halign, $this->valign, $this->width, $this->widthUnit, $this->format, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
         parent::init();
+        $this->setSummaryRows();
     }
 
     /**
@@ -123,7 +150,7 @@ class DataColumn extends \yii\grid\DataColumn
      */
     public function renderHeaderCell()
     {
-        if ($this->grid->filterModel !== null && $this->mergeHeader) {
+        if ($this->grid->filterModel !== null && $this->mergeHeader && $this->grid->filterPosition !== GridView::FILTER_POS_FOOTER) {
             $this->headerOptions['rowspan'] = 2;
             Html::addCssClass($this->headerOptions, 'kv-merged-header');
         }
@@ -141,21 +168,9 @@ class DataColumn extends \yii\grid\DataColumn
         return parent::renderFilterCell();
     }
 
-    /**
-     * Renders the footer cell content.
-     * @return string the rendering result
-     */
-    protected function renderFooterCellContent()
+    protected function setSummaryRows()
     {
-        if ($this->summary === GridView::SUM_PAGE || $this->summary === GridView::SUM_ALL) {
-            $this->footer = $this->grid->formatter->format($this->calculateSummary(), $this->format);
-        }
-        return parent::renderFooterCellContent();
-    }
-
-    protected function setSummaryRows($page = true)
-    {
-        if ($this->summary) {
+        if ($this->grid->showPageSummary === true && isset($this->pageSummary) && $this->pageSummary !== false && !is_string($this->pageSummary)) {
             $provider = $this->grid->dataProvider;
             $models = array_values($provider->getModels());
             $keys = $provider->getKeys();
@@ -176,10 +191,10 @@ class DataColumn extends \yii\grid\DataColumn
     protected function calculateSummary()
     {
         if (empty($this->_rows)) {
-            return null;
+            return '';
         }
         $data = $this->_rows;
-        $type = $this->summaryFunc;
+        $type = $this->pageSummaryFunc;
         switch ($type) {
             case null:
                 return array_sum($data);
@@ -194,7 +209,51 @@ class DataColumn extends \yii\grid\DataColumn
             case GridView::F_MIN:
                 return min($data);
         }
+        return '';
+    }
+
+    /**
+     * Renders the page summary cell.
+     */
+    public function renderPageSummaryCell()
+    {
+        return Html::tag('td', $this->renderPageSummaryCellContent(), $this->pageSummaryOptions);
+    }
+
+    /**
+     * Gets the raw page summary cell content.
+     * @return string the rendering result
+     */
+    protected function getPageSummaryCellContent()
+    {
+        if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
+            $summary = $this->calculateSummary();
+            return ($this->pageSummary === true) ? $summary : call_user_func($this->pageSummary, $summary, $this->_rows);
+        }
+        if ($this->pageSummary !== false) {
+            return $this->pageSummary;
+        }
         return null;
+    }
+
+    /**
+     * Renders the page summary cell content.
+     * @return string the rendering result
+     */
+    protected function renderPageSummaryCellContent()
+    {
+        if ($this->hidePageSummary) {
+            return $this->grid->emptyCell;
+        }
+        $content = $this->getPageSummaryCellContent();
+        if ($this->pageSummary === true) {
+            return $this->grid->formatter->format($content, $this->format);
+        }
+        return ($content === null) ? $this->grid->emptyCell : $content;
+    }
+    
+    protected function getFooterCellContent() {
+        return $this->footer;
     }
 
 }

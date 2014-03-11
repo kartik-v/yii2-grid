@@ -48,10 +48,27 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      */
     public $widthUnit = 'px';
 
+    /**
+     * @var boolean|string whether the page summary is displayed above the footer for this column. 
+     * If this is set to a string, it will be displayed as is. If it is set to `false` the summary 
+     * will not be displayed.
+     */
+    public $pageSummary = false;
+
+    /**
+     * @var array HTML attributes for the page summary cell
+     */
+    public $pageSummaryOptions = [];
+
+    /**
+     * @var boolean whether to just hide the page summary display but still calculate
+     * the summary based on `pageSummary` settings
+     */
+    public $hidePageSummary = false;
+    
     public function init()
     {
-        $filterOptions = [];
-        $this->grid->formatColumn($this->halign, $this->valign, $this->width, $this->widthUnit, null, $filterOptions, $this->headerOptions, $this->contentOptions, $this->footerOptions);
+        $this->grid->formatColumn($this->halign, $this->valign, $this->width, $this->widthUnit, null, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
         parent::init();
     }
 
@@ -60,7 +77,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      */
     public function renderHeaderCell()
     {
-        if ($this->grid->filterModel !== null) {
+        if ($this->grid->filterModel !== null && $this->grid->filterPosition !== GridView::FILTER_POS_FOOTER) {
             $this->headerOptions['rowspan'] = 2;
             Html::addCssClass($this->headerOptions, 'kv-merged-header');
         }
@@ -73,6 +90,40 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public function renderFilterCell()
     {
         return null;
+    }
+
+    /**
+     * Renders the page summary cell.
+     */
+    public function renderPageSummaryCell()
+    {
+        return Html::tag('td', $this->renderPageSummaryCellContent(), $this->pageSummaryOptions);
+    }
+
+    /**
+     * Gets the raw page summary cell content.
+     * @return string the rendering result
+     */
+    protected function getPageSummaryCellContent()
+    {
+        return $this->pageSummary === false ? null : $this->pageSummary;
+    }
+    
+    /**
+     * Renders the page summary cell content.
+     * @return string the rendering result
+     */
+    protected function renderPageSummaryCellContent()
+    {
+        if ($this->hidePageSummary) {
+            return $this->grid->emptyCell;
+        }
+        $content = $this->getPageSummaryCellContent();
+        return ($content == null) ? $this->grid->emptyCell : $content;
+    }
+
+    protected function getFooterCellContent() {
+         return $this->footer;
     }
 
 }

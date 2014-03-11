@@ -103,13 +103,6 @@ EOT;
 EOT;
 
     /**
-     * Summary Options
-     */
-    const SUM_NONE = 'none';
-    const SUM_PAGE = 'page';
-    const SUM_ALL = 'all';
-    
-    /**
      * Summary Functions
      */
     const F_COUNT = 'count';
@@ -129,6 +122,11 @@ EOT;
      * @var array the HTML attributes for the grid footer row
      */
     public $footerRowOptions = ['class' => 'kv-table-footer'];
+
+    /**
+     * @var array the HTML attributes for the grid footer row
+     */
+    public $captionOptions = ['class' => 'kv-table-caption'];
 
     /**
      * @var array the HTML attributes for the grid table element
@@ -210,6 +208,17 @@ EOT;
      *    default to the constant `self::TEMPLATE_2`.
      */
     public $panel = [];
+
+    /**
+     * @var boolean whether to show the page summary row for the table. This will
+     * be displayed above the footer.
+     */
+    public $showPageSummary = false;
+
+    /**
+     * @array the HTML attributes for the summary row
+     */
+    public $pageSummaryRowOptions = ['class' => 'kv-page-summary'];
 
     /**
      * @var array the default alignment configuration for grid columns based on 
@@ -319,13 +328,11 @@ EOT;
      * @param array $filterInputOptions the HTML attributes for the grid column filter input
      * @param array $headerOptions the HTML attributes for the grid column header
      * @param array $contentOptions the HTML attributes for the grid column content
+     * @param array $pageSummaryOptions the HTML attributes for the grid column content
      * @param array $footerOptions the HTML attributes for the grid column footer
      */
-    public function formatColumn($halign, $valign, $width, $widthUnit, $format, &$filterInputOptions, &$headerOptions, &$contentOptions, &$footerOptions)
+    public function formatColumn($halign, $valign, $width, $widthUnit, $format, &$headerOptions, &$contentOptions, &$pageSummaryOptions, &$footerOptions)
     {
-        if ($this->bootstrap === false) {
-            Html::removeCssClass($filterInputOptions, 'form-control');
-        }
         if (!isset($align) && is_array($this->alignConfig) && !empty($this->alignConfig)) {
             foreach ($this->alignConfig as $key => $value) {
                 if (in_array($format, $value)) {
@@ -338,20 +345,53 @@ EOT;
             $class = "kv-align-{$halign}";
             Html::addCssClass($headerOptions, $class);
             Html::addCssClass($contentOptions, $class);
+            Html::addCssClass($pageSummaryOptions, $class);
             Html::addCssClass($footerOptions, $class);
         }
         if ($valign === self::ALIGN_TOP || $valign === self::ALIGN_MIDDLE || $valign === self::ALIGN_BOTTOM) {
             $class = "kv-align-{$valign}";
             Html::addCssClass($headerOptions, $class);
             Html::addCssClass($contentOptions, $class);
+            Html::addCssClass($pageSummaryOptions, $class);
             Html::addCssClass($footerOptions, $class);
         }
         if (isset($width) && is_numeric($width)) {
             $width = 'width:' . $width . $widthUnit . ';';
             Html::addCssStyle($headerOptions, $width);
             Html::addCssStyle($contentOptions, $width);
+            Html::addCssStyle($pageSummaryOptions, $width);
             Html::addCssStyle($footerOptions, $width);
         }
+    }
+
+    /**
+     * Renders the table page summary.
+     * @return string the rendering result.
+     */
+    public function renderPageSummary()
+    {
+        if (!$this->showPageSummary) {
+            return null;
+        }
+        $cells = [];
+        foreach ($this->columns as $column) {
+            $cells[] = $column->renderPageSummaryCell();
+        }
+        $content = Html::tag('tr', implode('', $cells), $this->pageSummaryRowOptions);
+        return "<tfoot>\n" . $content . "\n</tfoot>";
+    }
+
+    /**
+     * Renders the table body.
+     * @return string the rendering result.
+     */
+    public function renderTableBody()
+    {
+        $content = parent::renderTableBody();
+        if ($this->showPageSummary) {
+            return $content . $this->renderPageSummary();
+        }
+        return $content;
     }
 
 }
