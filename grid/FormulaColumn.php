@@ -28,9 +28,9 @@ class FormulaColumn extends DataColumn
     const FOOTER = -20000;
 
     /**
-     * @var boolean automatically generate the footer based on this format. If set
-     * to `true`, it will use the same formula to generate the footer. If set to 
-     * `false`, will use the default footer. 
+     * @var boolean automatically generate the footer. If set to `true`, it will 
+     * use the same formula to generate the footer. If set to `false`, will use 
+     * the default footer. 
      */
     public $autoFooter = true;
 

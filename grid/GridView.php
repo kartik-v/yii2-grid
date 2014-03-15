@@ -221,16 +221,6 @@ EOT;
      */
     public $pageSummaryRowOptions = ['class' => 'kv-page-summary warning'];
 
-    /**
-     * @var array the default alignment configuration for grid columns based on 
-     * the format set against them. By default all columns with any format if not
-     * set here will align to `left` or `self::ALIGN_LEFT`.
-     */
-    public $alignConfig = [
-        self::ALIGN_CENTER => ['boolean', 'image'],
-        self::ALIGN_RIGHT => ['integer', 'double', 'number', 'size'],
-    ];
-
     public function init()
     {
         if ($this->filterPosition === self::FILTER_POS_HEADER) {
@@ -337,16 +327,8 @@ EOT;
      * @param array $pageSummaryOptions the HTML attributes for the grid column content
      * @param array $footerOptions the HTML attributes for the grid column footer
      */
-    public function formatColumn($halign, $valign, $width, $widthUnit, $format, &$headerOptions, &$contentOptions, &$pageSummaryOptions, &$footerOptions)
+    public function formatColumn($halign, $valign, $width, $format, &$headerOptions, &$contentOptions, &$pageSummaryOptions, &$footerOptions)
     {
-        if (!isset($align) && is_array($this->alignConfig) && !empty($this->alignConfig)) {
-            foreach ($this->alignConfig as $key => $value) {
-                if (in_array($format, $value)) {
-                    $align = $key;
-                    break;
-                }
-            }
-        }
         if ($halign === self::ALIGN_LEFT || $halign === self::ALIGN_RIGHT || $halign === self::ALIGN_CENTER) {
             $class = "kv-align-{$halign}";
             Html::addCssClass($headerOptions, $class);
@@ -361,8 +343,7 @@ EOT;
             Html::addCssClass($pageSummaryOptions, $class);
             Html::addCssClass($footerOptions, $class);
         }
-        if (isset($width) && is_numeric($width)) {
-            $width = 'width:' . $width . $widthUnit . ';';
+        if (trim($width) != '') {
             Html::addCssStyle($headerOptions, $width);
             Html::addCssStyle($contentOptions, $width);
             Html::addCssStyle($pageSummaryOptions, $width);

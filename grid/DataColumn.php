@@ -37,23 +37,23 @@ class DataColumn extends \yii\grid\DataColumn
     public $valign;
 
     /**
-     * @var integer the width of each column. 
-     * @see `widthUnit`.
+     * @var string the width of each column (matches the CSS width property).
+     * @see http://www.w3schools.com/cssref/pr_dim_width.asp
      */
     public $width;
-
-    /**
-     * @var string the width unit. Can be 'px', 'em', or '%'
-     */
-    public $widthUnit = 'px';
-
     /**
      * @var string the filter input type for each input. You can use one of the 
      * `GridView::FILTER_` constants or pass any widget classname (extending the 
      * Yii Input Widget).
      */
     public $filterType;
-
+    
+    /**
+     * @var array the options/settings for the filter widget. Will be used only if
+     * you set `filterType` to a widget classname that exists.
+     */
+    public $filterWidgetOptions = [];
+    
     /**
      * @var boolean whether to merge the header title row and the filter row
      * This will not render the filter for the column and can be used when `filter`
@@ -111,7 +111,7 @@ class DataColumn extends \yii\grid\DataColumn
         if ($this->grid->bootstrap === false) {
             Html::removeCssClass($filterInputOptions, 'form-control');
         }
-        $this->grid->formatColumn($this->halign, $this->valign, $this->width, $this->widthUnit, $this->format, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
+        $this->grid->formatColumn($this->halign, $this->valign, $this->width, $this->format, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
         parent::init();
         $this->setPageRows();
     }
@@ -123,7 +123,7 @@ class DataColumn extends \yii\grid\DataColumn
     protected function renderFilterCellContent()
     {
         $content = parent::renderFilterCellContent();
-        if (empty($this->filterType) || $content === $this->grid->emptyCell) {
+        if ($this->filter === false || empty ($this->filterType) || $content === $this->grid->emptyCell || !class_exists($this->filterType)) {
             return $content;
         }
         $widgetClass = $this->filterType;
@@ -133,15 +133,17 @@ class DataColumn extends \yii\grid\DataColumn
             'options' => $this->filterInputOptions
         ];
         if (is_array($this->filter)) {
-            $options['data'] = $this->filter;
+            if ($this->filterType === GridView::FILTER_SELECT2 || $this->filterType === GridView::FILTER_TYPEAHEAD) {
+                $options['data'] = $this->filter;
+            }
             if ($this->filterType === GridView::FILTER_RADIO) {
                 return Html::activeRadioList($this->grid->filterModel, $this->attribute, $this->filter, $this->filterInputOptions);
             }
-            return $widgetClass::widget($options);
         }
         if ($this->filterType === GridView::FILTER_CHECKBOX) {
             return Html::activeCheckbox($this->grid->filterModel, $this->attribute, $this->filterInputOptions);
         }
+        $options += $this->filterWidgetOptions;
         return $widgetClass::widget($options);
     }
 

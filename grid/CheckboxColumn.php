@@ -38,15 +38,10 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $valign = GridView::ALIGN_MIDDLE;
 
     /**
-     * @var integer the width of each column. 
-     * @see `widthUnit`.
+     * @var string the width of each column (matches the CSS width property).
+     * @see http://www.w3schools.com/cssref/pr_dim_width.asp
      */
-    public $width = 50;
-
-    /**
-     * @var the width unit. Can be 'px', 'em', or '%'
-     */
-    public $widthUnit = 'px';
+    public $width = '50px';
 
     /**
      * @var boolean|string whether the page summary is displayed above the footer for this column. 
@@ -76,7 +71,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
 
     public function init()
     {
-        $this->grid->formatColumn($this->halign, $this->valign, $this->width, $this->widthUnit, null, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
+        $this->grid->formatColumn($this->halign, $this->valign, $this->width, null, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
         parent::init();
     }
 
