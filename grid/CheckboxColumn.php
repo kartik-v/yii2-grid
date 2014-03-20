@@ -29,13 +29,13 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      * @var string the horizontal alignment of each column. Should be one of 
      * 'left', 'right', or 'center'. 
      */
-    public $halign = GridView::ALIGN_CENTER;
+    public $hAlign = GridView::ALIGN_CENTER;
 
     /**
      * @var string the vertical alignment of each column. Should be one of 
      * 'top', 'middle', or 'bottom'. 
      */
-    public $valign = GridView::ALIGN_MIDDLE;
+    public $vAlign = GridView::ALIGN_MIDDLE;
 
     /**
      * @var string the width of each column (matches the CSS width property).
@@ -71,7 +71,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
 
     public function init()
     {
-        $this->grid->formatColumn($this->halign, $this->valign, $this->width, null, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
+        $this->grid->formatColumn($this->hAlign, $this->vAlign, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
         parent::init();
     }
 

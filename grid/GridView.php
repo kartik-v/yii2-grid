@@ -317,27 +317,25 @@ EOT;
     /**
      * Format the grid column based on bootstrap, align, and width settings
      *
-     * @param string $align the alignment of the grid column ('left', 'center', or 'right')
-     * @param integer $width the width of the grid column
-     * @param string $widthUnit the unit of the width set ('px', 'em', '%')
-     * @param string $format the grid column format
-     * @param array $filterInputOptions the HTML attributes for the grid column filter input
+     * @param string $hAlign the horizontal alignment of the grid column ('left', 'center', or 'right')
+     * @param string $vAlign the vertical alignment of the grid column ('top', 'middle', or 'bottom')
+     * @param string $width the width of the grid column (in px, em, or %)
      * @param array $headerOptions the HTML attributes for the grid column header
      * @param array $contentOptions the HTML attributes for the grid column content
      * @param array $pageSummaryOptions the HTML attributes for the grid column content
      * @param array $footerOptions the HTML attributes for the grid column footer
      */
-    public function formatColumn($halign, $valign, $width, $format, &$headerOptions, &$contentOptions, &$pageSummaryOptions, &$footerOptions)
+    public function formatColumn($hAlign, $vAlign, $width, &$headerOptions, &$contentOptions, &$pageSummaryOptions, &$footerOptions)
     {
-        if ($halign === self::ALIGN_LEFT || $halign === self::ALIGN_RIGHT || $halign === self::ALIGN_CENTER) {
-            $class = "kv-align-{$halign}";
+        if ($hAlign === self::ALIGN_LEFT || $hAlign === self::ALIGN_RIGHT || $hAlign === self::ALIGN_CENTER) {
+            $class = "kv-align-{$hAlign}";
             Html::addCssClass($headerOptions, $class);
             Html::addCssClass($contentOptions, $class);
             Html::addCssClass($pageSummaryOptions, $class);
             Html::addCssClass($footerOptions, $class);
         }
-        if ($valign === self::ALIGN_TOP || $valign === self::ALIGN_MIDDLE || $valign === self::ALIGN_BOTTOM) {
-            $class = "kv-align-{$valign}";
+        if ($vAlign === self::ALIGN_TOP || $vAlign === self::ALIGN_MIDDLE || $vAlign === self::ALIGN_BOTTOM) {
+            $class = "kv-align-{$vAlign}";
             Html::addCssClass($headerOptions, $class);
             Html::addCssClass($contentOptions, $class);
             Html::addCssClass($pageSummaryOptions, $class);
