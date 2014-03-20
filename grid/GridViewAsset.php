@@ -19,11 +19,11 @@ use kartik\widgets\AssetBundle;
 class GridViewAsset extends AssetBundle
 {
 
-    public function init()
-    {
-        $this->setSourcePath(__DIR__ . '/../assets');
-        $this->setupAssets('css', ['css/kv-grid']);
-        parent::init();
-    }
+	public function init()
+	{
+		$this->setSourcePath(__DIR__ . '/../assets');
+		$this->setupAssets('css', ['css/kv-grid']);
+		parent::init();
+	}
 
 }
