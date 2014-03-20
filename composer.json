@@ -1,6 +1,6 @@
 {
     "name": "kartik-v/yii2-grid",
-    "description": "GridView enhancements and utilities for Yii Framework 2.0.",
+    "description": "Yii 2 GridView on steroids. Various enhancements and utilities for the Yii 2.0 GridView widget.",
     "keywords": ["yii2", "extension", "widget", "grid"],
     "homepage": "https://github.com/kartik-v/yii2-grid",
     "type": "yii2-extension",
