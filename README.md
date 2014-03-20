@@ -2,7 +2,7 @@ yii2-grid
 =========
 
 Yii2 GridView on steroids. Various modifications and enhancements to the amazing Yii GridView widget. Contains new additional Grid Columns with enhanced settings for Yii Framework 2.0.
-The widget also incorporates various Bootstrap 3.x styling options. Refer [documentation here](https://github.com/kartik-v/yii2-grid/blob/master/DOC.md).
+The widget also incorporates various Bootstrap 3.x styling options. Refer [detailed documentation](https://github.com/kartik-v/yii2-grid/blob/master/DOC.md) here.
 
 ## GridView
 ### \kartik\grid\GridView
