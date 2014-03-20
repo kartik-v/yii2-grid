@@ -15,7 +15,7 @@ Control various options to style your grid table.
 Allows the grid table to have a floating table header. Uses the [JQuery Float THead plugin](http://mkoryak.github.io/floatThead) to display a seamless floating table header. 
 
 ### Panel (New)
-Allows configuration of GridView to be enclosed in a panel that can be styled as per  Bootstrap 3.x. The panel will enable configuration of  various 
+Allows configuration of GridView to be enclosed in a panel that can be styled as per  Bootstrap 3.x. The panel will enable configuration of  various
 sections to embed content/buttons, before and after header, and before and after footer.
 
 ### Page Summary (New)
@@ -46,7 +46,6 @@ Enhancement of `\yii\grid\SerialColumn` to work with the new pageSummary and a d
 ## Checkbox Column (Enhanced)
 ### \kartik\grid\CheckboxColumn
 Enhancements of `\yii\grid\CheckboxColumn` to work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#checkbox-column) for details.
-
 
 ### Demo
 You can see detailed [documentation](http://demos.krajee.com/grid) and [demonstration](http://demos.krajee.com/grid-demo) on usage of the extension.
