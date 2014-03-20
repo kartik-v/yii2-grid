@@ -27,25 +27,25 @@ summary/totals for the current GridView page. The following parameters are appli
 
 ## Data Column (Enhanced)
 ### \kartik\grid\DataColumn
-The default Yii data column has been enhanced with various additional parameters.
+The default Yii data column has been enhanced with various additional parameters. Refer [documentation](http://demos.krajee.com/grid#data-column) for details.
 
 ## Formula Column (New)
 ### \kartik\grid\FormulaColumn
 This is a new grid column class that extends the \kartik\grid\DataColumn class. It allows calculating formulae just like in spreadsheets - based on
 values of other columns in the grid. The formula calculation is done at grid rendering runtime and does not need to query the database. Hence you can use formula columns
-within another formula column. 
+within another formula column. Refer [documentation](http://demos.krajee.com/grid#formula-column) for details.
 
 ## Action Column (Enhanced)
 ### \kartik\grid\ActionColumn
-Enhancements of `\yii\grid\ActionColumn` to work with the new pageSummary and a default styling to work for many scenarios. 
+Enhancements of `\yii\grid\ActionColumn` to work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#action-column) for details.
 
 ## Serial Column (Enhanced)
 ### \kartik\grid\SerialColumn
-Enhancement of `\yii\grid\SerialColumn` to work with the new pageSummary and a default styling to work for many scenarios. 
+Enhancement of `\yii\grid\SerialColumn` to work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#serial-column) for details.
 
 ## Checkbox Column (Enhanced)
 ### \kartik\grid\CheckboxColumn
-Enhancements of `\yii\grid\CheckboxColumn` to work with the new pageSummary and a default styling to work for many scenarios. 
+Enhancements of `\yii\grid\CheckboxColumn` to work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#checkbox-column) for details.
 
 
 ### Demo
