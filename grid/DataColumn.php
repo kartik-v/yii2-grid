@@ -42,7 +42,7 @@ class DataColumn extends \yii\grid\DataColumn
 	 */
 	public $width;
 	/**
-	 * @var string the filter input type for each input. You can use one of the
+	 * @var string the filter input type for each filter input. You can use one of the
 	 * `GridView::FILTER_` constants or pass any widget classname (extending the
 	 * Yii Input Widget).
 	 */

@@ -125,7 +125,7 @@ EOT;
 	public $footerRowOptions = ['class' => 'kv-table-footer'];
 
 	/**
-	 * @var array the HTML attributes for the grid footer row
+	 * @var array the HTML attributes for the grid table caption
 	 */
 	public $captionOptions = ['class' => 'kv-table-caption'];
 
@@ -135,7 +135,7 @@ EOT;
 	public $tableOptions = [];
 
 	/**
-	 * @var boolean whether the grid view will have a `bootstrap table` style
+	 * @var boolean whether the grid view will have Bootstrap table styling.
 	 */
 	public $bootstrap = true;
 
@@ -158,13 +158,13 @@ EOT;
 	public $condensed = false;
 
 	/**
-	 * @var boolean whether the grid view will have a `responsive table` style.
+	 * @var boolean whether the grid table will have a `responsive` style.
 	 * Applicable only if `bootstrap` is `true`. Defaults to `true`.
 	 */
 	public $responsive = true;
 
 	/**
-	 * @var boolean whether the grid table will display selected row on `hover`.
+	 * @var boolean whether the grid table will highlight row on `hover`.
 	 * Applicable only if `bootstrap` is `true`. Defaults to `false`.
 	 */
 	public $hover = false;
@@ -176,7 +176,7 @@ EOT;
 	public $floatHeader = false;
 
 	/**
-	 * @var integer the plugin options for the floatThead plugin that would render
+	 * @var array the plugin options for the floatThead plugin that would render
 	 * the floating/sticky table header behavior. The default offset from the
 	 * top of the window where the floating header will 'stick' when scrolling down
 	 * is set to `50` assuming a fixed bootstrap navbar on top. You can set this to 0
@@ -193,12 +193,12 @@ EOT;
 	 * - `type`: string, the panel contextual type (one of the TYPE constants,
 	 *    if not set will default to `default` or `self::TYPE_DEFAULT`),
 	 * - `footer`: string, the panel footer. If not set, will not be displayed.
-	 * - 'before': string, content to be placed before/above the grid table.
+	 * - 'before': string, content to be placed before/above the grid table (after the header).
 	 * - `beforeOptions`: array, HTML attributes for the `before` text. If the
 	 *   `class` is not set, it will default to `kv-panel-before`.
-	 * - 'after': string, any content to be placed after/below the grid table. If the
+	 * - 'after': string, any content to be placed after/below the grid table (before the footer).
+	 * - `afterOptions`: array, HTML attributes for the `after` text. If the
 	 *   `class` is not set, it will default to `kv-panel-after`.
-	 * - `afterOptions`: array, HTML attributes for the `after` text.
 	 * - `showFooter`: boolean, whether to always show the footer. If so the,
 	 *    layout will default to the constant `self::TEMPLATE_1`. If this is
 	 *    set to false, the `pager` will be enclosed within the `kv-panel-after`
