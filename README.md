@@ -4,7 +4,8 @@ yii2-grid
 Yii's amazing GridView on steroids. Various modifications and enhancements to the GridView widget along with additionally enhanced Grid Columns for Yii Framework 2.0.
 The widget contains other enhancements to use various Bootstrap 3.x styling functionalities.
 
-## GridView - \kartik\grid\GridView
+## GridView
+### \kartik\grid\GridView
 The GridView widget contains these parameters as modifications and enhancements.
 
 ### Table Style Togglers
@@ -58,7 +59,8 @@ summary/totals for the current GridView page. The following parameters are appli
 - `showPageSummary`: _boolean_ whether to display the page summary row for the grid view. Defaults to `false`.
 - `pageSummaryRowOptions`:  _array_, HTML attributes for the page summary row. Defaults to `['class' => 'kv-page-summary warning']`.
 
-## Data Column (Enhanced) - \kartik\grid\DataColumn
+## Data Column (Enhanced)
+### \kartik\grid\DataColumn
 The default Yii data column has been enhanced with these following parameters:
 
 - `hAlign`: _string_ the horizontal alignment of the column. This will automatically set the header, body, footer, and page summary to this alignment.
@@ -130,7 +132,8 @@ The default Yii data column has been enhanced with these following parameters:
 
 - `hidePageSummary`: _boolean_ whether to just hide the page summary for display but still calculate the summary based on `pageSummary` settings.
 
-## Formula Column (New) - \kartik\grid\FormulaColumn
+## Formula Column (New)
+### \kartik\grid\FormulaColumn
 This is a new grid column class that extends the \kartik\grid\DataColumn class. It allows calculating formulae just like in spreadsheets - based on
 values of other columns in the grid. The formula calculation is done at grid rendering runtime and does not need to query the database. Hence you can use formula columns
 within another formula column. You would need to set the following parameters for this column:
@@ -160,7 +163,7 @@ The $params will be an array containing the `$model` and `$index`.
 - `autoFooter`: _boolean_ automatically generate the footer. If set to `true`, it will use the same column formula to
   generate the footer. If set to `false`, will use the default footer.
 
-## ActionColumn Column (Enhanced) - \kartik\grid\ActionColumn
+## Action Column (Enhanced) - \kartik\grid\ActionColumn
 Enhancements of `\yii\grid\ActionColumn` to work with the new pageSummary and a default styling to work for many scenarios. The following additional parameters
 are available:
 - `viewOptions`: _array_ HTML attributes for the view action button. The following additional option is recognized:
@@ -181,7 +184,8 @@ The following parameters are set by default (check the `\kartik\widgets\DataColu
 - `hidePageSummary`: Defaults to `false`
 - `mergeHeader`: Defaults to `true`
 
-## Serial Column (Enhanced) - \kartik\grid\SerialColumn
+## Serial Column (Enhanced)
+### \kartik\grid\SerialColumn
 Enhancement of `\yii\grid\SerialColumn` to work with the new pageSummary and a default styling to work for many scenarios. The following parameters are
 set by default (check the \kartik\widgets\DataColumn for descriptions of each of them).
 
@@ -194,7 +198,8 @@ set by default (check the \kartik\widgets\DataColumn for descriptions of each of
 - `hidePageSummary`: Defaults to `false`
 - `mergeHeader`: Defaults to `true`
 
-## Checkbox Column (Enhanced) - \kartik\grid\CheckboxColumn
+## Checkbox Column (Enhanced)
+### \kartik\grid\CheckboxColumn
 Enhancements of `\yii\grid\CheckboxColumn` to work with the new pageSummary and a default styling to work for many scenarios. The following parameters are
 set by default (check the `\kartik\widgets\DataColumn` for descriptions of each of them).
 
