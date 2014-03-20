@@ -8,7 +8,7 @@ The widget also incorporates various Bootstrap 3.x styling options.
 ### \kartik\grid\GridView
 The GridView widget contains these parameters as modifications and enhancements.
 
-### Table Style Togglers
+### Table Styling (Enhanced)
 
 - `bootstrap`:  _boolean_ whether the grid view will have a Bootstrap table styling. Defaults to `true`. If set
    to `false`, will automatically disable/remove all Bootstrap specific markup from the grid table and filters.
