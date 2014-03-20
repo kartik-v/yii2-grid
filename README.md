@@ -24,7 +24,7 @@ The GridView widget contains these parameters as modifications and enhancements.
 ### Floating Header (New)
 
 - `floatHeader`: _boolean_ whether the grid table will have a floating table header. Uses the [JQuery Float THead plugin](http://mkoryak.github.io/floatThead) to display a seamless
-   floating table header. The floating behavior will only be applied if `filterPostion` is set to [[GridView::FILTER_POS_HEADER]] or [[GridView::FILTER_POS_FOOTER]].
+   floating table header. The floating behavior will only be applied if `filterPostion` is set to `GridView::FILTER_POS_HEADER` or `GridView::FILTER_POS_FOOTER`.
    Defaults to `false`.
 - `floatHeaderOptions`: _array_ the plugin options for the [floatThead plugin](http://mkoryak.github.io/floatThead#options) that would render the floating/sticky table header behavior.
    The default offset from the top of the window where the floating header will 'stick' when scrolling down is set to `50` assuming a fixed
