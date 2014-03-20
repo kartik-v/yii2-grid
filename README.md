@@ -1,8 +1,7 @@
 yii2-grid
 =========
 
-Yii2 GridView on steroids. Various modifications and enhancements to the amazing Yii GridView widget. Contains new additional Grid Columns with enhanced settings for Yii Framework 2.0.
-The widget also incorporates various Bootstrap 3.x styling options. Refer [detailed documentation](https://github.com/kartik-v/yii2-grid/blob/master/DOC.md) here.
+Yii2 GridView on steroids. Various modifications and enhancements to one of the most used widgets by Yii developers. The widget contains new additional Grid Columns with enhanced settings for Yii Framework 2.0. The widget also incorporates various Bootstrap 3.x styling options. Refer [detailed documentation](https://github.com/kartik-v/yii2-grid/blob/master/DOC.md) here.
 
 ## GridView
 ### \kartik\grid\GridView
@@ -10,16 +9,6 @@ The GridView widget contains these parameters as modifications and enhancements.
 
 ### Table Styling (Enhanced)
 Control various options to style your grid table.
-- `bootstrap`:  _boolean_ whether the grid view will have a Bootstrap table styling. Defaults to `true`. If set
-   to `false`, will automatically disable/remove all Bootstrap specific markup from the grid table and filters.
-- `bordered`: _boolean_ whether the grid table will have a `bordered` style. Applicable only if `bootstrap` is `true`. Defaults to `true`.
-- `striped`: _boolean_ whether the grid table will have a `striped` style. Applicable only if `bootstrap` is `true`. Defaults to `true`.
-- `condensed`: _boolean_ whether the grid table will have a `condensed` style. Applicable only if `bootstrap` is `true`. Defaults to `false`.
-- `responsive`: _boolean_ whether the grid table will have a `responsive` style. Applicable only if `bootstrap` is `true`. Defaults to `true`.
-- `hover`: _boolean_ whether the grid table will highlight row on `hover`. Applicable only if `bootstrap` is `true`. Defaults to `false`.
-- `tableOptions`: _array_ HTML attributes for the grid table element. This is auto generated based on the above settings.
-- `footerRowOptions`: _array_ HTML attributes for the table footer row. Defaults to `['class' => 'kv-table-footer']`
-- `captionOptions`: _array_ HTML attributes for the table caption. Defaults to `['class' => 'kv-table-caption']`
 
 ### Floating Header (New)
 Allows the grid table to have a floating table header. Uses the [JQuery Float THead plugin](http://mkoryak.github.io/floatThead) to display a seamless floating table header. 
