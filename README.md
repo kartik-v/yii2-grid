@@ -106,12 +106,12 @@ The default Yii data column has been enhanced with these following parameters:
 	 * `true`: the page summary for the column will be calculated and displayed using the `summaryFunc` setting.
 	 * any `string`: will be displayed as is
 	 * `Closure`: you can set it to an anonymous function with the following signature:
-	 ```
+
 	 // example 1
 	 function ($summary, $data, $widget) { return 'Count is ' . $summary; }
 	 // example 2
 	 function ($summary, $data, $widget) { return 'Range ' . min($data) . ' to ' . max($data); }
-	 ```
+
 	 where
 	 * the `$summary` variable will be replaced with the calculated summary using the `summaryFunc` setting.
 	 * the `$data` variable will contain array of the selected page rows for the column.
