@@ -163,7 +163,8 @@ The $params will be an array containing the `$model` and `$index`.
 - `autoFooter`: _boolean_ automatically generate the footer. If set to `true`, it will use the same column formula to
   generate the footer. If set to `false`, will use the default footer.
 
-## Action Column (Enhanced) - \kartik\grid\ActionColumn
+## Action Column (Enhanced)
+### \kartik\grid\ActionColumn
 Enhancements of `\yii\grid\ActionColumn` to work with the new pageSummary and a default styling to work for many scenarios. The following additional parameters
 are available:
 - `viewOptions`: _array_ HTML attributes for the view action button. The following additional option is recognized:
