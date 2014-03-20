@@ -102,6 +102,11 @@ class FormulaColumn extends DataColumn
 		return ($content === null) ? $this->grid->emptyCell : $content;
 	}
 
+	/**
+	 * Get the raw footer cell content.
+	 *
+	 * @return string the rendering result
+	 */
 	protected function getFooterCellContent()
 	{
 		if ($this->autoFooter) {
@@ -111,7 +116,7 @@ class FormulaColumn extends DataColumn
 	}
 
 	/**
-	 * Get the raw footer cell content.
+	 * Formatted footer cell content.
 	 *
 	 * @return string the rendering result
 	 */
