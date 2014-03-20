@@ -1,11 +1,12 @@
 yii2-grid
 =========
 
-Yii2 GridView on steroids. Various modifications and enhancements to one of the most used widgets by Yii developers. The widget contains new additional Grid Columns with enhanced settings for Yii Framework 2.0. The widget also incorporates various Bootstrap 3.x styling options. Refer [detailed documentation](https://github.com/kartik-v/yii2-grid/blob/master/DOC.md) here.
+Yii2 GridView on steroids. Various modifications and enhancements to one of the most used widgets by Yii developers. The widget contains new additional Grid Columns with enhanced settings for Yii Framework 2.0. The widget also incorporates various Bootstrap 3.x styling options.
+Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo).
 
 ## GridView
 ### \kartik\grid\GridView
-The GridView widget contains these parameters as modifications and enhancements.
+The following functionalities have been added/enhanced:
 
 ### Table Styling (Enhanced)
 Control various options to style your grid table.
