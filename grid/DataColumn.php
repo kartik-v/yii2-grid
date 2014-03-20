@@ -63,27 +63,27 @@ class DataColumn extends \yii\grid\DataColumn
 	public $mergeHeader = false;
 
 	/**
-	 * @var boolean|string|Closure the page summary that is displayed above the footer. You can
-	 * set it to one of the following:
-	 * - `false`: the summary will not be displayed.
-	 * - `true`: the page summary for the column will be calculated and displayed using the
-	 *   `summaryFunc` setting.
-	 * - any `string`: will be displayed as is
-	 * - `Closure`: you can set it to an anonymous function with the following signature:
-	 *   ```
-	 *   // example 1
-	 *   function ($summary, $data, $widget) { return 'Count is ' . $summary; }
-	 *   // example 2
-	 *   function ($summary, $data, $widget) { return 'Range ' . min($data) . ' to ' . max($data); }
-	 *   ```
-	 *   the `$summary` variable will be replaced with the calculated summary using
-	 *   the `summaryFunc` setting.
-	 *   the `$data` variable will contain array of the selected page rows for the column.
+         * @var boolean|string|Closure the page summary that is displayed above the footer. You can
+         * set it to one of the following:
+         * - `false`: the summary will not be displayed.
+         * - `true`: the page summary for the column will be calculated and displayed using the
+         *   `pageSummaryFunc` setting.
+         * - any `string`: will be displayed as is
+         * - `Closure`: you can set it to an anonymous function with the following signature:
+         *   ```
+         *   // example 1
+         *   function ($summary, $data, $widget) { return 'Count is ' . $summary; }
+         *   // example 2
+         *   function ($summary, $data, $widget) { return 'Range ' . min($data) . ' to ' . max($data); }
+         *   ```
+         *   the `$summary` variable will be replaced with the calculated summary using
+         *   the `summaryFunc` setting.
+         *   the `$data` variable will contain array of the selected page rows for the column.
 	 */
 	public $pageSummary = false;
 
 	/**
-	 * @var string the summary function to call for the column
+	 * @var string the summary function used to calculate the page summary for the column
 	 */
 	public $pageSummaryFunc = GridView::F_SUM;
 

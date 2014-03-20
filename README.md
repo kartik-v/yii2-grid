@@ -4,7 +4,7 @@ yii2-grid
 Yii's amazing GridView on steroids. Various modifications and enhancements to the GridView widget along with additionally enhanced Grid Columns for Yii Framework 2.0.
 The widget contains other enhancements to use various Bootstrap 3.x styling functionalities.
 
-## GridView
+## GridView - \kartik\grid\GridView
 The GridView widget contains these parameters as modifications and enhancements.
 
 ### Table Style Togglers
@@ -20,7 +20,7 @@ The GridView widget contains these parameters as modifications and enhancements.
 - `footerRowOptions`: _array_ HTML attributes for the table footer row. Defaults to `['class' => 'kv-table-footer']`
 - `captionOptions`: _array_ HTML attributes for the table caption. Defaults to `['class' => 'kv-table-caption']`
 
-### Floating Header
+### Floating Header (New)
 
 - `floatHeader`: _boolean_ whether the grid table will have a floating table header. Uses the [JQuery Float THead plugin](http://mkoryak.github.io/floatThead) to display a seamless
    floating table header. The floating behavior will only be applied if `filterPostion` is set to [[GridView::FILTER_POS_HEADER]] or [[GridView::FILTER_POS_FOOTER]].
@@ -29,7 +29,7 @@ The GridView widget contains these parameters as modifications and enhancements.
    The default offset from the top of the window where the floating header will 'stick' when scrolling down is set to `50` assuming a fixed
    bootstrap navbar on top. You can set this to 0 or any javascript function/expression. Defaults to `['scrollingTop' => 50]`.
 
-### Panel
+### Panel (New)
 
 - `panel`: _array_ the panel settings. If this is set, the grid widget will be embedded in a Bootstrap panel. Applicable only if
   `bootstrap` is `true`. The following array keys are supported:
@@ -51,14 +51,14 @@ The GridView widget contains these parameters as modifications and enhancements.
    - `layout`: _string_, the grid layout to be used if you are using a panel. If not set and `showFooter` is `true, will default to `GridView::TEMPLATE_1`.
 	  If not set and `showFooter` is set to `false`, this will default to `GridView::TEMPLATE_2`.
 
-### Page Summary
+### Page Summary (New)
 This is a new feature added to the GridView widget. The page summary is an additional row above the footer - for displaying the
 summary/totals for the current GridView page. The following parameters are applicable to control this behavior:
 
 - `showPageSummary`: _boolean_ whether to display the page summary row for the grid view. Defaults to `false`.
 - `pageSummaryRowOptions`:  _array_, HTML attributes for the page summary row. Defaults to `['class' => 'kv-page-summary warning']`.
 
-### Data Column (Enhanced)
+## Data Column (Enhanced) - \kartik\grid\DataColumn
 The default Yii data column has been enhanced with these following parameters:
 
 - `hAlign`: _string_ the horizontal alignment of the column. This will automatically set the header, body, footer, and page summary to this alignment.
@@ -103,7 +103,7 @@ The default Yii data column has been enhanced with these following parameters:
 - `pageSummary`: _boolean|string|Closure_ the page summary that is displayed above the footer. You can
    set it to one of the following:
 	 * `false`: the summary will not be displayed.
-	 * `true`: the page summary for the column will be calculated and displayed using the `summaryFunc` setting.
+	 * `true`: the page summary for the column will be calculated and displayed using the `pageSummaryFunc` setting.
 	 * any `string`: will be displayed as is
 	 * `Closure`: you can set it to an anonymous function with the following signature:
 
@@ -113,7 +113,96 @@ The default Yii data column has been enhanced with these following parameters:
 	 // example 2
 	 function ($summary, $data, $widget) { return 'Range ' . min($data) . ' to ' . max($data); }
 	```
-	
+
 	 where
 	 * the `$summary` variable will be replaced with the calculated summary using the `summaryFunc` setting.
 	 * the `$data` variable will contain array of the selected page rows for the column.
+
+- `pageSummaryFunc`: _string_ the summary function used to calculate the page summary for the column. Defaults to `GridView::F_SUM`.
+  Should be one of the following GridView F constants.
+  * GridView::F_COUNT or 'count'
+  * GridView::F_SUM or 'sum'
+  * GridView::F_MAX or 'max'
+  * GridView::F_MIN or 'min'
+  * GridView::F_AVG or 'avg'
+
+- `pageSummaryOptions`: _array_ HTML attributes for the page summary cell
+
+- `hidePageSummary`: _boolean_ whether to just hide the page summary for display but still calculate the summary based on `pageSummary` settings.
+
+## Formula Column (New) - \kartik\grid\FormulaColumn
+This is a new grid column class that extends the \kartik\grid\DataColumn class. It allows calculating formulae just like in spreadsheets - based on
+values of other columns in the grid. The formula calculation is done at grid rendering runtime and does not need to query the database. Hence you can use formula columns
+within another formula column. You would need to set the following parameters for this column:
+
+- `value`: _Closure_ this must be passed as a Closure anonymous function having the signature `function ($model, $index, $widget) { }`, where,
+   * `$model`: the current data model being rendered
+   * `$index`: the zero-based index of the data model in the model array returned by [[dataProvider]]
+   * `$widget`: the DataColumn or FormulaColumn object
+
+You can use the `$widget->col($i, $params)` function to refer a column value in every row. The `$i` is the column based index (starting from 0 from the left).
+The $params will be an array containing the `$model` and `$index`.
+
+### Usage Example
+```php
+'columns' => [
+	[
+		'class' => '\kartik\grid\FormulaColumn',
+	 	'value' => function ($model, $index, $widget) {
+			$p = compact('model', 'index');
+			// Write your formula below
+			return $widget->col(3, $p) + $widget->col(4, $p);
+		}
+	]
+]
+```
+
+- `autoFooter`: _boolean_ automatically generate the footer. If set to `true`, it will use the same column formula to
+  generate the footer. If set to `false`, will use the default footer.
+
+## ActionColumn Column (Enhanced) - \kartik\grid\ActionColumn
+Enhancements of `\yii\grid\ActionColumn` to work with the new pageSummary and a default styling to work for many scenarios. The following additional parameters
+are available:
+- `viewOptions`: _array_ HTML attributes for the view action button. The following additional option is recognized:
+  * `label`: string, the label for the view action button. This is not html encoded.
+- `updateOptions`: _array_ HTML attributes for the update action button. The following additional option is recognized:
+  * `label`: string, the label for the update action button. This is not html encoded.
+- `deleteOptions`: _array_ HTML attributes for the delete action button. The following additional option is recognized:
+  * `label`: string, the label for the delete action button. This is not html encoded.
+
+The following parameters are set by default (check the `\kartik\widgets\DataColumn` for descriptions of each of them).
+
+- `hAlign`: Defaults to `GridView::ALIGN_CENTER`
+- `vAlign`: Defaults to `GridView::ALIGN_MIDDLE`
+- `width`: Defaults to `80px`
+- `pageSummary`: Defaults to `false`
+- `pageSummaryFunc`: Defaults to `GridView::F_COUNT`
+- `pageSummaryOptions`: Defaults to `[]`
+- `hidePageSummary`: Defaults to `false`
+- `mergeHeader`: Defaults to `true`
+
+## Serial Column (Enhanced) - \kartik\grid\SerialColumn
+Enhancement of `\yii\grid\SerialColumn` to work with the new pageSummary and a default styling to work for many scenarios. The following parameters are
+set by default (check the \kartik\widgets\DataColumn for descriptions of each of them).
+
+- `hAlign`: Defaults to `GridView::ALIGN_CENTER`
+- `vAlign`: Defaults to `GridView::ALIGN_MIDDLE`
+- `width`: Defaults to `50px`
+- `pageSummary`: Defaults to `false`
+- `pageSummaryFunc`: Defaults to `GridView::F_COUNT`
+- `pageSummaryOptions`: Defaults to `[]`
+- `hidePageSummary`: Defaults to `false`
+- `mergeHeader`: Defaults to `true`
+
+## Checkbox Column (Enhanced) - \kartik\grid\CheckboxColumn
+Enhancements of `\yii\grid\CheckboxColumn` to work with the new pageSummary and a default styling to work for many scenarios. The following parameters are
+set by default (check the `\kartik\widgets\DataColumn` for descriptions of each of them).
+
+- `hAlign`: Defaults to `GridView::ALIGN_CENTER`
+- `vAlign`: Defaults to `GridView::ALIGN_MIDDLE`
+- `width`: Defaults to `50px`
+- `pageSummary`: Defaults to `false`
+- `pageSummaryFunc`: Defaults to `GridView::F_COUNT`
+- `pageSummaryOptions`: Defaults to `[]`
+- `hidePageSummary`: Defaults to `false`
+- `mergeHeader`: Defaults to `true`
