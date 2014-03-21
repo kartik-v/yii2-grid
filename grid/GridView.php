@@ -341,10 +341,10 @@ EOT;
 			Html::addCssClass($footerOptions, $class);
 		}
 		if (trim($width) != '') {
-			Html::addCssStyle($headerOptions, $width);
-			Html::addCssStyle($contentOptions, $width);
-			Html::addCssStyle($pageSummaryOptions, $width);
-			Html::addCssStyle($footerOptions, $width);
+			Html::addCssStyle($headerOptions, "width:{$width};");
+			Html::addCssStyle($contentOptions, "width:{$width};");
+			Html::addCssStyle($pageSummaryOptions, "width:{$width};");
+			Html::addCssStyle($footerOptions, "width:{$width};");
 		}
 	}
 
