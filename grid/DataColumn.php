@@ -124,7 +124,8 @@ class DataColumn extends \yii\grid\DataColumn
 	protected function renderFilterCellContent()
 	{
 		$content = parent::renderFilterCellContent();
-		if ($this->filter === false || empty ($this->filterType) || $content === $this->grid->emptyCell || !class_exists($this->filterType)) {
+        $chkType = (!empty($this->filterType) && $this->filterType !== GridView::FILTER_CHECKBOX && $this->filterType !== GridView::FILTER_RADIO && !class_exists($this->filterType);
+		if ($this->filter === false || empty($this->filterType) || $content === $this->grid->emptyCell || $chkType) {
 			return $content;
 		}
 		$widgetClass = $this->filterType;
