@@ -23,7 +23,7 @@ use yii\base\InvalidConfigException;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class GridView extends \yii\Grid\GridView
+class GridView extends \yii\grid\GridView
 {
 
 	/**
