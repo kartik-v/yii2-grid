@@ -58,7 +58,7 @@ class GridView extends \yii\Grid\GridView
 	// input widget classes
 	const FILTER_SELECT2 = '\kartik\widgets\Select2';
 	const FILTER_TYPEAHEAD = '\kartik\widgets\Typeahead';
-	const FILTER_SWITCH = '\kartik\widgets\Switch';
+	const FILTER_SWITCH = '\kartik\widgets\SwitchInput';
 	const FILTER_SPIN = '\kartik\widgets\TouchSpin';
 	const FILTER_STAR = '\kartik\widgets\StarRating';
 	const FILTER_DATE = '\kartik\widgets\DatePicker';
