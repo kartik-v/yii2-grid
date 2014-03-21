@@ -37,7 +37,7 @@ within another formula column. Refer [documentation](http://demos.krajee.com/gri
 
 ## Boolean Column (New)
 ### \kartik\grid\BooleanColumn
-This is a new grid column class that extends the \kartik\grid\DataColumn class. It automatically converts boolean data (true/false) values to user friendly indicators or labels. 
+This is a new grid column class that extends the \kartik\grid\DataColumn class. It automatically converts boolean data (true/false) values to user friendly indicators or labels (that are configurable). 
 Refer [documentation](http://demos.krajee.com/grid#boolean-column) for details.
 
 ## Action Column (Enhanced)

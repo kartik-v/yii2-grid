@@ -23,17 +23,30 @@ class BooleanColumn extends DataColumn
 {
 
 	/**
+	 * @var string the horizontal alignment of each column. Should be one of
+	 * 'left', 'right', or 'center'. Defaults to `center`.
+	 */
+	public $hAlign = 'center';
+
+	/**
 	 * @var string the width of each column (matches the CSS width property).
-	 * Defaults to `80px`.
+	 * Defaults to `90px`.
 	 * @see http://www.w3schools.com/cssref/pr_dim_width.asp
 	 */
 	public $width = '90px';
 
 	/**
-	 * @var string the horizontal alignment of each column. Should be one of
-	 * 'left', 'right', or 'center'. Defaults to `center`.
+	 * @var string|array in which format should the value of each data model be displayed
+	 * Defaults to `raw`.
+	 * [[\yii\base\Formatter::format()]] or [[\yii\i18n\Formatter::format()]] is used.
 	 */
-	public $hAlign = 'center';
+	public $format = 'raw';
+
+	/**
+	 * @var boolean|string|Closure the page summary that is displayed above the footer.
+	 * Defaults to false.
+	 */
+	public $pageSummary = false;
 
 	/**
 	 * @var string label for the true value. Defaults to `On`.
@@ -47,20 +60,14 @@ class BooleanColumn extends DataColumn
 
 	/**
 	 * @var string icon/indicator for the true value. If this is not set, it will use the value from `trueLabel`.
-	 * If GridView `bootstrap` parameter is set to true - it will default to
+	 * If GridView `bootstrap` property is set to true - it will default to
 	 * `<span class="glyphicon glyphicon-ok text-success"></span>`
 	 */
 	public $trueIcon;
 
 	/**
-	 * @var string|array in which format should the value of each data model be displayed
-	 * Defaults to `raw`.
-	 * [[\yii\base\Formatter::format()]] or [[\yii\i18n\Formatter::format()]] is used.
-	 */
-	public $format = 'raw';
-	/**
 	 * @var string icon/indicator for the false value. If this is null, it will use the value from `falseLabel`.
-	 * If GridView `bootstrap` parameter is set to true - it will default to
+	 * If GridView `bootstrap` property is set to true - it will default to
 	 * `<span class="glyphicon glyphicon-remove text-danger"></span>`
 	 */
 	public $falseIcon;
