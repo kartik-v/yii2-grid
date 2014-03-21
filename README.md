@@ -31,14 +31,14 @@ The default Yii data column has been enhanced with various additional parameters
 
 ## Formula Column (New)
 ### \kartik\grid\FormulaColumn
-This is a new grid column class that extends the \kartik\grid\DataColumn class. It automatically converts boolean data (true/false) values to user friendly indicators or labels. 
-Refer [documentation](http://demos.krajee.com/grid#boolean-column) for details.
-
-## Boolean Column (New)
-### \kartik\grid\FormulaColumn
 This is a new grid column class that extends the \kartik\grid\DataColumn class. It allows calculating formulae just like in spreadsheets - based on
 values of other columns in the grid. The formula calculation is done at grid rendering runtime and does not need to query the database. Hence you can use formula columns
 within another formula column. Refer [documentation](http://demos.krajee.com/grid#formula-column) for details.
+
+## Boolean Column (New)
+### \kartik\grid\BooleanColumn
+This is a new grid column class that extends the \kartik\grid\DataColumn class. It automatically converts boolean data (true/false) values to user friendly indicators or labels. 
+Refer [documentation](http://demos.krajee.com/grid#boolean-column) for details.
 
 ## Action Column (Enhanced)
 ### \kartik\grid\ActionColumn
