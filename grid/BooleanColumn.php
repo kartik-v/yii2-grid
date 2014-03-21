@@ -49,14 +49,14 @@ class BooleanColumn extends DataColumn
 	public $pageSummary = false;
 
 	/**
-	 * @var string label for the true value. Defaults to `On`.
+	 * @var string label for the true value. Defaults to `Active`.
 	 */
-	public $trueLabel = 'On';
+	public $trueLabel = 'Active';
 
 	/**
-	 * @var string label for the false value. Defaults to `Off`.
+	 * @var string label for the false value. Defaults to `Inactive`.
 	 */
-	public $falseLabel = 'Off';
+	public $falseLabel = 'Inactive';
 
 	/**
 	 * @var string icon/indicator for the true value. If this is not set, it will use the value from `trueLabel`.
