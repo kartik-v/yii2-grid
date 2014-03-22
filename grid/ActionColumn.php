@@ -110,28 +110,31 @@ class ActionColumn extends \yii\grid\ActionColumn
 	{
 		if (!isset($this->buttons['view'])) {
 			$this->buttons['view'] = function ($url, $model) {
-				$label = ArrayHelper::remove($this->viewOptions, 'label', '<span class="glyphicon glyphicon-eye-open"></span>');
-				$this->viewOptions += ['title' => Yii::t('yii', 'View'), 'data-pjax' => '0'];
-				return Html::a($label, $url, $this->viewOptions);
+				$options = $this->viewOptions;
+				$label = ArrayHelper::remove($options, 'label', '<span class="glyphicon glyphicon-eye-open"></span>');
+				$options += ['title' => Yii::t('yii', 'View'), 'data-pjax' => '0'];
+				return Html::a($label, $url, $options);
 			};
 		}
 		if (!isset($this->buttons['update'])) {
 			$this->buttons['update'] = function ($url, $model) {
-				$label = ArrayHelper::remove($this->updateOptions, 'label', '<span class="glyphicon glyphicon-pencil"></span>');
-				$this->updateOptions += ['title' => Yii::t('yii', 'Update'), 'data-pjax' => '0'];
-				return Html::a($label, $url, $this->updateOptions);
+				$options = $this->updateOptions;
+				$label = ArrayHelper::remove($options, 'label', '<span class="glyphicon glyphicon-pencil"></span>');
+				$options += ['title' => Yii::t('yii', 'Update'), 'data-pjax' => '0'];
+				return Html::a($label, $url, $options);
 			};
 		}
 		if (!isset($this->buttons['delete'])) {
 			$this->buttons['delete'] = function ($url, $model) {
-				$label = ArrayHelper::remove($this->deleteOptions, 'label', '<span class="glyphicon glyphicon-trash"></span>');
-				$this->deleteOptions += [
+				$options = $this->deleteOptions;
+				$label = ArrayHelper::remove($options, 'label', '<span class="glyphicon glyphicon-trash"></span>');
+				$options += [
 					'title' => Yii::t('yii', 'Delete'),
 					'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
 					'data-method' => 'post',
 					'data-pjax' => '0'
 				];
-				return Html::a($label, $url, $this->deleteOptions);
+				return Html::a($label, $url, $options);
 			};
 		}
 	}
