@@ -177,7 +177,7 @@ class DataColumn extends \yii\grid\DataColumn
 	 */
 	protected function setPageRows()
 	{
-		if ($this->grid->showPageSummary === true && isset($this->pageSummary) && $this->pageSummary !== false && !is_string($this->pageSummary)) {
+		if ($this->grid->showPageSummary && isset($this->pageSummary) && $this->pageSummary !== false && !is_string($this->pageSummary)) {
 			$provider = $this->grid->dataProvider;
 			$models = array_values($provider->getModels());
 			$keys = $provider->getKeys();
