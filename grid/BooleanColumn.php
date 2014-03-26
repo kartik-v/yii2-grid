@@ -8,6 +8,7 @@
 
 namespace kartik\grid;
 
+use Yii;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
@@ -51,12 +52,12 @@ class BooleanColumn extends DataColumn
 	/**
 	 * @var string label for the true value. Defaults to `Active`.
 	 */
-	public $trueLabel = 'Active';
+	public $trueLabel;
 
 	/**
 	 * @var string label for the false value. Defaults to `Inactive`.
 	 */
-	public $falseLabel = 'Inactive';
+	public $falseLabel;
 
 	/**
 	 * @var string icon/indicator for the true value. If this is not set, it will use the value from `trueLabel`.
@@ -74,6 +75,12 @@ class BooleanColumn extends DataColumn
 
 	public function init()
 	{
+		if (empty($this->trueLabel)) {
+			$this->trueLabel = Yii::t('kvgrid', 'Active');
+		}
+		if (empty($this->falseLabel)) {
+			$this->falseLabel = Yii::t('kvgrid', 'Inactive');
+		}
 		$this->filter = [true => $this->trueLabel, false => $this->falseLabel];
 		if ($this->grid->bootstrap) {
 			$this->trueIcon = !isset($this->trueIcon) ? '<span class="glyphicon glyphicon-ok text-success"></span>' : $this->trueLabel;

@@ -95,7 +95,7 @@ class ActionColumn extends \yii\grid\ActionColumn
 	{
 		$this->grid->formatColumn($this->hAlign, $this->vAlign, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
 		if (!isset($this->header)) {
-			$this->header = Yii::t('yii', 'Actions');
+			$this->header = Yii::t('kvgrid', 'Actions');
 		}
 		parent::init();
 		$this->initDefaultButtons();

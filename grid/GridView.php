@@ -10,9 +10,11 @@ namespace kartik\grid;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\web\JsExpression;
 use yii\helpers\Json;
 use yii\helpers\Html;
 use yii\base\InvalidConfigException;
+use yii\bootstrap\ButtonDropdown;
 
 /**
  * Enhances the Yii GridView widget with various options to include Bootstrap
@@ -68,16 +70,55 @@ class GridView extends \yii\grid\GridView
 	const FILTER_COLOR = '\kartik\widgets\ColorInput';
 
 	/**
+	 * Summary Functions
+	 */
+	const F_COUNT = 'count';
+	const F_SUM = 'sum';
+	const F_MAX = 'max';
+	const F_MIN = 'min';
+	const F_AVG = 'avg';
+
+	/**
+	 * Grid Export Formats
+	 */
+	const HTML = 'html';
+	const CSV = 'csv';
+	const EXCEL = 'xls';
+
+	// HTML export template
+	const EXPORT_HTML_TEMPLATE = <<< HTML
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+<style>
+	body{padding:15px;}
+	.kv-align-center{text-align: center;}
+	.kv-align-left{text-align: left;}
+	.kv-align-right {text-align: right;}
+	.kv-align-top{vertical-align: top!important;}
+	.kv-align-bottom{vertical-align: bottom!important;}
+	.kv-align-middle{vertical-align: middle!important;}
+	.kv-page-summary{border-top: 4px double #ddd;font-weight: bold;}
+	.kv-table-footer {border-top: 4px double #ddd;font-weight: bold;}
+	.kv-table-caption {font-size: 1.5em;padding: 8px;border: 1px solid #ddd;border-bottom: none;}
+</style>
+<body>
+    {data}
+</body>
+HTML;
+
+	/**
 	 * Grid Layout Templates
 	 */
 	// panel grid template with `footer`, pager in the `footer`, and `summary` in the `heading`.
-	const TEMPLATE_1 = <<< EOT
+	const TEMPLATE_1 = <<< HTML
     <div class="panel {type}">
         <div class="panel-heading">
              <div class="pull-right">{summary}</div>
              {heading}
         </div>
-        {before}
+         {before}
         {items}
         {after}
         <div class="panel-footer">
@@ -86,9 +127,9 @@ class GridView extends \yii\grid\GridView
             <div class="clearfix"></div>
         </div>
     </div>
-EOT;
+HTML;
 	// panel grid template with hidden `footer`, pager in the `after`, and `summary` in the `heading`.
-	const TEMPLATE_2 = <<< EOT
+	const TEMPLATE_2 = <<< HTML
     <div class="panel {type}">
         <div class="panel-heading">
              <div class="pull-right">{summary}</div>
@@ -102,16 +143,36 @@ EOT;
             <div class="clearfix"></div>
         </div>
     </div>
-EOT;
+HTML;
 
 	/**
-	 * Summary Functions
+	 * @var string the template for rendering the {before} part in the layout templates.
+	 * The following special variables are recognized and will be replaced:
+	 * - {toolbar}, string which will render the [[$toolbar]] property passed
+	 * - {export}, string which will render the [[$export]] menu button content
+	 * - {beforeContent}, string which will render the [[$before]] text passed in the panel settings
 	 */
-	const F_COUNT = 'count';
-	const F_SUM = 'sum';
-	const F_MAX = 'max';
-	const F_MIN = 'min';
-	const F_AVG = 'avg';
+	public $beforeTemplate = <<< HTML
+<div class="pull-right">
+	{toolbar}\n{export}
+</div>
+{beforeContent}
+<div class="clearfix"></div>
+HTML;
+
+	/**
+	 * @var string the template for rendering the {after} part in the layout templates.
+	 * The following special variables are recognized and will be replaced:
+	 * - {toolbar}, string which will render the [[$toolbar]] property passed
+	 * - {export}, string which will render the [[$export]] menu button content
+	 * - {afterContent}, string which will render the [[$after]] text passed in the panel settings
+	 */
+	public $afterTemplate = '{afterContent}';
+
+	/**
+	 * @var string the toolbar content to be rendered.
+	 */
+	public $toolbar = '';
 
 	/**
 	 * @var string the default data column class if the class name is not
@@ -222,8 +283,72 @@ EOT;
 	 */
 	public $pageSummaryRowOptions = ['class' => 'kv-page-summary warning'];
 
+	/**
+	 * @array|boolean the grid export menu settings. Displays a Bootstrap dropdown menu that allows you to export the grid as
+	 * either html, csv, or excel. If set to false, will not be displayed. The following options can be set:
+	 * - label: the export menu label (this is not HTML encoded). Defaults to 'Export Data'.
+	 * - icon: the glyphicon suffix to be displayed before the export menu label. If set to an empty string, this
+	 *   will not be displayed. Defaults to 'export'.
+	 * - options: array, HTML attributes for the export menu. Defaults to ['class' => 'btn btn-default']
+	 */
+	public $export = [];
+
+	/**
+	 * @var array the configuration for each export format. The array keys must be the one of the `format` constants
+	 * ('csv', 'html', or 'excel') and the array value is a configuration array consisiting of these settings:
+	 * - label: the label for the export format menu item displayed
+	 * - icon: the glyphicon suffix to be displayed before the export menu item label. If set to an empty string, this
+	 *   will not be displayed. Defaults to 'floppy-disk'.
+	 * - showHeader: boolean, whether to show header in the output. Defaults to `true`.
+	 * - htmlTemplate: string, the template used for rendering the HTML exported output (only applicable for HTML format). The
+	 *   template consists of a special variable {data}, which will be replaced with the HTML output of the grid table.
+	 * - filename: the base file name for the generated file. Defaults to 'export'. This will be used to generate a default
+	 *   file name for downloading (extension will be one of csv, html, or xls - based on the format setting).
+	 * - options: array, HTML attributes for the export format menu item.
+	 * - message: string, the message prompt to show before saving. If this is empty or not set it will not be displayed.
+	 */
+	public $exportConfig = [];
+
+	/**
+	 * @var array the the internalization configuration for this widget
+	 */
+	public $i18n = [];
+
 	public function init()
 	{
+		$this->initI18N();
+		$this->export += [
+			'label' => Yii::t('kvgrid', 'Export Data'),
+			'icon' => 'export',
+			'options' => ['class' => 'btn btn-danger']
+		];
+		$this->exportConfig += [
+			self::HTML => [
+				'label' => Yii::t('kvgrid', 'Save as HTML'),
+				'icon' => 'floppy-disk',
+				'showHeader' => true,
+				'htmlTemplate' => self::EXPORT_HTML_TEMPLATE,
+				'filename' => Yii::t('kvgrid', 'export'),
+				'message' => Yii::t('kvgrid', 'HTML export file will be generated. The exported file needs to be saved as .htm/.html extension. You can also save it as .xls extension to view as an excel spreasheet.'),
+				'options' => []
+			],
+			self::CSV => [
+				'label' => Yii::t('kvgrid', 'Save as CSV'),
+				'icon' => 'floppy-disk',
+				'showHeader' => true,
+				'filename' => Yii::t('kvgrid', 'export'),
+				'message' => Yii::t('kvgrid', 'CSV export file will be generated. The exported file needs to be saved as .csv/.txt extension.'),
+				'options' => []
+			],
+			self::EXCEL => [
+				'label' => Yii::t('kvgrid', 'Save as Excel'),
+				'icon' => 'floppy-disk',
+				'showHeader' => true,
+				'filename' => Yii::t('kvgrid', 'export'),
+				'message' => Yii::t('kvgrid', 'Excel export file will be generated. The exported file needs to be saved as .xls/.xlsx extension.'),
+				'options' => []
+			],
+		];
 		if ($this->filterPosition === self::FILTER_POS_HEADER) {
 			// Float header plugin misbehaves when Filter is placed on the first row
 			// So disable it when `filterPosition` is `header`.
@@ -257,6 +382,19 @@ EOT;
 		parent::run();
 	}
 
+	public function initI18N()
+	{
+		Yii::setAlias('@kvgrid', dirname(__FILE__));
+		if (empty($this->i18n)) {
+			$this->i18n = [
+				'class' => 'yii\i18n\PhpMessageSource',
+				'basePath' => '@kvgrid/messages',
+				'forceTranslation' => true
+			];
+		}
+		Yii::$app->i18n->translations['kvgrid'] = $this->i18n;
+	}
+
 	/**
 	 * Sets the grid layout based on the template and panel settings
 	 */
@@ -273,44 +411,40 @@ EOT;
 			$after = ArrayHelper::getValue($this->panel, 'after', '');
 			$beforeOptions = ArrayHelper::getValue($this->panel, 'beforeOptions', []);
 			$afterOptions = ArrayHelper::getValue($this->panel, 'afterOptions', []);
+			$export = $this->renderExport();
+
 			if ($before != '') {
 				if (empty($beforeOptions['class'])) {
 					$beforeOptions['class'] = 'kv-panel-before';
 				}
-				$before = Html::tag('div', $before, $beforeOptions);
+				$content = strtr($this->beforeTemplate, [
+					'{beforeContent}' => $before,
+					'{export}' => $export,
+					'{toolbar}' => $this->toolbar
+				]);
+
+				$before = Html::tag('div', $content, $beforeOptions);
 			}
 			if ($after != '' && $layout != self::TEMPLATE_2) {
 				if (empty($afterOptions['class'])) {
 					$afterOptions['class'] = 'kv-panel-after';
 				}
-				$after = Html::tag('div', $after, $afterOptions);
+				$content = strtr($this->afterTemplate, [
+					'{afterContent}' => $after,
+					'{export}' => $export,
+					'{toolbar}' => $this->toolbar
+				]);
+				$after = Html::tag('div', $content, $afterOptions);
 			}
+
 			$this->layout = strtr($layout, [
 				'{heading}' => $heading,
 				'{type}' => $type,
 				'{footer}' => $footer,
 				'{before}' => $before,
 				'{after}' => $after,
+				'{export}' => $export
 			]);
-		}
-	}
-
-	/**
-	 * Register assets
-	 */
-	protected function registerAssets()
-	{
-		$view = $this->getView();
-		if ($this->floatHeader) {
-			GridViewAsset::register($view)->js[] = YII_DEBUG ? 'js/jquery.floatThead.js' : 'js/jquery.floatThead.min.js';
-			$this->floatHeaderOptions += [
-				'floatTableClass' => 'kv-table-float',
-				'floatContainerClass' => 'kv-thead-float',
-			];
-			$js = '$("#' . $this->id . ' table").floatThead(' . Json::encode($this->floatHeaderOptions) . ');';
-			$view->registerJs($js);
-		} else {
-			GridViewAsset::register($view);
 		}
 	}
 
@@ -379,6 +513,73 @@ EOT;
 			return $content . $this->renderPageSummary();
 		}
 		return $content;
+	}
+
+	/**
+	 * Renders the export menu
+	 *
+	 * @return string
+	 */
+	public function renderExport()
+	{
+		if ($this->export === false || !is_array($this->export)) {
+			return '';
+		}
+		$formats = $this->exportConfig;
+		if (empty($formats) || !is_array($formats)) {
+			return '';
+		}
+		$title = $this->export['label'];
+		$icon = $this->export['icon'];
+		$options = $this->export['options'];
+		$items = [];
+		foreach ($formats as $format => $setting) {
+			$label = (empty($setting['icon']) || $setting['icon'] == '') ? $setting['label'] : '<i class="glyphicon glyphicon-' . $setting['icon'] . '"></i> ' . $setting['label'];
+			$items[] = ['label' => $label, 'url' => '#', 'linkOptions' => ['class' => 'export-' . $format], 'options' => $setting['options']];
+		}
+		$title = ($icon == '') ? $title : "<i class='glyphicon glyphicon-{$icon}'></i> {$title}";
+		return '<div class="btn-group">' . ButtonDropdown::widget([
+			'label' => $title,
+			'dropdown' => ['items' => $items, 'encodeLabels' => false],
+			'options' => $options,
+			'encodeLabel' => false
+		]) . '</div>';
+	}
+
+	/**
+	 * Register assets
+	 */
+	protected function registerAssets()
+	{
+		$view = $this->getView();
+		GridViewAsset::register($view);
+
+		if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
+			GridExportAsset::register($view);
+			$js = '';
+			foreach ($this->exportConfig as $format => $setting) {
+				$id = '$("#' . $this->id . ' .export-' . $format . '")';
+				$grid = new JsExpression('$("#' . $this->id . '")');
+				$options = [
+					'grid' => $grid,
+					'filename' => $setting['filename'],
+					'showHeader' => $setting['showHeader'],
+					'htmlTemplate' => ArrayHelper::getValue($setting, 'htmlTemplate', ''),
+					'message' => ArrayHelper::getValue($setting, 'message', false)
+				];
+				$view->registerJs($id . '.gridexport(' . Json::encode($options) . ');');
+			}
+
+		}
+		if ($this->floatHeader) {
+			GridFloatHeadAsset::register($view);
+			$this->floatHeaderOptions += [
+				'floatTableClass' => 'kv-table-float',
+				'floatContainerClass' => 'kv-thead-float',
+			];
+			$js = '$("#' . $this->id . ' table").floatThead(' . Json::encode($this->floatHeaderOptions) . ');';
+			$view->registerJs($js);
+		}
 	}
 
 }

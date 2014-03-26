@@ -25,6 +25,10 @@ summary/totals for the current GridView page. The following parameters are appli
 - `showPageSummary`: _boolean_ whether to display the page summary row for the grid view. Defaults to `false`.
 - `pageSummaryRowOptions`:  _array_, HTML attributes for the page summary row. Defaults to `['class' => 'kv-page-summary warning']`.
 
+
+### Export Grid Data (New)
+This is a new feature added to the GridView widget. It allows you to export the displayed grid content as HTML, CSV, or EXCEL.
+
 ## Data Column (Enhanced)
 ### \kartik\grid\DataColumn
 The default Yii data column has been enhanced with various additional parameters. Refer [documentation](http://demos.krajee.com/grid#data-column) for details.
