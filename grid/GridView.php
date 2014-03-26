@@ -289,7 +289,7 @@ HTML;
 	 * - label: the export menu label (this is not HTML encoded). Defaults to 'Export Data'.
 	 * - icon: the glyphicon suffix to be displayed before the export menu label. If set to an empty string, this
 	 *   will not be displayed. Defaults to 'export'.
-	 * - options: array, HTML attributes for the export menu. Defaults to ['class' => 'btn btn-default']
+	 * - options: array, HTML attributes for the export menu. Defaults to ['class' => 'btn btn-danger']
 	 */
 	public $export = [];
 
