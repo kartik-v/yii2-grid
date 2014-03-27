@@ -179,7 +179,7 @@
         },
         exportEXCEL: function () {
             var self = this, $table = self.clean();
-	        var xls = EXCEL_TEMPLATE.replace('{data}', $('<div />').html($table.clone()).html()).replace(/"/g, '\'');
+	        var xls = EXCEL_TEMPLATE.replace('{worksheet}', self.worksheet).replace('{data}', $('<div />').html($table.clone()).html()).replace(/"/g, '\'');
             self.download('xls', xls);
         },
     };
