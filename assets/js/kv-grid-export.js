@@ -17,42 +17,42 @@
 		'<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>' +
 		'<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">' +
 		'<style>' +
-		'	.kv-wrap{padding:20px;}' +
-		'	.kv-align-center{text-align: center;}' +
-		'	.kv-align-left{text-align: left;}' +
-		'	.kv-align-right {text-align: right;}' +
-		'	.kv-align-top{vertical-align: top!important;}' +
-		'	.kv-align-bottom{vertical-align: bottom!important;}' +
-		'	.kv-align-middle{vertical-align: middle!important;}' +
-		'	.kv-page-summary{border-top: 4px double #ddd;font-weight: bold;}' +
-		'	.kv-table-footer {border-top: 4px double #ddd;font-weight: bold;}' +
-		'	.kv-table-caption {font-size: 1.5em;padding: 8px;border: 1px solid #ddd;border-bottom: none;}' +
+		'.kv-wrap{padding:20px;}' +
+		'.kv-align-center{text-align: center;}' +
+		'.kv-align-left{text-align: left;}' +
+		'.kv-align-right {text-align: right;}' +
+		'.kv-align-top{vertical-align: top!important;}' +
+		'.kv-align-bottom{vertical-align: bottom!important;}' +
+		'.kv-align-middle{vertical-align: middle!important;}' +
+		'.kv-page-summary{border-top: 4px double #ddd;font-weight: bold;}' +
+		'.kv-table-footer {border-top: 4px double #ddd;font-weight: bold;}' +
+		'.kv-table-caption {font-size: 1.5em;padding: 8px;border: 1px solid #ddd;border-bottom: none;}' +
 		'</style>' +
 		'<body class="kv-wrap">' +
-		'	{data}' +
+		'{data}' +
 		'</body>';
 
 	var EXCEL_TEMPLATE = 
 		'<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"' +
 		'xmlns="http://www.w3.org/TR/REC-html40">' +
 		'<head>' +
-		'	<!--[if gte mso 9]>' +
-		'		<xml>' +
-		'			<x:ExcelWorkbook>' +
-		'				<x:ExcelWorksheets>' +
-		'					<x:ExcelWorksheet>' +
-		'						<x:Name>{worksheet}</x:Name>' +
-		'						<x:WorksheetOptions>' +
-		'							<x:DisplayGridlines/>' +
-		'						</x:WorksheetOptions>' +
-		'					</x:ExcelWorksheet>' +
-		'				</x:ExcelWorksheets>' +
-		'			</x:ExcelWorkbook>' +
-		'		</xml>' +
-		'	<![endif]-->' +
+		'<!--[if gte mso 9]>' +
+		'<xml>' +
+		'<x:ExcelWorkbook>' +
+		'<x:ExcelWorksheets>' +
+		'<x:ExcelWorksheet>' +
+		'<x:Name>{worksheet}</x:Name>' +
+		'<x:WorksheetOptions>' +
+		'<x:DisplayGridlines/>' +
+		'</x:WorksheetOptions>' +
+		'</x:ExcelWorksheet>' +
+		'</x:ExcelWorksheets>' +
+		'</x:ExcelWorkbook>' +
+		'</xml>' +
+		'<![endif]-->' +
 		'</head>' +
 		'<body>' +
-		'	{data}' +
+		'{data}' +
 		'</body>' +
 		'</html>';
 
@@ -89,7 +89,7 @@
 			    msg = msg1;
 		    }
 		    else {
-			    msg = 'Download file will be generated.';
+			   return;
 		    }
 		    alert(msg);
 	    },
