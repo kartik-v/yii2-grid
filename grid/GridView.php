@@ -360,7 +360,7 @@ HTML;
 				'showCaption' => true,
 				'htmlTemplate' => self::EXPORT_HTML_TEMPLATE,
 				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'The HTML export file will be generated for download.') . '\n\n' . $popup,
+				'message' => Yii::t('kvgrid', 'The HTML export file will be generated for download.') . "\n\n" . $popup,
 				'options' => []
 			],
 			self::CSV => [
@@ -371,7 +371,7 @@ HTML;
 				'showFooter' => true,
 				'showCaption' => true,
 				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'The CSV export file will be generated for download.') . '\n\n' . $popup,
+				'message' => Yii::t('kvgrid', 'The CSV export file will be generated for download.') . "\n\n" . $popup,
 				'options' => []
 			],
 			self::EXCEL => [
@@ -384,7 +384,7 @@ HTML;
 				'htmlTemplate' => self::EXPORT_EXCEL_TEMPLATE,
 				'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
 				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'The Excel export file will be generated for download.') . '\n\n' . $popup,
+				'message' => Yii::t('kvgrid', 'The Excel export file will be generated for download.') . "\n\n" . $popup,
 				'options' => []
 			],
 		];

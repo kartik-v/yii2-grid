@@ -45,6 +45,6 @@ class ExportController extends \yii\web\Controller
 			->set('Expires', '0')
 			->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
 			->set('Content-Disposition', 'attachment; filename="'.$name.'.'.$type.'"')
-			->set('Content-type', $mime);
+			->set('Content-type', $mime . '; charset=utf-8');
 	}
 }
