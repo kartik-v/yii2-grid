@@ -121,7 +121,7 @@ class SerialColumn extends \yii\grid\SerialColumn
 			$keys = $provider->getKeys();
 			foreach ($models as $index => $model) {
 				$key = $keys[$index];
-				$this->_rows[] = $this->getDataCellContent($model, $key, $index);
+				$this->_rows[] = $this->getDataCellValue($model, $key, $index);
 			}
 		}
 	}

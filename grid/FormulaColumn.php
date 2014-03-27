@@ -67,7 +67,7 @@ class FormulaColumn extends DataColumn
 		} elseif ($index == self::FOOTER) {
 			return $col->getFooterCellContent();
 		} else {
-			return $col->getDataCellContent($model, $key, $index);
+			return $col->getDataCellValue($model, $key, $index);
 		}
 	}
 
