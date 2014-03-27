@@ -347,67 +347,69 @@ HTML;
 		if ($module == null || !$module instanceof \kartik\grid\Module) {
 			throw new InvalidConfigException('The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.');
 		}
-		if (is_array($this->export) && empty($this->export)) {
+		if ($this->export !== false) {
 			$this->export += [
 				'label' => Yii::t('kvgrid', 'Export Data'),
 				'icon' => 'export',
 				'options' => ['class' => 'btn btn-danger']
 			];
-		);
+		}
 		$popup = Yii::t('kvgrid', 'Disable any popup blockers in your browser to ensure proper download.');
-		$this->exportConfig += [
-			self::HTML => [
-				'label' => Yii::t('kvgrid', 'Save as HTML'),
-				'icon' => 'floppy-disk',
-				'showHeader' => true,
-				'showPageSummary' => true,
-				'showFooter' => true,
-				'showCaption' => true,
-				'htmlTemplate' => self::EXPORT_HTML_TEMPLATE,
-				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'The HTML export file will be generated for download.') . "\n\n" . $popup,
-				'options' => []
-			],
-			self::CSV => [
-				'label' => Yii::t('kvgrid', 'Save as CSV'),
-				'icon' => 'floppy-disk',
-				'showHeader' => true,
-				'showPageSummary' => true,
-				'showFooter' => true,
-				'showCaption' => true,
-				'colDelimiter' => ",",
-				'rowDelimiter' => "\r\n",
-				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'The CSV export file will be generated for download.') . "\n\n" . $popup,
-				'options' => []
-			],
-			self::TEXT => [
-				'label' => Yii::t('kvgrid', 'Save as Text'),
-				'icon' => 'floppy-disk',
-				'showHeader' => true,
-				'showPageSummary' => true,
-				'showFooter' => true,
-				'showCaption' => true,
-				'colDelimiter' => "\t",
-				'rowDelimiter' => "\r\n",
-				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'The TEXT export file will be generated for download.') . "\n\n" . $popup,
-				'options' => []
-			],
-			self::EXCEL => [
-				'label' => Yii::t('kvgrid', 'Save as Excel'),
-				'icon' => 'floppy-disk',
-				'showHeader' => true,
-				'showPageSummary' => true,
-				'showFooter' => true,
-				'showCaption' => true,
-				'htmlTemplate' => self::EXPORT_EXCEL_TEMPLATE,
-				'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
-				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.') . "\n\n" . $popup,
-				'options' => []
-			],
-		];
+		if ($this->export !== false) {
+			$this->exportConfig += [
+				self::HTML => [
+					'label' => Yii::t('kvgrid', 'Save as HTML'),
+					'icon' => 'floppy-disk',
+					'showHeader' => true,
+					'showPageSummary' => true,
+					'showFooter' => true,
+					'showCaption' => true,
+					'htmlTemplate' => self::EXPORT_HTML_TEMPLATE,
+					'filename' => Yii::t('kvgrid', 'export'),
+					'message' => Yii::t('kvgrid', 'The HTML export file will be generated for download.') . "\n\n" . $popup,
+					'options' => []
+				],
+				self::CSV => [
+					'label' => Yii::t('kvgrid', 'Save as CSV'),
+					'icon' => 'floppy-disk',
+					'showHeader' => true,
+					'showPageSummary' => true,
+					'showFooter' => true,
+					'showCaption' => true,
+					'colDelimiter' => ",",
+					'rowDelimiter' => "\r\n",
+					'filename' => Yii::t('kvgrid', 'export'),
+					'message' => Yii::t('kvgrid', 'The CSV export file will be generated for download.') . "\n\n" . $popup,
+					'options' => []
+				],
+				self::TEXT => [
+					'label' => Yii::t('kvgrid', 'Save as Text'),
+					'icon' => 'floppy-disk',
+					'showHeader' => true,
+					'showPageSummary' => true,
+					'showFooter' => true,
+					'showCaption' => true,
+					'colDelimiter' => "\t",
+					'rowDelimiter' => "\r\n",
+					'filename' => Yii::t('kvgrid', 'export'),
+					'message' => Yii::t('kvgrid', 'The TEXT export file will be generated for download.') . "\n\n" . $popup,
+					'options' => []
+				],
+				self::EXCEL => [
+					'label' => Yii::t('kvgrid', 'Save as Excel'),
+					'icon' => 'floppy-disk',
+					'showHeader' => true,
+					'showPageSummary' => true,
+					'showFooter' => true,
+					'showCaption' => true,
+					'htmlTemplate' => self::EXPORT_EXCEL_TEMPLATE,
+					'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
+					'filename' => Yii::t('kvgrid', 'export'),
+					'message' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.') . "\n\n" . $popup,
+					'options' => []
+				],
+			];
+		}
 		if ($this->filterPosition === self::FILTER_POS_HEADER) {
 			// Float header plugin misbehaves when Filter is placed on the first row
 			// So disable it when `filterPosition` is `header`.
