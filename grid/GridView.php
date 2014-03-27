@@ -86,57 +86,7 @@ class GridView extends \yii\grid\GridView
 	const CSV = 'csv';
 	const TEXT = 'txt';
 	const EXCEL = 'xls';
-
-	// HTML export template
-	const EXPORT_HTML_TEMPLATE = <<< HTML
-<!DOCTYPE html>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-<style>
-	.kv-wrap{padding:20px;}
-	.kv-align-center{text-align: center;}
-	.kv-align-left{text-align: left;}
-	.kv-align-right {text-align: right;}
-	.kv-align-top{vertical-align: top!important;}
-	.kv-align-bottom{vertical-align: bottom!important;}
-	.kv-align-middle{vertical-align: middle!important;}
-	.kv-page-summary{border-top: 4px double #ddd;font-weight: bold;}
-	.kv-table-footer {border-top: 4px double #ddd;font-weight: bold;}
-	.kv-table-caption {font-size: 1.5em;padding: 8px;border: 1px solid #ddd;border-bottom: none;}
-</style>
-<div class="kv-wrap">
-    {data}
-</div>
-HTML;
-
-	/**
-	 * The template for excel download. The tags for html and head have
-	 * to be parameterized due to a painful PJAX bug, that parses these tag
-	 * strings in the content.
-	 */
-	const EXPORT_EXCEL_TEMPLATE = <<< HTML
-{BEGIN_HTML} xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"
-	  xmlns="http://www.w3.org/TR/REC-html40">
-{BEGIN_HEAD}
-<!--[if gte mso 9]>
-	<xml>
-		<x:ExcelWorkbook>
-			<x:ExcelWorksheets>
-				<x:ExcelWorksheet>
-					<x:Name>{worksheet}</x:Name>
-					<x:WorksheetOptions>
-						<x:DisplayGridlines/>
-					</x:WorksheetOptions>
-				</x:ExcelWorksheet>
-			</x:ExcelWorksheets>
-		</x:ExcelWorkbook>
-	</xml>
-<![endif]-->
-{END_HEAD}
-{data}
-{END_HTML}
-HTML;
+	
 	/**
 	 * Grid Layout Templates
 	 */
@@ -332,8 +282,6 @@ HTML;
 	 * - showPageSummary: boolean, whether to show table page summary row in the output. Defaults to `true`.
 	 * - showFooter: boolean, whether to show table footer row in the output. Defaults to `true`.
 	 * - showCaption: boolean, whether to show table caption in the output (only for HTML). Defaults to `true`.
-	 * - htmlTemplate: string, the template used for rendering the HTML exported output (only applicable for HTML format). The
-	 *   template consists of a special variable {data}, which will be replaced with the HTML output of the grid table.
 	 * - worksheet: string, the name of the worksheet, when saved as excel file.
 	 * - colDelimiter: string, the column delimiter string for TEXT and CSV downloads.
 	 * - rowDelimiter: string, the row delimiter string for TEXT and CSV downloads.
@@ -367,7 +315,6 @@ HTML;
 					'showPageSummary' => true,
 					'showFooter' => true,
 					'showCaption' => true,
-					'htmlTemplate' => self::EXPORT_HTML_TEMPLATE,
 					'filename' => Yii::t('kvgrid', 'export'),
 					'message' => Yii::t('kvgrid', 'The HTML export file will be generated for download.') . "\n\n" . $popup,
 					'options' => []
@@ -405,7 +352,6 @@ HTML;
 					'showPageSummary' => true,
 					'showFooter' => true,
 					'showCaption' => true,
-					'htmlTemplate' => self::EXPORT_EXCEL_TEMPLATE,
 					'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
 					'filename' => Yii::t('kvgrid', 'export'),
 					'message' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.') . "\n\n" . $popup,
@@ -620,7 +566,6 @@ HTML;
 					'showHeader' => $setting['showHeader'],
 					'showPageSummary' => $setting['showPageSummary'],
 					'showFooter' => $setting['showFooter'],
-					'htmlTemplate' => ArrayHelper::getValue($setting, 'htmlTemplate', ''),
 					'worksheet' => ArrayHelper::getValue($setting, 'worksheet', ''),
 					'colDelimiter' => ArrayHelper::getValue($setting, 'colDelimiter', ''),
 					'rowDelimiter' => ArrayHelper::getValue($setting, 'rowDelimiter', ''),

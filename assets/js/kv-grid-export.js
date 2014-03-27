@@ -11,6 +11,51 @@
  * For more Yii related demos visit http://demos.krajee.com
  */
 (function ($) {
+	var HTML_TEMPLATE =
+		'<!DOCTYPE html>' +
+		'<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>' +
+		'<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>' +
+		'<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">' +
+		'<style>' +
+		'	.kv-wrap{padding:20px;}' +
+		'	.kv-align-center{text-align: center;}' +
+		'	.kv-align-left{text-align: left;}' +
+		'	.kv-align-right {text-align: right;}' +
+		'	.kv-align-top{vertical-align: top!important;}' +
+		'	.kv-align-bottom{vertical-align: bottom!important;}' +
+		'	.kv-align-middle{vertical-align: middle!important;}' +
+		'	.kv-page-summary{border-top: 4px double #ddd;font-weight: bold;}' +
+		'	.kv-table-footer {border-top: 4px double #ddd;font-weight: bold;}' +
+		'	.kv-table-caption {font-size: 1.5em;padding: 8px;border: 1px solid #ddd;border-bottom: none;}' +
+		'</style>' +
+		'<body class="kv-wrap">' +
+		'	{data}' +
+		'</body>';
+
+	var EXCEL_TEMPLATE = 
+		'<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"' +
+		'xmlns="http://www.w3.org/TR/REC-html40">' +
+		'<head>' +
+		'	<!--[if gte mso 9]>' +
+		'		<xml>' +
+		'			<x:ExcelWorkbook>' +
+		'				<x:ExcelWorksheets>' +
+		'					<x:ExcelWorksheet>' +
+		'						<x:Name>{worksheet}</x:Name>' +
+		'						<x:WorksheetOptions>' +
+		'							<x:DisplayGridlines/>' +
+		'						</x:WorksheetOptions>' +
+		'					</x:ExcelWorksheet>' +
+		'				</x:ExcelWorksheets>' +
+		'			</x:ExcelWorkbook>' +
+		'		</xml>' +
+		'	<![endif]-->' +
+		'</head>' +
+		'<body>' +
+		'	{data}' +
+		'</body>' +
+		'</html>';
+
     var GridExport = function (element, options) {
         this.$element = $(element);
         this.$grid = options.grid;
@@ -19,7 +64,6 @@
         this.filename = options.filename;
         this.showHeader = options.showHeader;
         this.columns = options.showHeader ? 'td,th' : 'td';
-        this.htmlTemplate = options.htmlTemplate;
         this.worksheet = options.worksheet;
 	    this.colDelimiter = options.colDelimiter;
 	    this.rowDelimiter = options.rowDelimiter;
@@ -96,7 +140,7 @@
         },
         exportHTML: function () {
             var self = this, $table = self.clean();
-            var html = self.htmlTemplate.replace('{data}', $('<div />').html($table.clone()).html());
+            var html = HTML_TEMPLATE.replace('{data}', $('<div />').html($table.clone()).html());
             self.download('html', html);
         },
         exportTEXT: function ($type) {
@@ -123,13 +167,7 @@
         },
         exportEXCEL: function () {
             var self = this, $table = self.clean();
-	        var xls = self.htmlTemplate.replace('{BEGIN_HTML}', '<html')
-                .replace('{BEGIN_HEAD}', '<head>')
-                .replace('{END_HEAD}','</head>')
-		        .replace('{END_HTML}','</html>')
-		        .replace('{worksheet}', self.worksheet)
-		        .replace('{data}', $('<div />').html($table.clone()).html())
-		        .replace(/"/g, '\'');
+	        var xls = EXCEL_TEMPLATE.replace('{data}', $('<div />').html($table.clone()).html()).replace(/"/g, '\'');
             self.download('xls', xls);
         },
     };
@@ -171,7 +209,6 @@
         showPageSummary: true,
         showFooter: true,
         showCaption: true,
-        htmlTemplate: '',
         worksheet: '',
 	    colDelimiter: ',',
 	    rowDelimiter: '\r\n',
