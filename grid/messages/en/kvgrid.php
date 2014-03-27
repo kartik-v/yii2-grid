@@ -26,7 +26,8 @@ return array(
 	'Inactive' => '',
 	'Actions' => '',
 	'export' => '',
-    'The HTML export file will be generated for download. Ensure your browser does not block popups for proper download.' => '',
-    'The CSV export file will be generated for download. Ensure your browser does not block popups for proper download.' => '',
-    'The Excel export file will be generated for download. Ensure your browser does not block popups for proper download.' => '',
+    'The HTML export file will be generated for download.' => '',
+    'The CSV export file will be generated for download.' => '',
+    'The Excel export file will be generated for download.' => '',
+    'Disable any popup blockers in your browser to ensure proper download.' => ''
 );
