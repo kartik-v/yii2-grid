@@ -5,7 +5,7 @@ Yii2 GridView on steroids. A module with various modifications and enhancements 
 Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo).
 
 ## Module
-The extension has been created as a module to enable access to advanced features like download action by exporting grid as csv, html, or xls. You should configure the module with a name of `gridview` as shown below:
+The extension has been created as a module to enable access to advanced features like download actions (exporting as csv, html, or xls). You should configure the module with a name of `gridview` as shown below:
 ```php
 'modules' => [
    'gridview' =>  [
