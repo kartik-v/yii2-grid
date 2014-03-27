@@ -381,8 +381,8 @@ HTML;
 				'showFooter' => true,
 				'showCaption' => true,
 				'htmlTemplate' => self::EXPORT_EXCEL_TEMPLATE,
-				'filename' => Yii::t('kvgrid', 'export'),
 				'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
+				'filename' => Yii::t('kvgrid', 'export'),
 				'message' => Yii::t('kvgrid', 'The Excel export file will be generated for download. Ensure your browser does not block popups for proper download.'),
 				'options' => []
 			],
@@ -563,7 +563,7 @@ HTML;
 			$items[] = ['label' => $label, 'url' => '#', 'linkOptions' => ['class' => 'export-' . $format], 'options' => $setting['options']];
 		}
 		$title = ($icon == '') ? $title : "<i class='glyphicon glyphicon-{$icon}'></i> {$title}";
-		$form = Html::beginForm(Yii::$app->getModule('gridview')->downloadRoute, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => '_blank']) .
+		$form = Html::beginForm(Yii::$app->getModule('gridview')->downloadAction, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => '_blank']) .
 			Html::textInput('export_filetype') . Html::textInput('export_filename') . Html::textArea('export_content') . '</form>';
 
 		return '<div class="btn-group">' . ButtonDropdown::widget([

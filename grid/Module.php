@@ -20,14 +20,12 @@ class Module extends \yii\base\Module
 {
 
 	/**
-	 * @var string the controller action route used
-	 * for downloading exported file
+	 * @var mixed the action (url) used for downloading exported file
 	 */
-	public $downloadRoute = 'gridview/export/download';
+	public $downloadAction = 'gridview/export/download';
 
 	/**
-	 * @var array the the internalization configuration for
-	 * this module
+	 * @var array the the internalization configuration for this module
 	 */
 	public $i18n = [];
 
@@ -38,7 +36,8 @@ class Module extends \yii\base\Module
 
 	}
 
-	public function initI18N() {
+	public function initI18N()
+	{
 		Yii::setAlias('@kvgrid', dirname(__FILE__));
 		if (empty($this->i18n)) {
 			$this->i18n = [
