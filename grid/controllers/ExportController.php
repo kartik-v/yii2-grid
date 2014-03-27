@@ -38,8 +38,7 @@ class ExportController extends \yii\web\Controller
 			$mime = 'text/html';
 		}
 		else {
-			$mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-			$type = 'xlsx';
+			$mime = 'application/vnd.ms-excel';
 		}
 		Yii::$app->getResponse()->getHeaders()
 			->set('Pragma', 'public')
