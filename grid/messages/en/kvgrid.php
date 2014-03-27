@@ -29,5 +29,6 @@ return array(
     'The HTML export file will be generated for download.' => '',
     'The CSV export file will be generated for download.' => '',
     'The Excel export file will be generated for download.' => '',
-    'Disable any popup blockers in your browser to ensure proper download.' => ''
+    'Disable any popup blockers in your browser to ensure proper download.' => '',
+    'No data found' => ''
 );
