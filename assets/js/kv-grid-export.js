@@ -67,46 +67,58 @@
         this.worksheet = options.worksheet;
 	    this.colDelimiter = options.colDelimiter;
 	    this.rowDelimiter = options.rowDelimiter;
-		this.message = options.message;
+		this.alertMsg = options.alertMsg;
+		this.browserPopupsMsg = options.browserPopupsMsg;
         this.listen();
     };
 
     GridExport.prototype = {
         constructor: GridExport,
+	    notify: function() {
+		    var self = this;
+		    var msg1 = self.alertMsg.length ?  self.alertMsg : '',
+		        msg2 = self.browserPopupsMsg.length ?  self.browserPopupsMsg : '',
+			    msg = '';
+		    if (msg1.length && msg2.length) {
+			    msg = msg1 + '\n\n' + msg2;
+		    }
+		    else if (!msg1.length && msg2.length) {
+			    msg = msg2;
+		    }
+		    else if (msg1.length && !msg2.length) {
+			    msg = msg1;
+		    }
+		    else {
+			    msg = 'Download file will be generated.';
+		    }
+		    alert(msg);
+	    },
         listen: function () {
             var self = this;
             if (self.$element.hasClass('export-csv')) {
                 self.$element.on("click", function (e) {
-                    if (self.message && self.message.length) {
-                        alert(self.message);
-                    }
+                    self.notify();
                     self.exportTEXT('csv');
                     e.preventDefault();
                 });
             }
 	        else if (self.$element.hasClass('export-txt')) {
 		        self.$element.on("click", function (e) {
-			        if (self.message && self.message.length) {
-				        alert(self.message);
-			        }
+			        self.notify();
 			        self.exportTEXT('txt');
 			        e.preventDefault();
 		        });
 	        }
             else if (self.$element.hasClass('export-html')) {
                 self.$element.on("click", function (e) {
-                    if (self.message && self.message.length) {
-                        alert(self.message);
-                    }
+	                self.notify();
                     self.exportHTML();
                     e.preventDefault();
                 });
             }
             else if (self.$element.hasClass('export-xls')) {
                 self.$element.on("click", function (e) {
-                    if (self.message && self.message.length) {
-                        alert(self.message);
-                    }
+	                self.notify();
                     self.exportEXCEL();
                     e.preventDefault();
                 });
@@ -212,7 +224,8 @@
         worksheet: '',
 	    colDelimiter: ',',
 	    rowDelimiter: '\r\n',
-        message: ''
+	    alertMsg: '',
+	    browserPopupsMsg: ''
     };
 
 })(window.jQuery);

@@ -86,7 +86,7 @@ class GridView extends \yii\grid\GridView
 	const CSV = 'csv';
 	const TEXT = 'txt';
 	const EXCEL = 'xls';
-	
+
 	/**
 	 * Grid Layout Templates
 	 */
@@ -265,18 +265,19 @@ HTML;
 	/**
 	 * @array|boolean the grid export menu settings. Displays a Bootstrap dropdown menu that allows you to export the grid as
 	 * either html, csv, or excel. If set to false, will not be displayed. The following options can be set:
-	 * - label: the export menu label (this is not HTML encoded). Defaults to 'Export Data'.
-	 * - icon: the glyphicon suffix to be displayed before the export menu label. If set to an empty string, this
+	 * - label: string,the export menu label (this is not HTML encoded). Defaults to 'Export Data'.
+	 * - icon: string,the glyphicon suffix to be displayed before the export menu label. If set to an empty string, this
 	 *   will not be displayed. Defaults to 'export'.
+	 * - browserPopupsMsg: string, the message to be shown to disable browser popups for download
 	 * - options: array, HTML attributes for the export menu. Defaults to ['class' => 'btn btn-danger']
 	 */
 	public $export = [];
 
 	/**
 	 * @var array the configuration for each export format. The array keys must be the one of the `format` constants
-	 * ('csv', 'html', or 'excel') and the array value is a configuration array consisiting of these settings:
-	 * - label: the label for the export format menu item displayed
-	 * - icon: the glyphicon suffix to be displayed before the export menu item label. If set to an empty string, this
+	 * (CSV, HTML, TEXT, or EXCEL) and the array value is a configuration array consisiting of these settings:
+	 * - label: string,the label for the export format menu item displayed
+	 * - icon: string,the glyphicon suffix to be displayed before the export menu item label. If set to an empty string, this
 	 *   will not be displayed. Defaults to 'floppy-disk'.
 	 * - showHeader: boolean, whether to show table header row in the output. Defaults to `true`.
 	 * - showPageSummary: boolean, whether to show table page summary row in the output. Defaults to `true`.
@@ -288,9 +289,10 @@ HTML;
 	 * - filename: the base file name for the generated file. Defaults to 'export'. This will be used to generate a default
 	 *   file name for downloading (extension will be one of csv, html, or xls - based on the format setting).
 	 * - options: array, HTML attributes for the export format menu item.
-	 * - message: string, the message prompt to show before saving. If this is empty or not set it will not be displayed.
+	 * - alertMsg: string, the message prompt to show before saving. If this is empty or not set it will not be displayed.
 	 */
 	public $exportConfig = [];
+
 
 	public function init()
 	{
@@ -302,10 +304,10 @@ HTML;
 			$this->export += [
 				'label' => Yii::t('kvgrid', 'Export Data'),
 				'icon' => 'export',
+				'browserPopupsMsg' => Yii::t('kvgrid', 'Disable any popup blockers in your browser to ensure proper download.'),
 				'options' => ['class' => 'btn btn-danger']
 			];
 		}
-		$popup = Yii::t('kvgrid', 'Disable any popup blockers in your browser to ensure proper download.');
 		if ($this->export !== false) {
 			$this->exportConfig += [
 				self::HTML => [
@@ -316,7 +318,7 @@ HTML;
 					'showFooter' => true,
 					'showCaption' => true,
 					'filename' => Yii::t('kvgrid', 'export'),
-					'message' => Yii::t('kvgrid', 'The HTML export file will be generated for download.') . "\n\n" . $popup,
+					'alertMsg' => Yii::t('kvgrid', 'The HTML export file will be generated for download.'),
 					'options' => []
 				],
 				self::CSV => [
@@ -329,7 +331,7 @@ HTML;
 					'colDelimiter' => ",",
 					'rowDelimiter' => "\r\n",
 					'filename' => Yii::t('kvgrid', 'export'),
-					'message' => Yii::t('kvgrid', 'The CSV export file will be generated for download.') . "\n\n" . $popup,
+					'alertMsg' => Yii::t('kvgrid', 'The CSV export file will be generated for download.'),
 					'options' => []
 				],
 				self::TEXT => [
@@ -342,7 +344,7 @@ HTML;
 					'colDelimiter' => "\t",
 					'rowDelimiter' => "\r\n",
 					'filename' => Yii::t('kvgrid', 'export'),
-					'message' => Yii::t('kvgrid', 'The TEXT export file will be generated for download.') . "\n\n" . $popup,
+					'alertMsg' => Yii::t('kvgrid', 'The TEXT export file will be generated for download.'),
 					'options' => []
 				],
 				self::EXCEL => [
@@ -354,7 +356,7 @@ HTML;
 					'showCaption' => true,
 					'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
 					'filename' => Yii::t('kvgrid', 'export'),
-					'message' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.') . "\n\n" . $popup,
+					'message' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.'),
 					'options' => []
 				],
 			];
@@ -557,6 +559,7 @@ HTML;
 		if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
 			GridExportAsset::register($view);
 			$js = '';
+			$popup =  ArrayHelper::getValue($this->export, 'browserPopupsMsg', '');
 			foreach ($this->exportConfig as $format => $setting) {
 				$id = '$("#' . $this->id . ' .export-' . $format . '")';
 				$grid = new JsExpression('$("#' . $this->id . '")');
@@ -569,7 +572,8 @@ HTML;
 					'worksheet' => ArrayHelper::getValue($setting, 'worksheet', ''),
 					'colDelimiter' => ArrayHelper::getValue($setting, 'colDelimiter', ''),
 					'rowDelimiter' => ArrayHelper::getValue($setting, 'rowDelimiter', ''),
-					'message' => ArrayHelper::getValue($setting, 'message', false)
+					'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
+					'browserPopupsMsg' => $popup
 				];
 				$view->registerJs($id . '.gridexport(' . Json::encode($options) . ');');
 			}
