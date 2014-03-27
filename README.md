@@ -4,6 +4,16 @@ yii2-grid
 Yii2 GridView on steroids. Various modifications and enhancements to one of the most used widgets by Yii developers. The widget contains new additional Grid Columns with enhanced settings for Yii Framework 2.0. The widget also incorporates various Bootstrap 3.x styling options.
 Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo).
 
+## Module
+The extension has been created as a module to enable access to advanced features like download action by exporting grid as csv, html, or xls. You should configure the module with a name of `gridview` as shown below:
+```php
+'modules' => [
+   'gridview' =>  [
+        'class' => '\kartik\grid\Module'
+    ]
+];
+```
+
 ## GridView
 ### \kartik\grid\GridView
 The following functionalities have been added/enhanced:
@@ -25,9 +35,9 @@ summary/totals for the current GridView page. The following parameters are appli
 - `showPageSummary`: _boolean_ whether to display the page summary row for the grid view. Defaults to `false`.
 - `pageSummaryRowOptions`:  _array_, HTML attributes for the page summary row. Defaults to `['class' => 'kv-page-summary warning']`.
 
-
 ### Export Grid Data (New)
-This is a new feature added to the GridView widget. It allows you to export the displayed grid content as HTML, CSV, or EXCEL.
+This is a new feature added to the GridView widget. It allows you to export the displayed grid content as HTML, CSV, or EXCEL. It uses the rendered grid data on client to convert to one of the format specified using JQuery. 
+This is supported across all browsers.
 
 ## Data Column (Enhanced)
 ### \kartik\grid\DataColumn

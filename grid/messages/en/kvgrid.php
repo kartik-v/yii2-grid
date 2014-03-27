@@ -26,7 +26,7 @@ return array(
 	'Inactive' => '',
 	'Actions' => '',
 	'export' => '',
-    'HTML export file will be generated. The exported file needs to be saved as .htm/.html extension. You can also save it as .xls extension to view as an excel spreasheet.' => '',
-    'CSV export file will be generated. The exported file needs to be saved as .csv/.txt extension.' => '',
-    'CExcel export file will be generated. The exported file needs to be saved as .xls/.xlsx extension.' => '',
+    'The HTML export file will be generated for download. Ensure your browser does not block popups for proper download.' => '',
+    'The CSV export file will be generated for download. Ensure your browser does not block popups for proper download.' => '',
+    'The Excel export file will be generated for download. Ensure your browser does not block popups for proper download.' => '',
 );

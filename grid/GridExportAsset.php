@@ -2,7 +2,7 @@
 
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2013
- * @package yii2-widgets
+ * @package yii2-grid
  * @version 1.0.0
  */
 

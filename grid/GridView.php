@@ -10,6 +10,7 @@ namespace kartik\grid;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\helpers\Json;
 use yii\helpers\Html;
@@ -108,6 +109,30 @@ class GridView extends \yii\grid\GridView
 </body>
 HTML;
 
+	const EXPORT_EXCEL_TEMPLATE = <<< HTML
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"
+	  xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<!--[if gte mso 9]>
+	<xml>
+		<x:ExcelWorkbook>
+			<x:ExcelWorksheets>
+				<x:ExcelWorksheet>
+					<x:Name>{worksheet}</x:Name>
+					<x:WorksheetOptions>
+						<x:DisplayGridlines/>
+					</x:WorksheetOptions>
+				</x:ExcelWorksheet>
+			</x:ExcelWorksheets>
+		</x:ExcelWorkbook>
+	</xml>
+<![endif]-->
+</head>
+<body>
+{data}
+</body>
+</html>
+HTML;
 	/**
 	 * Grid Layout Templates
 	 */
@@ -299,9 +324,13 @@ HTML;
 	 * - label: the label for the export format menu item displayed
 	 * - icon: the glyphicon suffix to be displayed before the export menu item label. If set to an empty string, this
 	 *   will not be displayed. Defaults to 'floppy-disk'.
-	 * - showHeader: boolean, whether to show header in the output. Defaults to `true`.
+	 * - showHeader: boolean, whether to show table header row in the output. Defaults to `true`.
+	 * - showPageSummary: boolean, whether to show table page summary row in the output. Defaults to `true`.
+	 * - showFooter: boolean, whether to show table footer row in the output. Defaults to `true`.
+	 * - showCaption: boolean, whether to show table caption in the output (only for HTML). Defaults to `true`.
 	 * - htmlTemplate: string, the template used for rendering the HTML exported output (only applicable for HTML format). The
 	 *   template consists of a special variable {data}, which will be replaced with the HTML output of the grid table.
+	 * - worksheet: string, the name of the worksheet, when saved as excel file.
 	 * - filename: the base file name for the generated file. Defaults to 'export'. This will be used to generate a default
 	 *   file name for downloading (extension will be one of csv, html, or xls - based on the format setting).
 	 * - options: array, HTML attributes for the export format menu item.
@@ -309,14 +338,12 @@ HTML;
 	 */
 	public $exportConfig = [];
 
-	/**
-	 * @var array the the internalization configuration for this widget
-	 */
-	public $i18n = [];
-
 	public function init()
 	{
-		$this->initI18N();
+		$module = Yii::$app->getModule('gridview');
+		if ($module == null || !$module instanceof \kartik\grid\Module) {
+			throw new InvalidConfigException('The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.');
+		}
 		$this->export += [
 			'label' => Yii::t('kvgrid', 'Export Data'),
 			'icon' => 'export',
@@ -327,25 +354,36 @@ HTML;
 				'label' => Yii::t('kvgrid', 'Save as HTML'),
 				'icon' => 'floppy-disk',
 				'showHeader' => true,
+				'showPageSummary' => true,
+				'showFooter' => true,
+				'showCaption' => true,
 				'htmlTemplate' => self::EXPORT_HTML_TEMPLATE,
 				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'HTML export file will be generated. The exported file needs to be saved as .htm/.html extension. You can also save it as .xls extension to view as an excel spreasheet.'),
+				'message' => Yii::t('kvgrid', 'The HTML export file will be generated for download. Ensure your browser does not block popups for proper download.'),
 				'options' => []
 			],
 			self::CSV => [
 				'label' => Yii::t('kvgrid', 'Save as CSV'),
 				'icon' => 'floppy-disk',
 				'showHeader' => true,
+				'showPageSummary' => true,
+				'showFooter' => true,
+				'showCaption' => true,
 				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'CSV export file will be generated. The exported file needs to be saved as .csv/.txt extension.'),
+				'message' => Yii::t('kvgrid', 'The CSV export file will be generated for download. Ensure your browser does not block popups for proper download.'),
 				'options' => []
 			],
 			self::EXCEL => [
 				'label' => Yii::t('kvgrid', 'Save as Excel'),
 				'icon' => 'floppy-disk',
 				'showHeader' => true,
+				'showPageSummary' => true,
+				'showFooter' => true,
+				'showCaption' => true,
+				'htmlTemplate' => self::EXPORT_EXCEL_TEMPLATE,
 				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'Excel export file will be generated. The exported file needs to be saved as .xls/.xlsx extension.'),
+				'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
+				'message' => Yii::t('kvgrid', 'The Excel export file will be generated for download. Ensure your browser does not block popups for proper download.'),
 				'options' => []
 			],
 		];
@@ -380,19 +418,6 @@ HTML;
 			$this->layout = str_replace('{items}', '<div class="table-responsive">{items}</div>', $this->layout);
 		}
 		parent::run();
-	}
-
-	public function initI18N()
-	{
-		Yii::setAlias('@kvgrid', dirname(__FILE__));
-		if (empty($this->i18n)) {
-			$this->i18n = [
-				'class' => 'yii\i18n\PhpMessageSource',
-				'basePath' => '@kvgrid/messages',
-				'forceTranslation' => true
-			];
-		}
-		Yii::$app->i18n->translations['kvgrid'] = $this->i18n;
 	}
 
 	/**
@@ -538,12 +563,15 @@ HTML;
 			$items[] = ['label' => $label, 'url' => '#', 'linkOptions' => ['class' => 'export-' . $format], 'options' => $setting['options']];
 		}
 		$title = ($icon == '') ? $title : "<i class='glyphicon glyphicon-{$icon}'></i> {$title}";
+		$form = Html::beginForm(Yii::$app->getModule('gridview')->downloadRoute, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => '_blank']) .
+			Html::textInput('export_filetype') . Html::textInput('export_filename') . Html::textArea('export_content') . '</form>';
+
 		return '<div class="btn-group">' . ButtonDropdown::widget([
 			'label' => $title,
 			'dropdown' => ['items' => $items, 'encodeLabels' => false],
 			'options' => $options,
 			'encodeLabel' => false
-		]) . '</div>';
+		]) . '</div>' . $form;
 	}
 
 	/**
@@ -564,7 +592,10 @@ HTML;
 					'grid' => $grid,
 					'filename' => $setting['filename'],
 					'showHeader' => $setting['showHeader'],
+					'showPageSummary' => $setting['showPageSummary'],
+					'showFooter' => $setting['showFooter'],
 					'htmlTemplate' => ArrayHelper::getValue($setting, 'htmlTemplate', ''),
+					'worksheet' => ArrayHelper::getValue($setting, 'worksheet', ''),
 					'message' => ArrayHelper::getValue($setting, 'message', false)
 				];
 				$view->registerJs($id . '.gridexport(' . Json::encode($options) . ');');
