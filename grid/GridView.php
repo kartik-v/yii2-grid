@@ -94,7 +94,7 @@ class GridView extends \yii\grid\GridView
 <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 <style>
-	body{padding:15px;}
+	.kv-wrap{padding:20px;}
 	.kv-align-center{text-align: center;}
 	.kv-align-left{text-align: left;}
 	.kv-align-right {text-align: right;}
@@ -105,15 +105,20 @@ class GridView extends \yii\grid\GridView
 	.kv-table-footer {border-top: 4px double #ddd;font-weight: bold;}
 	.kv-table-caption {font-size: 1.5em;padding: 8px;border: 1px solid #ddd;border-bottom: none;}
 </style>
-<body>
+<div class="kv-wrap">
     {data}
-</body>
+</div>
 HTML;
 
+	/**
+	 * The template for excel download. The tags for html and head have
+	 * to be parameterized due to a painful PJAX bug, that parses these tag
+	 * strings in the content.
+	 */
 	const EXPORT_EXCEL_TEMPLATE = <<< HTML
-<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"
+{BEGIN_HTML} xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"
 	  xmlns="http://www.w3.org/TR/REC-html40">
-<head>
+{BEGIN_HEAD}
 <!--[if gte mso 9]>
 	<xml>
 		<x:ExcelWorkbook>
@@ -128,11 +133,9 @@ HTML;
 		</x:ExcelWorkbook>
 	</xml>
 <![endif]-->
-</head>
-<body>
+{END_HEAD}
 {data}
-</body>
-</html>
+{END_HTML}
 HTML;
 	/**
 	 * Grid Layout Templates

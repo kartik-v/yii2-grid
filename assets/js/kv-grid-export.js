@@ -123,9 +123,13 @@
         },
         exportEXCEL: function () {
             var self = this, $table = self.clean();
-            var xls = $('<div />').html($table.clone()).html();
-            xls = self.htmlTemplate.replace('{worksheet}', self.worksheet).replace('{data}', xls);
-            xls = xls.replace(/"/g, '\'');
+	        var xls = self.htmlTemplate.replace('{BEGIN_HTML}', '<html')
+                .replace('{BEGIN_HEAD}', '<head>')
+                .replace('{END_HEAD}','</head>')
+		        .replace('{END_HTML}','</html>')
+		        .replace('{worksheet}', self.worksheet)
+		        .replace('{data}', $('<div />').html($table.clone()).html())
+		        .replace(/"/g, '\'');
             self.download('xls', xls);
         },
     };
