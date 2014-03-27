@@ -17,4 +17,5 @@ version 1.2.0
 2. Export features enhanced for use across all browsers:
   - Save displayed grid as HTML
   - Save displayed grid as CSV
+  - Save displayed grid as TEXT
   - Save displayed grid as XLS

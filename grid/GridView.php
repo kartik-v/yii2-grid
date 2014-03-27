@@ -84,6 +84,7 @@ class GridView extends \yii\grid\GridView
 	 */
 	const HTML = 'html';
 	const CSV = 'csv';
+	const TEXT = 'txt';
 	const EXCEL = 'xls';
 
 	// HTML export template
@@ -331,6 +332,8 @@ HTML;
 	 * - htmlTemplate: string, the template used for rendering the HTML exported output (only applicable for HTML format). The
 	 *   template consists of a special variable {data}, which will be replaced with the HTML output of the grid table.
 	 * - worksheet: string, the name of the worksheet, when saved as excel file.
+	 * - colDelimiter: string, the column delimiter string for TEXT and CSV downloads.
+	 * - rowDelimiter: string, the row delimiter string for TEXT and CSV downloads.
 	 * - filename: the base file name for the generated file. Defaults to 'export'. This will be used to generate a default
 	 *   file name for downloading (extension will be one of csv, html, or xls - based on the format setting).
 	 * - options: array, HTML attributes for the export format menu item.
@@ -370,8 +373,23 @@ HTML;
 				'showPageSummary' => true,
 				'showFooter' => true,
 				'showCaption' => true,
+				'colDelimiter' => ",",
+				'rowDelimiter' => "\r\n",
 				'filename' => Yii::t('kvgrid', 'export'),
 				'message' => Yii::t('kvgrid', 'The CSV export file will be generated for download.') . "\n\n" . $popup,
+				'options' => []
+			],
+			self::TEXT => [
+				'label' => Yii::t('kvgrid', 'Save as Text'),
+				'icon' => 'floppy-disk',
+				'showHeader' => true,
+				'showPageSummary' => true,
+				'showFooter' => true,
+				'showCaption' => true,
+				'colDelimiter' => "\t",
+				'rowDelimiter' => "\r\n",
+				'filename' => Yii::t('kvgrid', 'export'),
+				'message' => Yii::t('kvgrid', 'The TEXT export file will be generated for download.') . "\n\n" . $popup,
 				'options' => []
 			],
 			self::EXCEL => [
@@ -384,7 +402,7 @@ HTML;
 				'htmlTemplate' => self::EXPORT_EXCEL_TEMPLATE,
 				'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
 				'filename' => Yii::t('kvgrid', 'export'),
-				'message' => Yii::t('kvgrid', 'The Excel export file will be generated for download.') . "\n\n" . $popup,
+				'message' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.') . "\n\n" . $popup,
 				'options' => []
 			],
 		];
@@ -597,6 +615,8 @@ HTML;
 					'showFooter' => $setting['showFooter'],
 					'htmlTemplate' => ArrayHelper::getValue($setting, 'htmlTemplate', ''),
 					'worksheet' => ArrayHelper::getValue($setting, 'worksheet', ''),
+					'colDelimiter' => ArrayHelper::getValue($setting, 'colDelimiter', ''),
+					'rowDelimiter' => ArrayHelper::getValue($setting, 'rowDelimiter', ''),
 					'message' => ArrayHelper::getValue($setting, 'message', false)
 				];
 				$view->registerJs($id . '.gridexport(' . Json::encode($options) . ');');

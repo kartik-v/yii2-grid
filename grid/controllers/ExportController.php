@@ -10,6 +10,7 @@ namespace kartik\grid\controllers;
 
 use Yii;
 use yii\helpers\Json;
+use kartik\grid\GridView;
 
 class ExportController extends \yii\web\Controller
 {
@@ -31,20 +32,20 @@ class ExportController extends \yii\web\Controller
 	 */
 	protected function setHttpHeaders($type, $name)
 	{
-		if ($type == 'csv') {
+		if ($type == GridView::CSV) {
 			$mime = 'text/csv';
-		}
-		elseif ($type == 'html') {
+		} elseif ($type == GridView::TEXT) {
+			$mime = 'text/plain';
+		} elseif ($type == GridView::HTML) {
 			$mime = 'text/html';
-		}
-		else {
+		} else {
 			$mime = 'application/vnd.ms-excel';
 		}
 		Yii::$app->getResponse()->getHeaders()
-			->set('Pragma', 'public')
-			->set('Expires', '0')
-			->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
-			->set('Content-Disposition', 'attachment; filename="'.$name.'.'.$type.'"')
-			->set('Content-type', $mime . '; charset=utf-8');
+				 ->set('Pragma', 'public')
+				 ->set('Expires', '0')
+				 ->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+				 ->set('Content-Disposition', 'attachment; filename="' . $name . '.' . $type . '"')
+				 ->set('Content-type', $mime . '; charset=utf-8');
 	}
 }

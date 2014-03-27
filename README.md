@@ -5,7 +5,7 @@ Yii2 GridView on steroids. A module with various modifications and enhancements 
 Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo).
 
 ## Module
-The extension has been created as a module to enable access to advanced features like download actions (exporting as csv, html, or xls). You should configure the module with a name of `gridview` as shown below:
+The extension has been created as a module to enable access to advanced features like download actions (exporting as csv, text, html, or xls). You should configure the module with a name of `gridview` as shown below:
 ```php
 'modules' => [
    'gridview' =>  [
@@ -36,7 +36,7 @@ summary/totals for the current GridView page. The following parameters are appli
 - `pageSummaryRowOptions`:  _array_, HTML attributes for the page summary row. Defaults to `['class' => 'kv-page-summary warning']`.
 
 ### Export Grid Data (New)
-This is a new feature added to the GridView widget. It allows you to export the displayed grid content as HTML, CSV, or EXCEL. It uses the rendered grid data on client to convert to one of the format specified using JQuery. 
+This is a new feature added to the GridView widget. It allows you to export the displayed grid content as HTML, CSV, TEXT, or EXCEL. It uses the rendered grid data on client to convert to one of the format specified using JQuery. 
 This is supported across all browsers.
 
 ## Data Column (Enhanced)
