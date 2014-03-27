@@ -347,11 +347,13 @@ HTML;
 		if ($module == null || !$module instanceof \kartik\grid\Module) {
 			throw new InvalidConfigException('The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.');
 		}
-		$this->export += [
-			'label' => Yii::t('kvgrid', 'Export Data'),
-			'icon' => 'export',
-			'options' => ['class' => 'btn btn-danger']
-		];
+		if (is_array($this->export) && empty($this->export)) {
+			$this->export += [
+				'label' => Yii::t('kvgrid', 'Export Data'),
+				'icon' => 'export',
+				'options' => ['class' => 'btn btn-danger']
+			];
+		);
 		$popup = Yii::t('kvgrid', 'Disable any popup blockers in your browser to ensure proper download.');
 		$this->exportConfig += [
 			self::HTML => [
