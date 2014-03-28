@@ -357,7 +357,7 @@ HTML;
 					'showCaption' => true,
 					'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
 					'filename' => Yii::t('kvgrid', 'export'),
-					'message' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.'),
+					'alertMsg' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.'),
 					'cssFile' => '',
 					'options' => []
 				],
