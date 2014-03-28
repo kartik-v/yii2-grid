@@ -169,7 +169,7 @@
 			var colDelim = self.colDelimiter, rowDelim = self.rowDelimiter;
 			var quote = ($type == 'csv') ? '"' : '';
 			// Grab text from table into CSV formatted string
-			var output = quote + $rows.map(function (i, row) {
+			var txt = quote + $rows.map(function (i, row) {
 				var $row = $(row), $cols = $row.find(self.columns);
 				return $cols.map(function (j, col) {
 					var $col = $(col), text = $col.text();
@@ -178,12 +178,12 @@
 			}).get().join(tmpRowDelim)
 				.split(tmpRowDelim).join(rowDelim)
 				.split(tmpColDelim).join(colDelim) + quote;
-			self.download($type, output);
+			self.download($type, txt);
 		},
 		exportEXCEL: function () {
 			var self = this, $table = self.clean();
 			var css = (self.cssFile && self.cssFile.length) ? '<link href="' + self.cssFile + '" rel="stylesheet">' : '';
-			var html = EXCEL_TEMPLATE.replace('{css}', css).replace('{worksheet}', self.worksheet).replace('{data}', $('<div />').html($table.clone()).html()).replace(/"/g, '\'');
+			var xls = EXCEL_TEMPLATE.replace('{css}', css).replace('{worksheet}', self.worksheet).replace('{data}', $('<div />').html($table.clone()).html()).replace(/"/g, '\'');
 			self.download('xls', xls);
 		},
 	};
