@@ -288,8 +288,10 @@ HTML;
 	 * - rowDelimiter: string, the row delimiter string for TEXT and CSV downloads.
 	 * - filename: the base file name for the generated file. Defaults to 'export'. This will be used to generate a default
 	 *   file name for downloading (extension will be one of csv, html, or xls - based on the format setting).
-	 * - options: array, HTML attributes for the export format menu item.
 	 * - alertMsg: string, the message prompt to show before saving. If this is empty or not set it will not be displayed.
+	 * - cssFile: string, the css file that will be used in the exported HTML file. Defaults to:
+	 *   `http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css`.
+	 * - options: array, HTML attributes for the export format menu item.
 	 */
 	public $exportConfig = [];
 
@@ -307,9 +309,7 @@ HTML;
 				'browserPopupsMsg' => Yii::t('kvgrid', 'Disable any popup blockers in your browser to ensure proper download.'),
 				'options' => ['class' => 'btn btn-danger']
 			];
-		}
-		if ($this->export !== false) {
-			$this->exportConfig += [
+			$defaultExportConfig = [
 				self::HTML => [
 					'label' => Yii::t('kvgrid', 'Save as HTML'),
 					'icon' => 'floppy-disk',
@@ -319,6 +319,7 @@ HTML;
 					'showCaption' => true,
 					'filename' => Yii::t('kvgrid', 'export'),
 					'alertMsg' => Yii::t('kvgrid', 'The HTML export file will be generated for download.'),
+					'cssFile' => 'http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css',
 					'options' => []
 				],
 				self::CSV => [
@@ -357,9 +358,20 @@ HTML;
 					'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
 					'filename' => Yii::t('kvgrid', 'export'),
 					'message' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.'),
+					'cssFile' => '',
 					'options' => []
 				],
 			];
+			$exportConfig = [];
+			if (is_array($this->exportConfig) && !empty($this->exportConfig)) {
+				foreach ($this->exportConfig as $format => $setting) {
+					$setup = is_array($this->exportConfig[$format]) ? $this->exportConfig[$format] : [];
+					$exportConfig[$format] = $setup + $defaultExportConfig[$format];
+				}
+				$this->exportConfig = $exportConfig;
+			} else {
+				$this->exportConfig = $defaultExportConfig;
+			}
 		}
 		if ($this->filterPosition === self::FILTER_POS_HEADER) {
 			// Float header plugin misbehaves when Filter is placed on the first row
@@ -559,7 +571,7 @@ HTML;
 		if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
 			GridExportAsset::register($view);
 			$js = '';
-			$popup =  ArrayHelper::getValue($this->export, 'browserPopupsMsg', '');
+			$popup = ArrayHelper::getValue($this->export, 'browserPopupsMsg', '');
 			foreach ($this->exportConfig as $format => $setting) {
 				$id = '$("#' . $this->id . ' .export-' . $format . '")';
 				$grid = new JsExpression('$("#' . $this->id . '")');
@@ -573,7 +585,8 @@ HTML;
 					'colDelimiter' => ArrayHelper::getValue($setting, 'colDelimiter', ''),
 					'rowDelimiter' => ArrayHelper::getValue($setting, 'rowDelimiter', ''),
 					'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
-					'browserPopupsMsg' => $popup
+					'browserPopupsMsg' => $popup,
+					'cssFile' => ArrayHelper::getValue($setting, 'cssFile', '')
 				];
 				$view->registerJs($id . '.gridexport(' . Json::encode($options) . ');');
 			}
