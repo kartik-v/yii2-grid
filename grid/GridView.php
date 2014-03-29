@@ -482,11 +482,10 @@ HTML;
 			Html::addCssClass($footerOptions, $class);
 		}
         if ($noWrap) {
-			$class = "kv-{$noWrap}";
-			Html::addCssClass($headerOptions, $class);
-			Html::addCssClass($contentOptions, $class);
-			Html::addCssClass($pageSummaryOptions, $class);
-			Html::addCssClass($footerOptions, $class);
+			Html::addCssClass($headerOptions, self::NOWRAP);
+			Html::addCssClass($contentOptions, self::NOWRAP);
+			Html::addCssClass($pageSummaryOptions, self::NOWRAP);
+			Html::addCssClass($footerOptions, self::NOWRAP);
         }
 		if ($vAlign === self::ALIGN_TOP || $vAlign === self::ALIGN_MIDDLE || $vAlign === self::ALIGN_BOTTOM) {
 			$class = "kv-align-{$vAlign}";
