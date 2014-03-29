@@ -51,8 +51,8 @@ class GridView extends \yii\grid\GridView
 	const ALIGN_TOP = 'top';
 	const ALIGN_MIDDLE = 'middle';
 	const ALIGN_BOTTOM = 'bottom';
-    // Prevent table cells from wrapping
-	const NOWRAP = 'nowrap';
+	// CSS for preventing cell wrapping
+	const NOWRAP = 'kv-nowrap';
 
 	/**
 	 * Filter input types
@@ -481,12 +481,12 @@ HTML;
 			Html::addCssClass($pageSummaryOptions, $class);
 			Html::addCssClass($footerOptions, $class);
 		}
-        if ($noWrap) {
+		if ($noWrap) {
 			Html::addCssClass($headerOptions, self::NOWRAP);
 			Html::addCssClass($contentOptions, self::NOWRAP);
 			Html::addCssClass($pageSummaryOptions, self::NOWRAP);
 			Html::addCssClass($footerOptions, self::NOWRAP);
-        }
+		}
 		if ($vAlign === self::ALIGN_TOP || $vAlign === self::ALIGN_MIDDLE || $vAlign === self::ALIGN_BOTTOM) {
 			$class = "kv-align-{$vAlign}";
 			Html::addCssClass($headerOptions, $class);
