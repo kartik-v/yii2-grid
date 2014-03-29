@@ -54,7 +54,7 @@ class SerialColumn extends \yii\grid\SerialColumn
 	/**
 	 * @var string the summary function to call for the column
 	 */
-	public $pageSummaryFunc = GridView::F_COUNT;
+	public $pageSummaryFunc = GridView::F_SUM;
 
 	/**
 	 * @var array HTML attributes for the page summary cell
@@ -121,7 +121,7 @@ class SerialColumn extends \yii\grid\SerialColumn
 			$keys = $provider->getKeys();
 			foreach ($models as $index => $model) {
 				$key = $keys[$index];
-				$this->_rows[] = $this->getDataCellValue($model, $key, $index);
+				$this->_rows[] = $this->renderDataCellContent($model, $key, $index);
 			}
 		}
 	}
