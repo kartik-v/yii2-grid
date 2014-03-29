@@ -35,12 +35,19 @@ class DataColumn extends \yii\grid\DataColumn
 	 * 'top', 'middle', or 'bottom'.
 	 */
 	public $vAlign;
+    
+	/**
+	 * @var string whether to force no wrapping on all table cells in the column
+	 * @see http://www.w3schools.com/cssref/pr_text_white-space.asp
+	 */
+	public $noWrap;
 
 	/**
 	 * @var string the width of each column (matches the CSS width property).
 	 * @see http://www.w3schools.com/cssref/pr_dim_width.asp
 	 */
 	public $width;
+    
 	/**
 	 * @var string the filter input type for each filter input. You can use one of the
 	 * `GridView::FILTER_` constants or pass any widget classname (extending the
@@ -111,7 +118,7 @@ class DataColumn extends \yii\grid\DataColumn
 		if ($this->grid->bootstrap === false) {
 			Html::removeCssClass($filterInputOptions, 'form-control');
 		}
-		$this->grid->formatColumn($this->hAlign, $this->vAlign, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
+		$this->grid->formatColumn($this->hAlign, $this->vAlign, $this->noWrap, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
 		parent::init();
 		$this->setPageRows();
 	}

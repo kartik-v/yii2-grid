@@ -51,6 +51,8 @@ class GridView extends \yii\grid\GridView
 	const ALIGN_TOP = 'top';
 	const ALIGN_MIDDLE = 'middle';
 	const ALIGN_BOTTOM = 'bottom';
+    // Prevent table cells from wrapping
+	const NOWRAP = 'nowrap';
 
 	/**
 	 * Filter input types
@@ -470,7 +472,7 @@ HTML;
 	 * @param array $pageSummaryOptions the HTML attributes for the grid column content
 	 * @param array $footerOptions the HTML attributes for the grid column footer
 	 */
-	public function formatColumn($hAlign, $vAlign, $width, &$headerOptions, &$contentOptions, &$pageSummaryOptions, &$footerOptions)
+	public function formatColumn($hAlign, $vAlign, $noWrap, $width, &$headerOptions, &$contentOptions, &$pageSummaryOptions, &$footerOptions)
 	{
 		if ($hAlign === self::ALIGN_LEFT || $hAlign === self::ALIGN_RIGHT || $hAlign === self::ALIGN_CENTER) {
 			$class = "kv-align-{$hAlign}";
@@ -479,6 +481,13 @@ HTML;
 			Html::addCssClass($pageSummaryOptions, $class);
 			Html::addCssClass($footerOptions, $class);
 		}
+        if ($noWrap) {
+			$class = "kv-{$noWrap}";
+			Html::addCssClass($headerOptions, $class);
+			Html::addCssClass($contentOptions, $class);
+			Html::addCssClass($pageSummaryOptions, $class);
+			Html::addCssClass($footerOptions, $class);
+        }
 		if ($vAlign === self::ALIGN_TOP || $vAlign === self::ALIGN_MIDDLE || $vAlign === self::ALIGN_BOTTOM) {
 			$class = "kv-align-{$vAlign}";
 			Html::addCssClass($headerOptions, $class);

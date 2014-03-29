@@ -44,6 +44,9 @@
 .kv-align-middle {
     vertical-align: middle!important;
 }
+.kv-nowrap {
+    white-space: nowrap;
+}
 .kv-merged-header {
     border-bottom: 2px solid #ddd!important;
 }
