@@ -39,10 +39,10 @@ class ActionColumn extends \yii\grid\ActionColumn
 	public $vAlign = GridView::ALIGN_MIDDLE;
     
 	/**
-	 * @var string whether to force no wrapping on all table cells in the column
+	 * @var boolean whether to force no wrapping on all table cells in the column
 	 * @see http://www.w3schools.com/cssref/pr_text_white-space.asp
 	 */
-	public $noWrap;
+	public $noWrap = false;
 
 	/**
 	 * @var string the width of each column (matches the CSS width property).
