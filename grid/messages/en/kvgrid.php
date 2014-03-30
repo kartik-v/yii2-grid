@@ -17,19 +17,25 @@
  *
  * NOTE: this file must be saved in UTF-8 encoding.
  */
-return array(
+return [
 	'Export Data' => '',
+	'HTML' => '',
+	'CSV' => '',
+	'Text' => '',
+	'Excel' => '',
 	'Save as HTML' => '',
 	'Save as CSV' => '',
+	'Save as Text' => '',
 	'Save as Excel' => '',
 	'Active' => '',
 	'Inactive' => '',
 	'Actions' => '',
 	'export' => '',
+	'grid-export' => '',
     'The HTML export file will be generated for download.' => '',
     'The CSV export file will be generated for download.' => '',
 	'The TEXT export file will be generated for download.' => '',
     'The EXCEL export file will be generated for download.' => '',
     'Disable any popup blockers in your browser to ensure proper download.' => '',
     'No data found' => ''
-);
+];

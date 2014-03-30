@@ -280,7 +280,7 @@ HTML;
 	 * (CSV, HTML, TEXT, or EXCEL) and the array value is a configuration array consisiting of these settings:
 	 * - label: string,the label for the export format menu item displayed
 	 * - icon: string,the glyphicon suffix to be displayed before the export menu item label. If set to an empty string, this
-	 *   will not be displayed. Defaults to 'floppy-disk'.
+	 *   will not be displayed. Defaults to a few 'floppy-disk' glyphicons present in bootstrap.
 	 * - showHeader: boolean, whether to show table header row in the output. Defaults to `true`.
 	 * - showPageSummary: boolean, whether to show table page summary row in the output. Defaults to `true`.
 	 * - showFooter: boolean, whether to show table footer row in the output. Defaults to `true`.
@@ -313,55 +313,55 @@ HTML;
 			];
 			$defaultExportConfig = [
 				self::HTML => [
-					'label' => Yii::t('kvgrid', 'Save as HTML'),
-					'icon' => 'floppy-disk',
+					'label' => Yii::t('kvgrid', 'HTML'),
+					'icon' => 'floppy-disk-saved',
 					'showHeader' => true,
 					'showPageSummary' => true,
 					'showFooter' => true,
 					'showCaption' => true,
-					'filename' => Yii::t('kvgrid', 'export'),
+					'filename' => Yii::t('kvgrid', 'grid-export'),
 					'alertMsg' => Yii::t('kvgrid', 'The HTML export file will be generated for download.'),
 					'cssFile' => 'http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css',
-					'options' => []
+					'options' => ['title' => Yii::t('kvgrid', 'Save as HTML')]
 				],
 				self::CSV => [
-					'label' => Yii::t('kvgrid', 'Save as CSV'),
-					'icon' => 'floppy-disk',
+					'label' => Yii::t('kvgrid', 'CSV'),
+					'icon' => 'floppy-disk-open',
 					'showHeader' => true,
 					'showPageSummary' => true,
 					'showFooter' => true,
 					'showCaption' => true,
 					'colDelimiter' => ",",
 					'rowDelimiter' => "\r\n",
-					'filename' => Yii::t('kvgrid', 'export'),
+					'filename' => Yii::t('kvgrid', 'grid-export'),
 					'alertMsg' => Yii::t('kvgrid', 'The CSV export file will be generated for download.'),
-					'options' => []
+					'options' => ['title' => Yii::t('kvgrid', 'Save as CSV')]
 				],
 				self::TEXT => [
-					'label' => Yii::t('kvgrid', 'Save as Text'),
-					'icon' => 'floppy-disk',
+					'label' => Yii::t('kvgrid', 'Text'),
+					'icon' => 'floppy-disk-save',
 					'showHeader' => true,
 					'showPageSummary' => true,
 					'showFooter' => true,
 					'showCaption' => true,
 					'colDelimiter' => "\t",
 					'rowDelimiter' => "\r\n",
-					'filename' => Yii::t('kvgrid', 'export'),
+					'filename' => Yii::t('kvgrid', 'grid-export'),
 					'alertMsg' => Yii::t('kvgrid', 'The TEXT export file will be generated for download.'),
-					'options' => []
+					'options' => ['title' => Yii::t('kvgrid', 'Save as Text')]
 				],
 				self::EXCEL => [
-					'label' => Yii::t('kvgrid', 'Save as Excel'),
-					'icon' => 'floppy-disk',
+					'label' => Yii::t('kvgrid', 'Excel'),
+					'icon' => 'floppy-disk-remove',
 					'showHeader' => true,
 					'showPageSummary' => true,
 					'showFooter' => true,
 					'showCaption' => true,
 					'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
-					'filename' => Yii::t('kvgrid', 'export'),
+					'filename' => Yii::t('kvgrid', 'grid-export'),
 					'alertMsg' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.'),
 					'cssFile' => '',
-					'options' => []
+					'options' => ['title' => Yii::t('kvgrid', 'Save as Excel')]
 				],
 			];
 			$exportConfig = [];
@@ -557,7 +557,11 @@ HTML;
 			$items[] = ['label' => $label, 'url' => '#', 'linkOptions' => ['class' => 'export-' . $format], 'options' => $setting['options']];
 		}
 		$title = ($icon == '') ? $title : "<i class='glyphicon glyphicon-{$icon}'></i> {$title}";
-		$form = Html::beginForm(Yii::$app->getModule('gridview')->downloadAction, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => '_blank']) .
+        $action = Yii::$app->getModule('gridview')->downloadAction;
+        if (!is_array($action)) {
+            $action = [$action];
+        }
+		$form = Html::beginForm($action, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => '_blank']) .
 			Html::textInput('export_filetype') . Html::textInput('export_filename') . Html::textArea('export_content') . '</form>';
 
 		return '<div class="btn-group">' . ButtonDropdown::widget([
