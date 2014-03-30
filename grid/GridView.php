@@ -288,7 +288,7 @@ HTML;
 	 * - worksheet: string, the name of the worksheet, when saved as excel file.
 	 * - colDelimiter: string, the column delimiter string for TEXT and CSV downloads.
 	 * - rowDelimiter: string, the row delimiter string for TEXT and CSV downloads.
-	 * - filename: the base file name for the generated file. Defaults to 'export'. This will be used to generate a default
+	 * - filename: the base file name for the generated file. Defaults to 'grid-export'. This will be used to generate a default
 	 *   file name for downloading (extension will be one of csv, html, or xls - based on the format setting).
 	 * - alertMsg: string, the message prompt to show before saving. If this is empty or not set it will not be displayed.
 	 * - cssFile: string, the css file that will be used in the exported HTML file. Defaults to:
