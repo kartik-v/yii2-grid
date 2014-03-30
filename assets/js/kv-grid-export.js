@@ -167,9 +167,8 @@
 
 			// actual delimiter characters for CSV format
 			var colDelim = '"' + self.colDelimiter + '"', rowDelim = '"' + self.rowDelimiter + '"';
-			var quote = ($type == 'csv') ? '"' : '';
 			// Grab text from table into CSV formatted string
-			var txt = quote + $rows.map(function (i, row) {
+			var txt = '"' + $rows.map(function (i, row) {
 				var $row = $(row), $cols = $row.find(self.columns);
 				return $cols.map(function (j, col) {
 					var $col = $(col), text = $col.text();
@@ -177,7 +176,7 @@
 				}).get().join(tmpColDelim);
 			}).get().join(tmpRowDelim)
 				.split(tmpRowDelim).join(rowDelim)
-				.split(tmpColDelim).join(colDelim) + quote;
+				.split(tmpColDelim).join(colDelim) + '"';
 			self.download($type, txt);
 		},
 		exportEXCEL: function () {
