@@ -280,7 +280,7 @@ HTML;
 	 * (CSV, HTML, TEXT, or EXCEL) and the array value is a configuration array consisiting of these settings:
 	 * - label: string,the label for the export format menu item displayed
 	 * - icon: string,the glyphicon suffix to be displayed before the export menu item label. If set to an empty string, this
-	 *   will not be displayed. Defaults to a few 'floppy-disk' glyphicons present in bootstrap.
+	 *   will not be displayed. Defaults to the 'floppy-' glyphicons present in bootstrap.
 	 * - showHeader: boolean, whether to show table header row in the output. Defaults to `true`.
 	 * - showPageSummary: boolean, whether to show table page summary row in the output. Defaults to `true`.
 	 * - showFooter: boolean, whether to show table footer row in the output. Defaults to `true`.
@@ -314,7 +314,7 @@ HTML;
 			$defaultExportConfig = [
 				self::HTML => [
 					'label' => Yii::t('kvgrid', 'HTML'),
-					'icon' => 'floppy-disk-saved',
+					'icon' => 'floppy-saved',
 					'showHeader' => true,
 					'showPageSummary' => true,
 					'showFooter' => true,
@@ -326,7 +326,7 @@ HTML;
 				],
 				self::CSV => [
 					'label' => Yii::t('kvgrid', 'CSV'),
-					'icon' => 'floppy-disk-open',
+					'icon' => 'floppy-open',
 					'showHeader' => true,
 					'showPageSummary' => true,
 					'showFooter' => true,
@@ -339,7 +339,7 @@ HTML;
 				],
 				self::TEXT => [
 					'label' => Yii::t('kvgrid', 'Text'),
-					'icon' => 'floppy-disk-save',
+					'icon' => 'floppy-save',
 					'showHeader' => true,
 					'showPageSummary' => true,
 					'showFooter' => true,
@@ -352,7 +352,7 @@ HTML;
 				],
 				self::EXCEL => [
 					'label' => Yii::t('kvgrid', 'Excel'),
-					'icon' => 'floppy-disk-remove',
+					'icon' => 'floppy-remove',
 					'showHeader' => true,
 					'showPageSummary' => true,
 					'showFooter' => true,
