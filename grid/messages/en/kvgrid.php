@@ -18,7 +18,6 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-	'Export Data' => '',
 	'HTML' => '',
 	'CSV' => '',
 	'Text' => '',
@@ -30,6 +29,7 @@ return [
 	'Active' => '',
 	'Inactive' => '',
 	'Actions' => '',
+	'Export' => '',
 	'export' => '',
 	'grid-export' => '',
     'The HTML export file will be generated for download.' => '',

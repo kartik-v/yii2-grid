@@ -166,7 +166,7 @@
 				tmpRowDelim = String.fromCharCode(0); // null character
 
 			// actual delimiter characters for CSV format
-			var colDelim = self.colDelimiter, rowDelim = self.rowDelimiter;
+			var colDelim = '"' + self.colDelimiter + '"', rowDelim = '"' + self.rowDelimiter + '"';
 			var quote = ($type == 'csv') ? '"' : '';
 			// Grab text from table into CSV formatted string
 			var txt = quote + $rows.map(function (i, row) {

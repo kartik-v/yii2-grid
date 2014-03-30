@@ -267,7 +267,7 @@ HTML;
 	/**
 	 * @array|boolean the grid export menu settings. Displays a Bootstrap dropdown menu that allows you to export the grid as
 	 * either html, csv, or excel. If set to false, will not be displayed. The following options can be set:
-	 * - label: string,the export menu label (this is not HTML encoded). Defaults to 'Export Data'.
+	 * - label: string,the export menu label (this is not HTML encoded). Defaults to 'Export'.
 	 * - icon: string,the glyphicon suffix to be displayed before the export menu label. If set to an empty string, this
 	 *   will not be displayed. Defaults to 'export'.
 	 * - browserPopupsMsg: string, the message to be shown to disable browser popups for download
@@ -306,7 +306,7 @@ HTML;
 		}
 		if ($this->export !== false) {
 			$this->export += [
-				'label' => Yii::t('kvgrid', 'Export Data'),
+				'label' => Yii::t('kvgrid', 'Export'),
 				'icon' => 'export',
 				'browserPopupsMsg' => Yii::t('kvgrid', 'Disable any popup blockers in your browser to ensure proper download.'),
 				'options' => ['class' => 'btn btn-danger']
