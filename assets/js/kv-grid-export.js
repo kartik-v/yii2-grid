@@ -181,6 +181,7 @@
 		},
 		exportEXCEL: function () {
 			var self = this, $table = self.clean();
+			$table.find('input').remove(); // remove any form inputs as they do not align well in excel
 			var css = (self.cssFile && self.cssFile.length) ? '<link href="' + self.cssFile + '" rel="stylesheet">' : '';
 			var xls = EXCEL_TEMPLATE.replace('{css}', css).replace('{worksheet}', self.worksheet).replace('{data}', $('<div />').html($table.clone()).html()).replace(/"/g, '\'');
 			self.download('xls', xls);
