@@ -19,11 +19,11 @@ use kartik\widgets\AssetBundle;
 class GridExportAsset extends AssetBundle
 {
 
-	public function init()
-	{
-		$this->setSourcePath(__DIR__ . '/../assets');
-		$this->setupAssets('js', ['js/kv-grid-export']);
-		parent::init();
-	}
+    public function init()
+    {
+        $this->setSourcePath(__DIR__ . '/../assets');
+        $this->setupAssets('js', ['js/kv-grid-export']);
+        parent::init();
+    }
 
 }
