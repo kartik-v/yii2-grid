@@ -18,6 +18,8 @@
         "kartik-v/yii2-widgets": "dev-master"
     },
     "autoload": {
-        "psr-4": {"kartik\\": ""}
+        "psr-4": {
+            "kartik\\": ""
+        }
     }
 }
