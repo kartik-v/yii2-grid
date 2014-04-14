@@ -10,10 +10,19 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
-function refreshGrid() {
-    setTimeout(function () {
-        window.location.reload();
-    }, 500);
+var downloading = false;
+function downloadComplete() {
+    downloading = false;
+}
+function downloadFile() {
+    var isDownloading = downloading;
+    downloading = true;
+    if (!isDownloading) {
+        setTimeout(function () {
+            window.location.reload();
+        }, 500);
+    }
+    return (!isDownloading);
 }
 (function ($) {
     var HTML_TEMPLATE =
@@ -156,7 +165,6 @@ function refreshGrid() {
             self.$form.find('[name="export_filename"]').val(self.filename);
             self.$form.find('[name="export_content"]').val(content);
             self.$form.submit();
-            //location.reload();
         },
         exportHTML: function () {
             var self = this, $table = self.clean();
