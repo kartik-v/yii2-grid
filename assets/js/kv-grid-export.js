@@ -10,6 +10,11 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
+function refreshGrid() {
+    setTimeout(function () {
+        window.location.reload();
+    }, 500);
+}
 (function ($) {
     var HTML_TEMPLATE =
         '<!DOCTYPE html>' +
@@ -151,7 +156,7 @@
             self.$form.find('[name="export_filename"]').val(self.filename);
             self.$form.find('[name="export_content"]').val(content);
             self.$form.submit();
-            location.reload();
+            //location.reload();
         },
         exportHTML: function () {
             var self = this, $table = self.clean();

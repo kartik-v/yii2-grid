@@ -297,7 +297,6 @@ HTML;
      */
     public $exportConfig = [];
 
-
     public function init()
     {
         $module = Yii::$app->getModule('gridview');
@@ -561,7 +560,7 @@ HTML;
         if (!is_array($action)) {
             $action = [$action];
         }
-        $form = Html::beginForm($action, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => '_blank']) .
+        $form = Html::beginForm($action, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => '_blank', 'onsubmit' => 'refreshGrid()']) .
             Html::textInput('export_filetype') . Html::textInput('export_filename') . Html::textArea('export_content') . '</form>';
 
         return '<div class="btn-group">' . ButtonDropdown::widget([
