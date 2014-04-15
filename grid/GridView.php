@@ -297,6 +297,10 @@ HTML;
      */
     public $exportConfig = [];
 
+    /**
+     * @var string the identifier for the iframe
+     */
+
     public function init()
     {
         $module = Yii::$app->getModule('gridview');
@@ -394,8 +398,8 @@ HTML;
                 Html::addCssClass($this->tableOptions, 'table-condensed');
             }
         }
-        $this->registerAssets();
         parent:: init();
+        $this->registerAssets();
     }
 
     public function run()
@@ -563,7 +567,7 @@ HTML;
         $frameId = $this->options['id'] . '_export';
         $form = Html::beginForm($action, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => $frameId, 'onsubmit' => 'downloadFile()']) .
             Html::textInput('export_filetype') . Html::textInput('export_filename') . Html::textArea('export_content') . '</form>';
-        $iframe = '<iframe style="width: 0px; height: 0px;" scrolling="no" frameborder="0" border="0" id="' . $frameId .'" onload="downloadComplete();"></iframe>';
+        $iframe = '<iframe style="width: 0px; height: 0px;" scrolling="no" frameborder="0" border="0" id="' . $frameId .'" name="' . $frameId . '" onload="downloadComplete();"></iframe>';
         return '<div class="btn-group">' . ButtonDropdown::widget([
             'label' => $title,
             'dropdown' => ['items' => $items, 'encodeLabels' => false],
