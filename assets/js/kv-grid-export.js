@@ -19,7 +19,7 @@ function downloadFile() {
     downloading = true;
     if (!isDownloading) {
         setTimeout(function () {
-            window.location.reload();
+            location.reload();
         }, 500);
     }
     return (!isDownloading);
