@@ -565,9 +565,9 @@ HTML;
             $action = [$action];
         }
         $frameId = $this->options['id'] . '_export';
-        $form = Html::beginForm($action, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => $frameId, 'onsubmit' => 'downloadFile()']) .
+        $form = Html::beginForm($action, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => $frameId]) .
             Html::textInput('export_filetype') . Html::textInput('export_filename') . Html::textArea('export_content') . '</form>';
-        $iframe = '<iframe style="width: 0px; height: 0px;" scrolling="no" frameborder="0" border="0" id="' . $frameId .'" name="' . $frameId . '" onload="downloadComplete();"></iframe>';
+        $iframe = '<iframe style="width: 0px; height: 0px;" scrolling="no" frameborder="0" border="0" id="' . $frameId .'" name="' . $frameId . '></iframe>';
         return '<div class="btn-group">' . ButtonDropdown::widget([
             'label' => $title,
             'dropdown' => ['items' => $items, 'encodeLabels' => false],

@@ -10,20 +10,6 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
-var downloading = false;
-function downloadComplete() {
-    downloading = false;
-}
-function downloadFile() {
-    var isDownloading = downloading;
-    downloading = true;
-    if (!isDownloading) {
-        setTimeout(function () {
-            location.reload();
-        }, 500);
-    }
-    return (!isDownloading);
-}
 (function ($) {
     var HTML_TEMPLATE =
         '<!DOCTYPE html>' +
