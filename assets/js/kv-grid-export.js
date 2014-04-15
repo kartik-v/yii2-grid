@@ -151,6 +151,7 @@
             self.$form.find('[name="export_filename"]').val(self.filename);
             self.$form.find('[name="export_content"]').val(content);
             self.$form.submit();
+            self.$grid.yiiGridView("applyFilter");
         },
         exportHTML: function () {
             var self = this, $table = self.clean();
