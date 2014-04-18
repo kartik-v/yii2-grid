@@ -298,18 +298,9 @@ HTML;
     public $exportConfig = [];
 
     /**
-     * @var string the iframe identifier that will hold the export form
-     */
-    private $_iframeId;
-
-    /**
      * @var string the identifier for the iframe
      */
 
-    /**
-     * Initializes the widget
-     * @throws \yii\base\InvalidConfigException
-     */
     public function init()
     {
         $module = Yii::$app->getModule('gridview');
@@ -408,14 +399,9 @@ HTML;
             }
         }
         parent:: init();
-        $this->_iframeId = $this->options['id'] . '-export';
         $this->registerAssets();
     }
 
-    /**
-     * Runs the widget
-     * @return string|void
-     */
     public function run()
     {
         if ($this->bootstrap && !empty($this->panel)) {
@@ -571,14 +557,16 @@ HTML;
         if (!is_array($action)) {
             $action = [$action];
         }
-        $iframe = '<iframe style="width:0px; height:0px; display:none;" scrolling="no" frameborder="0" border="0" id="' .
-            $this->_iframeId . '" name="' . $this->_iframeId . '" src="' . Url::to($action) . '"></iframe>';
+        $frameId = $this->options['id'] . '_export';
+        $form = Html::beginForm($action, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => $frameId]) .
+            Html::textInput('export_filetype') . Html::textInput('export_filename') . Html::textArea('export_content') . '</form>';
+        $iframe = '<iframe style="width: 0px; height: 0px;" scrolling="no" frameborder="0" border="0" id="' . $frameId .'" name="' . $frameId . '"></iframe>';
         return '<div class="btn-group">' . ButtonDropdown::widget([
             'label' => $title,
             'dropdown' => ['items' => $items, 'encodeLabels' => false],
             'options' => $options,
             'encodeLabel' => false
-        ]) . '</div>' . $iframe;
+        ]) . '</div>' . $form . $iframe;
     }
 
     /**
@@ -607,10 +595,9 @@ HTML;
                     'rowDelimiter' => ArrayHelper::getValue($setting, 'rowDelimiter', ''),
                     'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
                     'browserPopupsMsg' => $popup,
-                    'cssFile' => ArrayHelper::getValue($setting, 'cssFile', ''),
-                    'iframeId' => $this->_iframeId
+                    'cssFile' => ArrayHelper::getValue($setting, 'cssFile', '')
                 ];
-                $view->registerJs('$(window).load(function(){' . $id . '.gridexport(' . Json::encode($options) . ');});');
+                $view->registerJs($id . '.gridexport(' . Json::encode($options) . ');');
             }
 
         }

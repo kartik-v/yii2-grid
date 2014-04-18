@@ -61,8 +61,7 @@
         this.$element = $(element);
         this.$grid = options.grid;
         this.$table = this.$grid.find('table');
-        this.$iframe = $('#' + options.iframeId);        
-        this.$form = this.$iframe.contents().find('form');
+        this.$form = this.$grid.find('form.kv-export-form');
         this.filename = options.filename;
         this.showHeader = options.showHeader;
         this.columns = options.showHeader ? 'td,th' : 'td';
