@@ -19,3 +19,11 @@ version 1.2.0
   - Save displayed grid as CSV
   - Save displayed grid as TEXT
   - Save displayed grid as XLS
+
+version 1.3.0
+=============
+(enh #19): Gridview enhancements (export, toolbar, iframe)
+
+- Enable rendering of export without panel by passing `{export}` variable to grid `layout` property.
+- Enable rendering of toolbar without panel by passing `{toolbar}` variable to grid `layout` property.
+- Revamp export form to be submitted inside a iframe (in a non-intrusive manner)
