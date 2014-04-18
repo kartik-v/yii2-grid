@@ -20,6 +20,9 @@ class ExportController extends \yii\web\Controller
      */
     public function actionDownload()
     {
+        if (empty($_POST) || empty($_POST['export_filetype'])) {
+            return $this->renderPartial('download');
+        }
         $type = empty($_POST['export_filetype']) ? 'html' : $_POST['export_filetype'];
         $name = empty($_POST['export_filename']) ? Yii::t('kvgrid', 'export') : $_POST['export_filename'];
         $content = empty($_POST['export_content']) ? Yii::t('kvgrid', 'No data found') : $_POST['export_content'];

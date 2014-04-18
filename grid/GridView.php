@@ -298,9 +298,18 @@ HTML;
     public $exportConfig = [];
 
     /**
+     * @var string the iframe identifier that will hold the export form
+     */
+    private $_iframeId;
+
+    /**
      * @var string the identifier for the iframe
      */
 
+    /**
+     * Initializes the widget
+     * @throws \yii\base\InvalidConfigException
+     */
     public function init()
     {
         $module = Yii::$app->getModule('gridview');
@@ -399,12 +408,23 @@ HTML;
             }
         }
         parent:: init();
+        $this->_iframeId = $this->options['id'] . '-export';
         $this->registerAssets();
     }
 
+    /**
+     * Runs the widget
+     * @return string|void
+     */
     public function run()
     {
-        $this->renderPanel();
+        if ($this->bootstrap && !empty($this->panel)) {
+            $this->renderPanel();
+        }
+        $this->layout = strtr($this->layout, [
+            '{export}' => $this->renderExport(),
+            '{toolbar}' => $this->toolbar
+        ]);
         if ($this->bootstrap && $this->responsive) {
             $this->layout = str_replace('{items}', '<div class="table-responsive">{items}</div>', $this->layout);
         }
@@ -416,52 +436,39 @@ HTML;
      */
     protected function renderPanel()
     {
-        if ($this->bootstrap && !empty($this->panel)) {
-            $heading = ArrayHelper::getValue($this->panel, 'heading', '');
-            $type = 'panel-' . ArrayHelper::getValue($this->panel, 'type', 'default');
-            $footer = ArrayHelper::getValue($this->panel, 'footer', '');
-            $showFooter = ArrayHelper::getValue($this->panel, 'showFooter', false);
-            $template = ($showFooter) ? self::TEMPLATE_1 : self::TEMPLATE_2;
-            $layout = ArrayHelper::getValue($this->panel, 'layout', $template);
-            $before = ArrayHelper::getValue($this->panel, 'before', '');
-            $after = ArrayHelper::getValue($this->panel, 'after', '');
-            $beforeOptions = ArrayHelper::getValue($this->panel, 'beforeOptions', []);
-            $afterOptions = ArrayHelper::getValue($this->panel, 'afterOptions', []);
-            $export = $this->renderExport();
+        $heading = ArrayHelper::getValue($this->panel, 'heading', '');
+        $type = 'panel-' . ArrayHelper::getValue($this->panel, 'type', 'default');
+        $footer = ArrayHelper::getValue($this->panel, 'footer', '');
+        $showFooter = ArrayHelper::getValue($this->panel, 'showFooter', false);
+        $template = ($showFooter) ? self::TEMPLATE_1 : self::TEMPLATE_2;
+        $layout = ArrayHelper::getValue($this->panel, 'layout', $template);
+        $before = ArrayHelper::getValue($this->panel, 'before', '');
+        $after = ArrayHelper::getValue($this->panel, 'after', '');
+        $beforeOptions = ArrayHelper::getValue($this->panel, 'beforeOptions', []);
+        $afterOptions = ArrayHelper::getValue($this->panel, 'afterOptions', []);
 
-            if ($before != '') {
-                if (empty($beforeOptions['class'])) {
-                    $beforeOptions['class'] = 'kv-panel-before';
-                }
-                $content = strtr($this->beforeTemplate, [
-                    '{beforeContent}' => $before,
-                    '{export}' => $export,
-                    '{toolbar}' => $this->toolbar
-                ]);
-
-                $before = Html::tag('div', $content, $beforeOptions);
+        if ($before != '') {
+            if (empty($beforeOptions['class'])) {
+                $beforeOptions['class'] = 'kv-panel-before';
             }
-            if ($after != '' && $layout != self::TEMPLATE_2) {
-                if (empty($afterOptions['class'])) {
-                    $afterOptions['class'] = 'kv-panel-after';
-                }
-                $content = strtr($this->afterTemplate, [
-                    '{afterContent}' => $after,
-                    '{export}' => $export,
-                    '{toolbar}' => $this->toolbar
-                ]);
-                $after = Html::tag('div', $content, $afterOptions);
-            }
-
-            $this->layout = strtr($layout, [
-                '{heading}' => $heading,
-                '{type}' => $type,
-                '{footer}' => $footer,
-                '{before}' => $before,
-                '{after}' => $after,
-                '{export}' => $export
-            ]);
+            $content = strtr($this->beforeTemplate, ['{beforeContent}' => $before]);
+            $before = Html::tag('div', $content, $beforeOptions);
         }
+        if ($after != '' && $layout != self::TEMPLATE_2) {
+            if (empty($afterOptions['class'])) {
+                $afterOptions['class'] = 'kv-panel-after';
+            }
+            $content = strtr($this->afterTemplate, ['{afterContent}' => $after]);
+            $after = Html::tag('div', $content, $afterOptions);
+        }
+
+        $this->layout = strtr($layout, [
+            '{heading}' => $heading,
+            '{type}' => $type,
+            '{footer}' => $footer,
+            '{before}' => $before,
+            '{after}' => $after
+        ]);
     }
 
     /**
@@ -564,16 +571,14 @@ HTML;
         if (!is_array($action)) {
             $action = [$action];
         }
-        $frameId = $this->options['id'] . '_export';
-        $form = Html::beginForm($action, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => $frameId]) .
-            Html::textInput('export_filetype') . Html::textInput('export_filename') . Html::textArea('export_content') . '</form>';
-        $iframe = '<iframe style="width: 0px; height: 0px;" scrolling="no" frameborder="0" border="0" id="' . $frameId .'" name="' . $frameId . '"></iframe>';
+        $iframe = '<iframe style="width:0px; height:0px; display:none;" scrolling="no" frameborder="0" border="0" id="' .
+            $this->_iframeId . '" name="' . $this->_iframeId . '" src="' . Url::to($action) . '"></iframe>';
         return '<div class="btn-group">' . ButtonDropdown::widget([
             'label' => $title,
             'dropdown' => ['items' => $items, 'encodeLabels' => false],
             'options' => $options,
             'encodeLabel' => false
-        ]) . '</div>' . $form . $iframe;
+        ]) . '</div>' . $iframe;
     }
 
     /**
@@ -602,9 +607,10 @@ HTML;
                     'rowDelimiter' => ArrayHelper::getValue($setting, 'rowDelimiter', ''),
                     'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
                     'browserPopupsMsg' => $popup,
-                    'cssFile' => ArrayHelper::getValue($setting, 'cssFile', '')
+                    'cssFile' => ArrayHelper::getValue($setting, 'cssFile', ''),
+                    'iframeId' => $this->_iframeId
                 ];
-                $view->registerJs($id . '.gridexport(' . Json::encode($options) . ');');
+                $view->registerJs('$(window).load(function(){' . $id . '.gridexport(' . Json::encode($options) . ');});');
             }
 
         }
