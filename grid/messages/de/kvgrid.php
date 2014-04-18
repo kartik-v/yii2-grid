@@ -37,5 +37,13 @@ return [
     'The TEXT export file will be generated for download.' => 'Die Text Export Datei wird für den Download erstellt.',
     'The EXCEL export file will be generated for download.' => 'Die Excel Export Datei wird für den Download erstellt.',
     'Disable any popup blockers in your browser to ensure proper download.' => 'Deaktiviere den Popup Blocker in deinem Browser damit der Download funktioniert.',
-    'No data found' => 'Keine Daten gefunden'
+    'No data found' => 'Keine Daten gefunden',
+    // Demo data
+    'Library' => 'Bibliothek',
+    'Book Listing' => 'buchen Listing',
+    'Add Book' => 'Neues Buch',
+    'Reset Grid' => 'zurücksetzen Grid',
+    'Download Selected' => 'Download markierte',
+    'The table header sticks to the top in this demo as you scroll' => 'Der Tabellenkopf hält sich an der Spitze in dieser Demo, wie Sie blättern',
+    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'Die Seite Zusammenfassung wird SUM für ersten 3 Spalten Menge und AVG für die letzte.'
 ];

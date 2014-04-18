@@ -38,4 +38,12 @@ return [
     'The EXCEL export file will be generated for download.' => 'O arquivo de exportação EXCEL será gerada para download.',
     'Disable any popup blockers in your browser to ensure proper download.' => 'Desative todos os bloqueadores de popup no seu navegador para garantir o download.',
     'No data found' => 'Nenhum arquivo encontrado.',
+    // Demo data
+    'Library' => 'Biblioteca',
+    'Book Listing' => 'Livro Listagem',
+    'Add Book' => 'Adicionar Livro',
+    'Reset Grid' => 'Redefinição de Grade',
+    'Download Selected' => 'Baixar Selecionado',
+    'The table header sticks to the top in this demo as you scroll' => 'O cabeçalho da tabela adere ao topo nesta demonstração como você rolar',
+    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'O resumo página exibe SUM para primeiras colunas 3 quantidade eo AVG para a última.'    
 ];
