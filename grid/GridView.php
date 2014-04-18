@@ -407,10 +407,15 @@ HTML;
         if ($this->bootstrap && !empty($this->panel)) {
             $this->renderPanel();
         }
-        $this->layout = strtr($this->layout, [
-            '{export}' => $this->renderExport(),
-            '{toolbar}' => $this->toolbar
-        ]);
+        if (strpos($this->layout, '{export}') > 0) {
+            $this->layout = strtr($this->layout, [
+                '{export}' => $this->renderExport(),
+                '{toolbar}' => $this->toolbar
+            ]);
+        }
+        else {
+            $this->layout = strtr($this->layout, ['{toolbar}' => $this->toolbar]);
+        }
         if ($this->bootstrap && $this->responsive) {
             $this->layout = str_replace('{items}', '<div class="table-responsive">{items}</div>', $this->layout);
         }
