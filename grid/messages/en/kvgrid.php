@@ -37,7 +37,7 @@ return [
     'The TEXT export file will be generated for download.' => '',
     'The EXCEL export file will be generated for download.' => '',
     'Disable any popup blockers in your browser to ensure proper download.' => '',
-    'No data found' => ''
+    'No data found' => '',
     // Demo data
     'Library' => '',
     'Book Listing' => '',
