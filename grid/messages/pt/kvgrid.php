@@ -32,18 +32,18 @@ return [
     'Export' => 'Exportar',
     'export' => 'exportar',
     'grid-export' => 'grade-exportacao',
-    'The HTML export file will be generated for download.' => 'O arquivo de exportação HTML será gerada para download.',
-    'The CSV export file will be generated for download.' => 'O arquivo de exportação CSV será gerada para download.',
-    'The TEXT export file will be generated for download.' => 'O arquivo de exportação TEXTO será gerada para download.',
-    'The EXCEL export file will be generated for download.' => 'O arquivo de exportação EXCEL será gerada para download.',
+    'The HTML export file will be generated for download.' => 'O arquivo de exportação HTML será gerado para download.',
+    'The CSV export file will be generated for download.' => 'O arquivo de exportação CSV será gerado para download.',
+    'The TEXT export file will be generated for download.' => 'O arquivo de exportação TEXTO será gerado para download.',
+    'The EXCEL export file will be generated for download.' => 'O arquivo de exportação EXCEL será gerado para download.',
     'Disable any popup blockers in your browser to ensure proper download.' => 'Desative todos os bloqueadores de popup no seu navegador para garantir o download.',
-    'No data found' => 'Nenhum arquivo encontrado.',
+    'No data found' => 'Nenhum dado encontrado.',
     // Demo data
     'Library' => 'Biblioteca',
-    'Book Listing' => 'Livro Listagem',
+    'Book Listing' => 'Listagem dos Livros',
     'Add Book' => 'Adicionar Livro',
     'Reset Grid' => 'Redefinição de Grade',
-    'Download Selected' => 'Baixar Selecionado',
-    'The table header sticks to the top in this demo as you scroll' => 'O cabeçalho da tabela adere ao topo nesta demonstração como você rolar',
-    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'O resumo página exibe SUM para primeiras colunas 3 quantidade eo AVG para a última.'    
+    'Download Selected' => 'Baixar Selecionados',
+    'The table header sticks to the top in this demo as you scroll' => 'O cabeçalho da tabela adere ao topo nesta demonstração enquanto você rola a página',
+    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'O resumo exibe SUM para os valores das 3 primeiras colunas e AVG para a última.'    
 ];
