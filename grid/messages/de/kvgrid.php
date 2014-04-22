@@ -36,14 +36,14 @@ return [
     'The CSV export file will be generated for download.' => 'Die CSV Export Datei wird für den Download erstellt.',
     'The TEXT export file will be generated for download.' => 'Die Text Export Datei wird für den Download erstellt.',
     'The EXCEL export file will be generated for download.' => 'Die Excel Export Datei wird für den Download erstellt.',
-    'Disable any popup blockers in your browser to ensure proper download.' => 'Deaktiviere den Popup Blocker in deinem Browser damit der Download funktioniert.',
+    'Disable any popup blockers in your browser to ensure proper download.' => 'Deaktivieren Sie den Popup-Blocker in Ihrem Browser damit der Download funktioniert.',
     'No data found' => 'Keine Daten gefunden',
     // Demo data
     'Library' => 'Bibliothek',
-    'Book Listing' => 'buchen Listing',
+    'Book Listing' => 'Listing buchen',
     'Add Book' => 'Neues Buch',
-    'Reset Grid' => 'zurücksetzen Grid',
-    'Download Selected' => 'Download markierte',
-    'The table header sticks to the top in this demo as you scroll' => 'Der Tabellenkopf hält sich an der Spitze in dieser Demo, wie Sie blättern',
-    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'Die Seite Zusammenfassung wird SUM für ersten 3 Spalten Menge und AVG für die letzte.'
+    'Reset Grid' => 'Grid zurücksetzen',
+    'Download Selected' => 'markierte herunterladen',
+    'The table header sticks to the top in this demo as you scroll' => 'Wenn Sie scrollen, hält sich der Tabellenkopf an der Oberkante der Demoseite.',
+    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'Die Seite Zusammenfassung wird SUM für die ersten drei und AVG für die letzte Spalte anzeigen.'
 ];
