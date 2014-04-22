@@ -92,7 +92,7 @@ class BooleanColumn extends DataColumn
         parent::init();
     }
 
-    protected function getDataCellValue($model, $key, $index)
+    public function getDataCellValue($model, $key, $index)
     {
         $value = parent::getDataCellValue($model, $key, $index);
         if ($value !== null) {
