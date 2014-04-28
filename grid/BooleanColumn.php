@@ -88,8 +88,8 @@ class BooleanColumn extends DataColumn
         }
         $this->filter = [true => $this->trueLabel, false => $this->falseLabel];
         if ($this->grid->bootstrap) {
-            $this->trueIcon = !isset($this->trueIcon) ? '<span class="glyphicon glyphicon-ok text-success"></span>' : $this->trueLabel;
-            $this->falseIcon = !isset($this->falseIcon) ? '<span class="glyphicon glyphicon-remove text-danger"></span>' : $this->falseLabel;
+            $this->trueIcon = empty($this->trueIcon) ? '<span class="glyphicon glyphicon-ok text-success"></span>' : $this->trueLabel;
+            $this->falseIcon = empty($this->falseIcon) ? '<span class="glyphicon glyphicon-remove text-danger"></span>' : $this->falseLabel;
         } else {
             $this->trueIcon = empty($this->trueIcon) ? $this->trueLabel : $this->trueIcon;
             $this->falseIcon = empty($this->falseIcon) ? $this->falseLabel : $this->falseIcon;
