@@ -74,7 +74,7 @@ class BooleanColumn extends DataColumn
     public $falseIcon;
 
     /**
-     * @var bool whether to show a null value as a false indicator
+     * @var bool whether to show null value as a false icon.
      */
     public $showNullAsFalse = false;
 
@@ -91,8 +91,8 @@ class BooleanColumn extends DataColumn
             $this->trueIcon = !isset($this->trueIcon) ? '<span class="glyphicon glyphicon-ok text-success"></span>' : $this->trueLabel;
             $this->falseIcon = !isset($this->falseIcon) ? '<span class="glyphicon glyphicon-remove text-danger"></span>' : $this->falseLabel;
         } else {
-            $this->trueIcon = $this->trueLabel;
-            $this->falseIcon = $this->falseLabel;
+            $this->trueIcon = empty($this->trueIcon) ? $this->trueLabel : $this->trueIcon;
+            $this->falseIcon = empty($this->falseIcon) ? $this->falseLabel : $this->falseIcon;
         }
         parent::init();
     }
