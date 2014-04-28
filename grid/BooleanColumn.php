@@ -73,6 +73,11 @@ class BooleanColumn extends DataColumn
      */
     public $falseIcon;
 
+    /**
+     * @var bool whether to show a null value as a false indicator
+     */
+    public $showNullAsFalse = false;
+
     public function init()
     {
         if (empty($this->trueLabel)) {
@@ -98,6 +103,6 @@ class BooleanColumn extends DataColumn
         if ($value !== null) {
             return $value ? $this->trueIcon : $this->falseIcon;
         }
-        return $value;
+        return $this->showNullAsFalse ? $this->falseIcon : $value;
     }
 }
