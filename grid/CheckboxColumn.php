@@ -50,6 +50,17 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $width = '50px';
 
     /**
+     * @var boolean highlight current row if checkbox is checked
+     */
+    public $rowHighlight = true;
+
+    /**
+     * @var string highlight CSS class to be applied for highlighting the row.
+     * Defaults to 'info'.
+     */
+    public $rowSelectedClass = GridView::TYPE_INFO;
+
+    /**
      * @var boolean|string whether the page summary is displayed above the footer for this column.
      * If this is set to a string, it will be displayed as is. If it is set to `false` the summary
      * will not be displayed.
@@ -78,6 +89,12 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public function init()
     {
         $this->grid->formatColumn($this->hAlign, $this->vAlign, $this->noWrap, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
+        if ($this->rowHighlight) {
+            Html::addCssClass($this->contentOptions, 'kv-row-select');
+            Html::addCssClass($this->headerOptions, 'kv-all-select');
+            $view = $this->grid->getView();
+            $view->registerJs('selectRow($("#' . $this->grid->options['id'] . '"), "' . $this->rowSelectedClass . '");');
+        }
         parent::init();
     }
 
