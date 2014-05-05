@@ -11,7 +11,7 @@ The extension has been created as a module to enable access to advanced features
    'gridview' =>  [
         'class' => '\kartik\grid\Module'
     ]
-];
+],
 ```
 
 ## GridView
