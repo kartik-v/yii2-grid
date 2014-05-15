@@ -87,13 +87,15 @@ class BooleanColumn extends DataColumn
             $this->falseLabel = Yii::t('kvgrid', 'Inactive');
         }
         $this->filter = [true => $this->trueLabel, false => $this->falseLabel];
-        if ($this->grid->bootstrap) {
-            $this->trueIcon = empty($this->trueIcon) ? '<span class="glyphicon glyphicon-ok text-success"></span>' : $this->trueLabel;
-            $this->falseIcon = empty($this->falseIcon) ? '<span class="glyphicon glyphicon-remove text-danger"></span>' : $this->falseLabel;
-        } else {
-            $this->trueIcon = empty($this->trueIcon) ? $this->trueLabel : $this->trueIcon;
-            $this->falseIcon = empty($this->falseIcon) ? $this->falseLabel : $this->falseIcon;
+        
+        if (empty($this->trueIcon)) {
+            $this->trueIcon =  ($this->grid->bootstrap) ? '<span class="glyphicon glyphicon-ok text-success"></span>' : $this->trueLabel;
         }
+        
+        if (empty($this->falseIcon)) {
+            $this->falseIcon =  ($this->grid->bootstrap) ? '<span class="glyphicon glyphicon-remove text-danger"></span>' : $this->falseIcon;
+        }
+        
         parent::init();
     }
 
