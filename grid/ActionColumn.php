@@ -123,7 +123,7 @@ class ActionColumn extends \yii\grid\ActionColumn
 
     public function init()
     {
-        $this->_isDropdown = )$this->grid->bootstrap && $this->dropdown);
+        $this->_isDropdown = ($this->grid->bootstrap && $this->dropdown);
         $this->grid->formatColumn($this->hAlign, $this->vAlign, $this->noWrap, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
         if (!isset($this->header)) {
             $this->header = Yii::t('kvgrid', 'Actions');
