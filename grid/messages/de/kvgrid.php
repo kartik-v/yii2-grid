@@ -18,6 +18,11 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'View'=>'Anzeigen',
+    'Update'=>'Bearbeiten',
+    'Delete' => 'Löschen',
+    'Are you sure you want to delete this item?' => 'Wollen Sie den Eintrag wirklich löschen?',
+    'Actions'=>'Aktionen',
     'HTML' => 'HTML',
     'CSV' => 'CSV',
     'Text' => 'Text',

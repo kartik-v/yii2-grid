@@ -18,6 +18,11 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'View'=>'Exibir',
+    'Update'=>'Alterar',
+    'Delete'=>'Excluir',
+    'Are you sure to delete this item?'=>'Tem certeza de que deseja excluir este item?',
+    'Actions'=>'Ações',
     'HTML' => 'HTML',
     'CSV' => 'CSV',
     'Text' => 'Texto',
