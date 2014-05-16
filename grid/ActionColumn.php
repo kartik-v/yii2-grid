@@ -32,7 +32,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $dropdown = false;
 
     /**
-     * @var array the HTML attributes for the Dropdown menu.
+     * @var array the HTML attributes for the Dropdown menu. Applicable if `dropdown` is `true`.
      */
     public $dropdownMenu = ['class'=>'text-left'];
 
@@ -115,9 +115,15 @@ class ActionColumn extends \yii\grid\ActionColumn
      * for the grid is set to FILTER_POS_BODY.
      */
     public $mergeHeader = true;
+    
+    /**
+     * @var bool is the dropdown menu to be rendered?
+     */
+    private $_isDropdown = false;
 
     public function init()
     {
+        $this->_isDropdown = )$this->grid->bootstrap && $this->dropdown);
         $this->grid->formatColumn($this->hAlign, $this->vAlign, $this->noWrap, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
         if (!isset($this->header)) {
             $this->header = Yii::t('kvgrid', 'Actions');
@@ -138,9 +144,9 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $options = $this->viewOptions;
                 $title = Yii::t('kvgrid', 'View');
                 $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
-                $label = ArrayHelper::remove($options, 'label', ($this->dropdown ? $icon . ' ' . $title : $icon));
+                $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
                 $options += ['title' => $title, 'data-pjax' => '0'];
-                if ($this->dropdown) {
+                if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
                     return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
                 }
@@ -154,9 +160,9 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $options = $this->updateOptions;
                 $title = Yii::t('kvgrid', 'Update');
                 $icon = '<span class="glyphicon glyphicon-pencil"></span>';
-                $label = ArrayHelper::remove($options, 'label', ($this->dropdown ? $icon . ' ' . $title : $icon));
+                $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
                 $options += ['title' => $title, 'data-pjax' => '0'];
-                if ($this->dropdown) {
+                if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
                     return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
                 }
@@ -170,14 +176,14 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $options = $this->deleteOptions;
                 $title = Yii::t('kvgrid', 'Delete');
                 $icon = '<span class="glyphicon glyphicon-trash"></span>';
-                $label = ArrayHelper::remove($options, 'label', ($this->dropdown ? $icon . ' ' . $title : $icon));
+                $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
                 $options += [
                     'title' => $title,
                     'data-confirm' => Yii::t('kvgrid', 'Are you sure to delete this item?'),
                     'data-method' => 'post',
                     'data-pjax' => '0'
                 ];
-                if ($this->dropdown) {
+                if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
                     return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
                 }
@@ -194,7 +200,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     protected function renderDataCellContent($model, $key, $index)
     {
         $content = parent::renderDataCellContent($model, $key, $index);
-        if ($this->dropdown) {
+        if ($this->_isDropdown) {
             $label = ArrayHelper::remove($this->dropdownButton, 'label', Yii::t('kvgrid', 'Actions'));
             $caret = ArrayHelper::remove($this->dropdownButton, 'caret', ' <span class="caret"></span>');
             $this->dropdownButton = ['type'=>'button', 'data-toggle'=>'dropdown'] + $this->dropdownButton;
