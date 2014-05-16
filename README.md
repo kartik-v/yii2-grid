@@ -63,7 +63,7 @@ Refer [documentation](http://demos.krajee.com/grid#boolean-column) for details.
 
 ## Action Column (Enhanced)
 ### \kartik\grid\ActionColumn
-Enhancements of `\yii\grid\ActionColumn` to work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#action-column) for details.
+Enhancements of `\yii\grid\ActionColumn` to include optional dropdown Action menu and work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#action-column) for details.
 
 ## Serial Column (Enhanced)
 ### \kartik\grid\SerialColumn

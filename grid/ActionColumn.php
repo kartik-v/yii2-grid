@@ -32,7 +32,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $dropdown = false;
 
     /**
-     * @var array the HTML attributes for the yii\bootstrap\Dropdown menu.
+     * @var array the HTML attributes for the Dropdown menu.
      */
     public $dropdownMenu = ['class'=>'text-left'];
 
