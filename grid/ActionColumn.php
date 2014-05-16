@@ -10,6 +10,7 @@ namespace kartik\grid;
 
 use Yii;
 use yii\helpers\Html;
+use yii\bootstrap\Dropdown;
 use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
 
@@ -25,7 +26,25 @@ use yii\base\InvalidConfigException;
  */
 class ActionColumn extends \yii\grid\ActionColumn
 {
+    /**
+     * @var bool whether the action buttons are to be displayed as a dropdown
+     */
+    public $dropdown = false;
 
+    /**
+     * @var array the HTML attributes for the yii\bootstrap\Dropdown menu.
+     */
+    public $dropdownMenu = ['class'=>'text-left'];
+
+    /**
+     * @var array the dropdown button options. Applicable if `dropdown` is `true`.
+     * The following special options are recognized:
+     * `label`: the button label to be displayed. Defaults to `Actions`.
+     * `caret`: the caret symbol to be appended to the dropdown button. 
+     *  Defaults to `<span class="caret"></span>`
+     */
+    public $dropdownButton = ['class'=>'btn btn-default'];
+    
     /**
      * @var string the horizontal alignment of each column. Should be one of
      * 'left', 'right', or 'center'.
@@ -117,34 +136,77 @@ class ActionColumn extends \yii\grid\ActionColumn
         if (!isset($this->buttons['view'])) {
             $this->buttons['view'] = function ($url, $model) {
                 $options = $this->viewOptions;
-                $label = ArrayHelper::remove($options, 'label', '<span class="glyphicon glyphicon-eye-open"></span>');
-                $options += ['title' => Yii::t('yii', 'View'), 'data-pjax' => '0'];
-                return Html::a($label, $url, $options);
+                $title = Yii::t('kvgrid', 'View');
+                $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
+                $label = ArrayHelper::remove($options, 'label', ($this->dropdown ? $icon . ' ' . $title : $icon));
+                $options += ['title' => $title, 'data-pjax' => '0'];
+                if ($this->dropdown) {
+                    $options['tabindex'] = '-1';
+                    return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
+                }
+                else {
+                    return Html::a($label, $url, $options);
+                }
             };
         }
         if (!isset($this->buttons['update'])) {
             $this->buttons['update'] = function ($url, $model) {
                 $options = $this->updateOptions;
-                $label = ArrayHelper::remove($options, 'label', '<span class="glyphicon glyphicon-pencil"></span>');
-                $options += ['title' => Yii::t('yii', 'Update'), 'data-pjax' => '0'];
-                return Html::a($label, $url, $options);
+                $title = Yii::t('kvgrid', 'Update');
+                $icon = '<span class="glyphicon glyphicon-pencil"></span>';
+                $label = ArrayHelper::remove($options, 'label', ($this->dropdown ? $icon . ' ' . $title : $icon));
+                $options += ['title' => $title, 'data-pjax' => '0'];
+                if ($this->dropdown) {
+                    $options['tabindex'] = '-1';
+                    return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
+                }
+                else {
+                    return Html::a($label, $url, $options);
+                }
             };
         }
         if (!isset($this->buttons['delete'])) {
             $this->buttons['delete'] = function ($url, $model) {
                 $options = $this->deleteOptions;
-                $label = ArrayHelper::remove($options, 'label', '<span class="glyphicon glyphicon-trash"></span>');
+                $title = Yii::t('kvgrid', 'Delete');
+                $icon = '<span class="glyphicon glyphicon-trash"></span>';
+                $label = ArrayHelper::remove($options, 'label', ($this->dropdown ? $icon . ' ' . $title : $icon));
                 $options += [
-                    'title' => Yii::t('yii', 'Delete'),
-                    'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
+                    'title' => $title,
+                    'data-confirm' => Yii::t('kvgrid', 'Are you sure to delete this item?'),
                     'data-method' => 'post',
                     'data-pjax' => '0'
                 ];
-                return Html::a($label, $url, $options);
+                if ($this->dropdown) {
+                    $options['tabindex'] = '-1';
+                    return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
+                }
+                else {
+                    return Html::a($label, $url, $options);
+                }
             };
         }
     }
 
+    /**
+     * Renders the data cell.
+     */
+    protected function renderDataCellContent($model, $key, $index)
+    {
+        $content = parent::renderDataCellContent($model, $key, $index);
+        if ($this->dropdown) {
+            $label = ArrayHelper::remove($this->dropdownButton, 'label', Yii::t('kvgrid', 'Actions'));
+            $caret = ArrayHelper::remove($this->dropdownButton, 'caret', ' <span class="caret"></span>');
+            $this->dropdownButton = ['type'=>'button', 'data-toggle'=>'dropdown'] + $this->dropdownButton;
+            Html::addCssClass($this->dropdownButton, 'dropdown-toggle');
+            $button = Html::button($label . $caret, $this->dropdownButton);
+            Html::addCssClass($this->dropdownMenu, 'dropdown-menu');
+            $dropdown = $button . PHP_EOL . Html::tag('ul', $content, $this->dropdownMenu);
+            return Html::tag('div', $dropdown, ['class'=>'dropdown']);
+        }
+        return $content;
+    }
+    
     /**
      * Renders the header cell.
      */
