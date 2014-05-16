@@ -148,11 +148,8 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $options += ['title' => $title, 'data-pjax' => '0'];
                 if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
-                    return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
                 }
-                else {
-                    return Html::a($label, $url, $options);
-                }
+                return Html::a($label, $url, $options);
             };
         }
         if (!isset($this->buttons['update'])) {
@@ -164,11 +161,8 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $options += ['title' => $title, 'data-pjax' => '0'];
                 if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
-                    return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
                 }
-                else {
-                    return Html::a($label, $url, $options);
-                }
+                return Html::a($label, $url, $options);
             };
         }
         if (!isset($this->buttons['delete'])) {
@@ -185,11 +179,8 @@ class ActionColumn extends \yii\grid\ActionColumn
                 ];
                 if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
-                    return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
                 }
-                else {
-                    return Html::a($label, $url, $options);
-                }
+                return Html::a($label, $url, $options);
             };
         }
     }
@@ -199,7 +190,16 @@ class ActionColumn extends \yii\grid\ActionColumn
      */
     protected function renderDataCellContent($model, $key, $index)
     {
-        $content = parent::renderDataCellContent($model, $key, $index);
+        $content = preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) use ($model, $key, $index) {
+            $name = $matches[1];
+            if (isset($this->buttons[$name])) {
+                $url = $this->createUrl($name, $model, $key, $index);
+                $content = call_user_func($this->buttons[$name], $url, $model);
+                return ($this->_isDropdown ? "<li>{$content}</li>\n" : $content);
+            } else {
+                return '';
+            }
+        }, $this->template);
         if ($this->_isDropdown) {
             $label = ArrayHelper::remove($this->dropdownButton, 'label', Yii::t('kvgrid', 'Actions'));
             $caret = ArrayHelper::remove($this->dropdownButton, 'caret', ' <span class="caret"></span>');
