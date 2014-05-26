@@ -42,6 +42,7 @@ class FormulaColumn extends DataColumn
      * considered, even if the `visible` property is set to false.
      * @param array $params which will contain these keys:
      * - model: mixed the data model being rendered
+     * - key: mixed the key associated with the data model
      * - index: integer the zero-based index of the data item among
      *   the item array returned by [[GridView::dataProvider]].
      * @throws InvalidConfigException
@@ -79,7 +80,7 @@ class FormulaColumn extends DataColumn
     protected function getPageSummaryCellContent()
     {
         if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
-            $summary = call_user_func($this->value, null, self::SUMMARY, $this);
+            $summary = call_user_func($this->value, null, null, self::SUMMARY, $this);
             return ($this->pageSummary === true) ? $summary : call_user_func($this->pageSummary, $summary, [], $this);
         }
         return parent::getPageSummaryCellContent();
