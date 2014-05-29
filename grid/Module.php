@@ -11,7 +11,7 @@ namespace kartik\grid;
 use Yii;
 
 /**
- * A Markdown conversion and editing module for Yii Framework 2.0
+ * Module with various modifications to the Yii 2 grid.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
