@@ -2,7 +2,7 @@
 
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2013
- * @package yii2-markdown
+ * @package yii2-grid
  * @version 1.0.0
  */
 
@@ -11,7 +11,7 @@ namespace kartik\grid;
 use Yii;
 
 /**
- * A Markdown conversion and editing module for Yii Framework 2.0
+ * Module with various modifications to the Yii 2 grid.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
