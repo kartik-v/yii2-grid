@@ -50,6 +50,5 @@ return [
     'Reset Grid' => 'Ricarica Grid',
     'Download Selected' => 'Scarica selezionati',
     'The table header sticks to the top in this demo as you scroll' => 'Blocca intestazione della tabella in alto durante lo scorrimento',
-    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => '
-Il riepilogo pagina visualizza la somma per le prime colonne 3 e la media per l\'ultima.',
+    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'Il riepilogo pagina visualizza la somma per le prime colonne 3 e la media per l\'ultima.',
 ];
