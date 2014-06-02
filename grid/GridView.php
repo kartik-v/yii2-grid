@@ -561,12 +561,12 @@ HTML;
         $frameId = $this->options['id'] . '_export';
         $form = Html::beginForm($action, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => '_blank']) .
             Html::textInput('export_filetype') . Html::textInput('export_filename') . Html::textArea('export_content') . '</form>';
-        return '<div class="btn-group">' . ButtonDropdown::widget([
+        return ButtonDropdown::widget([
             'label' => $title,
             'dropdown' => ['items' => $items, 'encodeLabels' => false],
             'options' => $options,
             'encodeLabel' => false
-        ]) . '</div>' . $form;
+        ]) . $form;
     }
 
     /**
