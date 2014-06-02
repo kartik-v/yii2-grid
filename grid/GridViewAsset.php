@@ -21,7 +21,7 @@ class GridViewAsset extends AssetBundle
 
 	public function init()
 	{
-		$this->setSourcePath(__DIR__ . '/../assets');
+		$this->setSourcePath(__DIR__ . '/assets');
 		$this->setupAssets('js', ['js/kv-grid']);
 		$this->setupAssets('css', ['css/kv-grid']);
 		parent::init();
