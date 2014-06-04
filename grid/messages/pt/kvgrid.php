@@ -33,7 +33,6 @@ return [
     'Save as Excel' => 'Salvar como Excel',
     'Active' => 'Ativo',
     'Inactive' => 'Inativo',
-    'Actions' => 'Ações',
     'Export' => 'Exportar',
     'export' => 'exportar',
     'grid-export' => 'grade-exportacao',
@@ -50,5 +49,5 @@ return [
     'Reset Grid' => 'Redefinição de Grade',
     'Download Selected' => 'Baixar Selecionados',
     'The table header sticks to the top in this demo as you scroll' => 'O cabeçalho da tabela adere ao topo nesta demonstração enquanto você rola a página',
-    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'O resumo exibe SUM para os valores das 3 primeiras colunas e AVG para a última.'    
+    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'O resumo exibe SUM para os valores das 3 primeiras colunas e AVG para a última.'
 ];
