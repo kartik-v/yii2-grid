@@ -33,7 +33,6 @@ return [
     'Save as Excel' => 'Als Excel speichern',
     'Active' => 'Aktiv',
     'Inactive' => 'Inaktiv',
-    'Actions' => 'Aktionen',
     'Export' => 'Exportieren',
     'export' => '',
     'grid-export' => '',
