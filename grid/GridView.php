@@ -71,6 +71,8 @@ class GridView extends \yii\grid\GridView
     const FILTER_DATETIME = '\kartik\widgets\DateTimePicker';
     const FILTER_RANGE = '\kartik\widgets\RangeInput';
     const FILTER_COLOR = '\kartik\widgets\ColorInput';
+    const FILTER_SLIDER = '\kartik\slider\Slider';
+    const FILTER_MONEY = '\kartik\money\MaskMoney';
 
     /**
      * Summary Functions
