@@ -46,6 +46,8 @@ class Module extends \yii\base\Module
                 'forceTranslation' => true
             ];
         }
-        Yii::$app->i18n->translations['kvgrid'] = $this->i18n;
+        if(empty(Yii::$app->i18n->translations['kvgrid'])) {
+            Yii::$app->i18n->translations['kvgrid'] = $this->i18n;
+        }
     }
 }
