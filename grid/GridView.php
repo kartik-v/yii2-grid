@@ -306,12 +306,12 @@ HTML;
             throw new InvalidConfigException('The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.');
         }
         if ($this->export !== false) {
-            $this->export += [
+            $this->export = ArrayHelper::merge([
                 'label' => Yii::t('kvgrid', 'Export'),
                 'icon' => 'export',
                 'browserPopupsMsg' => Yii::t('kvgrid', 'Disable any popup blockers in your browser to ensure proper download.'),
                 'options' => ['class' => 'btn btn-danger']
-            ];
+            ], $this->export);
             $defaultExportConfig = [
                 self::HTML => [
                     'label' => Yii::t('kvgrid', 'HTML'),
@@ -369,7 +369,8 @@ HTML;
             if (is_array($this->exportConfig) && !empty($this->exportConfig)) {
                 foreach ($this->exportConfig as $format => $setting) {
                     $setup = is_array($this->exportConfig[$format]) ? $this->exportConfig[$format] : [];
-                    $exportConfig[$format] = $setup + $defaultExportConfig[$format];
+                    $exportConfig[$format] = empty($setup) ? $defaultExportConfig[$format] :
+                        ArrayHelper::merge($defaultExportConfig[$format], $setup);
                 }
                 $this->exportConfig = $exportConfig;
             } else {
@@ -605,10 +606,10 @@ HTML;
         }
         if ($this->floatHeader) {
             GridFloatHeadAsset::register($view);
-            $this->floatHeaderOptions += [
+            $this->floatHeaderOptions = ArrayHelper::merge([
                 'floatTableClass' => 'kv-table-float',
                 'floatContainerClass' => 'kv-thead-float',
-            ];
+            ], $this->floatHeaderOptions);
             $js = '$("#' . $this->id . ' table").floatThead(' . Json::encode($this->floatHeaderOptions) . ');';
             $view->registerJs($js);
         }

@@ -145,7 +145,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $title = Yii::t('kvgrid', 'View');
                 $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
                 $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
-                $options += ['title' => $title, 'data-pjax' => '0'];
+                $options = ArrayHelper::merge(['title' => $title, 'data-pjax' => '0'], $options);
                 if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
                     return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
@@ -161,7 +161,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $title = Yii::t('kvgrid', 'Update');
                 $icon = '<span class="glyphicon glyphicon-pencil"></span>';
                 $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
-                $options += ['title' => $title, 'data-pjax' => '0'];
+                $options = ArrayHelper::merge(['title' => $title, 'data-pjax' => '0'], $options);
                 if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
                     return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
@@ -177,12 +177,12 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $title = Yii::t('kvgrid', 'Delete');
                 $icon = '<span class="glyphicon glyphicon-trash"></span>';
                 $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
-                $options += [
+                $options = ArrayHelper::merge([
                     'title' => $title,
                     'data-confirm' => Yii::t('kvgrid', 'Are you sure to delete this item?'),
                     'data-method' => 'post',
                     'data-pjax' => '0'
-                ];
+                ], $options);
                 if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
                     return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
@@ -203,7 +203,7 @@ class ActionColumn extends \yii\grid\ActionColumn
         if ($this->_isDropdown) {
             $label = ArrayHelper::remove($this->dropdownButton, 'label', Yii::t('kvgrid', 'Actions'));
             $caret = ArrayHelper::remove($this->dropdownButton, 'caret', ' <span class="caret"></span>');
-            $this->dropdownButton = ['type'=>'button', 'data-toggle'=>'dropdown'] + $this->dropdownButton;
+            $this->dropdownButton = ArrayHelper::merge($this->dropdownButton, ['type'=>'button', 'data-toggle'=>'dropdown']);
             Html::addCssClass($this->dropdownButton, 'dropdown-toggle');
             $button = Html::button($label . $caret, $this->dropdownButton);
             Html::addCssClass($this->dropdownMenu, 'dropdown-menu');
