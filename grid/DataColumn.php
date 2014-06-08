@@ -152,7 +152,7 @@ class DataColumn extends \yii\grid\DataColumn
         if ($this->filterType === GridView::FILTER_CHECKBOX) {
             return Html::activeCheckbox($this->grid->filterModel, $this->attribute, $this->filterInputOptions);
         }
-        $options += $this->filterWidgetOptions;
+        $options = ArrayHelper::merge($this->filterWidgetOptions, $options);
         return $widgetClass::widget($options);
     }
 
