@@ -73,6 +73,7 @@ class GridView extends \yii\grid\GridView
     const FILTER_COLOR = '\kartik\widgets\ColorInput';
     const FILTER_SLIDER = '\kartik\slider\Slider';
     const FILTER_MONEY = '\kartik\money\MaskMoney';
+    const FILTER_CHECKBOX_X = '\kartik\checkbox\CheckboxX';
 
     /**
      * Summary Functions

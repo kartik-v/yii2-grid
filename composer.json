@@ -15,7 +15,8 @@
     "require": {
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-slider": "*",
-        "kartik-v/yii2-money": "*"
+        "kartik-v/yii2-money": "*",
+        "kartik-v/yii2-checkbox-x": "*"
     },
     "autoload": {
         "psr-4": {
