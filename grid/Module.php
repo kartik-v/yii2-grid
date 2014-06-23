@@ -22,7 +22,7 @@ class Module extends \yii\base\Module
     /**
      * @var mixed the action (url) used for downloading exported file
      */
-    public $downloadAction = 'gridview/export/download';
+    public $downloadAction = '/gridview/export/download';
 
     /**
      * @var array the the internalization configuration for this module
