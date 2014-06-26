@@ -97,6 +97,11 @@
         },
         listen: function () {
             var self = this;
+            self.$form.on('submit', function() {
+                setTimeout(function () {
+                    self.$grid.yiiGridView("applyFilter");
+                }, 500);
+            });
             if (self.$element.hasClass('export-csv')) {
                 self.$element.on("click", function (e) {
                     self.notify();
@@ -151,7 +156,6 @@
             self.$form.find('[name="export_filename"]').val(self.filename);
             self.$form.find('[name="export_content"]').val(content);
             self.$form.submit();
-            self.$grid.yiiGridView("applyFilter");
         },
         exportHTML: function () {
             var self = this, $table = self.clean();
