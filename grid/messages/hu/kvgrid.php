@@ -18,7 +18,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'View' => 'Megtekíntés',
+    'View' => 'Megtekintés',
     'Update' => 'Módosítás',
     'Delete' => 'Törlés',
     'Are you sure to delete this item?' => 'Biztosan törölni szeretnéd ezt az elemet?',
