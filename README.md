@@ -29,6 +29,9 @@ The extension has been created as a module to enable access to advanced features
 ### \kartik\grid\GridView
 The following functionalities have been added/enhanced:
 
+### Custom Header & Footer (New)
+Add custom header or footer rows, above / below your default grid header and footer.
+
 ### Table Styling (Enhanced)
 Control various options to style your grid table.
 
