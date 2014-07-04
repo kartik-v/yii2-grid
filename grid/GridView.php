@@ -154,6 +154,54 @@ HTML;
     public $afterTemplate = '{afterContent}';
 
     /**
+     * @var array|string, configuration of additional header table rows that will be rendered before the default grid
+     * header row. If set as a string, it will be displayed as is, without any HTML encoding. If set as an array, each
+     * row in this array corresponds to a HTML table row, where you can configure the columns with these properties:
+     * - columns: array, the header row columns configuration where you can set the following properties:
+     *      - content: string, the table cell content for the column
+     *      - tag: string, the tag for rendering the table cell. If not set, defaults to 'th'.
+     *      - options: array, the HTML attributes for the table cell
+     * - options: array, the HTML attributes for the table row
+     */
+    public $beforeHeader = [];
+
+    /**
+     * @var array|string, configuration of additional header table rows that will be rendered after default grid
+     * header row. If set as a string, it will be displayed as is, without any HTML encoding. If set as an array, each
+     * row in this array corresponds to a HTML table row, where you can configure the columns with these properties:
+     * - columns: array, the header row columns configuration where you can set the following properties:
+     *      - content: string, the table cell content for the column
+     *      - tag: string, the tag for rendering the table cell. If not set, defaults to 'th'.
+     *      - options: array, the HTML attributes for the table cell
+     * - options: array, the HTML attributes for the table row
+     */
+    public $afterHeader = [];
+
+    /**
+     * @var array|string, configuration of additional footer table rows that will be rendered before the default grid
+     * footer row. If set as a string, it will be displayed as is, without any HTML encoding. If set as an array, each
+     * row in this array corresponds to a HTML table row, where you can configure the columns with these properties:
+     * - columns: array, the footer row columns configuration where you can set the following properties:
+     *      - content: string, the table cell content for the column
+     *      - tag: string, the tag for rendering the table cell. If not set, defaults to 'th'.
+     *      - options: array, the HTML attributes for the table cell
+     * - options: array, the HTML attributes for the table row
+     */
+    public $beforeFooter = [];
+
+    /**
+     * @var array|string, configuration of additional footer table rows that will be rendered after the default grid
+     * footer row. If set as a string, it will be displayed as is, without any HTML encoding. If set as an array, each
+     * row in this array corresponds to a HTML table row, where you can configure the columns with these properties:
+     * - columns: array, the footer row columns configuration where you can set the following properties:
+     *      - content: string, the table cell content for the column
+     *      - tag: string, the tag for rendering the table cell. If not set, defaults to 'th'.
+     *      - options: array, the HTML attributes for the table cell
+     * - options: array, the HTML attributes for the table row
+     */
+    public $afterFooter = [];
+
+    /**
      * @var string the toolbar content to be rendered.
      */
     public $toolbar = '';
@@ -412,8 +460,7 @@ HTML;
                 '{export}' => $this->renderExport(),
                 '{toolbar}' => $this->toolbar
             ]);
-        }
-        else {
+        } else {
             $this->layout = strtr($this->layout, ['{toolbar}' => $this->toolbar]);
         }
         if ($this->bootstrap && $this->responsive) {
@@ -616,4 +663,66 @@ HTML;
         }
     }
 
+    /**
+     * Renders the table header.
+     *
+     * @return string the rendering result.
+     */
+    public function renderTableHeader()
+    {
+        $content = parent::renderTableHeader();
+        return strtr($content, [
+            '<thead>' => "<thead>\n" . $this->generateRows($this->beforeHeader),
+            '</thead>' => $this->generateRows($this->afterHeader) . "\n</thead>",
+        ]);
+    }
+
+    /**
+     * Renders the table footer.
+     *
+     * @return string the rendering result.
+     */
+    public function renderTableFooter()
+    {
+        $content = parent::renderTableFooter();
+        return strtr($content, [
+            '<tfoot>' => "<tfoot>\n" . $this->generateRows($this->beforeFooter),
+            '</tfoot>' => $this->generateRows($this->afterFooter) . "\n</tfoot>",
+        ]);
+    }
+
+    /**
+     * Generate HTML markup for additional table rows for header and/or footer
+     *
+     * @param array|string $data the table rows configuration
+     * @return string
+     */
+    protected function generateRows($data)
+    {
+        if (empty($data)) {
+            return '';
+        }
+        if (is_string($data)) {
+            return $data;
+        }
+
+        $rows = '';
+        if (is_array($data)) {
+            foreach ($data as $row) {
+                if (empty($row['columns'])) {
+                    continue;
+                }
+                $rowOptions = ArrayHelper::getValue($row, 'options', []);
+                $rows = Html::beginTag('tr', $rowOptions);
+                foreach ($row['columns'] as $col) {
+                    $colOptions = ArrayHelper::getValue($col, 'options', []);
+                    $colContent = ArrayHelper::getValue($col, 'content', '');
+                    $tag = ArrayHelper::getValue($col, 'tag', 'th');
+                    $rows .= "\t" . Html::tag('th', $colContent, $colOptions) . "\n";
+                }
+                $rows .= Html::endTag('tr') . "\n";
+            }
+        }
+        return $rows;
+    }
 }
