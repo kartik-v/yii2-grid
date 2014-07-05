@@ -29,11 +29,11 @@ The extension has been created as a module to enable access to advanced features
 ### \kartik\grid\GridView
 The following functionalities have been added/enhanced:
 
-### Custom Header & Footer (New)
-Add custom header or footer rows, above / below your default grid header and footer.
-
 ### Table Styling (Enhanced)
 Control various options to style your grid table.
+
+### Custom Header & Footer (New)
+Add custom header or footer rows, above / below your default grid header and footer.
 
 ### Floating Header (New)
 Allows the grid table to have a floating table header. Uses the [JQuery Float THead plugin](http://mkoryak.github.io/floatThead) to display a seamless floating table header. 
