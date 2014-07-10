@@ -57,10 +57,10 @@ This is supported across all browsers. The following are new features added sinc
 For example, this currently is set as a default to convert the HTML formatted icons for BooleanColumn to user friendly text like `Active` or `Inactive` after export.
 - Hide any row or column in the grid by adding one or more of the following CSS classes:
     - `skip-export`: Will skip this element during export for all formats (`html`, `csv`, `txt`, `xls`).
-    - `skip-export-html`: Will skip this element during export for `html` export format.
-    - `skip-export-csv`: Will skip this element during export for `csv` export format.
-    - `skip-export-txt`: Will skip this element during export for `txt` export format.
-    - `skip-export-xls`: Will skip this element during export for `xls` (excel) export format.
+    - `skip-export-html`: Will skip this element during export only for `html` export format.
+    - `skip-export-csv`: Will skip this element during export only for `csv` export format.
+    - `skip-export-txt`: Will skip this element during export only for `txt` export format.
+    - `skip-export-xls`: Will skip this element during export only for `xls` (excel) export format.
     These CSS can be set virtually anywhere. For example `headerOptions`, `contentOptions`, `beforeHeader` etc.
 
 ## Data Column (Enhanced)

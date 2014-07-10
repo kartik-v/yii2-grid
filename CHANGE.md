@@ -7,10 +7,10 @@ Version 1.6.0
 - Ability to preprocess and convert column data to your desired value before exporting. For example convert the HTML formatted icons for BooleanColumn to user friendly text like `Active` or `Inactive` after export.
 - Hide any row or column in the grid by adding one or more of the following CSS classes:
     - `skip-export`: Will skip this element during export for all formats (`html`, `csv`, `txt`, `xls`).
-    - `skip-export-html`: Will skip this element during export for `html` export format.
-    - `skip-export-csv`: Will skip this element during export for `csv` export format.
-    - `skip-export-txt`: Will skip this element during export for `txt` export format.
-    - `skip-export-xls`: Will skip this element during export for `xls` (excel) export format.
+    - `skip-export-html`: Will skip this element during export only for `html` export format.
+    - `skip-export-csv`: Will skip this element during export only for `csv` export format.
+    - `skip-export-txt`: Will skip this element during export only for `txt` export format.
+    - `skip-export-xls`: Will skip this element during export only for `xls` (excel) export format.
     These CSS can be set virtually anywhere. For example `headerOptions`, `contentOptions`, `beforeHeader` etc.
 
 2. (enh #52): Upgraded float header plugin
