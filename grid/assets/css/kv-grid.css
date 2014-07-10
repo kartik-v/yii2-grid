@@ -9,6 +9,9 @@
  * Year: 2013
  * For more Yii related demos visit http://demos.krajee.com
  */
+.kv-panel-pager  {
+    min-height: 34px;
+}
 .kv-panel-pager .pagination {
     margin: 0 0 -5px 0;
     padding: 0;
