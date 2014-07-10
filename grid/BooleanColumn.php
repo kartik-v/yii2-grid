@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2013
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 1.0.0
+ * @version 1.6.0
  */
 
 namespace kartik\grid;
@@ -61,14 +61,14 @@ class BooleanColumn extends DataColumn
 
     /**
      * @var string icon/indicator for the true value. If this is not set, it will use the value from `trueLabel`.
-     * If GridView `bootstrap` property is set to true - it will default to
+     * If GridView `bootstrap` property is set to true - it will default to [[GridView::ICON_ACTIVE]]
      * `<span class="glyphicon glyphicon-ok text-success"></span>`
      */
     public $trueIcon;
 
     /**
      * @var string icon/indicator for the false value. If this is null, it will use the value from `falseLabel`.
-     * If GridView `bootstrap` property is set to true - it will default to
+     * If GridView `bootstrap` property is set to true - it will default to [[GridView::ICON_INACTIVE]]
      * `<span class="glyphicon glyphicon-remove text-danger"></span>`
      */
     public $falseIcon;
@@ -89,11 +89,11 @@ class BooleanColumn extends DataColumn
         $this->filter = [true => $this->trueLabel, false => $this->falseLabel];
         
         if (empty($this->trueIcon)) {
-            $this->trueIcon =  ($this->grid->bootstrap) ? '<span class="glyphicon glyphicon-ok text-success"></span>' : $this->trueLabel;
+            $this->trueIcon =  ($this->grid->bootstrap) ? GridView::ICON_ACTIVE : $this->trueLabel;
         }
         
         if (empty($this->falseIcon)) {
-            $this->falseIcon =  ($this->grid->bootstrap) ? '<span class="glyphicon glyphicon-remove text-danger"></span>' : $this->falseIcon;
+            $this->falseIcon =  ($this->grid->bootstrap) ? GridView::ICON_INACTIVE : $this->falseIcon;
         }
         
         parent::init();

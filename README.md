@@ -5,7 +5,7 @@ Yii2 GridView on steroids. A module with various modifications and enhancements 
 Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo).
 
 ## Latest Release
-The latest version of the module is v1.5.0 released on 04-Jul-2014. With this release, the GridView now offers you to add customized header and footer rows 
+The latest version of the module is v1.6.0 released on 10-Jul-2014. With this release, the GridView now offers you to add customized header and footer rows 
 above/below the default header. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
 
 > NOTE: This extension depends on the [kartik-v/yii2-widgets](https://github.com/kartik-v/yii2-widgets) extension which in turn depends on the
@@ -51,7 +51,17 @@ summary/totals for the current GridView page. The following parameters are appli
 
 ### Export Grid Data (New)
 This is a new feature added to the GridView widget. It allows you to export the displayed grid content as HTML, CSV, TEXT, or EXCEL. It uses the rendered grid data on client to convert to one of the format specified using JQuery. 
-This is supported across all browsers.
+This is supported across all browsers. The following are new features added since release v1.6.0:
+
+- Ability to preprocess and convert column data to your desired value before exporting. There is a new property `exportConversions` that can be setup in GridView. 
+For example, this currently is set as a default to convert the HTML formatted icons for BooleanColumn to user friendly text like `Active` or `Inactive` after export.
+- Hide any row or column in the grid by adding one or more of the following CSS classes:
+    - `skip-export`: Will skip this element during export for all formats (`html`, `csv`, `txt`, `xls`).
+    - `skip-export-html`: Will skip this element during export for `html` export format.
+    - `skip-export-csv`: Will skip this element during export for `csv` export format.
+    - `skip-export-txt`: Will skip this element during export for `txt` export format.
+    - `skip-export-xls`: Will skip this element during export for `xls` (excel) export format.
+    These CSS can be set virtually anywhere. For example `headerOptions`, `contentOptions`, `beforeHeader` etc.
 
 ## Data Column (Enhanced)
 ### \kartik\grid\DataColumn
@@ -66,11 +76,15 @@ within another formula column. Refer [documentation](http://demos.krajee.com/gri
 ## Boolean Column (New)
 ### \kartik\grid\BooleanColumn
 This is a new grid column class that extends the \kartik\grid\DataColumn class. It automatically converts boolean data (true/false) values to user friendly indicators or labels (that are configurable). 
-Refer [documentation](http://demos.krajee.com/grid#boolean-column) for details.
+Refer [documentation](http://demos.krajee.com/grid#boolean-column) for details. The following are new features added since release v1.6.0:
+
+- `BooleanColumn` icons have been setup as `ICON_ACTIVE` and `ICON_INACTIVE` constants in GridView.
 
 ## Action Column (Enhanced)
 ### \kartik\grid\ActionColumn
 Enhancements of `\yii\grid\ActionColumn` to include optional dropdown Action menu and work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#action-column) for details.
+The following are new features added since release v1.6.0:
+- `ActionColumn` content by default has been disabled to appear in export output. The `skip-export` CSS class has been set as default in `headerOptions` and `contentOptions`.
 
 ## Serial Column (Enhanced)
 ### \kartik\grid\SerialColumn

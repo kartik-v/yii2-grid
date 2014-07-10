@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2013
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 1.0.0
+ * @version 1.6.0
  */
 
 namespace kartik\grid;
@@ -40,6 +40,12 @@ class GridView extends \yii\grid\GridView
     const TYPE_SUCCESS = 'success';
     const TYPE_ACTIVE = 'active'; // only applicable for table row contextual style
 
+    /**
+     * Boolean Icons
+     */
+    const ICON_ACTIVE = '<span class="glyphicon glyphicon-ok text-success"></span>';
+    const ICON_INACTIVE = '<span class="glyphicon glyphicon-remove text-danger"></span>';
+    
     /**
      * Alignment
      */
@@ -347,13 +353,34 @@ HTML;
      * - options: array, HTML attributes for the export format menu item.
      */
     public $exportConfig = [];
-
+    
+    /**
+     * @var array, conversion of defined patterns in the grid cells as a preprocessing before
+     * the gridview is formatted for export. Each array row must consist of the following 
+     * two keys:
+     * - `from`: string, is the pattern to search for in each grid column's cells
+     * - `to`: string, is the string to replace the pattern in the grid column cells
+     * This defaults to
+     * ```
+     * [
+     *      ['from'=>GridView::ICON_ACTIVE, 'to'=>Yii::t('kvgrid', 'Active')],
+     *      ['from'=>GridView::ICON_INACTIVE, 'to'=>Yii::t('kvgrid', 'Inactive')]
+     * ]
+     * ```
+     */
+    public $exportConversions = [];
+    
     public function init()
     {
         $module = Yii::$app->getModule('gridview');
         if ($module == null || !$module instanceof \kartik\grid\Module) {
             throw new InvalidConfigException('The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.');
         }
+        $this->exportConversions = ArrayHelper::merge([
+            ['from'=>self::ICON_ACTIVE, 'to'=>Yii::t('kvgrid', 'Active')],
+            ['from'=>self::ICON_INACTIVE, 'to'=>Yii::t('kvgrid', 'Inactive')]
+        ], $this->exportConversions);
+        
         if ($this->export !== false) {
             $this->export = ArrayHelper::merge([
                 'label' => Yii::t('kvgrid', 'Export'),
@@ -646,7 +673,8 @@ HTML;
                     'rowDelimiter' => ArrayHelper::getValue($setting, 'rowDelimiter', ''),
                     'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
                     'browserPopupsMsg' => $popup,
-                    'cssFile' => ArrayHelper::getValue($setting, 'cssFile', '')
+                    'cssFile' => ArrayHelper::getValue($setting, 'cssFile', ''),
+                    'exportConversions' => $this->exportConversions
                 ];
                 $view->registerJs($id . '.gridexport(' . Json::encode($options) . ');');
             }

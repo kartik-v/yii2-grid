@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2013
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 1.0.0
+ * @version 1.6.0
  */
 
 namespace kartik\grid;
@@ -115,6 +115,22 @@ class ActionColumn extends \yii\grid\ActionColumn
      * for the grid is set to FILTER_POS_BODY.
      */
     public $mergeHeader = true;
+    
+    /**
+     * @var array the HTML attributes for the header cell tag.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $headerOptions = ['class'=>'skip-export'];
+    
+    /**
+     * @var array|\Closure the HTML attributes for the data cell tag. This can either be an array of
+     * attributes or an anonymous function ([[Closure]]) that returns such an array.
+     * The signature of the function should be the following: `function ($model, $key, $index, $column)`.
+     * A function may be used to assign different attributes to different rows based on the data in that row.
+     *
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $contentOptions = ['class'=>'skip-export'];
     
     /**
      * @var bool is the dropdown menu to be rendered?

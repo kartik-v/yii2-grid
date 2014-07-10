@@ -1,7 +1,30 @@
+Version 1.6.0
+=============
+
+**Date:** 10-Jul-2014
+
+1. (enh #54): Grid Export Enhancements
+- Ability to preprocess and convert column data to your desired value before exporting. For example convert the HTML formatted icons for BooleanColumn to user friendly text like `Active` or `Inactive` after export.
+- Hide any row or column in the grid by adding one or more of the following CSS classes:
+    - `skip-export`: Will skip this element during export for all formats (`html`, `csv`, `txt`, `xls`).
+    - `skip-export-html`: Will skip this element during export for `html` export format.
+    - `skip-export-csv`: Will skip this element during export for `csv` export format.
+    - `skip-export-txt`: Will skip this element during export for `txt` export format.
+    - `skip-export-xls`: Will skip this element during export for `xls` (excel) export format.
+    These CSS can be set virtually anywhere. For example `headerOptions`, `contentOptions`, `beforeHeader` etc.
+
+2. (enh #52): Upgraded float header plugin
+
+3. Enhanced panel footer to have a consistent height whether pagination is displayed or not.
+
+4. `BooleanColumn` icons have been setup as `ICON_ACTIVE` and `ICON_INACTIVE` constants in GridView.
+
+5. `ActionColumn` content by default has been disabled to appear in export output. The `skip-export` CSS class has been set as default in `headerOptions` and `contentOptions`.
+
 Version 1.5.0
 =============
 
-Date: 04-Jul-2014
+**Date:** 04-Jul-2014
 
 1. (enh #51): Enhanced GridView header and footer, to include additional headers/footers before or after default header/footer. 
    The properties below can be set as an array or string:
@@ -14,7 +37,7 @@ Date: 04-Jul-2014
 Version 1.4.0
 =============
 
-Date: 29-Apr-2014
+**Date:** 29-Apr-2014
 
 1. (enh #25): Allow highlighting of selected row for a CheckboxColumn
     - Added `rowHighlight` property to set if a row needs to be highlighted
@@ -24,7 +47,7 @@ Date: 29-Apr-2014
 Version 1.3.0
 =============
 
-Date: 18-Apr-2014
+**Date:** 18-Apr-2014
 
 1. (enh #19): Gridview enhancements (export, toolbar, iframe)
     - Enable rendering of export without panel by passing `{export}` variable to grid `layout` property.
@@ -35,7 +58,7 @@ Date: 18-Apr-2014
 Version 1.2.0
 =============
 
-Date: 22-Mar-2014
+**Date:** 22-Mar-2014
 
 1. Converted the extension into a module.
 2. Export features enhanced for use across all browsers:
@@ -47,7 +70,7 @@ Date: 22-Mar-2014
 Version 1.1.0
 =============
 
-Date: 15-Mar-2014
+**Date:** 15-Mar-2014
 
 1. Export features added through a brand new custom JQuery plugin:
    - Save displayed grid as HTML
@@ -58,6 +81,6 @@ Date: 15-Mar-2014
 Version 1.0.0
 =============
 
-Date: 10-Mar-2014
+**Date:** 10-Mar-2014
 
 Initial release

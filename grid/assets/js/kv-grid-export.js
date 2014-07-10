@@ -1,15 +1,18 @@
 /*!
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2013
- * @version 1.0.0
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
+ * @version 1.6.0
  *
  * Grid Export Validation Module for Yii's Gridview. Supports export of
  * grid data as CSV, HTML, or Excel.
  *
  * Author: Kartik Visweswaran
- * Copyright: 2013, Kartik Visweswaran, Krajee.com
+ * Copyright: 2014, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
+function replaceAll(str, from, to) {
+    return str.split(from).join(to);
+}
 (function ($) {
     var HTML_TEMPLATE =
         '<!DOCTYPE html>' +
@@ -71,9 +74,10 @@
         this.alertMsg = options.alertMsg;
         this.browserPopupsMsg = options.browserPopupsMsg;
         this.cssFile = options.cssFile;
+        this.exportConversions = options.exportConversions;
         this.listen();
     };
-
+    
     GridExport.prototype = {
         constructor: GridExport,
         notify: function () {
@@ -93,7 +97,6 @@
             else {
                 return;
             }
-            alert(msg);
         },
         listen: function () {
             var self = this;
@@ -131,8 +134,8 @@
                 });
             }
         },
-        clean: function () {
-            var self = this, $table = self.$table;
+        clean: function ($type) {
+            var self = this, $table = self.$table.clone();
             // Skip the filter rows and header rowspans
             $table.find('tr.filters').remove();
             $table.find('th').removeAttr('rowspan');
@@ -148,7 +151,21 @@
             if (!self.showCaption) {
                 $table.find('kv-table-caption').remove();
             }
+            $table.find('.skip-export').remove();
+            $table.find('.skip-export-' + $type).remove();
+            var htmlContent = $table.html();
+            htmlContent = self.preProcess(htmlContent);
+            $table.html(htmlContent);
             return $table;
+        },
+        preProcess: function(content) {
+            var self = this, conv = self.exportConversions, l = conv.length, processed = content;
+            if (l > 0) {
+                for (var i = 0; i < l; i++) {
+                    processed = replaceAll(processed, conv[i]['from'], conv[i]['to']);
+                }
+            }
+            return processed;
         },
         download: function (type, content) {
             var self = this;
@@ -158,13 +175,14 @@
             self.$form.submit();
         },
         exportHTML: function () {
-            var self = this, $table = self.clean();
+            var self = this, $table = self.clean('html');
             var css = (self.cssFile && self.cssFile.length) ? '<link href="' + self.cssFile + '" rel="stylesheet">' : '';
             var html = HTML_TEMPLATE.replace('{css}', css).replace('{data}', $('<div />').html($table.clone()).html());
             self.download('html', html);
         },
         exportTEXT: function ($type) {
-            var self = this, $table = self.clean(), $rows = $table.find('tr:has(' + self.columns + ')');
+            var self = this, $table = self.clean($type);
+            var $rows = $table.find('tr:has(' + self.columns + ')');
             // Temporary delimiter characters unlikely to be typed by keyboard
             // This is to avoid accidentally splitting the actual contents
             var tmpColDelim = String.fromCharCode(11), // vertical tab character
@@ -185,7 +203,7 @@
             self.download($type, txt);
         },
         exportEXCEL: function () {
-            var self = this, $table = self.clean();
+            var self = this, $table = self.clean('xls');
             $table.find('input').remove(); // remove any form inputs as they do not align well in excel
             var css = (self.cssFile && self.cssFile.length) ? '<link href="' + self.cssFile + '" rel="stylesheet">' : '';
             var xls = EXCEL_TEMPLATE.replace('{css}', css).replace('{worksheet}', self.worksheet).replace('{data}', $('<div />').html($table.clone()).html()).replace(/"/g, '\'');
@@ -235,7 +253,8 @@
         rowDelimiter: '\r\n',
         alertMsg: '',
         browserPopupsMsg: '',
-        cssFile: ''
+        cssFile: '',
+        exportConversions: {}
     };
 
 })(window.jQuery);
