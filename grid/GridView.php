@@ -102,7 +102,7 @@ class GridView extends \yii\grid\GridView
      * Grid Layout Templates
      */
     // panel grid template with `footer`, pager in the `footer`, and `summary` in the `heading`.
-    const TEMPLATE_1 = <<< HTML
+    protected $template1 = <<< HTML
     <div class="panel {type}">
         <div class="panel-heading">
              <div class="pull-right">{summary}</div>
@@ -119,7 +119,7 @@ class GridView extends \yii\grid\GridView
     </div>
 HTML;
     // panel grid template with hidden `footer`, pager in the `after`, and `summary` in the `heading`.
-    const TEMPLATE_2 = <<< HTML
+    protected $template2 = <<< HTML
     <div class="panel {type}">
         <div class="panel-heading">
              <div class="pull-right">{summary}</div>
@@ -300,13 +300,13 @@ HTML;
      * - `afterOptions`: array, HTML attributes for the `after` text. If the
      *   `class` is not set, it will default to `kv-panel-after`.
      * - `showFooter`: boolean, whether to always show the footer. If so the,
-     *    layout will default to the constant `self::TEMPLATE_1`. If this is
+     *    layout will default to the constant `$this->template1`. If this is
      *    set to false, the `pager` will be enclosed within the `kv-panel-after`
      *    container. Defaults to `false`.
      * - `layout`: string, the grid layout to be used if you are using a panel,
-     *    If not set, defaults to the constant `self::TEMPLATE_1` if
+     *    If not set, defaults to the constant `$this->template1` if
      *    `showFooter` is `true. If `showFooter` is set to `false`, this will
-     *    default to the constant `self::TEMPLATE_2`.
+     *    default to the constant `$this->template2`.
      */
     public $panel = [];
 
@@ -505,7 +505,7 @@ HTML;
         $type = 'panel-' . ArrayHelper::getValue($this->panel, 'type', 'default');
         $footer = ArrayHelper::getValue($this->panel, 'footer', '');
         $showFooter = ArrayHelper::getValue($this->panel, 'showFooter', false);
-        $template = ($showFooter) ? self::TEMPLATE_1 : self::TEMPLATE_2;
+        $template = ($showFooter) ? $this->template1 : $this->template2;
         $layout = ArrayHelper::getValue($this->panel, 'layout', $template);
         $before = ArrayHelper::getValue($this->panel, 'before', '');
         $after = ArrayHelper::getValue($this->panel, 'after', '');
@@ -519,7 +519,7 @@ HTML;
             $content = strtr($this->beforeTemplate, ['{beforeContent}' => $before]);
             $before = Html::tag('div', $content, $beforeOptions);
         }
-        if ($after != '' && $layout != self::TEMPLATE_2) {
+        if ($after != '' && $layout != $this->template2) {
             if (empty($afterOptions['class'])) {
                 $afterOptions['class'] = 'kv-panel-after';
             }
