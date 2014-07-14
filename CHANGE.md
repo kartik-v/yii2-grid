@@ -1,3 +1,11 @@
+Version 1.7.0
+=============
+
+**Date:** 14-Jul-2014
+
+1. (enh #57): Added `containerOptions` to grid layout for allowing configuration of the grid table container. This can be set to
+`false` to not display the container.
+
 Version 1.6.0
 =============
 

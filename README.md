@@ -5,7 +5,7 @@ Yii2 GridView on steroids. A module with various modifications and enhancements 
 Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo).
 
 ## Latest Release
-The latest version of the module is v1.6.0 released on 10-Jul-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
+The latest version of the module is v1.7.0 released on 14-Jul-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
 
 > NOTE: This extension depends on the [kartik-v/yii2-widgets](https://github.com/kartik-v/yii2-widgets) extension which in turn depends on the
 [yiisoft/yii2-bootstrap](https://github.com/yiisoft/yii2/tree/master/extensions/bootstrap) extension. Check the 
@@ -29,7 +29,7 @@ The extension has been created as a module to enable access to advanced features
 The following functionalities have been added/enhanced:
 
 ### Table Styling (Enhanced)
-Control various options to style your grid table.
+Control various options to style your grid table. Added `containerOptions` to customize your grid table container.
 
 ### Custom Header & Footer (New)
 Add custom header or footer rows, above / below your default grid header and footer.
@@ -99,6 +99,8 @@ You can see detailed [documentation](http://demos.krajee.com/grid) and [demonstr
 ## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+
+> Note: You must set the `minimum-stability` to `dev` in the **composer.json** file in your application root folder before installation of this extension.
 
 Either run
 

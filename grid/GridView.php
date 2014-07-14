@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 1.6.0
+ * @version 1.7.0
  */
 
 namespace kartik\grid;
@@ -206,7 +206,7 @@ HTML;
      * - options: array, the HTML attributes for the table row
      */
     public $afterFooter = [];
-
+    
     /**
      * @var string the toolbar content to be rendered.
      */
@@ -369,10 +369,20 @@ HTML;
      * ```
      */
     public $exportConversions = [];
+
+    /**
+     * @var array|boolean the HTML attributes for the grid container. The grid table items 
+     * will be wrapped in a `div` container with the configured HTML attributes. If
+     * set to `false`, the grid table will not be wrapped in a container.
+     */
+    public $containerOptions = [];
     
     public function init()
     {
         $module = Yii::$app->getModule('gridview');
+        if (!is_array($this->containerOptions) && $this->containerOptions !== false) {
+            $this->containerOptions = [];
+        }
         if ($module == null || !$module instanceof \kartik\grid\Module) {
             throw new InvalidConfigException('The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.');
         }
@@ -472,6 +482,9 @@ HTML;
             if ($this->condensed) {
                 Html::addCssClass($this->tableOptions, 'table-condensed');
             }
+            if ($this->responsive && $this->containerOptions !== false) {
+                Html::addCssClass($this->containerOptions, 'table-responsive');
+            }
         }
         parent:: init();
         $this->registerAssets();
@@ -490,8 +503,8 @@ HTML;
         } else {
             $this->layout = strtr($this->layout, ['{toolbar}' => $this->toolbar]);
         }
-        if ($this->bootstrap && $this->responsive) {
-            $this->layout = str_replace('{items}', '<div class="table-responsive">{items}</div>', $this->layout);
+        if ($this->containerOptions !== false) {
+            $this->layout = str_replace('{items}', Html::tag('div', '{items}', $this->containerOptions), $this->layout);
         }
         parent::run();
     }
