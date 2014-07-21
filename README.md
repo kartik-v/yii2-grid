@@ -4,6 +4,8 @@ yii2-grid
 Yii2 GridView on steroids. A module with various modifications and enhancements to one of the most used widgets by Yii developers. The widget contains new additional Grid Columns with enhanced settings for Yii Framework 2.0. The widget also incorporates various Bootstrap 3.x styling options.
 Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo).
 
+![GridView Screenshot](https://lh3.googleusercontent.com/--Is5EyKskf0/U8ysD7JncXI/AAAAAAAAAHI/uWiQarnIkBg/w860-h551-no/yii2-grid.jpg)
+
 ## Latest Release
 The latest version of the module is v1.7.0 released on 14-Jul-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
 
@@ -13,6 +15,7 @@ The latest version of the module is v1.7.0 released on 14-Jul-2014. Refer the [C
 Note: Yii 2 framework is still in active development, and until a fully stable Yii2 release, your core yii2-bootstrap packages (and its dependencies) 
 may be updated when you install or update this extension. You may need to lock your composer package versions for your specific app, and test 
 for extension break if you do not wish to auto update dependencies.
+
 
 ## Module
 The extension has been created as a module to enable access to advanced features like download actions (exporting as csv, text, html, or xls). You should configure the module with a name of `gridview` as shown below:
