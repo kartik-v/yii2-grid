@@ -80,6 +80,7 @@
     padding: 8px;
     border: 1px solid #ddd;
     border-bottom: none;
+    text-align: center;
 }
 
 .panel .kv-table-caption {
