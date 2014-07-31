@@ -1,3 +1,11 @@
+Version 1.8.0
+=============
+
+**Date:** 01-Jul-2014
+
+1. (enh #58, #59): Russian language translation included
+2. (enh #60): Added a new `EditableColumn` column to the grid that uses the enhanced `kartik\editable\Editable` widget to make the grid content editable.
+
 Version 1.7.0
 =============
 
