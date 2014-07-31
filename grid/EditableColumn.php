@@ -23,10 +23,19 @@ class EditableColumn extends DataColumn
 {
 
     /**
-     * @var array the configuration options for the \kartik\editable\Editable widget
+     * @var array the configuration options for the [[\kartik\editable\Editable]] widget
      */
     public $editableOptions = [];
-
+    
+    /**
+     * Renders the data cell content.
+     * @param mixed $model the data model
+     * @param mixed $key the key associated with the data model
+     * @param integer $index the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
+     *
+     * @return string the rendering result
+     * @throws InvalidConfigException
+     */
     public function renderDataCellContent($model, $key, $index)
     {
         $exception = false;
