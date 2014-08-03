@@ -149,6 +149,21 @@ $gridColumns = [
         'width'=>'150px',
         'noWrap'=>true
     ],
+    [
+        'class'=>'kartik\grid\BooleanColumn',
+        'attribute'=>'status', 
+        'vAlign'=>'middle',
+    ],
+    [
+        'class' => 'kartik\grid\ActionColumn',
+        'dropdown' => true,
+        'vAlign'=>'middle',
+        'urlCreator' => function($action, $model, $key, $index) { return '#'; },
+        'viewOptions'=>['title'=>$viewMsg, 'data-toggle'=>'tooltip'],
+        'updateOptions'=>['title'=>$updateMsg, 'data-toggle'=>'tooltip'],
+        'deleteOptions'=>['title'=>$deleteMsg, 'data-toggle'=>'tooltip'], 
+    ],
+    ['class' => 'kartik\grid\CheckboxColumn']
 ];
 echo GridView::widget([
     'dataProvider' => $dataProvider,
@@ -169,8 +184,6 @@ echo GridView::widget([
         Yii::t('kvgrid', 'Add Book'), ['type'=>'button', 'class'=>'btn btn-success']) . ' ' .
         Html::a('<i class="glyphicon glyphicon-repeat"></i> ' . 
         Yii::t('kvgrid', 'Reset Grid'), ['grid-demo'], ['class' => 'btn btn-info']),
-        
-    // parameters that can be set
     'bordered' => true,
     'striped' => false,
     'condensed' => false,
