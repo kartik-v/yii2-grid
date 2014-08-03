@@ -180,7 +180,7 @@ echo GridView::widget([
             'options'=>['class'=>'skip-export'] // remove this row from export
         ]
     ],
-    'toolbar' =>  Html::button('&lt;i class="glyphicon glyphicon-plus"></i> ' . 
+    'toolbar' =>  Html::button('<i class="glyphicon glyphicon-plus"></i> ' . 
         Yii::t('kvgrid', 'Add Book'), ['type'=>'button', 'class'=>'btn btn-success']) . ' ' .
         Html::a('<i class="glyphicon glyphicon-repeat"></i> ' . 
         Yii::t('kvgrid', 'Reset Grid'), ['grid-demo'], ['class' => 'btn btn-info']),
