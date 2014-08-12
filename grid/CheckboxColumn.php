@@ -93,7 +93,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
             Html::addCssClass($this->contentOptions, 'kv-row-select');
             Html::addCssClass($this->headerOptions, 'kv-all-select');
             $view = $this->grid->getView();
-            $view->registerJs('selectRow($("#' . $this->grid->options['id'] . '"), "' . $this->rowSelectedClass . '");');
+            $view->registerJs('selectRow(jQuery("#' . $this->grid->options['id'] . '"), "' . $this->rowSelectedClass . '");');
         }
         parent::init();
     }

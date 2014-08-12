@@ -675,8 +675,8 @@ HTML;
             $js = '';
             $popup = ArrayHelper::getValue($this->export, 'browserPopupsMsg', '');
             foreach ($this->exportConfig as $format => $setting) {
-                $id = '$("#' . $this->id . ' .export-' . $format . '")';
-                $grid = new JsExpression('$("#' . $this->id . '")');
+                $id = 'jQuery("#' . $this->id . ' .export-' . $format . '")';
+                $grid = new JsExpression('jQuery("#' . $this->id . '")');
                 $options = [
                     'grid' => $grid,
                     'filename' => $setting['filename'],
@@ -701,7 +701,7 @@ HTML;
                 'floatTableClass' => 'kv-table-float',
                 'floatContainerClass' => 'kv-thead-float',
             ], $this->floatHeaderOptions);
-            $js = '$("#' . $this->id . ' table").floatThead(' . Json::encode($this->floatHeaderOptions) . ');';
+            $js = 'jQuery("#' . $this->id . ' table").floatThead(' . Json::encode($this->floatHeaderOptions) . ');';
             $view->registerJs($js);
         }
     }
