@@ -494,7 +494,7 @@ HTML;
 
     public function run()
     {
-        if ($this->bootstrap && !empty($this->panel)) {
+        if ($this->bootstrap && is_array($this->panel) && !empty($this->panel)) {
             $this->renderPanel();
         }
         if (strpos($this->layout, '{export}') > 0) {
