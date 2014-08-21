@@ -185,6 +185,7 @@ echo GridView::widget([
         Yii::t('kvgrid', 'Add Book'), ['type'=>'button', 'class'=>'btn btn-success']) . ' ' .
         Html::a('<i class="glyphicon glyphicon-repeat"></i> ' . 
         Yii::t('kvgrid', 'Reset Grid'), ['grid-demo'], ['class' => 'btn btn-info']),
+    'pjax' => true,
     'bordered' => true,
     'striped' => false,
     'condensed' => false,
