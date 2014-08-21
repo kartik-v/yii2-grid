@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 1.8.0
+ * @version 1.9.0
  */
 
 namespace kartik\grid;
@@ -21,12 +21,11 @@ use yii\base\InvalidConfigException;
  */
 class EditableColumn extends DataColumn
 {
-
     /**
      * @var array the configuration options for the [[\kartik\editable\Editable]] widget
      */
     public $editableOptions = [];
-    
+
     /**
      * Renders the data cell content.
      * @param mixed $model the data model
@@ -39,6 +38,9 @@ class EditableColumn extends DataColumn
     public function renderDataCellContent($model, $key, $index)
     {
         $exception = false;
+        if ($this->grid->pjax && empty($this->editableOptions['pjaxContainerId'])) {
+            $this->editableOptions['pjaxContainerId'] = $this->grid->pjaxSettings['options']['id'];
+        }
         if ($this->attribute !== null) {
             $this->editableOptions['model'] = $model;
             $this->editableOptions['attribute'] = '[' . $index . ']' . $this->attribute;

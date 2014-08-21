@@ -1,3 +1,10 @@
+Version 1.9.0
+=============
+**Date:** 21-Aug-2014
+
+1. (enh #65): Various enhancements to the widget to work with Pjax 
+
+
 Version 1.8.0
 =============
 

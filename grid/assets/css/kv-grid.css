@@ -1,7 +1,7 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 1.6.0
+ * @version 1.9.0
  *
  * Gridview widget styling and enhancements for Bootstrap.
  * Built for Yii Framework 2.0
@@ -86,4 +86,13 @@
 .panel .kv-table-caption {
     border: none;
     border-bottom: 1px solid #ddd;
+}
+
+.kv-grid-loading {
+    opacity: 0.3;
+    background: #ffffff url('../img/loading.gif') center center no-repeat!important;
+}
+
+.kv-grid-loading td, .kv-grid-loading tr, .kv-grid-loading th {
+    background: transparent!important;
 }
