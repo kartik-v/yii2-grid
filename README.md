@@ -8,6 +8,7 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 
 ## Latest Release
 The latest version of the module is v1.9.0 released on 21-Aug-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
+With v1.9.0, the GridView is by default set to be rendered within a Pjax widget. To disable Pjax processing, set `pjax` property to `false` or control pjax behavior using `pjaxSettings`.
 
 > NOTE: This extension depends on the [kartik-v/yii2-widgets](https://github.com/kartik-v/yii2-widgets) extension which in turn depends on the
 [yiisoft/yii2-bootstrap](https://github.com/yiisoft/yii2/tree/master/extensions/bootstrap) extension. Check the 
