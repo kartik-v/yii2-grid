@@ -240,9 +240,12 @@ HTML;
 
     /**
      * @var boolean whether the grid view will be rendered within a pjax container.
-     * Defaults to `true`. If set to false none of the pjax settings will be applied.
+     * Defaults to `false`. If set to `true`, will auto-render the entire GridView 
+     * widget inside a yii\widgets\Pjax widget container. You can set pjax settings
+     * using `pjaxSettings`. If set to `false` pjax will be disabled and none of the 
+     * pjax settings will be applied.
      */
-    public $pjax = true;
+    public $pjax = false;
 
     /**
      * @var array the pjax settings for the widget. This will be considered only when
