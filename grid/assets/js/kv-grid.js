@@ -13,23 +13,19 @@
 var selectRow = function(gridId, css) {
     var $grid = jQuery('#' + gridId);
     $grid.find(".kv-row-select input").on('change', function () {
-        $(this).parents("tr:first").toggleClass(css);
+        var $el = $(this);
+        if ($el.is(':checked')) {
+            $el.parents("tr:first").removeClass(css).addClass(css);
+        } else {
+            $el.parents("tr:first").removeClass(css);
+        }
     });
     $grid.find(".kv-all-select input").on('change', function () {
         if ($(this).is(':checked')) {
-            $grid.find(".kv-row-select").parents("tr").addClass(css);
+            $grid.find(".kv-row-select").parents("tr").removeClass(css).addClass(css);
         }
         else {
             $grid.find(".kv-row-select").parents("tr").removeClass(css);
         }
     });
 }
-
-var initCheckbox = function (pjaxContainer, gridId, css, initPjaxVar) {
-    $('#' + pjaxContainer).on("pjax:complete", function () {
-        if (window[initPjaxVar] !== true) {
-            selectRow(gridId, css);
-            window[initPjaxVar] = true;
-        }
-    });
-};
