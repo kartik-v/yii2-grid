@@ -553,6 +553,9 @@ HTML;
         }
     }
 
+    /**
+     * Renders the pjax widget related content and reinitializes javascript plugins
+     */
     protected function renderPjax()
     {
         if (!$this->pjax) {
