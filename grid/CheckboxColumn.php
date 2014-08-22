@@ -12,6 +12,7 @@ use Yii;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
+use yii\web\View;
 
 /**
  * Extends the Yii's CheckboxColumn for the Grid widget [[\kartik\widgets\GridView]]
@@ -86,6 +87,16 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      */
     public $mergeHeader = true;
 
+    /**
+     * @var string the generated javascript for highlighting table row on checkbox selection
+     */
+    protected $_jsHighlightScript = '';
+    
+    /**
+     * @var string the generated javascript for highlighting table row on checkbox selection
+     */
+    protected $_jsHighlightVar = '';
+    
     public function init()
     {
         $this->grid->formatColumn($this->hAlign, $this->vAlign, $this->noWrap, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
@@ -93,11 +104,13 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
             Html::addCssClass($this->contentOptions, 'kv-row-select');
             Html::addCssClass($this->headerOptions, 'kv-all-select');
             $view = $this->grid->getView();
-            $view->registerJs('selectRow(jQuery("#' . $this->grid->options['id'] . '"), "' . $this->rowSelectedClass . '");');
+            $this->_jsHighlightVar = $this->grid->options['id'] . '_kvgrid_cbox';
+            $view->registerJs('var ' . str_replace('-', '_', $this->_jsHighlightVar) . ' = false;', View::POS_HEAD);
+            $view->registerJs('selectRow("' . $this->grid->options['id'] . '", "' . $this->rowSelectedClass . '");');
         }
-        parent::init();
+        parent::init();        
     }
-
+    
     /**
      * Renders the header cell.
      */
@@ -107,6 +120,12 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
             $this->headerOptions['rowspan'] = 2;
             Html::addCssClass($this->headerOptions, 'kv-merged-header');
         }
+        if ($this->grid->pjax && $this->rowHighlight) {
+            $cont = $this->grid->pjaxSettings['options']['id'];
+            $grid = $this->grid->options['id'];
+            $view = $this->grid->getView();
+            $view->registerJs("initCheckbox('{$cont}', '{$grid}', '{$this->rowSelectedClass}', '{$this->_jsHighlightVar}');");
+        }     
         return parent::renderHeaderCell();
     }
 

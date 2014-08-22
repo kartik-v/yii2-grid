@@ -1,6 +1,6 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 1.6.0
+ * @version 1.9.0
  *
  * Client actions for yii2-grid 
  * 
@@ -10,7 +10,8 @@
  * For more Yii related demos visit http://demos.krajee.com
  */
 
-function selectRow($grid, css) {
+var selectRow = function(gridId, css) {
+    var $grid = jQuery('#' + gridId);
     $grid.find(".kv-row-select input").on('change', function () {
         $(this).parents("tr:first").toggleClass(css);
     });
@@ -23,3 +24,12 @@ function selectRow($grid, css) {
         }
     });
 }
+
+var initCheckbox = function (pjaxContainer, gridId, css, initPjaxVar) {
+    $('#' + pjaxContainer).on("pjax:complete", function () {
+        if (window[initPjaxVar] !== true) {
+            selectRow(gridId, css);
+            window[initPjaxVar] = true;
+        }
+    });
+};

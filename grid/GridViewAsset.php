@@ -9,6 +9,7 @@
 namespace kartik\grid;
 
 use kartik\widgets\AssetBundle;
+use yii\web\View;
 
 /**
  * Asset bundle for GridView Widget
@@ -18,7 +19,8 @@ use kartik\widgets\AssetBundle;
  */
 class GridViewAsset extends AssetBundle
 {
-
+    public $jsOptions = ['position' => View::POS_HEAD];
+    
 	public function init()
 	{
 		$this->setSourcePath(__DIR__ . '/assets');
