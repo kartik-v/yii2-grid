@@ -36,7 +36,7 @@ The following functionalities have been added/enhanced:
 Control various options to style your grid table. Added `containerOptions` to customize your grid table container. Enhancements for grid and columns to work with yii\widgets\Pjax.
 
 ### Pjax Settings (Enhanced)
-Inbuilt support for Pjax. Enhancements for grid and columns to work with yii\widgets\Pjax. Auto-reinitializes embedded javascript plugins when GridView is refreshed via Pjax. Added `pjax` property to enable pjax and `pjaxSettings` to customize the pjax behavior.
+Inbuilt support for Pjax. Enhancements for grid and columns to work with `yii\widgets\Pjax`. Auto-reinitializes embedded javascript plugins when GridView is refreshed via Pjax. Added `pjax` property to enable pjax and `pjaxSettings` to customize the pjax behavior.
 
 ### Custom Header & Footer (New)
 Add custom header or footer rows, above / below your default grid header and footer.
