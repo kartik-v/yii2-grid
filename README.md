@@ -35,7 +35,7 @@ The following functionalities have been added/enhanced:
 ### Table Styling (Enhanced)
 Control various options to style your grid table. Added `containerOptions` to customize your grid table container. Enhancements for grid and columns to work with yii\widgets\Pjax.
 
-### Pjax Settings (Enhanced)
+### Pjax Settings (New)
 Inbuilt support for Pjax. Enhancements for grid and columns to work with `yii\widgets\Pjax`. Auto-reinitializes embedded javascript plugins when GridView is refreshed via Pjax. Added `pjax` property to enable pjax and `pjaxSettings` to customize the pjax behavior.
 
 ### Custom Header & Footer (New)
@@ -73,7 +73,7 @@ For example, this currently is set as a default to convert the HTML formatted ic
 ### \kartik\grid\DataColumn
 The default Yii data column has been enhanced with various additional parameters. Refer [documentation](http://demos.krajee.com/grid#data-column) for details.
 
-## Editable Column (Enhanced)
+## Editable Column (New)
 ### \kartik\grid\EditableColumn
 An enhanced data column that allows you to edit the cell content using [kartik\editable\Editable](http://demos.krajee.com/editable) widget. Refer [documentation](http://demos.krajee.com/grid#editable-column) for details.
 
