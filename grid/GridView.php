@@ -17,6 +17,7 @@ use yii\helpers\Html;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\ButtonDropdown;
 use yii\widgets\Pjax;
+use yii\web\View;
 
 /**
  * Enhances the Yii GridView widget with various options to include Bootstrap
@@ -401,6 +402,16 @@ HTML;
      */
     public $containerOptions = [];
 
+    /**
+     * @var string the generated javascript for grid export initialization
+     */
+    protected $_jsExportScript = '';
+
+    /**
+     * @var string the generated javascript for grid float table header initialization
+     */
+    protected $_jsFloatTheadScript = '';
+
     public function init()
     {
         $module = Yii::$app->getModule('gridview');
@@ -475,7 +486,6 @@ HTML;
                     'options' => ['title' => Yii::t('kvgrid', 'Save as Excel')]
                 ],
             ];
-            $exportConfig = [];
             if (is_array($this->exportConfig) && !empty($this->exportConfig)) {
                 foreach ($this->exportConfig as $format => $setting) {
                     $setup = is_array($this->exportConfig[$format]) ? $this->exportConfig[$format] : [];
@@ -485,6 +495,9 @@ HTML;
                 $this->exportConfig = $exportConfig;
             } else {
                 $this->exportConfig = $defaultExportConfig;
+            }
+            foreach ($this->exportConfig as $format => $setting) {
+                $this->exportConfig[$format]['options']['data-pjax'] = false;
             }
         }
         if ($this->filterPosition === self::FILTER_POS_HEADER) {
@@ -552,13 +565,24 @@ HTML;
             $view->registerJs("{$container}.on('pjax:timeout', function(e){e.preventDefault()});");
         }
         $loadingCss = ArrayHelper::getvalue($this->pjaxSettings, 'loadingCssClass', 'kv-grid-loading');
+        $postPjaxJs = '';
         if ($loadingCss !== false) {
             $grid = 'jQuery("#' . $this->options['id'] . ' tbody")';
             if ($loadingCss === true) {
                 $loadingCss = 'kv-grid-loading';
             }
-            $view->registerJs("{$container}.on('pjax:send', function(){{$grid}.addClass('{$loadingCss}')});\n" .
-                "{$container}.on('pjax:complete', function(){{$grid}.removeClass('{$loadingCss}')});");
+            $view->registerJs("{$container}.on('pjax:send', function(){{$grid}.addClass('{$loadingCss}')});"); 
+            $postPjaxJs = "{$grid}.removeClass('{$loadingCss}');";
+        }
+        if (!empty($this->_jsExportScript)) {
+            $id = 'jQuery("#' . $this->id . ' .export-csv")';
+            $postPjaxJs .= "\n{$this->_jsExportScript}";
+        }
+        if (!empty($this->_jsFloatTheadScript)) {
+            $postPjaxJs .= "\n{$this->_jsFloatTheadScript}";
+        }
+        if (!empty($postPjaxJs)) {
+            $view->registerJs("{$container}.on('pjax:complete', function(){{$postPjaxJs}});");
         }
         Pjax::begin($this->pjaxSettings['options']);
         echo ArrayHelper::getValue($this->pjaxSettings, 'beforeGrid', '');
@@ -705,8 +729,16 @@ HTML;
             $action = [$action];
         }
         $frameId = $this->options['id'] . '_export';
-        $form = Html::beginForm($action, 'post', ['class' => 'kv-export-form', 'style' => 'display:none', 'target' => '_blank']) .
-            Html::textInput('export_filetype') . Html::textInput('export_filename') . Html::textArea('export_content') . '</form>';
+        $form = Html::beginForm($action, 'post', [
+            'class' => 'kv-export-form', 
+            'style' => 'display:none', 
+            'target' => '_blank', 
+            'data-pjax' => false
+        ]) . 
+        Html::textInput('export_filetype') . 
+        Html::textInput('export_filename') . 
+        Html::textArea('export_content') . 
+        '</form>';
         return ButtonDropdown::widget([
             'label' => $title,
             'dropdown' => ['items' => $items, 'encodeLabels' => false],
@@ -714,7 +746,7 @@ HTML;
             'encodeLabel' => false
         ]) . $form;
     }
-
+    
     /**
      * Register assets
      */
@@ -744,18 +776,23 @@ HTML;
                     'cssFile' => ArrayHelper::getValue($setting, 'cssFile', ''),
                     'exportConversions' => $this->exportConversions
                 ];
-                $view->registerJs($id . '.gridexport(' . Json::encode($options) . ');');
+                $opts = Json::encode($options);
+                $this->_jsExportScript .= "\n{$id}.gridexport({$opts});";
             }
-
+            if (!empty($this->_jsExportScript)) {
+                $view->registerJs($this->_jsExportScript);
+            }
         }
+
         if ($this->floatHeader) {
             GridFloatHeadAsset::register($view);
             $this->floatHeaderOptions = ArrayHelper::merge([
                 'floatTableClass' => 'kv-table-float',
                 'floatContainerClass' => 'kv-thead-float',
             ], $this->floatHeaderOptions);
-            $js = 'jQuery("#' . $this->id . ' table").floatThead(' . Json::encode($this->floatHeaderOptions) . ');';
-            $view->registerJs($js);
+            $opts = Json::encode($this->floatHeaderOptions);
+            $this->_jsFloatTheadScript = "jQuery('#{$this->id} table').floatThead({$opts});";
+            $view->registerJs($this->_jsFloatTheadScript);
         }
     }
 
