@@ -19,8 +19,7 @@ use yii\web\View;
  */
 class GridViewAsset extends AssetBundle
 {
-    public $jsOptions = ['position' => View::POS_HEAD];
-    
+   
 	public function init()
 	{
 		$this->setSourcePath(__DIR__ . '/assets');
