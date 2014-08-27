@@ -96,3 +96,7 @@
 .kv-grid-loading *{
     background: transparent!important;
 }
+
+.kv-grid-loading td {
+    border-color: #efefef!important;
+}
