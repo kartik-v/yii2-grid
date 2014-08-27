@@ -399,8 +399,8 @@ HTML;
 
     /**
      * @var array|boolean the HTML attributes for the grid container. The grid table items
-     * will be wrapped in a `div` container with the configured HTML attributes. If
-     * set to `false`, the grid table will not be wrapped in a container.
+     * will be wrapped in a `div` container with the configured HTML attributes. The ID for
+     * the container will be auto generated.
      */
     public $containerOptions = [];
 
@@ -417,9 +417,6 @@ HTML;
     public function init()
     {
         $module = Yii::$app->getModule('gridview');
-        if (!is_array($this->containerOptions) && $this->containerOptions !== false) {
-            $this->containerOptions = [];
-        }
         if ($module == null || !$module instanceof \kartik\grid\Module) {
             throw new InvalidConfigException('The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.');
         }
@@ -521,11 +518,12 @@ HTML;
             if ($this->condensed) {
                 Html::addCssClass($this->tableOptions, 'table-condensed');
             }
-            if ($this->responsive && $this->containerOptions !== false) {
+            if ($this->responsive) {
                 Html::addCssClass($this->containerOptions, 'table-responsive');
             }
         }
         parent:: init();
+        $this->containerOptions['id'] = $this->options['id'] . '-container';
         $this->registerAssets();
     }
 
@@ -542,10 +540,9 @@ HTML;
         } else {
             $this->layout = strtr($this->layout, ['{toolbar}' => $this->toolbar]);
         }
-        if ($this->containerOptions !== false) {
-            $this->layout = str_replace('{items}', Html::tag('div', '{items}', $this->containerOptions), $this->layout);
-        }
+        $this->layout = str_replace('{items}', Html::tag('div', '{items}', $this->containerOptions), $this->layout);
         $this->renderPjax();
+        
         parent::run();
         if ($this->pjax) {
             echo ArrayHelper::getValue($this->pjaxSettings, 'afterGrid', '');
@@ -569,7 +566,7 @@ HTML;
         $loadingCss = ArrayHelper::getvalue($this->pjaxSettings, 'loadingCssClass', 'kv-grid-loading');
         $postPjaxJs = '';
         if ($loadingCss !== false) {
-            $grid = 'jQuery("#' . $this->options['id'] . ' tbody")';
+            $grid = 'jQuery("#' . $this->containerOptions['id'] . '")';
             if ($loadingCss === true) {
                 $loadingCss = 'kv-grid-loading';
             }

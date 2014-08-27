@@ -96,15 +96,3 @@
 .kv-grid-loading *{
     background: transparent!important;
 }
-
-.kv-grid-loading div.empty {
-    min-height: 100px;
-}
-
-.kv-grid-loading tr:last-child {
-    height: 100px;
-}
-
-.kv-grid-loading tr ~ tr {
-    height: auto!important;
-}
