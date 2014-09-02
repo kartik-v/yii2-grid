@@ -9,8 +9,10 @@
 namespace kartik\grid;
 
 use Yii;
+use Closure;
 use yii\helpers\Html;
 use yii\base\InvalidConfigException;
+use kartik\editable\Editable;
 
 /**
  * The EditableColumn converts the data to editable using
@@ -22,10 +24,19 @@ use yii\base\InvalidConfigException;
 class EditableColumn extends DataColumn
 {
     /**
-     * @var array the configuration options for the [[\kartik\editable\Editable]] widget
+     * @var array|Closure the configuration options for the [[\kartik\editable\Editable]] widget. If not set as an array,
+     * this can be passed as a callback function of the signature: `function ($model, $key, $index)`, where:
+     * - $model mixed is the data model
+     * - $key mixed is the key associated with the data model
+     * - $index integer is the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
      */
     public $editableOptions = [];
-
+    
+    /**
+     * @var array the computed editable options
+     */
+    protected $_editableOptions = [];
+    
     /**
      * Renders the data cell content.
      * @param mixed $model the data model
@@ -38,27 +49,34 @@ class EditableColumn extends DataColumn
     public function renderDataCellContent($model, $key, $index)
     {
         $exception = false;
-        if ($this->grid->pjax && empty($this->editableOptions['pjaxContainerId'])) {
-            $this->editableOptions['pjaxContainerId'] = $this->grid->pjaxSettings['options']['id'];
+        $this->_editableOptions = $this->editableOptions;
+        if (!empty($this->editableOptions) && $this->editableOptions instanceof Closure) {
+            $this->_editableOptions = call_user_func($this->editableOptions, $model, $key, $index);
+        }
+        if (!is_array($this->_editableOptions)) {
+            $this->_editableOptions = [];
+        }
+        if ($this->grid->pjax && empty($this->_editableOptions['pjaxContainerId'])) {
+            $this->_editableOptions['pjaxContainerId'] = $this->grid->pjaxSettings['options']['id'];
         }
         if ($this->attribute !== null) {
-            $this->editableOptions['model'] = $model;
-            $this->editableOptions['attribute'] = '[' . $index . ']' . $this->attribute;
-        } elseif (empty($this->editableOptions['name']) && empty($this->editableOptions['model'])) {
+            $this->_editableOptions['model'] = $model;
+            $this->_editableOptions['attribute'] = '[' . $index . ']' . $this->attribute;
+        } elseif (empty($this->_editableOptions['name']) && empty($this->_editableOptions['model'])) {
             $exception = true;
-        } elseif (empty($this->editableOptions['attribute'])) {
+        } elseif (empty($this->_editableOptions['attribute'])) {
             $exception = true;
         }
         if ($exception) {
-            throw new InvalidConfigException("You must setup either the 'attribute' for the EditableColumn OR setup the 'name' OR 'model'/'attribute' in 'editableOptions' (Exception raised for: key: '{$key}', index: '{$index}').");
+            throw new InvalidConfigException("You must setup either the 'attribute' for the EditableColumn OR setup the 'name' OR 'model'/'attribute' in '_editableOptions' (Exception raised for: key: '{$key}', index: '{$index}').");
         }
-        $this->editableOptions['displayValue'] = parent::renderDataCellContent($model, $key, $index);
+        $this->_editableOptions['displayValue'] = parent::renderDataCellContent($model, $key, $index);
         $params = Html::hiddenInput('editableIndex', $index) . Html::hiddenInput('editableKey', $key);
-        if (empty($this->editableOptions['beforeInput'])) {
-            $this->editableOptions['beforeInput'] = $params;
+        if (empty($this->_editableOptions['beforeInput'])) {
+            $this->_editableOptions['beforeInput'] = $params;
         } else {
-            $this->editableOptions['beforeInput'] .= $params;
+            $this->_editableOptions['beforeInput'] .= $params;
         }
-        return \kartik\editable\Editable::widget($this->editableOptions);
+        return Editable::widget($this->_editableOptions);
     }
 }

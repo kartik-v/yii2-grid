@@ -3,6 +3,9 @@ Version 1.9.0
 **Date:** 21-Aug-2014
 
 1. (enh #65): Various enhancements to the widget to work with Pjax 
+2. (enh #67): Fix Chrome bug for displaying loading indicator on tbody.
+3. (enh #72): Enhancement for EditableColumn `beforeInput` and `afterInput`.
+4. (enh #73): Enhancement for EditableColumn options to be configured as callback.
 
 
 Version 1.8.0
