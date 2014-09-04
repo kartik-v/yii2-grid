@@ -33,6 +33,11 @@ class EditableColumn extends DataColumn
     public $editableOptions = [];
     
     /**
+     * @var boolean whether to refresh the grid on successful submission of editable
+     */
+    public $refreshGrid = false;
+    
+    /**
      * @var array the computed editable options
      */
     protected $_editableOptions = [];
@@ -76,6 +81,19 @@ class EditableColumn extends DataColumn
             $this->_editableOptions['beforeInput'] = $params;
         } else {
             $this->_editableOptions['beforeInput'] .= $params;
+        }
+        if ($this->refreshGrid) {
+            $view = $this->grid->getView();
+            $grid = 'jQuery("#' . $this->grid->options['id'] . '")';
+            $script =<<< JS
+{$grid}.find('.kv-editable-input').each(function() {
+    var \$input = $(this);
+    \$input.on('editableSuccess', function(){
+        {$grid}.yiiGridView("applyFilter");
+    });
+});
+JS;
+            $view->registerJs($script);
         }
         return Editable::widget($this->_editableOptions);
     }

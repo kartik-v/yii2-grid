@@ -6,6 +6,7 @@ Version 1.9.0
 2. (enh #67): Fix Chrome bug for displaying loading indicator on tbody.
 3. (enh #72): Enhancement for EditableColumn `beforeInput` and `afterInput`.
 4. (enh #73): Enhancement for EditableColumn options to be configured as callback.
+5. (enh #74,76): Enhance EditableColumn to allow grid refresh on successful update.
 
 
 Version 1.8.0
