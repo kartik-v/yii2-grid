@@ -10,6 +10,18 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
+/*!
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
+ * @version 1.9.0
+ *
+ * Grid Export Validation Module for Yii's Gridview. Supports export of
+ * grid data as CSV, HTML, or Excel.
+ *
+ * Author: Kartik Visweswaran
+ * Copyright: 2014, Kartik Visweswaran, Krajee.com
+ * For more JQuery plugins visit http://plugins.krajee.com
+ * For more Yii related demos visit http://demos.krajee.com
+ */
 function replaceAll(str, from, to) {
     return str.split(from).join(to);
 }
@@ -209,18 +221,6 @@ function replaceAll(str, from, to) {
             var xls = EXCEL_TEMPLATE.replace('{css}', css).replace('{worksheet}', self.worksheet).replace('{data}', $('<div />').html($table.clone()).html()).replace(/"/g, '\'');
             self.download('xls', xls);
         },
-    };
-
-    $.fn.gridexport = function (options) {
-        return this.each(function () {
-            var $this = $(this), data = $this.data('gridexport')
-            if (!data) {
-                $this.data('gridexport', (data = new GridExport(this, options)))
-            }
-            if (typeof options == 'string') {
-                data[options]()
-            }
-        })
     };
 
     //GridExport plugin definition
