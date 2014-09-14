@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 1.6.0
+ * @version 2.0.0
  */
 
 namespace kartik\grid;
@@ -26,6 +26,14 @@ use yii\base\InvalidConfigException;
  */
 class ActionColumn extends \yii\grid\ActionColumn
 {
+    /**
+     * @var boolean whether the column is hidden from display. This is different 
+     * than the `visible` property, in the sense, that the column is rendered,
+     * but hidden from display. This will allow you to still export the column
+     * using the export function.
+     */
+    public $hidden;
+
     /**
      * @var bool whether the action buttons are to be displayed as a dropdown
      */
@@ -144,10 +152,24 @@ class ActionColumn extends \yii\grid\ActionColumn
         if (!isset($this->header)) {
             $this->header = Yii::t('kvgrid', 'Actions');
         }
+        $this->hideColumn();
         parent::init();
         $this->initDefaultButtons();
     }
 
+    /**
+     * Checks `hidden` property and hides the column from display
+     */
+    protected function hideColumn() {
+        if ($this->hidden === true) {
+            Html::addCssClass($this->filterOptions, 'kv-hide');
+            Html::addCssClass($this->contentOptions, 'kv-hide');
+            Html::addCssClass($this->headerOptions, 'kv-hide');
+            Html::addCssClass($this->footerOptions, 'kv-hide');
+            Html::addCssClass($this->pageSummaryOptions, 'kv-hide');
+        }
+    }
+    
     /**
      * Render default action buttons
      *

@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 1.6.0
+ * @version 2.0.0
  */
 
 namespace kartik\grid;
@@ -23,7 +23,14 @@ use yii\base\InvalidConfigException;
  */
 class DataColumn extends \yii\grid\DataColumn
 {
-
+    /**
+     * @var boolean whether the column is hidden from display. This is different 
+     * than the `visible` property, in the sense, that the column is rendered,
+     * but hidden from display. This will allow you to still export the column
+     * using the export function.
+     */
+    public $hidden;
+    
     /**
      * @var string the horizontal alignment of each column. Should be one of
      * 'left', 'right', or 'center'.
@@ -119,8 +126,22 @@ class DataColumn extends \yii\grid\DataColumn
             Html::removeCssClass($filterInputOptions, 'form-control');
         }
         $this->grid->formatColumn($this->hAlign, $this->vAlign, $this->noWrap, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
+        $this->hideColumn();
         parent::init();
         $this->setPageRows();
+    }
+
+    /**
+     * Checks `hidden` property and hides the column from display
+     */
+    protected function hideColumn() {
+        if ($this->hidden === true) {
+            Html::addCssClass($this->filterOptions, 'kv-hide');
+            Html::addCssClass($this->contentOptions, 'kv-hide');
+            Html::addCssClass($this->headerOptions, 'kv-hide');
+            Html::addCssClass($this->footerOptions, 'kv-hide');
+            Html::addCssClass($this->pageSummaryOptions, 'kv-hide');
+        }
     }
 
     /**

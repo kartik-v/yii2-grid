@@ -1,3 +1,9 @@
+Version 2.0.0
+=============
+**Date:** 14-Sep-2014
+
+1. (enh #80): Add hidden property for columns to be hidden from display but available on export.
+
 Version 1.9.0
 =============
 **Date:** 21-Aug-2014
