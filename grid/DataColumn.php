@@ -136,11 +136,11 @@ class DataColumn extends \yii\grid\DataColumn
      */
     protected function hideColumn() {
         if ($this->hidden === true) {
-            Html::addCssClass($this->filterOptions, 'kv-hide');
-            Html::addCssClass($this->contentOptions, 'kv-hide');
-            Html::addCssClass($this->headerOptions, 'kv-hide');
-            Html::addCssClass($this->footerOptions, 'kv-hide');
-            Html::addCssClass($this->pageSummaryOptions, 'kv-hide');
+            Html::addCssClass($this->filterOptions, 'kv-grid-hide');
+            Html::addCssClass($this->contentOptions, 'kv-grid-hide');
+            Html::addCssClass($this->headerOptions, 'kv-grid-hide');
+            Html::addCssClass($this->footerOptions, 'kv-grid-hide');
+            Html::addCssClass($this->pageSummaryOptions, 'kv-grid-hide');
         }
     }
 

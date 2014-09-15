@@ -100,3 +100,7 @@
 .kv-grid-loading td {
     border-color: #efefef!important;
 }
+
+.kv-grid-hide {
+    display: none!important;
+}
