@@ -7,7 +7,7 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh6.googleusercontent.com/-IebDj1WBLKE/U8yvTtaPqWI/AAAAAAAAAI4/sr8rlfZG_l8/w860-h551-no/yii2-grid.jpg)
 
 ## Latest Release
-The latest version of the module is v2.0.0 released on 14-Sep-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
+The latest version of the module is v1.9.0 released on 21-Aug-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
 With v1.9.0, the GridView by default has embedded Pjax support. To enable Pjax processing, set `pjax` property to `true` and control pjax behavior using `pjaxSettings`.
 
 > NOTE: This extension depends on the [kartik-v/yii2-widgets](https://github.com/kartik-v/yii2-widgets) extension which in turn depends on the
@@ -71,48 +71,38 @@ For example, this currently is set as a default to convert the HTML formatted ic
 
 ## Data Column (Enhanced)
 ### \kartik\grid\DataColumn
-The default Yii data column has been enhanced with various additional parameters. Refer [documentation](http://demos.krajee.com/grid#data-column) for details. 
-You can also configure `hidden` property by which you can hide the column from display but the column data can still be exported. 
-
+The default Yii data column has been enhanced with various additional parameters. Refer [documentation](http://demos.krajee.com/grid#data-column) for details.
 
 ## Editable Column (New)
 ### \kartik\grid\EditableColumn
-An enhanced data column that allows you to edit the cell content using [kartik\editable\Editable](http://demos.krajee.com/editable) widget. 
-You can also configure `hidden` property by which you can hide the column from display but the column data can still be exported. 
-Refer [documentation](http://demos.krajee.com/grid#editable-column) for details. 
+An enhanced data column that allows you to edit the cell content using [kartik\editable\Editable](http://demos.krajee.com/editable) widget. Refer [documentation](http://demos.krajee.com/grid#editable-column) for details.
 
 ## Formula Column (New)
 ### \kartik\grid\FormulaColumn
 This is a new grid column class that extends the \kartik\grid\DataColumn class. It allows calculating formulae just like in spreadsheets - based on
 values of other columns in the grid. The formula calculation is done at grid rendering runtime and does not need to query the database. Hence you can use formula columns
-within another formula column. Refer [documentation](http://demos.krajee.com/grid#formula-column) for details. You can also configure `hidden` property by which you can 
-hide the column from display but the column data can still be exported. 
+within another formula column. Refer [documentation](http://demos.krajee.com/grid#formula-column) for details.
 
 ## Boolean Column (New)
 ### \kartik\grid\BooleanColumn
 This is a new grid column class that extends the \kartik\grid\DataColumn class. It automatically converts boolean data (true/false) values to user friendly indicators or labels (that are configurable). 
-You can also configure `hidden` property by which you can hide the column from display but the column data can still be exported. Refer [documentation](http://demos.krajee.com/grid#boolean-column) for 
-details. The following are new features added since release v1.6.0:
+Refer [documentation](http://demos.krajee.com/grid#boolean-column) for details. The following are new features added since release v1.6.0:
 
 - `BooleanColumn` icons have been setup as `ICON_ACTIVE` and `ICON_INACTIVE` constants in GridView.
 
 ## Action Column (Enhanced)
 ### \kartik\grid\ActionColumn
 Enhancements of `\yii\grid\ActionColumn` to include optional dropdown Action menu and work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#action-column) for details.
-You can also configure `hidden` property by which you can hide the column from display but the column data can still be exported. You can also configure `hidden` property by which you can hide the column from display but the column data can 
-still be exported. The following are new features added since release v1.6.0:
+The following are new features added since release v1.6.0:
 - `ActionColumn` content by default has been disabled to appear in export output. The `skip-export` CSS class has been set as default in `headerOptions` and `contentOptions`.
 
 ## Serial Column (Enhanced)
 ### \kartik\grid\SerialColumn
-Enhancement of `\yii\grid\SerialColumn` to work with the new pageSummary and a default styling to work for many scenarios. 
-You can also configure `hidden` property by which you can hide the column from display but the column data can still be exported.  
-Refer [documentation](http://demos.krajee.com/grid#serial-column) for details.
+Enhancement of `\yii\grid\SerialColumn` to work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#serial-column) for details.
 
 ## Checkbox Column (Enhanced)
 ### \kartik\grid\CheckboxColumn
-Enhancements of `\yii\grid\CheckboxColumn` to work with the new pageSummary and a default styling to work for many scenarios. You can also configure `hidden` property by which you can hide the column from display but the column data can still be 
-exported. Refer [documentation](http://demos.krajee.com/grid#checkbox-column) for details.
+Enhancements of `\yii\grid\CheckboxColumn` to work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#checkbox-column) for details.
 
 ### Demo
 You can see detailed [documentation](http://demos.krajee.com/grid) and [demonstration](http://demos.krajee.com/grid-demo) on usage of the extension.

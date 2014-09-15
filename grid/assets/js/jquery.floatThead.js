@@ -233,6 +233,10 @@
         'cellspacing': $table.attr('cellspacing'),
         'border': $table.attr('border')
       });
+      $floatTable.css({
+        'borderCollapse': $table.css('borderCollapse'),
+        'border': $table.css('border')
+      });
 
       $floatTable.addClass(opts.floatTableClass).css('margin', 0); //must have no margins or you wont be able to click on things under floating table
 
@@ -412,11 +416,13 @@
               }
             }
             unfloat();
+            var widths = [];
             for(i=0; i < numCols; i++){
-              var _rowcell = $rowCells.get(i);
-              var rowWidth = _rowcell.offsetWidth;
-              $headerCells.eq(i).width(rowWidth);
-              $tableCells.eq(i).width(rowWidth);
+              widths[i] = $rowCells.get(i).offsetWidth;
+            }
+            for(i=0; i < numCols; i++){
+              $headerCells.eq(i).width(widths[i]);
+              $tableCells.eq(i).width(widths[i]);
             }
             refloat();
           } else {
@@ -428,6 +434,14 @@
         };
       }
 
+      function floatContainerBorderWidth(side){
+        var border = $scrollContainer.css("border-"+side+"-width");
+        var w = 0;
+        if (border && ~border.indexOf('px')) {
+          w = parseInt(border, 10);
+        }
+        return w;
+      }
       /**
        * first performs initial calculations that we expect to not change when the table, window, or scrolling container are scrolled.
        * returns a function that calculates the floating container's top and left coords. takes into account if we are using page scrolling or inner scrolling
@@ -444,12 +458,15 @@
 
         var floatContainerHeight = $floatContainer.height();
         var tableOffset = $table.offset();
+        var tableLeftGap = 0; //can be caused by border on container (only in locked mode)
         if(locked){
           var containerOffset = $scrollContainer.offset();
           tableContainerGap = tableOffset.top - containerOffset.top + scrollingContainerTop;
           if(haveCaption && captionAlignTop){
             tableContainerGap += captionHeight;
           }
+          tableContainerGap -= floatContainerBorderWidth('top');
+          tableLeftGap = floatContainerBorderWidth('left');
         } else {
           floatEnd = tableOffset.top - scrollingTop - floatContainerHeight + scrollingBottom + scrollbarOffset.horizontal;
         }
@@ -497,13 +514,12 @@
           if(locked && useAbsolutePositioning){ //inner scrolling, absolute positioning
             if (tableContainerGap >= scrollingContainerTop) {
               var gap = tableContainerGap - scrollingContainerTop;
-              gap = gap > 0 ? gap : 0;
-              top = gap;
+              top = gap > 0 ? gap : 0;
             } else {
               top = wrappedContainer ? 0 : scrollingContainerTop;
               //headers stop at the top of the viewport
             }
-            left = 0;
+            left = tableLeftGap;
           } else if(!locked && useAbsolutePositioning) { //window scrolling, absolute positioning
             if(windowTop > floatEnd + tableHeight + captionScrollOffset){
               top = tableHeight - floatContainerHeight + captionScrollOffset; //scrolled past table
@@ -566,7 +582,7 @@
             setHeaderHeight();
           }
           var scrollLeft = $scrollContainer.scrollLeft();
-          if(oldScrollLeft != scrollLeft){
+          if(!useAbsolutePositioning || oldScrollLeft != scrollLeft){
             $floatContainer.scrollLeft(scrollLeft);
             oldScrollLeft = scrollLeft;
           }
@@ -695,7 +711,6 @@
     return this;
   };
 })(jQuery);
-
 /* jQuery.floatThead.utils - http://mkoryak.github.io/floatThead/ - Copyright (c) 2012 - 2014 Misha Koryak
  * License: MIT
  *

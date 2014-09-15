@@ -25,6 +25,8 @@ use yii\web\View;
  */
 class CheckboxColumn extends \yii\grid\CheckboxColumn
 {
+    use ColumnTrait;
+    
     /**
      * @var boolean whether the column is hidden from display. This is different 
      * than the `visible` property, in the sense, that the column is rendered,
@@ -99,28 +101,16 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      */
     public function init()
     {
-        $this->grid->formatColumn($this->hAlign, $this->vAlign, $this->noWrap, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
         if ($this->rowHighlight) {
             Html::addCssClass($this->contentOptions, 'kv-row-select');
             Html::addCssClass($this->headerOptions, 'kv-all-select');
             $view = $this->grid->getView();
             $view->registerJs('selectRow("' . $this->grid->options['id'] . '", "' . $this->rowSelectedClass . '");');
         }
-        $this->hideColumn();
+        $this->parseFormat();
+        $this->parseVisibility();
         parent::init();
-    }
-
-    /**
-     * Checks `hidden` property and hides the column from display
-     */
-    protected function hideColumn() {
-        if ($this->hidden === true) {
-            Html::addCssClass($this->filterOptions, 'kv-grid-hide');
-            Html::addCssClass($this->contentOptions, 'kv-grid-hide');
-            Html::addCssClass($this->headerOptions, 'kv-grid-hide');
-            Html::addCssClass($this->footerOptions, 'kv-grid-hide');
-            Html::addCssClass($this->pageSummaryOptions, 'kv-grid-hide');
-        }
+        $this->setPageRows();
     }
 
     /**
@@ -143,71 +133,6 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     {        
         $this->initPjax();
         return parent::renderDataCellContent($model, $key, $index);
-    }
-    
-    /**
-     * Renders the header cell.
-     */
-    public function renderHeaderCell()
-    {
-        if ($this->grid->filterModel !== null && $this->mergeHeader && $this->grid->filterPosition === GridView::FILTER_POS_BODY) {
-            $this->headerOptions['rowspan'] = 2;
-            Html::addCssClass($this->headerOptions, 'kv-merged-header');
-        }
-        return parent::renderHeaderCell();
-    }
-
-    /**
-     * Renders the filter cell.
-     */
-    public function renderFilterCell()
-    {
-        if ($this->grid->filterPosition === GridView::FILTER_POS_BODY && $this->mergeHeader) {
-            return null;
-        }
-        return parent::renderFilterCell();
-    }
-
-    /**
-     * Renders the page summary cell.
-     */
-    public function renderPageSummaryCell()
-    {
-        return Html::tag('td', $this->renderPageSummaryCellContent(), $this->pageSummaryOptions);
-    }
-
-    /**
-     * Gets the raw page summary cell content.
-     *
-     * @return string the rendering result
-     */
-    protected function getPageSummaryCellContent()
-    {
-        return $this->pageSummary === false ? null : $this->pageSummary;
-    }
-
-    /**
-     * Renders the page summary cell content.
-     *
-     * @return string the rendering result
-     */
-    protected function renderPageSummaryCellContent()
-    {
-        if ($this->hidePageSummary) {
-            return $this->grid->emptyCell;
-        }
-        $content = $this->getPageSummaryCellContent();
-        return ($content == null) ? $this->grid->emptyCell : $content;
-    }
-
-    /**
-     * Get the raw footer cell content.
-     *
-     * @return string the rendering result
-     */
-    protected function getFooterCellContent()
-    {
-        return $this->footer;
     }
 
 }

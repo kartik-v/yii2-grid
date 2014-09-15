@@ -24,6 +24,8 @@ use yii\base\InvalidConfigException;
  */
 class SerialColumn extends \yii\grid\SerialColumn
 {
+    use ColumnTrait;
+    
     /**
      * @var boolean whether the column is hidden from display. This is different 
      * than the `visible` property, in the sense, that the column is rendered,
@@ -95,142 +97,10 @@ class SerialColumn extends \yii\grid\SerialColumn
 
     public function init()
     {
-        $this->grid->formatColumn($this->hAlign, $this->vAlign, $this->noWrap, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);
-        $this->hideColumn();
+        $this->parseFormat();
+        $this->parseVisibility();
         parent::init();
         $this->setPageRows();
     }
-
-    /**
-     * Checks `hidden` property and hides the column from display
-     */
-    protected function hideColumn() {
-        if ($this->hidden === true) {
-            Html::addCssClass($this->filterOptions, 'kv-grid-hide');
-            Html::addCssClass($this->contentOptions, 'kv-grid-hide');
-            Html::addCssClass($this->headerOptions, 'kv-grid-hide');
-            Html::addCssClass($this->footerOptions, 'kv-grid-hide');
-            Html::addCssClass($this->pageSummaryOptions, 'kv-grid-hide');
-        }
-    }
-
-    /**
-     * Renders the header cell.
-     */
-    public function renderHeaderCell()
-    {
-        if ($this->grid->filterModel !== null && $this->mergeHeader && $this->grid->filterPosition === GridView::FILTER_POS_BODY) {
-            $this->headerOptions['rowspan'] = 2;
-            Html::addCssClass($this->headerOptions, 'kv-merged-header');
-        }
-        return parent::renderHeaderCell();
-    }
-
-    /**
-     * Renders the filter cell.
-     */
-    public function renderFilterCell()
-    {
-        if ($this->grid->filterPosition === GridView::FILTER_POS_BODY && $this->mergeHeader) {
-            return null;
-        }
-        return parent::renderFilterCell();
-    }
-
-    /**
-     * Store all rows for the column for the current page
-     */
-    protected function setPageRows()
-    {
-        if ($this->grid->showPageSummary === true && isset($this->pageSummary) && $this->pageSummary !== false && !is_string($this->pageSummary)) {
-            $provider = $this->grid->dataProvider;
-            $models = array_values($provider->getModels());
-            $keys = $provider->getKeys();
-            foreach ($models as $index => $model) {
-                $key = $keys[$index];
-                $this->_rows[] = $this->renderDataCellContent($model, $key, $index);
-            }
-        }
-    }
-
-    /**
-     * Calculates the summary of an input data based on aggregration function
-     *
-     * @param array $data the input data
-     * @param string $type the summary aggregation function
-     * @return float
-     */
-    protected function calculateSummary()
-    {
-        if (empty($this->_rows)) {
-            return '';
-        }
-        $data = $this->_rows;
-        $type = $this->pageSummaryFunc;
-        switch ($type) {
-            case null:
-                return array_sum($data);
-            case GridView::F_SUM:
-                return array_sum($data);
-            case GridView::F_COUNT:
-                return count($data);
-            case GridView::F_AVG:
-                return count($data) > 0 ? array_sum($data) / count($data) : null;
-            case GridView::F_MAX:
-                return max($data);
-            case GridView::F_MIN:
-                return min($data);
-        }
-        return '';
-    }
-
-    /**
-     * Renders the page summary cell.
-     */
-    public function renderPageSummaryCell()
-    {
-        return Html::tag('td', $this->renderPageSummaryCellContent(), $this->pageSummaryOptions);
-    }
-
-    /**
-     * Gets the raw page summary cell content.
-     *
-     * @return string the rendering result
-     */
-    protected function getPageSummaryCellContent()
-    {
-        if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
-            $summary = $this->calculateSummary();
-            return ($this->pageSummary === true) ? $summary : call_user_func($this->pageSummary, $summary, $this->_rows, $this);
-        }
-        if ($this->pageSummary !== false) {
-            return $this->pageSummary;
-        }
-        return null;
-    }
-
-    /**
-     * Renders the page summary cell content.
-     *
-     * @return string the rendering result
-     */
-    protected function renderPageSummaryCellContent()
-    {
-        if ($this->hidePageSummary) {
-            return $this->grid->emptyCell;
-        }
-        $content = $this->getPageSummaryCellContent();
-        return ($content === null) ? $this->grid->emptyCell : $content;
-    }
-
-    /**
-     * Get the raw footer cell content.
-     *
-     * @return string the rendering result
-     */
-    protected function getFooterCellContent()
-    {
-        return $this->footer;
-    }
-
+    
 }

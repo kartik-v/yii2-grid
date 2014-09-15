@@ -3,6 +3,9 @@ Version 2.0.0
 **Date:** 14-Sep-2014
 
 1. (enh #80): Add hidden property for columns to be hidden from display but available on export.
+2. (bug #81): CSS class `kv-grid-hide` configured for hidden columns.
+3. (enh #82): Created a reusable `ColumnTrait` for all custom yii2-grid columns.
+4. (enh #83): Upgraded jQuery floatTheader plugin to latest version.
 
 Version 1.9.0
 =============

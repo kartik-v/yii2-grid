@@ -22,7 +22,6 @@ use yii\base\InvalidConfigException;
  */
 class BooleanColumn extends DataColumn
 {
-
     /**
      * @var string the horizontal alignment of each column. Should be one of
      * 'left', 'right', or 'center'. Defaults to `center`.

@@ -23,6 +23,7 @@ use kartik\editable\Editable;
  */
 class EditableColumn extends DataColumn
 {
+    
     /**
      * @var array|Closure the configuration options for the [[\kartik\editable\Editable]] widget. If not set as an array,
      * this can be passed as a callback function of the signature: `function ($model, $key, $index)`, where:
