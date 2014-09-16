@@ -37,7 +37,32 @@ trait ColumnTrait
      * Parses and formats a grid column
      */
     protected function parseFormat() {
-        $this->grid->formatColumn($this->hAlign, $this->vAlign, $this->noWrap, $this->width, $this->headerOptions, $this->contentOptions, $this->pageSummaryOptions, $this->footerOptions);    
+        if ($this->hAlign === GridView::ALIGN_LEFT || $this->hAlign === GridView::ALIGN_RIGHT || $this->hAlign === GridView::ALIGN_CENTER) {
+            $class = "kv-align-{$this->hAlign}";
+            Html::addCssClass($this->headerOptions, $class);
+            Html::addCssClass($this->contentOptions, $class);
+            Html::addCssClass($this->pageSummaryOptions, $class);
+            Html::addCssClass($this->footerOptions, $class);
+        }
+        if ($this->noWrap) {
+            Html::addCssClass($this->headerOptions, GridView::NOWRAP);
+            Html::addCssClass($this->contentOptions, GridView::NOWRAP);
+            Html::addCssClass($this->pageSummaryOptions, GridView::NOWRAP);
+            Html::addCssClass($this->footerOptions, GridView::NOWRAP);
+        }
+        if ($this->vAlign === GridView::ALIGN_TOP || $this->vAlign === GridView::ALIGN_MIDDLE || $this->vAlign === GridView::ALIGN_BOTTOM) {
+            $class = "kv-align-{$this->vAlign}";
+            Html::addCssClass($this->headerOptions, $class);
+            Html::addCssClass($this->contentOptions, $class);
+            Html::addCssClass($this->pageSummaryOptions, $class);
+            Html::addCssClass($this->footerOptions, $class);
+        }
+        if (trim($this->width) != '') {
+            Html::addCssStyle($this->headerOptions, "width:{$this->width};");
+            Html::addCssStyle($this->contentOptions, "width:{$this->width};");
+            Html::addCssStyle($this->pageSummaryOptions, "width:{$this->width};");
+            Html::addCssStyle($this->footerOptions, "width:{$this->width};");
+        }
     }
     
     /**

@@ -628,47 +628,6 @@ HTML;
     }
 
     /**
-     * Format the grid column based on bootstrap, align, and width settings
-     *
-     * @param string $hAlign the horizontal alignment of the grid column ('left', 'center', or 'right')
-     * @param string $vAlign the vertical alignment of the grid column ('top', 'middle', or 'bottom')
-     * @param string $width the width of the grid column (in px, em, or %)
-     * @param array $headerOptions the HTML attributes for the grid column header
-     * @param array $contentOptions the HTML attributes for the grid column content
-     * @param array $pageSummaryOptions the HTML attributes for the grid column content
-     * @param array $footerOptions the HTML attributes for the grid column footer
-     */
-    public function formatColumn($hAlign, $vAlign, $noWrap, $width, &$headerOptions, &$contentOptions, &$pageSummaryOptions, &$footerOptions)
-    {
-        if ($hAlign === self::ALIGN_LEFT || $hAlign === self::ALIGN_RIGHT || $hAlign === self::ALIGN_CENTER) {
-            $class = "kv-align-{$hAlign}";
-            Html::addCssClass($headerOptions, $class);
-            Html::addCssClass($contentOptions, $class);
-            Html::addCssClass($pageSummaryOptions, $class);
-            Html::addCssClass($footerOptions, $class);
-        }
-        if ($noWrap) {
-            Html::addCssClass($headerOptions, self::NOWRAP);
-            Html::addCssClass($contentOptions, self::NOWRAP);
-            Html::addCssClass($pageSummaryOptions, self::NOWRAP);
-            Html::addCssClass($footerOptions, self::NOWRAP);
-        }
-        if ($vAlign === self::ALIGN_TOP || $vAlign === self::ALIGN_MIDDLE || $vAlign === self::ALIGN_BOTTOM) {
-            $class = "kv-align-{$vAlign}";
-            Html::addCssClass($headerOptions, $class);
-            Html::addCssClass($contentOptions, $class);
-            Html::addCssClass($pageSummaryOptions, $class);
-            Html::addCssClass($footerOptions, $class);
-        }
-        if (trim($width) != '') {
-            Html::addCssStyle($headerOptions, "width:{$width};");
-            Html::addCssStyle($contentOptions, "width:{$width};");
-            Html::addCssStyle($pageSummaryOptions, "width:{$width};");
-            Html::addCssStyle($footerOptions, "width:{$width};");
-        }
-    }
-
-    /**
      * Renders the table page summary.
      *
      * @return string the rendering result.

@@ -146,7 +146,7 @@ function replaceAll(str, from, to) {
                 });
             }
         },
-        clean: function ($type) {
+        clean: function (expType) {
             var self = this, $table = self.$table.clone();
             // Skip the filter rows and header rowspans
             $table.find('tr.filters').remove();
@@ -164,7 +164,7 @@ function replaceAll(str, from, to) {
                 $table.find('kv-table-caption').remove();
             }
             $table.find('.skip-export').remove();
-            $table.find('.skip-export-' + $type).remove();
+            $table.find('.skip-export-' + expType).remove();
             var htmlContent = $table.html();
             htmlContent = self.preProcess(htmlContent);
             $table.html(htmlContent);
@@ -192,8 +192,8 @@ function replaceAll(str, from, to) {
             var html = HTML_TEMPLATE.replace('{css}', css).replace('{data}', $('<div />').html($table.clone()).html());
             self.download('html', html);
         },
-        exportTEXT: function ($type) {
-            var self = this, $table = self.clean($type);
+        exportTEXT: function (expType) {
+            var self = this, $table = self.clean(expType);
             var $rows = $table.find('tr:has(' + self.columns + ')');
             // Temporary delimiter characters unlikely to be typed by keyboard
             // This is to avoid accidentally splitting the actual contents
@@ -212,7 +212,7 @@ function replaceAll(str, from, to) {
             }).get().join(tmpRowDelim)
                 .split(tmpRowDelim).join(rowDelim)
                 .split(tmpColDelim).join(colDelim) + '"';
-            self.download($type, txt);
+            self.download(expType, txt);
         },
         exportEXCEL: function () {
             var self = this, $table = self.clean('xls');
