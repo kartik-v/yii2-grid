@@ -39,6 +39,12 @@ class EditableColumn extends DataColumn
     public $refreshGrid = false;
     
     /**
+     * @var string the separator to implode keys in case a composite primary key is used for the grid data.
+     * Defaults to ':'.
+     */
+    public $keySeparator = ':';
+    
+    /**
      * @var array the computed editable options
      */
     protected $_editableOptions = [];
@@ -54,7 +60,6 @@ class EditableColumn extends DataColumn
      */
     public function renderDataCellContent($model, $key, $index)
     {
-        $exception = false;
         $this->_editableOptions = $this->editableOptions;
         if (!empty($this->editableOptions) && $this->editableOptions instanceof Closure) {
             $this->_editableOptions = call_user_func($this->editableOptions, $model, $key, $index);
@@ -65,19 +70,21 @@ class EditableColumn extends DataColumn
         if ($this->grid->pjax && empty($this->_editableOptions['pjaxContainerId'])) {
             $this->_editableOptions['pjaxContainerId'] = $this->grid->pjaxSettings['options']['id'];
         }
+        $strKey = $key;
+        if (!is_array($key) && !is_string($key) && !is_numeric($key) || empty($key)) {
+            throw new InvalidConfigException("Invalid or no primary key found for the grid data.");
+        } elseif (is_array($key)) {
+            $strKey = implode($this->keySeparator, $key);
+        }
         if ($this->attribute !== null) {
             $this->_editableOptions['model'] = $model;
             $this->_editableOptions['attribute'] = '[' . $index . ']' . $this->attribute;
-        } elseif (empty($this->_editableOptions['name']) && empty($this->_editableOptions['model'])) {
-            $exception = true;
-        } elseif (empty($this->_editableOptions['attribute'])) {
-            $exception = true;
-        }
-        if ($exception) {
-            throw new InvalidConfigException("You must setup either the 'attribute' for the EditableColumn OR setup the 'name' OR 'model'/'attribute' in 'editableOptions' (Exception at index: '{$index}').");
+        } elseif (empty($this->_editableOptions['name']) && empty($this->_editableOptions['model']) ||
+            !empty($this->_editableOptions['model']) && empty($this->_editableOptions['attribute'])) {
+            throw new InvalidConfigException("You must setup either the 'name' for the EditableColumn OR 'model' & 'attribute' in 'editableOptions' (Exception at index: '{$index}', key: '{$strKey}').");
         }
         $this->_editableOptions['displayValue'] = parent::renderDataCellContent($model, $key, $index);
-        $params = Html::hiddenInput('editableIndex', $index) . Html::hiddenInput('editableKey', $key);
+        $params = Html::hiddenInput('editableIndex', $index) . Html::hiddenInput('editableKey', $strKey);
         if (empty($this->_editableOptions['beforeInput'])) {
             $this->_editableOptions['beforeInput'] = $params;
         } else {
