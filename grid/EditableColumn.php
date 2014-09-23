@@ -81,7 +81,7 @@ class EditableColumn extends DataColumn
             $this->_editableOptions['attribute'] = '[' . $index . ']' . $this->attribute;
         } elseif (empty($this->_editableOptions['name']) && empty($this->_editableOptions['model']) ||
             !empty($this->_editableOptions['model']) && empty($this->_editableOptions['attribute'])) {
-            throw new InvalidConfigException("You must setup either the 'name' for the EditableColumn OR 'model' & 'attribute' in 'editableOptions' (Exception at index: '{$index}', key: '{$strKey}').");
+            throw new InvalidConfigException("You must setup the 'attribute' for your EditableColumn OR set one of 'name' OR 'model' & 'attribute' in 'editableOptions' (Exception at index: '{$index}', key: '{$strKey}').");
         }
         $this->_editableOptions['displayValue'] = parent::renderDataCellContent($model, $key, $index);
         $params = Html::hiddenInput('editableIndex', $index) . Html::hiddenInput('editableKey', $strKey);
