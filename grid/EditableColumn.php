@@ -39,12 +39,6 @@ class EditableColumn extends DataColumn
     public $refreshGrid = false;
     
     /**
-     * @var string the separator to implode keys in case a composite primary key is used for the grid data.
-     * Defaults to ':'.
-     */
-    public $keySeparator = ':';
-    
-    /**
      * @var array the computed editable options
      */
     protected $_editableOptions = [];
@@ -71,10 +65,10 @@ class EditableColumn extends DataColumn
             $this->_editableOptions['pjaxContainerId'] = $this->grid->pjaxSettings['options']['id'];
         }
         $strKey = $key;
-        if (!is_array($key) && !is_string($key) && !is_numeric($key) || empty($key)) {
+        if (empty($key)) {
             throw new InvalidConfigException("Invalid or no primary key found for the grid data.");
-        } elseif (is_array($key)) {
-            $strKey = implode($this->keySeparator, $key);
+        } elseif (!is_string($key) && !is_numeric($key)) {
+            $strKey = serialize($key);
         }
         if ($this->attribute !== null) {
             $this->_editableOptions['model'] = $model;

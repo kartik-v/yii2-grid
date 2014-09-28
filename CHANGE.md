@@ -6,7 +6,7 @@ Version 2.0.0
 2. (bug #81): CSS class `kv-grid-hide` configured for hidden columns.
 3. (enh #82): Created a reusable `ColumnTrait` for all custom yii2-grid columns.
 4. (enh #83): Upgraded jQuery floatTheader plugin to latest version.
-5. (bug #85): Enhancement and support for composite primary keys in grid data.
+5. (bug #85, #87, #88): Enhance EditableColumn to capture keys of various data types
 
 Version 1.9.0
 =============
