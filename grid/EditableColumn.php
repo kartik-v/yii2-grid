@@ -71,7 +71,7 @@ class EditableColumn extends DataColumn
             $this->_editableOptions['pjaxContainerId'] = $this->grid->pjaxSettings['options']['id'];
         }
         $strKey = $key;
-        if (!is_array($key) && !is_string($key) && !is_numeric($key) || empty($key)) {
+        if (!is_array($key) && !is_string($key) && !is_numeric($key) && !is_object($key) || empty($key)) {
             throw new InvalidConfigException("Invalid or no primary key found for the grid data.");
         } elseif (is_array($key)) {
             $strKey = implode($this->keySeparator, $key);
