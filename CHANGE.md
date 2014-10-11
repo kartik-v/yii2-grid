@@ -8,6 +8,7 @@ Version 2.0.0
 4. (enh #83): Upgraded jQuery floatTheader plugin to latest version.
 5. (bug #85, #87, #88): Enhance EditableColumn to capture keys of various data types
 6. PSR 4 alias change
+7. (bug #92): Bug fix for generating multiple rows in header/footer.
 
 Version 1.9.0
 =============

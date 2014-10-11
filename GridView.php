@@ -804,7 +804,7 @@ HTML;
                     continue;
                 }
                 $rowOptions = ArrayHelper::getValue($row, 'options', []);
-                $rows = Html::beginTag('tr', $rowOptions);
+                $rows .= Html::beginTag('tr', $rowOptions);
                 foreach ($row['columns'] as $col) {
                     $colOptions = ArrayHelper::getValue($col, 'options', []);
                     $colContent = ArrayHelper::getValue($col, 'content', '');
