@@ -34,6 +34,8 @@ return [
     'Active' => 'Aktiv',
     'Inactive' => 'Inaktiv',
     'Export' => 'Eksportér',
+    'ExportWorksheet' => 'EksportérArbejdsark',
+    'Export Page Data'=>'Export Side Data',
     'export' => 'exportér',
     'grid-export' => 'tabel-eksport',
     'The HTML export file will be generated for download.' => 'HTML eksportfilen vil blive genereret til download.',

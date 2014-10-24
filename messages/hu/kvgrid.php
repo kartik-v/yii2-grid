@@ -34,6 +34,8 @@ return [
     'Active' => 'Aktív',
     'Inactive' => 'Inaktív',
     'Export' => 'Exportálás',
+    'ExportWorksheet' => 'EksportérMunkalap',
+    'Export Page Data'=>'Export Oldal Adat',
     'export' => 'exportálás',
     'grid-export' => 'grid-exportalas',
     'The HTML export file will be generated for download.' => 'A HTML export fájl előkészítése letöltésre.',

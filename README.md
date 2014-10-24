@@ -7,8 +7,8 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh6.googleusercontent.com/-IebDj1WBLKE/U8yvTtaPqWI/AAAAAAAAAI4/sr8rlfZG_l8/w860-h551-no/yii2-grid.jpg)
 
 ## Latest Release
-The latest version of the module is v1.9.0 released on 21-Aug-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
-With v1.9.0, the GridView by default has embedded Pjax support. To enable Pjax processing, set `pjax` property to `true` and control pjax behavior using `pjaxSettings`.
+The latest version of the module is v2.1.0 released on 25-Oct-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
+The release v2.1.0 adds ability to add grid plugins/components in an easier way and includes an enhanced toolbar configuration.
 
 > NOTE: This extension depends on the [kartik-v/yii2-widgets](https://github.com/kartik-v/yii2-widgets) extension which in turn depends on the
 [yiisoft/yii2-bootstrap](https://github.com/yiisoft/yii2/tree/master/extensions/bootstrap) extension. Check the 
@@ -48,6 +48,13 @@ Allows the grid table to have a floating table header. Uses the [JQuery Float TH
 Allows configuration of GridView to be enclosed in a panel that can be styled as per  Bootstrap 3.x. The panel will enable configuration of  various
 sections to embed content/buttons, before and after header, and before and after footer.
 
+### Toolbar (New)
+The grid offers ability to configure toolbar for adding various actions. The default templates place the toolbar in the `before` section of the `panel`. The toolbar is by default styled using Bootstrap button groups. Some of the default actions like the `export` button is by default appended to the toolbar. 
+With version v2.1.0, if you are using the `yii2-dynagrid` extension it automatically displays the  **personalize**, **sort**, and **filter** buttons in the toolbar. The toolbar can be configured as a simple array. Refer the [docs and demos](http://demos.krajee.com/grid) for details.
+
+### Grid Plugins (New)
+The grid now offers ability to plugin dynamic content to your grid at runtime. A new property `replaceTags` has been added with v2.1.0. This allows you to specify tags which will be replaced dynamically at grid rendering time and wherever you set these tags in any of the grid layout templates.
+
 ### Page Summary (New)
 This is a new feature added to the GridView widget. The page summary is an additional row above the footer - for displaying the
 summary/totals for the current GridView page. The following parameters are applicable to control this behavior:
@@ -68,6 +75,8 @@ For example, this currently is set as a default to convert the HTML formatted ic
     - `skip-export-txt`: Will skip this element during export only for `txt` export format.
     - `skip-export-xls`: Will skip this element during export only for `xls` (excel) export format.
     These CSS can be set virtually anywhere. For example `headerOptions`, `contentOptions`, `beforeHeader` etc.
+
+With release v2.1.0, you can now merge additional action items to the export button dropdown.
 
 ## Data Column (Enhanced)
 ### \kartik\grid\DataColumn

@@ -1,3 +1,12 @@
+Version 2.1.0
+=============
+**Date:** 25-Oct-2014
+
+1. (enh #94): Enhance and revamp toolbar.
+2. (enh #95): Enhance export button dropdown feature.
+3. (enh #96): Grid Plugins: Add ability to replace tags in gridview rendered layout.
+3. (enh #99): Grid Export Plugins: Add ability to extend export dropdown.
+
 Version 2.0.0
 =============
 **Date:** 14-Sep-2014

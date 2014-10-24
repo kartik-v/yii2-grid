@@ -34,6 +34,8 @@ return [
     'Active' => '',
     'Inactive' => '',
     'Export' => '',
+    'ExportWorksheet' => '',
+    'Export Page Data'=>'',
     'export' => '',
     'grid-export' => '',
     'The HTML export file will be generated for download.' => '',
@@ -49,5 +51,5 @@ return [
     'Reset Grid' => '',
     'Download Selected' => '',
     'The table header sticks to the top in this demo as you scroll' => '',
-    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => '',
+    'The page summary displays SUM for first 3 amount columns and AVG for the last.' => ''
 ];

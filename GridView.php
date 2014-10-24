@@ -3,11 +3,12 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.0.0
+ * @version 2.1.0
  */
 
 namespace kartik\grid;
 
+use Closure;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
@@ -148,7 +149,9 @@ HTML;
      */
     public $beforeTemplate = <<< HTML
 <div class="pull-right">
-	{toolbar}\n{export}
+    <div class="btn-toolbar" role="toolbar">
+        {toolbar}
+    </div>    
 </div>
 {beforeContent}
 <div class="clearfix"></div>
@@ -212,9 +215,31 @@ HTML;
     public $afterFooter = [];
 
     /**
-     * @var string the toolbar content to be rendered.
+     * @var array|string the toolbar content configuration. Can be setup as a string or an array.
+     * - if set as a string, it will be rendered as is.
+     * - if set as an array, each line item will be considered as following
+     *   - if the line item is setup as a string, it will be rendered as is
+     *   - if the line item is an array it will be parsed for the following keys:
+     *      - content: the content to be rendered as a bootstrap button group. The following special
+     *        variables are recognized and will be replaced:
+     *          - {export}, string which will render the [[$export]] menu button content
+     *      - options: the HTML attributes for the button group div container. By default the
+     *        CSS class `btn-group` will be attached to this container.
      */
-    public $toolbar = '';
+    public $toolbar = ['{export}'];
+
+    /**
+     * Tags to replace in the rendered layout. Enter this as `$key => $value` pairs, where:
+     * - $key: string, defines the flag.
+     * - $value: string|Closure, the value that will be replaced. You can set it as a callback
+     *   function to return a string of the signature:
+     *      function ($widget) { return 'custom'; }
+     * 
+     * For example:
+     * ['{flag}' => '<span class="glyphicon glyphicon-asterisk"></span']
+     * @var array
+     */
+    public $replaceTags = [];
 
     /**
      * @var string the default data column class if the class name is not
@@ -240,8 +265,8 @@ HTML;
 
     /**
      * @var boolean whether the grid view will be rendered within a pjax container.
-     * Defaults to `false`. If set to `true`, the entire GridView widget will be parsed 
-     * via Pjax and auto-rendered inside a yii\widgets\Pjax widget container. If set to 
+     * Defaults to `false`. If set to `true`, the entire GridView widget will be parsed
+     * via Pjax and auto-rendered inside a yii\widgets\Pjax widget container. If set to
      * `false` pjax will be disabled and none of the pjax settings will be applied.
      */
     public $pjax = false;
@@ -351,14 +376,21 @@ HTML;
     /**
      * @array|boolean the grid export menu settings. Displays a Bootstrap dropdown menu that allows you to export the grid as
      * either html, csv, or excel. If set to false, will not be displayed. The following options can be set:
-     * - label: string,the export menu label (this is not HTML encoded). Defaults to 'Export'.
+     * - label: string,the export menu label (this is not HTML encoded). Defaults to ''.
      * - icon: string,the glyphicon suffix to be displayed before the export menu label. If set to an empty string, this
      *   will not be displayed. Defaults to 'export'.
      * - browserPopupsMsg: string, the message to be shown to disable browser popups for download
-     * - options: array, HTML attributes for the export menu. Defaults to ['class' => 'btn btn-danger']
+     * - header: string, the header for the grid page export dropdown. If set to empty string will not be displayed. Defaults to:
+     *   `<li role="presentation" class="dropdown-header">Export Page Data</li>`. 
+     * - items: array, any additional items that will be merged with the export dropdown list. This should be similar to the `items`
+     *   property as supported by `\yii\bootstrap\ButtonDropdown` widget. Note the page export items will be automatically 
+     *   generated based on settings in the `exportConfig` property.
+     * - options: array, HTML attributes for the export menu button. Defaults to `['class' => 'btn btn-default', 'title'=>'Export']`.
+     * - menuOptions: array, HTML attributes for the export dropdown menu. Defaults to `['class' => 'dropdown-menu dropdown-menu-right']`. 
+     *   This is to be set exactly as the options property for `\yii\bootstrap\Dropdown` widget.
      */
     public $export = [];
-
+    
     /**
      * @var array the configuration for each export format. The array keys must be the one of the `format` constants
      * (CSV, HTML, TEXT, or EXCEL) and the array value is a configuration array consisiting of these settings:
@@ -427,11 +459,15 @@ HTML;
 
         if ($this->export !== false) {
             $this->export = ArrayHelper::merge([
-                'label' => Yii::t('kvgrid', 'Export'),
+                'label' => '',
                 'icon' => 'export',
                 'browserPopupsMsg' => Yii::t('kvgrid', 'Disable any popup blockers in your browser to ensure proper download.'),
-                'options' => ['class' => 'btn btn-danger']
+                'options' => ['class' => 'btn btn-default', 'title' => Yii::t('kvgrid', 'Export')],
+                'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-right '],
             ], $this->export);
+            if (!isset($this->export['header'])) {
+                $this->export['header'] = '<li role="presentation" class="dropdown-header">' . Yii::t('kvgrid', 'Export Page Data'). '</li>';
+            }
             $defaultExportConfig = [
                 self::HTML => [
                     'label' => Yii::t('kvgrid', 'HTML'),
@@ -532,17 +568,28 @@ HTML;
         if ($this->bootstrap && is_array($this->panel) && !empty($this->panel)) {
             $this->renderPanel();
         }
+        $export = $this->renderExport();
+        $toolbar = strtr($this->renderToolbar(), ['{export}' => $export]);
         if (strpos($this->layout, '{export}') > 0) {
             $this->layout = strtr($this->layout, [
-                '{export}' => $this->renderExport(),
-                '{toolbar}' => $this->toolbar
+                '{export}' => $export,
+                '{toolbar}' => $toolbar
             ]);
         } else {
-            $this->layout = strtr($this->layout, ['{toolbar}' => $this->toolbar]);
+            $this->layout = strtr($this->layout, ['{toolbar}' => $toolbar]);
         }
         $this->layout = str_replace('{items}', Html::tag('div', '{items}', $this->containerOptions), $this->layout);
+        if (is_array($this->replaceTags) && !empty($this->replaceTags)) {
+            foreach ($this->replaceTags as $key => $value) {
+                if ($value instanceof Closure) {
+                    $value = call_user_func($value, $this);
+                }
+                $this->layout = str_replace($key, $value, $this->layout);
+            }
+        }
+
         $this->renderPjax();
-        
+
         parent::run();
         if ($this->pjax) {
             echo ArrayHelper::getValue($this->pjaxSettings, 'afterGrid', '');
@@ -550,6 +597,9 @@ HTML;
         }
     }
 
+    /**
+     * Renders the PJAX container
+     */
     protected function renderPjax()
     {
         if (!$this->pjax) {
@@ -570,7 +620,7 @@ HTML;
             if ($loadingCss === true) {
                 $loadingCss = 'kv-grid-loading';
             }
-            $view->registerJs("{$container}.on('pjax:send', function(){{$grid}.addClass('{$loadingCss}')});"); 
+            $view->registerJs("{$container}.on('pjax:send', function(){{$grid}.addClass('{$loadingCss}')});");
             $postPjaxJs = "{$grid}.removeClass('{$loadingCss}');";
         }
         if (!empty($this->_jsExportScript)) {
@@ -617,7 +667,6 @@ HTML;
             $content = strtr($this->afterTemplate, ['{afterContent}' => $after]);
             $after = Html::tag('div', $content, $afterOptions);
         }
-
         $this->layout = strtr($layout, [
             '{heading}' => $heading,
             '{type}' => $type,
@@ -660,6 +709,33 @@ HTML;
     }
 
     /**
+     * Generates the toolbar
+     *
+     * @return string
+     */
+    protected function renderToolbar()
+    {
+        if (empty($this->toolbar) || (!is_string($this->toolbar) && !is_array($this->toolbar))) {
+            return '';
+        }
+        if (is_string($this->toolbar)) {
+            return $this->toolbar;
+        }
+        $toolbar = '';
+        foreach ($this->toolbar as $item) {
+            if (is_array($item)) {
+                $content = ArrayHelper::getValue($item, 'content', '');
+                $options = ArrayHelper::getValue($item, 'options', []);
+                Html::addCssClass($options, 'btn-group');
+                $toolbar .= Html::tag('div', $content, $options);
+            } else {
+                $toolbar .= "\n{$item}";
+            }
+        }
+        return $toolbar;
+    }
+
+    /**
      * Renders the export menu
      *
      * @return string
@@ -676,10 +752,16 @@ HTML;
         $title = $this->export['label'];
         $icon = $this->export['icon'];
         $options = $this->export['options'];
-        $items = [];
+        $menuOptions = $this->export['menuOptions'];
+        $items = empty($this->export['header']) ? [] : [$this->export['header']];
         foreach ($formats as $format => $setting) {
             $label = (empty($setting['icon']) || $setting['icon'] == '') ? $setting['label'] : '<i class="glyphicon glyphicon-' . $setting['icon'] . '"></i> ' . $setting['label'];
-            $items[] = ['label' => $label, 'url' => '#', 'linkOptions' => ['class' => 'export-' . $format], 'options' => $setting['options']];
+            $items[] = [
+                'label' => $label,
+                'url' => '#',
+                'linkOptions' => ['class' => 'export-' . $format],
+                'options' => $setting['options']
+            ];
         }
         $title = ($icon == '') ? $title : "<i class='glyphicon glyphicon-{$icon}'></i> {$title}";
         $action = Yii::$app->getModule('gridview')->downloadAction;
@@ -688,70 +770,24 @@ HTML;
         }
         $frameId = $this->options['id'] . '_export';
         $form = Html::beginForm($action, 'post', [
-            'class' => 'kv-export-form', 
-            'style' => 'display:none', 
-            'target' => '_blank', 
-            'data-pjax' => false
-        ]) . 
-        Html::textInput('export_filetype') . 
-        Html::textInput('export_filename') . 
-        Html::textArea('export_content') . 
-        '</form>';
+                'class' => 'kv-export-form',
+                'style' => 'display:none',
+                'target' => '_blank',
+                'data-pjax' => false
+            ]) .
+            Html::textInput('export_filetype') .
+            Html::textInput('export_filename') .
+            Html::textArea('export_content') .
+            '</form>';
+        if (!empty($this->export['items']) && is_array($this->export['items'])){
+            $items = ArrayHelper::merge($items, $this->export['items']);
+        }
         return ButtonDropdown::widget([
             'label' => $title,
-            'dropdown' => ['items' => $items, 'encodeLabels' => false],
+            'dropdown' => ['items' => $items, 'encodeLabels' => false, 'options'=>$menuOptions],
             'options' => $options,
             'encodeLabel' => false
         ]) . $form;
-    }
-    
-    /**
-     * Register assets
-     */
-    protected function registerAssets()
-    {
-        $view = $this->getView();
-        GridViewAsset::register($view);
-
-        if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
-            GridExportAsset::register($view);
-            $js = '';
-            $popup = ArrayHelper::getValue($this->export, 'browserPopupsMsg', '');
-            foreach ($this->exportConfig as $format => $setting) {
-                $id = 'jQuery("#' . $this->id . ' .export-' . $format . '")';
-                $grid = new JsExpression('jQuery("#' . $this->id . '")');
-                $options = [
-                    'grid' => $grid,
-                    'filename' => $setting['filename'],
-                    'showHeader' => $setting['showHeader'],
-                    'showPageSummary' => $setting['showPageSummary'],
-                    'showFooter' => $setting['showFooter'],
-                    'worksheet' => ArrayHelper::getValue($setting, 'worksheet', ''),
-                    'colDelimiter' => ArrayHelper::getValue($setting, 'colDelimiter', ''),
-                    'rowDelimiter' => ArrayHelper::getValue($setting, 'rowDelimiter', ''),
-                    'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
-                    'browserPopupsMsg' => $popup,
-                    'cssFile' => ArrayHelper::getValue($setting, 'cssFile', ''),
-                    'exportConversions' => $this->exportConversions
-                ];
-                $opts = Json::encode($options);
-                $this->_jsExportScript .= "\n{$id}.gridexport({$opts});";
-            }
-            if (!empty($this->_jsExportScript)) {
-                $view->registerJs($this->_jsExportScript);
-            }
-        }
-
-        if ($this->floatHeader) {
-            GridFloatHeadAsset::register($view);
-            $this->floatHeaderOptions = ArrayHelper::merge([
-                'floatTableClass' => 'kv-table-float',
-                'floatContainerClass' => 'kv-thead-float',
-            ], $this->floatHeaderOptions);
-            $opts = Json::encode($this->floatHeaderOptions);
-            $this->_jsFloatTheadScript = "jQuery('#{$this->id} table').floatThead({$opts});";
-            $view->registerJs($this->_jsFloatTheadScript);
-        }
     }
 
     /**
@@ -815,5 +851,54 @@ HTML;
             }
         }
         return $rows;
+    }
+
+    /**
+     * Registers client assets
+     */
+    protected function registerAssets()
+    {
+        $view = $this->getView();
+        GridViewAsset::register($view);
+
+        if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
+            GridExportAsset::register($view);
+            $js = '';
+            $popup = ArrayHelper::getValue($this->export, 'browserPopupsMsg', '');
+            foreach ($this->exportConfig as $format => $setting) {
+                $id = 'jQuery("#' . $this->id . ' .export-' . $format . '")';
+                $grid = new JsExpression('jQuery("#' . $this->id . '")');
+                $options = [
+                    'grid' => $grid,
+                    'filename' => $setting['filename'],
+                    'showHeader' => $setting['showHeader'],
+                    'showPageSummary' => $setting['showPageSummary'],
+                    'showFooter' => $setting['showFooter'],
+                    'worksheet' => ArrayHelper::getValue($setting, 'worksheet', ''),
+                    'colDelimiter' => ArrayHelper::getValue($setting, 'colDelimiter', ''),
+                    'rowDelimiter' => ArrayHelper::getValue($setting, 'rowDelimiter', ''),
+                    'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
+                    'browserPopupsMsg' => $popup,
+                    'cssFile' => ArrayHelper::getValue($setting, 'cssFile', ''),
+                    'exportConversions' => $this->exportConversions
+                ];
+                $opts = Json::encode($options);
+                $this->_jsExportScript .= "\n{$id}.gridexport({$opts});";
+            }
+            if (!empty($this->_jsExportScript)) {
+                $view->registerJs($this->_jsExportScript);
+            }
+        }
+
+        if ($this->floatHeader) {
+            GridFloatHeadAsset::register($view);
+            $this->floatHeaderOptions = ArrayHelper::merge([
+                'floatTableClass' => 'kv-table-float',
+                'floatContainerClass' => 'kv-thead-float',
+            ], $this->floatHeaderOptions);
+            $opts = Json::encode($this->floatHeaderOptions);
+            $this->_jsFloatTheadScript = "jQuery('#{$this->id} table').floatThead({$opts});";
+            $view->registerJs($this->_jsFloatTheadScript);
+        }
     }
 }

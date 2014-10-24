@@ -34,6 +34,8 @@ return [
     'Active' => 'Attivo',
     'Inactive' => 'Inattivo',
     'Export' => 'Esporta',
+    'ExportWorksheet' => 'EksportérFoglioDiLavoro',
+    'Export Page Data'=>'Esporta Pagina Dei Dati',
     'export' => '',
     'grid-export' => '',
     'The HTML export file will be generated for download.' => 'Sarà generato il file HTML da esportare.',
