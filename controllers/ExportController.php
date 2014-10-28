@@ -33,7 +33,7 @@ class ExportController extends \yii\web\Controller
     protected function setHttpHeaders($type, $name)
     {
         if ($type == GridView::CSV) {
-            $mime = 'text/csv';
+            $mime = 'application/csv';
         } elseif ($type == GridView::TEXT) {
             $mime = 'text/plain';
         } elseif ($type == GridView::HTML) {
