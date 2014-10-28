@@ -661,7 +661,7 @@ HTML;
 
      
     /**
-     * Closes the PJAX container
+     * Ends the PJAX container
      */
     protected function endPjax()
     {
