@@ -78,7 +78,7 @@ class GridView extends \yii\grid\GridView
     const FILTER_DATE = '\kartik\widgets\DatePicker';
     const FILTER_TIME = '\kartik\widgets\TimePicker';
     const FILTER_DATETIME = '\kartik\widgets\DateTimePicker';
-    const FILTER_DATE_RANGE = '\kartik\widgets\DateRangePicker';
+    const FILTER_DATE_RANGE = '\kartik\daterange\DateRangePicker';
     const FILTER_SORTABLE = '\kartik\sortinput\SortableInput';
     const FILTER_RANGE = '\kartik\widgets\RangeInput';
     const FILTER_COLOR = '\kartik\widgets\ColorInput';
@@ -446,128 +446,158 @@ HTML;
      */
     protected $_jsFloatTheadScript = '';
 
-    public function init()
+    public function run()
     {
         $module = Yii::$app->getModule('gridview');
         if ($module == null || !$module instanceof \kartik\grid\Module) {
             throw new InvalidConfigException('The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.');
+        }
+        $this->initExport();
+        $this->initHeader();
+        $this->initBootstrapStyle();
+        $this->containerOptions['id'] = $this->options['id'] . '-container';
+        $this->registerAssets();
+        $this->renderPanel();
+        $this->initLayout();
+        $this->beginPjax();
+        parent::run();
+        $this->endPjax();
+    }
+    
+    /**
+     * Initialize grid export
+     */
+    protected function initExport()
+    {
+        if ($this->export === false) {
+            return;
         }
         $this->exportConversions = ArrayHelper::merge([
             ['from' => self::ICON_ACTIVE, 'to' => Yii::t('kvgrid', 'Active')],
             ['from' => self::ICON_INACTIVE, 'to' => Yii::t('kvgrid', 'Inactive')]
         ], $this->exportConversions);
 
-        if ($this->export !== false) {
-            $this->export = ArrayHelper::merge([
-                'label' => '',
-                'icon' => 'export',
-                'browserPopupsMsg' => Yii::t('kvgrid', 'Disable any popup blockers in your browser to ensure proper download.'),
-                'options' => ['class' => 'btn btn-default', 'title' => Yii::t('kvgrid', 'Export')],
-                'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-right '],
-            ], $this->export);
-            if (!isset($this->export['header'])) {
-                $this->export['header'] = '<li role="presentation" class="dropdown-header">' . Yii::t('kvgrid', 'Export Page Data'). '</li>';
-            }
-            $defaultExportConfig = [
-                self::HTML => [
-                    'label' => Yii::t('kvgrid', 'HTML'),
-                    'icon' => 'floppy-saved',
-                    'showHeader' => true,
-                    'showPageSummary' => true,
-                    'showFooter' => true,
-                    'showCaption' => true,
-                    'filename' => Yii::t('kvgrid', 'grid-export'),
-                    'alertMsg' => Yii::t('kvgrid', 'The HTML export file will be generated for download.'),
-                    'cssFile' => 'http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css',
-                    'options' => ['title' => Yii::t('kvgrid', 'Save as HTML')]
-                ],
-                self::CSV => [
-                    'label' => Yii::t('kvgrid', 'CSV'),
-                    'icon' => 'floppy-open',
-                    'showHeader' => true,
-                    'showPageSummary' => true,
-                    'showFooter' => true,
-                    'showCaption' => true,
-                    'colDelimiter' => ",",
-                    'rowDelimiter' => "\r\n",
-                    'filename' => Yii::t('kvgrid', 'grid-export'),
-                    'alertMsg' => Yii::t('kvgrid', 'The CSV export file will be generated for download.'),
-                    'options' => ['title' => Yii::t('kvgrid', 'Save as CSV')]
-                ],
-                self::TEXT => [
-                    'label' => Yii::t('kvgrid', 'Text'),
-                    'icon' => 'floppy-save',
-                    'showHeader' => true,
-                    'showPageSummary' => true,
-                    'showFooter' => true,
-                    'showCaption' => true,
-                    'colDelimiter' => "\t",
-                    'rowDelimiter' => "\r\n",
-                    'filename' => Yii::t('kvgrid', 'grid-export'),
-                    'alertMsg' => Yii::t('kvgrid', 'The TEXT export file will be generated for download.'),
-                    'options' => ['title' => Yii::t('kvgrid', 'Save as Text')]
-                ],
-                self::EXCEL => [
-                    'label' => Yii::t('kvgrid', 'Excel'),
-                    'icon' => 'floppy-remove',
-                    'showHeader' => true,
-                    'showPageSummary' => true,
-                    'showFooter' => true,
-                    'showCaption' => true,
-                    'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
-                    'filename' => Yii::t('kvgrid', 'grid-export'),
-                    'alertMsg' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.'),
-                    'cssFile' => '',
-                    'options' => ['title' => Yii::t('kvgrid', 'Save as Excel')]
-                ],
-            ];
-            if (is_array($this->exportConfig) && !empty($this->exportConfig)) {
-                foreach ($this->exportConfig as $format => $setting) {
-                    $setup = is_array($this->exportConfig[$format]) ? $this->exportConfig[$format] : [];
-                    $exportConfig[$format] = empty($setup) ? $defaultExportConfig[$format] :
-                        ArrayHelper::merge($defaultExportConfig[$format], $setup);
-                }
-                $this->exportConfig = $exportConfig;
-            } else {
-                $this->exportConfig = $defaultExportConfig;
-            }
-            foreach ($this->exportConfig as $format => $setting) {
-                $this->exportConfig[$format]['options']['data-pjax'] = false;
-            }
+        $this->export = ArrayHelper::merge([
+            'label' => '',
+            'icon' => 'export',
+            'browserPopupsMsg' => Yii::t('kvgrid', 'Disable any popup blockers in your browser to ensure proper download.'),
+            'options' => ['class' => 'btn btn-default', 'title' => Yii::t('kvgrid', 'Export')],
+            'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-right '],
+        ], $this->export);
+        if (!isset($this->export['header'])) {
+            $this->export['header'] = '<li role="presentation" class="dropdown-header">' . Yii::t('kvgrid', 'Export Page Data'). '</li>';
         }
+        $defaultExportConfig = [
+            self::HTML => [
+                'label' => Yii::t('kvgrid', 'HTML'),
+                'icon' => 'floppy-saved',
+                'showHeader' => true,
+                'showPageSummary' => true,
+                'showFooter' => true,
+                'showCaption' => true,
+                'filename' => Yii::t('kvgrid', 'grid-export'),
+                'alertMsg' => Yii::t('kvgrid', 'The HTML export file will be generated for download.'),
+                'cssFile' => 'http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css',
+                'options' => ['title' => Yii::t('kvgrid', 'Save as HTML')]
+            ],
+            self::CSV => [
+                'label' => Yii::t('kvgrid', 'CSV'),
+                'icon' => 'floppy-open',
+                'showHeader' => true,
+                'showPageSummary' => true,
+                'showFooter' => true,
+                'showCaption' => true,
+                'colDelimiter' => ",",
+                'rowDelimiter' => "\r\n",
+                'filename' => Yii::t('kvgrid', 'grid-export'),
+                'alertMsg' => Yii::t('kvgrid', 'The CSV export file will be generated for download.'),
+                'options' => ['title' => Yii::t('kvgrid', 'Save as CSV')]
+            ],
+            self::TEXT => [
+                'label' => Yii::t('kvgrid', 'Text'),
+                'icon' => 'floppy-save',
+                'showHeader' => true,
+                'showPageSummary' => true,
+                'showFooter' => true,
+                'showCaption' => true,
+                'colDelimiter' => "\t",
+                'rowDelimiter' => "\r\n",
+                'filename' => Yii::t('kvgrid', 'grid-export'),
+                'alertMsg' => Yii::t('kvgrid', 'The TEXT export file will be generated for download.'),
+                'options' => ['title' => Yii::t('kvgrid', 'Save as Text')]
+            ],
+            self::EXCEL => [
+                'label' => Yii::t('kvgrid', 'Excel'),
+                'icon' => 'floppy-remove',
+                'showHeader' => true,
+                'showPageSummary' => true,
+                'showFooter' => true,
+                'showCaption' => true,
+                'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
+                'filename' => Yii::t('kvgrid', 'grid-export'),
+                'alertMsg' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.'),
+                'cssFile' => '',
+                'options' => ['title' => Yii::t('kvgrid', 'Save as Excel')]
+            ],
+        ];
+        if (is_array($this->exportConfig) && !empty($this->exportConfig)) {
+            foreach ($this->exportConfig as $format => $setting) {
+                $setup = is_array($this->exportConfig[$format]) ? $this->exportConfig[$format] : [];
+                $exportConfig[$format] = empty($setup) ? $defaultExportConfig[$format] :
+                    ArrayHelper::merge($defaultExportConfig[$format], $setup);
+            }
+            $this->exportConfig = $exportConfig;
+        } else {
+            $this->exportConfig = $defaultExportConfig;
+        }
+        foreach ($this->exportConfig as $format => $setting) {
+            $this->exportConfig[$format]['options']['data-pjax'] = false;
+        }
+    }
+    
+    /**
+     * Initialize bootstrap styling
+     */
+    protected function initBootstrapStyle()
+    {
+        if (!$this->bootstrap) {
+            return;
+        }
+        Html::addCssClass($this->tableOptions, 'table');
+        if ($this->hover) {
+            Html::addCssClass($this->tableOptions, 'table-hover');
+        }
+        if ($this->bordered) {
+            Html::addCssClass($this->tableOptions, 'table-bordered');
+        }
+        if ($this->striped) {
+            Html::addCssClass($this->tableOptions, 'table-striped');
+        }
+        if ($this->condensed) {
+            Html::addCssClass($this->tableOptions, 'table-condensed');
+        }
+        if ($this->responsive) {
+            Html::addCssClass($this->containerOptions, 'table-responsive');
+        }    
+    }
+    
+    /**
+     * Initialize table header
+     */
+    protected function initHeader()
+    {
         if ($this->filterPosition === self::FILTER_POS_HEADER) {
             // Float header plugin misbehaves when Filter is placed on the first row
             // So disable it when `filterPosition` is `header`.
             $this->floatHeader = false;
         }
-        if ($this->bootstrap) {
-            Html::addCssClass($this->tableOptions, 'table');
-            if ($this->hover) {
-                Html::addCssClass($this->tableOptions, 'table-hover');
-            }
-            if ($this->bordered) {
-                Html::addCssClass($this->tableOptions, 'table-bordered');
-            }
-            if ($this->striped) {
-                Html::addCssClass($this->tableOptions, 'table-striped');
-            }
-            if ($this->condensed) {
-                Html::addCssClass($this->tableOptions, 'table-condensed');
-            }
-            if ($this->responsive) {
-                Html::addCssClass($this->containerOptions, 'table-responsive');
-            }
-        }
-        parent:: init();
-        $this->containerOptions['id'] = $this->options['id'] . '-container';
-        $this->registerAssets();
     }
-
-    public function run()
+    
+    /**
+     * Initalize grid layout
+     */
+    protected function initLayout()
     {
-        if ($this->bootstrap && is_array($this->panel) && !empty($this->panel)) {
-            $this->renderPanel();
-        }
         $export = $this->renderExport();
         $toolbar = strtr($this->renderToolbar(), ['{export}' => $export]);
         if (strpos($this->layout, '{export}') > 0) {
@@ -587,20 +617,12 @@ HTML;
                 $this->layout = str_replace($key, $value, $this->layout);
             }
         }
-
-        $this->renderPjax();
-
-        parent::run();
-        if ($this->pjax) {
-            echo ArrayHelper::getValue($this->pjaxSettings, 'afterGrid', '');
-            Pjax::end();
-        }
     }
-
+    
     /**
-     * Renders the PJAX container
+     * Begins the PJAX container
      */
-    protected function renderPjax()
+    protected function beginPjax()
     {
         if (!$this->pjax) {
             return;
@@ -637,11 +659,27 @@ HTML;
         echo ArrayHelper::getValue($this->pjaxSettings, 'beforeGrid', '');
     }
 
+     
+    /**
+     * Closes the PJAX container
+     */
+    protected function endPjax()
+    {
+        if (!$this->pjax) {
+            return;
+        }
+        echo ArrayHelper::getValue($this->pjaxSettings, 'afterGrid', '');
+        Pjax::end();
+    }
+    
     /**
      * Sets the grid layout based on the template and panel settings
      */
     protected function renderPanel()
     {
+        if (!$this->bootstrap || !is_array($this->panel) || empty($this->panel)) {
+            return;
+        }
         $heading = ArrayHelper::getValue($this->panel, 'heading', '');
         $type = 'panel-' . ArrayHelper::getValue($this->panel, 'type', 'default');
         $footer = ArrayHelper::getValue($this->panel, 'footer', '');
