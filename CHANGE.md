@@ -8,6 +8,7 @@ Version 2.1.0
 4. (enh #99): Grid Export Plugins: Add ability to extend export dropdown.
 5. (enh #106): Set right class for GridView::FILTER_DATE_RANGE.
 6. (enh #107): Cleanup and refactor GridView class code for better extensibility.
+7. (enh #111): Fix export button dropdown menu display for IE.
 
 Version 2.0.0
 =============

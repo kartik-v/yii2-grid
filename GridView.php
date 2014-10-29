@@ -149,7 +149,7 @@ HTML;
      */
     public $beforeTemplate = <<< HTML
 <div class="pull-right">
-    <div class="btn-toolbar" role="toolbar">
+    <div class="btn-toolbar kv-grid-toolbar" role="toolbar">
         {toolbar}
     </div>    
 </div>
