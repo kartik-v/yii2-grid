@@ -446,12 +446,23 @@ HTML;
      */
     protected $_jsFloatTheadScript = '';
 
-    public function run()
+    /**
+     * @inherit doc
+     */
+    public function init()
     {
         $module = Yii::$app->getModule('gridview');
         if ($module == null || !$module instanceof \kartik\grid\Module) {
             throw new InvalidConfigException('The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.');
         }
+        parent::init();
+    }
+    
+    /**
+     * @inherit doc
+     */
+    public function run()
+    {
         $this->initExport();
         $this->initHeader();
         $this->initBootstrapStyle();
