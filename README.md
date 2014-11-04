@@ -45,7 +45,7 @@ sections to embed content/buttons, before and after header, and before and after
 
 ### Toolbar (New)
 The grid offers ability to configure toolbar for adding various actions. The default templates place the toolbar in the `before` section of the `panel`. The toolbar is by default styled using Bootstrap button groups. Some of the default actions like the `export` button is by default appended to the toolbar. 
-With version v2.2.0, if you are using the `yii2-dynagrid` extension it automatically displays the  **personalize**, **sort**, and **filter** buttons in the toolbar. The toolbar can be configured as a simple array. Refer the [docs and demos](http://demos.krajee.com/grid) for details.
+With version v2.1.0, if you are using the `yii2-dynagrid` extension it automatically displays the  **personalize**, **sort**, and **filter** buttons in the toolbar. The toolbar can be configured as a simple array. Refer the [docs and demos](http://demos.krajee.com/grid) for details.
 
 ### Grid Plugins (New)
 The grid now offers ability to plugin dynamic content to your grid at runtime. A new property `replaceTags` has been added with v2.2.0. This allows you to specify tags which will be replaced dynamically at grid rendering time and wherever you set these tags in any of the grid layout templates.

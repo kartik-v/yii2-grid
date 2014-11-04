@@ -10,11 +10,24 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
-function replaceAll(str, from, to) {
-    return str.split(from).join(to);
-}
 (function ($) {
-
+    replaceAll = function(str, from, to) {
+        return str.split(from).join(to);
+    };
+    isEmpty = function (value, trim) {
+        return value === null || value === undefined || value == []
+        || value === '' || trim && $.trim(value) === '';
+    };
+    popupDialog = function (url, name, w, h) {
+        var left = (screen.width / 2) - (w / 2);
+        var top = 60; //(screen.height / 2) - (h / 2);
+        return window.open(url, name, 'toolbar=no, location=no, directories=no, status=yes, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' 
+            + w +', height=' + h + ', top=' + top + ', left=' + left);
+    };
+    slug = function (strText) {
+        return strText.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+    };
+    
     var templates = {
         html: '<!DOCTYPE html>' +
             '<meta http-equiv="Content-Type" content="text/html;charset={encoding}"/>' +
@@ -66,19 +79,6 @@ function replaceAll(str, from, to) {
             '{msg}' +
             '</body>' +
             '</html>'
-    };
-            
-    var isEmpty = function (value, trim) {
-        return value === null || value === undefined || value == []
-        || value === '' || trim && $.trim(value) === '';
-    },
-    popupDialog = function (url, name, w, h) {
-      var left = (screen.width / 2) - (w / 2);
-      var top = 60; //(screen.height / 2) - (h / 2);
-      return window.open(url, name, 'toolbar=no, location=no, directories=no, status=yes, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
-    },
-    slug = function (strText) {
-        return strText.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
     };
     
     var GridExport = function (element, options) {
