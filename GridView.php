@@ -553,7 +553,7 @@ HTML;
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
         }
-        $this->_toggleDataKey = $this->options['id'] . '_toggle_data';
+        $this->_toggleDataKey = $this->options['id'] . '-toggle-data';
         if (isset($_POST[$this->_toggleDataKey])) {
             $this->_isShowAll = $_POST[$this->_toggleDataKey];
         } else {
@@ -1111,7 +1111,6 @@ HTML;
         if (!is_array($action)) {
             $action = [$action];
         }
-        $frameId = $this->options['id'] . '_export';
         $encoding = ArrayHelper::getValue($this->export, 'encoding', 'utf-8');
         $form = Html::beginForm($action, 'post', [
             'class' => 'kv-export-form',
