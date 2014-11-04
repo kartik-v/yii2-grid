@@ -1,6 +1,6 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 2.0.0
+ * @version 2.2.0
  *
  * Client actions for yii2-grid 
  * 
@@ -27,5 +27,12 @@ var selectRow = function(gridId, css) {
         else {
             $grid.find(".kv-row-select").parents("tr").removeClass(css);
         }
+    });
+}
+
+var toggleGridData = function(id) {
+    var $el = $('#' + id), $form = $el.closest('form');
+    $el.on('change', function() {
+        $form.submit();
     });
 }

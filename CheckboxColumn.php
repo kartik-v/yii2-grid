@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.1.0
+ * @version 2.2.0
  */
 
 namespace kartik\grid;
@@ -34,6 +34,13 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      * using the export function.
      */
     public $hidden;
+    
+    /**
+     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, 
+     * it will hide the column for all export formats. If set as an array, it will accept the 
+     * list of GridView export `formats` and hide output only for them.
+     */
+    public $hiddenFromExport = true;
     
     /**
      * @var string the horizontal alignment of each column. Should be one of
@@ -69,7 +76,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      * Defaults to 'info'.
      */
     public $rowSelectedClass = GridView::TYPE_INFO;
-
+    
     /**
      * @var boolean|string whether the page summary is displayed above the footer for this column.
      * If this is set to a string, it will be displayed as is. If it is set to `false` the summary

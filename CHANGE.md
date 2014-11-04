@@ -1,3 +1,23 @@
+Version 2.2.0
+=============
+**Date:** 04-Nov-2014
+
+1. (enh #110): Various export functionality enhancements:
+    - Add a separate export popup progress window.
+    - Setup a confirmation prompt to allow user to confirm if file is to be downloaded.
+    - Separate `messages` configuration for all export related notifications.
+    - Asynchronous export process on the separate window - and avoid any grid refresh
+    - Set export mime types to be configurable
+    - Add support for exporting new file types:
+        - JSON export 
+        - PDF export (using `yii2-mpdf` extension)
+    - Add functionality for full data export
+    - Enhance icons formatting for export file types (and beautify optionally using font awesome)
+2. (enh #112): Toggle data button to allow toggling between **all data** and **paginated data**.
+3. (enh #113): Enhance the PDF export generation method to allow generation of formatted reports.
+3. (enh #114): Add `hiddenFromExport` property for all grid columns.
+3. (enh #115): Add ability to plugin `yii2-export` extension for full grid data export.
+
 Version 2.1.0
 =============
 **Date:** 25-Oct-2014

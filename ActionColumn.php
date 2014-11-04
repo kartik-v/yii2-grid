@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.1.0
+ * @version 2.2.0
  */
 
 namespace kartik\grid;
@@ -35,6 +35,13 @@ class ActionColumn extends \yii\grid\ActionColumn
      * using the export function.
      */
     public $hidden;
+    
+    /**
+     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, 
+     * it will hide the column for all export formats. If set as an array, it will accept the 
+     * list of GridView export `formats` and hide output only for them.
+     */
+    public $hiddenFromExport = true;
 
     /**
      * @var bool whether the action buttons are to be displayed as a dropdown
@@ -130,7 +137,7 @@ class ActionColumn extends \yii\grid\ActionColumn
      * @var array the HTML attributes for the header cell tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $headerOptions = ['class'=>'skip-export'];
+    public $headerOptions = [];
     
     /**
      * @var array|\Closure the HTML attributes for the data cell tag. This can either be an array of
@@ -140,7 +147,7 @@ class ActionColumn extends \yii\grid\ActionColumn
      *
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $contentOptions = ['class'=>'skip-export'];
+    public $contentOptions = [];
     
     /**
      * @var bool is the dropdown menu to be rendered?

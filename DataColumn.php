@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.1.0
+ * @version 2.2.0
  */
 
 namespace kartik\grid;
@@ -32,6 +32,13 @@ class DataColumn extends \yii\grid\DataColumn
      * using the export function.
      */
     public $hidden;
+    
+    /**
+     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, 
+     * it will hide the column for all export formats. If set as an array, it will accept the 
+     * list of GridView export `formats` and hide output only for them.
+     */
+    public $hiddenFromExport = false;    
     
     /**
      * @var string the horizontal alignment of each column. Should be one of

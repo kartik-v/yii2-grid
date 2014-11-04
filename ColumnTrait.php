@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.1.0
+ * @version 2.2.0
  */
 
 namespace kartik\grid;
@@ -30,6 +30,24 @@ trait ColumnTrait
             Html::addCssClass($this->headerOptions, 'kv-grid-hide');
             Html::addCssClass($this->footerOptions, 'kv-grid-hide');
             Html::addCssClass($this->pageSummaryOptions, 'kv-grid-hide');
+        }
+        if ($this->hiddenFromExport === true) {
+            Html::addCssClass($this->filterOptions, 'skip-export');
+            Html::addCssClass($this->contentOptions, 'skip-export');
+            Html::addCssClass($this->headerOptions, 'skip-export');
+            Html::addCssClass($this->footerOptions, 'skip-export');
+            Html::addCssClass($this->pageSummaryOptions, 'skip-export');
+            Html::addCssClass($this->options, 'skip-export');
+        }
+        if (is_array($this->hiddenFromExport) && !empty($this->hiddenFromExport)) {
+            $tag = 'skip-export-';
+            $css =  $tag . implode(" {$tag}", $this->hiddenFromExport);
+            Html::addCssClass($this->filterOptions, $css);
+            Html::addCssClass($this->contentOptions, $css);
+            Html::addCssClass($this->headerOptions, $css);
+            Html::addCssClass($this->footerOptions, $css);
+            Html::addCssClass($this->pageSummaryOptions, $css);
+            Html::addCssClass($this->options, $css);
         }
     }
 

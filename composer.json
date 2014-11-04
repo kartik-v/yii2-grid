@@ -17,7 +17,8 @@
         "kartik-v/yii2-editable": "*",
         "kartik-v/yii2-slider": "*",
         "kartik-v/yii2-money": "*",
-        "kartik-v/yii2-checkbox-x": "*"
+        "kartik-v/yii2-checkbox-x": "*",
+        "kartik-v/yii2-mpdf": "*"
     },
     "autoload": {
         "psr-4": {
