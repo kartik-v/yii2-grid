@@ -69,7 +69,7 @@ class ExportController extends \yii\web\Controller
         header("Expires: Sat, 26 Jul 1979 05:00:00 GMT");
         header("Content-Encoding: {$encoding}");
         header("Content-type: {$mime}; charset={$encoding}");
-        header("Content-Disposition: attachment; filename='{$name}.{$type}'");
+        header("Content-Disposition: attachment; filename={$name}.{$type}");
         header("Cache-Control: max-age=0");
     }
 }
