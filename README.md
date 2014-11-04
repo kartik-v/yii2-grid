@@ -66,11 +66,13 @@ Features offered by yii2-grid export:
 - Ability to preprocess and convert column data to your desired value before exporting. There is a new property `exportConversions` that can be setup in GridView. 
 For example, this currently is set as a default to convert the HTML formatted icons for BooleanColumn to user friendly text like `Active` or `Inactive` after export.
 - Hide any row or column in the grid by adding one or more of the following CSS classes:
-    - `skip-export`: Will skip this element during export for all formats (`html`, `csv`, `txt`, `xls`).
+    - `skip-export`: Will skip this element during export for all formats (`html`, `csv`, `txt`, `xls`, `pdf`, `json`).
     - `skip-export-html`: Will skip this element during export only for `html` export format.
     - `skip-export-csv`: Will skip this element during export only for `csv` export format.
     - `skip-export-txt`: Will skip this element during export only for `txt` export format.
     - `skip-export-xls`: Will skip this element during export only for `xls` (excel) export format.
+    - `skip-export-pdf`: Will skip this element during export only for `pdf` export format.
+    - `skip-export-json`: Will skip this element during export only for `json` export format.
     These CSS can be set virtually anywhere. For example `headerOptions`, `contentOptions`, `beforeHeader` etc.
 - With release v2.1.0, you can now merge additional action items to the export button dropdown.
 - With release v2.2.0 the export functionality includes these additional features:
