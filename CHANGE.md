@@ -15,8 +15,9 @@ Version 2.2.0
     - Enhance icons formatting for export file types (and beautify optionally using font awesome)
 2. (enh #112): Toggle data button to allow toggling between **all data** and **paginated data**.
 3. (enh #113): Enhance the PDF export generation method to allow generation of formatted reports.
-3. (enh #114): Add `hiddenFromExport` property for all grid columns.
-3. (enh #115): Add ability to plugin `yii2-export` extension for full grid data export.
+4. (enh #114): Add `hiddenFromExport` property for all grid columns.
+5. (enh #115): Add ability to plugin `yii2-export` extension for full grid data export.
+6. (bug #118): Validate if `toggleGridData` is used in the extension.
 
 Version 2.1.0
 =============

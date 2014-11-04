@@ -5,7 +5,7 @@
  * Client actions for yii2-grid 
  * 
  * Author: Kartik Visweswaran
- * Copyright: 2014, Kartik Visweswaran, Krajee.com
+ * Copyright: 2013, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
@@ -31,8 +31,12 @@
     }
 
     toggleGridData = function(id) {
-        var $el = $('#' + id), $form = $el.closest('form');
+        var $el = $('#' + id);
+        if ($el.length == 0) {
+            return;
+        }
         $el.on('change', function() {
+            var $form = $el.closest('form');
             $form.submit();
         });
     }
