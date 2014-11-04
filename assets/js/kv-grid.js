@@ -9,30 +9,31 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
+(function ($) {
+    selectRow = function(gridId, css) {
+        var $grid = jQuery('#' + gridId);
+        $grid.find(".kv-row-select input").on('change', function () {
+            var $el = $(this);
+            if ($el.is(':checked')) {
+                $el.parents("tr:first").removeClass(css).addClass(css);
+            } else {
+                $el.parents("tr:first").removeClass(css);
+            }
+        });
+        $grid.find(".kv-all-select input").on('change', function () {
+            if ($(this).is(':checked')) {
+                $grid.find(".kv-row-select").parents("tr").removeClass(css).addClass(css);
+            }
+            else {
+                $grid.find(".kv-row-select").parents("tr").removeClass(css);
+            }
+        });
+    }
 
-var selectRow = function(gridId, css) {
-    var $grid = jQuery('#' + gridId);
-    $grid.find(".kv-row-select input").on('change', function () {
-        var $el = $(this);
-        if ($el.is(':checked')) {
-            $el.parents("tr:first").removeClass(css).addClass(css);
-        } else {
-            $el.parents("tr:first").removeClass(css);
-        }
-    });
-    $grid.find(".kv-all-select input").on('change', function () {
-        if ($(this).is(':checked')) {
-            $grid.find(".kv-row-select").parents("tr").removeClass(css).addClass(css);
-        }
-        else {
-            $grid.find(".kv-row-select").parents("tr").removeClass(css);
-        }
-    });
-}
-
-var toggleGridData = function(id) {
-    var $el = $('#' + id), $form = $el.closest('form');
-    $el.on('change', function() {
-        $form.submit();
-    });
-}
+    toggleGridData = function(id) {
+        var $el = $('#' + id), $form = $el.closest('form');
+        $el.on('change', function() {
+            $form.submit();
+        });
+    }
+})(window.jQuery);
