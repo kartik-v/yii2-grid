@@ -18,6 +18,7 @@ Version 2.2.0
 4. (enh #114): Add `hiddenFromExport` property for all grid columns.
 5. (enh #115): Add ability to plugin `yii2-export` extension for full grid data export.
 6. (bug #118): Validate if `toggleGridData` is used in the extension.
+7. (enh #121): Portugese translations.
 
 Version 2.1.0
 =============
