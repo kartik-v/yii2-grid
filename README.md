@@ -135,7 +135,13 @@ You can see detailed [documentation](http://demos.krajee.com/grid) and [demonstr
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
-> Note: You must set the `minimum-stability` to `dev` in the **composer.json** file in your application root folder before installation of this extension.
+> Note: You must set the `minimum-stability` to `dev` in the **composer.json** file in your application root folder before installation of this extension OR
+set the following in the require section of your composer.json file
+
+```
+    kartik-v/yii2-grid: "@dev",
+    kartik-v/yii2-krajee-base: "@dev"
+```
 
 Either run
 
