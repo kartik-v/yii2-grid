@@ -829,12 +829,9 @@ HTML;
             $this->toggleDataOptions['all'] = $defaultOptions['all'];
         }
         $tag = $this->_isShowAll ? 'page' : 'all';
+        $options = $this->toggleDataOptions[$tag];
         $icon = ArrayHelper::remove($this->toggleDataOptions[$tag], 'icon' , '');
-        if (!isset($options['label'])) {
-            $label = $defaultOptions[$tag]['label'];
-        } else {
-            $label = ArrayHelper::remove($options, 'label' , '');
-        }
+        $label = !isset($options['label']) ? $defaultOptions[$tag]['label'] : $options['label'];
         if (!empty($icon)) {
             $label = "<i class='glyphicon glyphicon-{$icon}'></i> " . $label;
         }
