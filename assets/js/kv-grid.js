@@ -1,6 +1,6 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 2.2.0
+ * @version 2.3.0
  *
  * Client actions for yii2-grid 
  * 
