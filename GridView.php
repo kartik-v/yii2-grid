@@ -830,6 +830,7 @@ HTML;
         }
         $tag = $this->_isShowAll ? 'page' : 'all';
         $icon = ArrayHelper::remove($this->toggleDataOptions[$tag], 'icon' , '');
+        $options = $this->toggleDataOptions[$tag];
         if (!isset($options['label'])) {
             $label = $defaultOptions[$tag]['label'];
         } else {
