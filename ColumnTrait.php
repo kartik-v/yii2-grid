@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.2.0
+ * @version 2.3.0
  */
 
 namespace kartik\grid;
@@ -11,6 +11,7 @@ namespace kartik\grid;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
+use kartik\base\Config;
 
 /**
  * Trait for all column widgets in yii2-grid
@@ -20,6 +21,15 @@ use yii\base\InvalidConfigException;
  */
 trait ColumnTrait
 {
+    /**
+     * Checks if the filter input types are valid
+     */
+    protected function checkValidFilters() {
+        if (isset($this->filterType)) {
+            Config::validateInputWidget($this->filterType);
+        }
+    }
+    
     /**
      * Checks `hidden` property and hides the column from display
      */

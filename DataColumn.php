@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.2.0
+ * @version 2.3.0
  */
 
 namespace kartik\grid;
@@ -136,6 +136,7 @@ class DataColumn extends \yii\grid\DataColumn
         }
         $this->parseFormat();
         $this->parseVisibility();
+        $this->checkValidFilters();
         parent::init();
         $this->setPageRows();
     }

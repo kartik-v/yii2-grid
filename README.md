@@ -7,11 +7,13 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh5.googleusercontent.com/--KIuWE6iZYc/VFjWSphRmYI/AAAAAAAAAQA/EmL3jMMXW94/w795-h528-no/yii2-grid.png)
 
 ## Latest Release
-The latest version of the module is v2.2.0 released on 04-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
+The latest version of the module is v2.3.0 released on 04-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
 
-The release v2.2.0 has various additional enhancements and features of exporting and formatting grid output data.
+Release 3.3.0 makes the extension leaner, by not installing dependent packages unless needed. The release v2.2.0 has various additional enhancements and features of exporting and formatting grid output data.
 
-> NOTE: This extension depends on other yii2 extensions. Check the [composer.json](https://github.com/kartik-v/yii2-grid/blob/master/composer.json) for this extension's requirements and dependencies.
+> NOTE: This extension depends on other yii2 extensions based on the functionality chosen by you. It will not install such dependent packages by default, but will prompt through an exception, if accessed.
+For example, if you choose to enable PDF export, then the [yii2-mpdf](http://demos.krajee.com/mpdf) will be mandatory and exception will be raised if `yii2-mpdf` is not installed.
+Check the [composer.json](https://github.com/kartik-v/yii2-grid/blob/master/composer.json) for other extension dependencies.
 
 ## Module
 The extension has been created as a module to enable access to advanced features like download actions (exporting as csv, text, html, or xls). You should configure the module with a name of `gridview` as shown below:
@@ -48,7 +50,7 @@ The grid offers ability to configure toolbar for adding various actions. The def
 With version v2.1.0, if you are using the `yii2-dynagrid` extension it automatically displays the  **personalize**, **sort**, and **filter** buttons in the toolbar. The toolbar can be configured as a simple array. Refer the [docs and demos](http://demos.krajee.com/grid) for details.
 
 ### Grid Plugins (New)
-The grid now offers ability to plugin dynamic content to your grid at runtime. A new property `replaceTags` has been added with v2.2.0. This allows you to specify tags which will be replaced dynamically at grid rendering time and wherever you set these tags in any of the grid layout templates.
+The grid now offers ability to plugin dynamic content to your grid at runtime. A new property `replaceTags` has been added with v2.3.0. This allows you to specify tags which will be replaced dynamically at grid rendering time and wherever you set these tags in any of the grid layout templates.
 
 ### Page Summary (New)
 This is a new feature added to the GridView widget. The page summary is an additional row above the footer - for displaying the
@@ -75,7 +77,7 @@ For example, this currently is set as a default to convert the HTML formatted ic
     - `skip-export-json`: Will skip this element during export only for `json` export format.
     These CSS can be set virtually anywhere. For example `headerOptions`, `contentOptions`, `beforeHeader` etc.
 - With release v2.1.0, you can now merge additional action items to the export button dropdown.
-- With release v2.2.0 the export functionality includes these additional features:
+- With release v2.3.0 the export functionality includes these additional features:
     - A separate export popup progress window is now shown for download. 
     - Asynchronous export process on the separate window - and avoid any grid refresh
     - Set export mime types to be configurable
@@ -89,7 +91,7 @@ For example, this currently is set as a default to convert the HTML formatted ic
 - Adds ability to integrate a separate extension for full data export i.e. [yii2-export](https://github.com/kartik-v/yii2-export).
 
 ### Toggle Grid Data (New)
-This extension (with v2.2.0) adds ability to toggle between viewing **all grid data** and **paginated data**. By default the grid displays paginated data. This can be used for exporting complete grid data.
+This extension (with v2.3.0) adds ability to toggle between viewing **all grid data** and **paginated data**. By default the grid displays paginated data. This can be used for exporting complete grid data.
 
 ## Data Column (Enhanced)
 ### \kartik\grid\DataColumn

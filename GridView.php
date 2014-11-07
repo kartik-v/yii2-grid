@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.2.0
+ * @version 2.3.0
  */
 
 namespace kartik\grid;
@@ -19,7 +19,7 @@ use yii\base\InvalidConfigException;
 use yii\bootstrap\ButtonDropdown;
 use yii\widgets\Pjax;
 use yii\web\View;
-use kartik\widgets\SwitchInput;
+use kartik\base\Config;
 
 /**
  * Enhances the Yii GridView widget with various options to include Bootstrap
@@ -536,7 +536,10 @@ HTML;
      * @var bool whether the current mode is showing all data
      */
     protected $_isShowAll = false; 
-
+    
+    /**
+     * @inherit doc
+     */
     public function init()
     {
         $this->_module = Yii::$app->getModule('gridview');
@@ -566,10 +569,17 @@ HTML;
         parent::init();
     }
     
+    /**
+     * @inherit doc
+     * @throws InvalidConfigException
+     */
     public function run()
     {
         $this->initToggleData();
         $this->initExport();
+        if (isset($this->exportConfig[self::PDF])) {
+            Config::checkDependency('mpdf\Pdf', 'yii2-mpdf', 'for PDF export functionality');
+        }
         $this->initHeader();
         $this->initBootstrapStyle();
         $this->containerOptions['id'] = $this->options['id'] . '-container';

@@ -3,12 +3,12 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.2.0
+ * @version 2.3.0
  */
 
 namespace kartik\grid;
 
-use kartik\widgets\AssetBundle;
+use kartik\base\AssetBundle;
 
 /**
  * Asset bundle for GridView Widget (for floating header)

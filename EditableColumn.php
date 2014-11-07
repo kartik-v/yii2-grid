@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.2.0
+ * @version 2.3.0
  */
 
 namespace kartik\grid;
@@ -13,6 +13,7 @@ use Closure;
 use yii\helpers\Html;
 use yii\base\InvalidConfigException;
 use kartik\editable\Editable;
+use kartik\base\Config;
 
 /**
  * The EditableColumn converts the data to editable using
@@ -42,6 +43,16 @@ class EditableColumn extends DataColumn
      * @var array the computed editable options
      */
     protected $_editableOptions = [];
+    
+    /**
+     * @inherit doc
+     * @throws InvalidConfigException
+     */
+    public function init()
+    {
+        parent::init();
+        Config::checkDependency('editable\Editable', 'yii2-editable', 'for GridView EditableColumn');
+    }
     
     /**
      * Renders the data cell content.

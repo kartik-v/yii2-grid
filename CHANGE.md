@@ -1,3 +1,9 @@
+Version 2.3.0
+=============
+**Date:** 07-Nov-2014
+
+1. enh #127: Enhance dependency validation and ability to install optional packages.
+
 Version 2.2.0
 =============
 **Date:** 04-Nov-2014
