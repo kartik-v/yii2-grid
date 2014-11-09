@@ -4,6 +4,7 @@ Version 2.3.0
 
 1. enh #127: Enhance dependency validation and ability to install optional packages.
 2. bug #131: Fix missing `options` in `toggleDataOptions` initialization.
+3. First stable release
 
 Version 2.2.0
 =============
