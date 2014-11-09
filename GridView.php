@@ -578,7 +578,7 @@ HTML;
         $this->initToggleData();
         $this->initExport();
         if (isset($this->exportConfig[self::PDF])) {
-            Config::checkDependency('mpdf\Pdf', 'yii2-mpdf', "for PDF export functionality. To include PDF export, follow the install steps below. If you do not need PDF export functionality, do not include 'PDF' as a format in the 'export' property. You can otherwise set 'export' to false to disable all export functionality.");
+            Config::checkDependency('mpdf\Pdf', 'yii2-mpdf', "for PDF export functionality. To include PDF export, follow the install steps below. If you do not need PDF export functionality, do not include 'PDF' as a format in the 'export' property. You can otherwise set 'export' to false to disable all export functionality");
         }
         $this->initHeader();
         $this->initBootstrapStyle();
