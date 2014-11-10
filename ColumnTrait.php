@@ -26,10 +26,10 @@ trait ColumnTrait
      */
     protected function checkValidFilters() {
         if (isset($this->filterType)) {
-            Config::validateInputWidget($this->filterType);
+            Config::validateInputWidget($this->filterType, 'for filtering the grid as per your setup');
         }
     }
-    
+
     /**
      * Checks `hidden` property and hides the column from display
      */
