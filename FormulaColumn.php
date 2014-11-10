@@ -72,20 +72,6 @@ class FormulaColumn extends DataColumn
     }
 
     /**
-     * Gets the raw page summary cell content.
-     *
-     * @return string the rendering result
-     */
-    protected function getPageSummaryCellContent()
-    {
-        if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
-            $summary = call_user_func($this->value, null, null, self::SUMMARY, $this);
-            return ($this->pageSummary === true) ? $summary : call_user_func($this->pageSummary, $summary, [], $this);
-        }
-        return parent::getPageSummaryCellContent();
-    }
-
-    /**
      * Get the raw footer cell content.
      *
      * @return string the rendering result

@@ -1,3 +1,9 @@
+Version 2.4.0
+=============
+**Date:** 10-Nov-2014
+
+1. bug #132: Correct page summary calculation.
+
 Version 2.3.0
 =============
 **Date:** 07-Nov-2014
