@@ -1,8 +1,9 @@
 Version 2.4.0
 =============
-**Date:** 10-Nov-2014
+**Date:** 14-Nov-2014
 
 1. bug #132: Correct page summary calculation.
+1. bug #133: Skip mPDF dependency when export is set to false.
 
 Version 2.3.0
 =============
