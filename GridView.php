@@ -380,10 +380,12 @@ HTML;
      * - `type`: string, the panel contextual type (one of the TYPE constants,
      *    if not set will default to `default` or `self::TYPE_DEFAULT`),
      * - `footer`: string, the panel footer. If not set, will not be displayed.
-     * - 'before': string, content to be placed before/above the grid table (after the header).
+     * - 'before': string|boolean, content to be placed before/above the grid table (after the header). 
+     *   To not display this section, set this to `false`.
      * - `beforeOptions`: array, HTML attributes for the `before` text. If the
      *   `class` is not set, it will default to `kv-panel-before`.
-     * - 'after': string, any content to be placed after/below the grid table (before the footer).
+     * - 'after': string|boolean, any content to be placed after/below the grid table (before the footer).
+     *   To not display this section, set this to `false`.
      * - `afterOptions`: array, HTML attributes for the `after` text. If the
      *   `class` is not set, it will default to `kv-panel-after`.
      * - `showFooter`: boolean, whether to always show the footer. If so the,
@@ -1003,14 +1005,14 @@ HTML;
         $beforeOptions = ArrayHelper::getValue($this->panel, 'beforeOptions', []);
         $afterOptions = ArrayHelper::getValue($this->panel, 'afterOptions', []);
 
-        if ($before != '') {
+        if ($before !== false) {
             if (empty($beforeOptions['class'])) {
                 $beforeOptions['class'] = 'kv-panel-before';
             }
             $content = strtr($this->beforeTemplate, ['{beforeContent}' => $before]);
             $before = Html::tag('div', $content, $beforeOptions);
         }
-        if ($after != '' && $layout != self::TEMPLATE_2) {
+        if ($after !== false && $layout != self::TEMPLATE_2) {
             if (empty($afterOptions['class'])) {
                 $afterOptions['class'] = 'kv-panel-after';
             }
