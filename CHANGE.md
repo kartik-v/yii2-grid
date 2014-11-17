@@ -1,11 +1,16 @@
-Version 2.4.0
+Version 2.5.0
 =============
 **Date:** 17-Nov-2014
 
+1. bug #135: Upgrade to latest release of floatTHeader plugin.
+2. bug #136: Fix IE specific errors in floatHeader when columns are hidden.
+
+Version 2.4.0
+=============
+**Date:** 14-Nov-2014
+
 1. bug #132: Correct page summary calculation.
 2. bug #133: Skip mPDF dependency when export is set to false.
-3. enh #134:  Configure panel before and after to be set to boolean false.
-4. Set release to stable.
 
 Version 2.3.0
 =============

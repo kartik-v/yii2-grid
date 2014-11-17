@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.4.0
+ * @version 2.5.0
  */
 
 namespace kartik\grid;
@@ -501,13 +501,6 @@ HTML;
      * the container will be auto generated.
      */
     public $containerOptions = [];
-
-    /**
-     * @var boolean whether to export the full grid data using yii2-export extension. 
-     * This property is only internally used for exporting the complete data by 
-     * the export action.
-     */
-    public $isFullExport = false;
     
     /**
      * @var string the generated javascript for grid export initialization
@@ -548,13 +541,6 @@ HTML;
         if ($this->_module == null || !$this->_module instanceof \kartik\grid\Module) {
             throw new InvalidConfigException('The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.');
         }
-        if ($this->isFullExport) {
-            $this->dataProvider->pagination = false;
-            $this->filterModel = null;
-            $this->floatHeader = false;
-            $this->export = false;
-            $this->pjax = false;
-        }
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
         }
@@ -585,15 +571,9 @@ HTML;
         $this->initHeader();
         $this->initBootstrapStyle();
         $this->containerOptions['id'] = $this->options['id'] . '-container';
-        if (!$this->isFullExport) {
-            $this->registerAssets();
-        }
+        $this->registerAssets();
         $this->renderPanel();
         $this->initLayout();
-        if ($this->isFullExport) {
-            parent::run();
-            return;
-        }
         $this->beginPjax();
         parent::run();
         $this->endPjax();
@@ -1257,6 +1237,7 @@ HTML;
             $this->floatHeaderOptions = ArrayHelper::merge([
                 'floatTableClass' => 'kv-table-float',
                 'floatContainerClass' => 'kv-thead-float',
+                'useAbsolutePositioning' => false
             ], $this->floatHeaderOptions);
             $opts = Json::encode($this->floatHeaderOptions);
             $this->_jsFloatTheadScript = "jQuery('#{$gridId} table').floatThead({$opts});";

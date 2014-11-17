@@ -7,7 +7,7 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh5.googleusercontent.com/--KIuWE6iZYc/VFjWSphRmYI/AAAAAAAAAQA/EmL3jMMXW94/w795-h528-no/yii2-grid.png)
 
 ## Latest Release
-The latest version of the module is v2.4.0 released on 04-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
+The latest version of the module is v2.5.0 released on 17-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
 
 Release 3.3.0 makes the extension leaner, by not installing dependent packages unless needed. The release v2.2.0 has various additional enhancements and features of exporting and formatting grid output data.
 
