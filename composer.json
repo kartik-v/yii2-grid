@@ -12,16 +12,13 @@
             "homepage": "http://www.krajee.com/"
         }
     ],
+    "minimum-stability": "stable",
     "require": {
-        "kartik-v/yii2-widgets": "*",
-        "kartik-v/yii2-editable": "*",
-        "kartik-v/yii2-slider": "*",
-        "kartik-v/yii2-money": "*",
-        "kartik-v/yii2-checkbox-x": "*"
+        "kartik-v/yii2-krajee-base": "*"
     },
     "autoload": {
         "psr-4": {
-            "kartik\\": ""
+            "kartik\\grid\\": ""
         }
     }
 }

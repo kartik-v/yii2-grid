@@ -1,3 +1,60 @@
+Version 2.5.0
+=============
+**Date:** 17-Nov-2014
+
+1. bug #135: Upgrade to latest release of floatTHeader plugin.
+2. bug #136: Fix IE specific errors in floatHeader when columns are hidden.
+
+Version 2.4.0
+=============
+**Date:** 14-Nov-2014
+
+1. bug #132: Correct page summary calculation.
+2. bug #133: Skip mPDF dependency when export is set to false.
+
+Version 2.3.0
+=============
+**Date:** 07-Nov-2014
+
+1. enh #127: Enhance dependency validation and ability to install optional packages.
+2. bug #131: Fix missing `options` in `toggleDataOptions` initialization.
+3. First stable release
+
+Version 2.2.0
+=============
+**Date:** 04-Nov-2014
+
+1. (enh #110): Various export functionality enhancements:
+    - Add a separate export popup progress window.
+    - Setup a confirmation prompt to allow user to confirm if file is to be downloaded.
+    - Separate `messages` configuration for all export related notifications.
+    - Asynchronous export process on the separate window - and avoid any grid refresh
+    - Set export mime types to be configurable
+    - Add support for exporting new file types:
+        - JSON export 
+        - PDF export (using `yii2-mpdf` extension)
+    - Add functionality for full data export
+    - Enhance icons formatting for export file types (and beautify optionally using font awesome)
+2. (enh #112): Toggle data button to allow toggling between **all data** and **paginated data**.
+3. (enh #113): Enhance the PDF export generation method to allow generation of formatted reports.
+4. (enh #114): Add `hiddenFromExport` property for all grid columns.
+5. (enh #115): Add ability to plugin `yii2-export` extension for full grid data export.
+6. (bug #118): Validate if `toggleGridData` is used in the extension.
+7. (enh #121): Portugese translations.
+8. (enh #122): Hungarian translations.
+
+Version 2.1.0
+=============
+**Date:** 25-Oct-2014
+
+1. (enh #94): Enhance and revamp toolbar.
+2. (enh #95): Enhance export button dropdown feature.
+3. (enh #96): Grid Plugins: Add ability to replace tags in gridview rendered layout.
+4. (enh #99): Grid Export Plugins: Add ability to extend export dropdown.
+5. (enh #106): Set right class for GridView::FILTER_DATE_RANGE.
+6. (enh #107): Cleanup and refactor GridView class code for better extensibility.
+7. (enh #111): Fix export button dropdown menu display for IE.
+
 Version 2.0.0
 =============
 **Date:** 14-Sep-2014
@@ -6,7 +63,9 @@ Version 2.0.0
 2. (bug #81): CSS class `kv-grid-hide` configured for hidden columns.
 3. (enh #82): Created a reusable `ColumnTrait` for all custom yii2-grid columns.
 4. (enh #83): Upgraded jQuery floatTheader plugin to latest version.
-5. (bug #85): Enhancement and support for composite primary keys in grid data.
+5. (bug #85, #87, #88): Enhance EditableColumn to capture keys of various data types
+6. PSR 4 alias change
+7. (bug #92): Bug fix for generating multiple rows in header/footer.
 
 Version 1.9.0
 =============

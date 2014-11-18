@@ -4,19 +4,16 @@ yii2-grid
 Yii2 GridView on steroids. A module with various modifications and enhancements to one of the most used widgets by Yii developers. The widget contains new additional Grid Columns with enhanced settings for Yii Framework 2.0. The widget also incorporates various Bootstrap 3.x styling options.
 Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo).
 
-![GridView Screenshot](https://lh6.googleusercontent.com/-IebDj1WBLKE/U8yvTtaPqWI/AAAAAAAAAI4/sr8rlfZG_l8/w860-h551-no/yii2-grid.jpg)
+![GridView Screenshot](https://lh5.googleusercontent.com/--KIuWE6iZYc/VFjWSphRmYI/AAAAAAAAAQA/EmL3jMMXW94/w795-h528-no/yii2-grid.png)
 
 ## Latest Release
-The latest version of the module is v1.9.0 released on 21-Aug-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
-With v1.9.0, the GridView by default has embedded Pjax support. To enable Pjax processing, set `pjax` property to `true` and control pjax behavior using `pjaxSettings`.
+The latest version of the module is v2.5.0 released on 17-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
 
-> NOTE: This extension depends on the [kartik-v/yii2-widgets](https://github.com/kartik-v/yii2-widgets) extension which in turn depends on the
-[yiisoft/yii2-bootstrap](https://github.com/yiisoft/yii2/tree/master/extensions/bootstrap) extension. Check the 
-[composer.json](https://github.com/kartik-v/yii2-grid/blob/master/composer.json) for this extension's requirements and dependencies. 
-Note: Yii 2 framework is still in active development, and until a fully stable Yii2 release, your core yii2-bootstrap packages (and its dependencies) 
-may be updated when you install or update this extension. You may need to lock your composer package versions for your specific app, and test 
-for extension break if you do not wish to auto update dependencies.
+Release 3.3.0 makes the extension leaner, by not installing dependent packages unless needed. The release v2.2.0 has various additional enhancements and features of exporting and formatting grid output data.
 
+> NOTE: This extension depends on other yii2 extensions based on the functionality chosen by you. It will not install such dependent packages by default, but will prompt through an exception, if accessed.
+For example, if you choose to enable PDF export, then the [yii2-mpdf](http://demos.krajee.com/mpdf) will be mandatory and exception will be raised if `yii2-mpdf` is not installed.
+Check the [composer.json](https://github.com/kartik-v/yii2-grid/blob/master/composer.json) for other extension dependencies.
 
 ## Module
 The extension has been created as a module to enable access to advanced features like download actions (exporting as csv, text, html, or xls). You should configure the module with a name of `gridview` as shown below:
@@ -48,6 +45,13 @@ Allows the grid table to have a floating table header. Uses the [JQuery Float TH
 Allows configuration of GridView to be enclosed in a panel that can be styled as per  Bootstrap 3.x. The panel will enable configuration of  various
 sections to embed content/buttons, before and after header, and before and after footer.
 
+### Toolbar (New)
+The grid offers ability to configure toolbar for adding various actions. The default templates place the toolbar in the `before` section of the `panel`. The toolbar is by default styled using Bootstrap button groups. Some of the default actions like the `export` button is by default appended to the toolbar. 
+With version v2.1.0, if you are using the `yii2-dynagrid` extension it automatically displays the  **personalize**, **sort**, and **filter** buttons in the toolbar. The toolbar can be configured as a simple array. Refer the [docs and demos](http://demos.krajee.com/grid) for details.
+
+### Grid Plugins (New)
+The grid now offers ability to plugin dynamic content to your grid at runtime. A new property `replaceTags` has been added with v2.3.0. This allows you to specify tags which will be replaced dynamically at grid rendering time and wherever you set these tags in any of the grid layout templates.
+
 ### Page Summary (New)
 This is a new feature added to the GridView widget. The page summary is an additional row above the footer - for displaying the
 summary/totals for the current GridView page. The following parameters are applicable to control this behavior:
@@ -56,18 +60,38 @@ summary/totals for the current GridView page. The following parameters are appli
 - `pageSummaryRowOptions`:  _array_, HTML attributes for the page summary row. Defaults to `['class' => 'kv-page-summary warning']`.
 
 ### Export Grid Data (New)
-This is a new feature added to the GridView widget. It allows you to export the displayed grid content as HTML, CSV, TEXT, or EXCEL. It uses the rendered grid data on client to convert to one of the format specified using JQuery. 
-This is supported across all browsers. The following are new features added since release v1.6.0:
+This is a new feature added to the GridView widget. It allows you to export the displayed grid content as HTML, CSV, TEXT, EXCEL, PDF, & JSON. It uses the rendered grid data on client to convert to one of the format specified using JQuery. 
+This is supported across all browsers. The PDF rendering is achieved through a separate extension [yii2-mpdf](http://demos.krajee.com/mpdf).
+
+Features offered by yii2-grid export:
 
 - Ability to preprocess and convert column data to your desired value before exporting. There is a new property `exportConversions` that can be setup in GridView. 
 For example, this currently is set as a default to convert the HTML formatted icons for BooleanColumn to user friendly text like `Active` or `Inactive` after export.
 - Hide any row or column in the grid by adding one or more of the following CSS classes:
-    - `skip-export`: Will skip this element during export for all formats (`html`, `csv`, `txt`, `xls`).
+    - `skip-export`: Will skip this element during export for all formats (`html`, `csv`, `txt`, `xls`, `pdf`, `json`).
     - `skip-export-html`: Will skip this element during export only for `html` export format.
     - `skip-export-csv`: Will skip this element during export only for `csv` export format.
     - `skip-export-txt`: Will skip this element during export only for `txt` export format.
     - `skip-export-xls`: Will skip this element during export only for `xls` (excel) export format.
+    - `skip-export-pdf`: Will skip this element during export only for `pdf` export format.
+    - `skip-export-json`: Will skip this element during export only for `json` export format.
     These CSS can be set virtually anywhere. For example `headerOptions`, `contentOptions`, `beforeHeader` etc.
+- With release v2.1.0, you can now merge additional action items to the export button dropdown.
+- With release v2.3.0 the export functionality includes these additional features:
+    - A separate export popup progress window is now shown for download. 
+    - Asynchronous export process on the separate window - and avoid any grid refresh
+    - Set export mime types to be configurable
+    - Includes support for exporting new file types:
+        - JSON export 
+        - PDF export (using `yii2-mpdf` extension)
+    - Adds functionality for full data export
+    - Enhance icons formatting for export file types (and beautify optionally using font awesome)
+    - Ability to hide entire column from export using `hiddenFromExport` property, but show them in normal on screen display.
+    - Ability to do reverse of above. Hide column in display but show on export using `hidden` property.
+- Adds ability to integrate a separate extension for full data export i.e. [yii2-export](https://github.com/kartik-v/yii2-export).
+
+### Toggle Grid Data (New)
+This extension (with v2.3.0) adds ability to toggle between viewing **all grid data** and **paginated data**. By default the grid displays paginated data. This can be used for exporting complete grid data.
 
 ## Data Column (Enhanced)
 ### \kartik\grid\DataColumn
@@ -111,7 +135,19 @@ You can see detailed [documentation](http://demos.krajee.com/grid) and [demonstr
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
-> Note: You must set the `minimum-stability` to `dev` in the **composer.json** file in your application root folder before installation of this extension.
+### Pre-requisites
+> Note: Check the [composer.json](https://github.com/kartik-v/yii2-dropdown-x/blob/master/composer.json) for this extension's requirements and dependencies. 
+You must set the `minimum-stability` to `dev` in the **composer.json** file in your application root folder before installation of this extension OR
+if your `minimum-stability` is set to any other value other than `dev`, then set the following in the require section of your composer.json file
+
+```
+kartik-v/yii2-grid: "@dev",
+kartik-v/yii2-krajee-base: "@dev"
+```
+
+Read this [web tip /wiki](http://webtips.krajee.com/setting-composer-minimum-stability-application/) on setting the `minimum-stability` settings for your application's composer.json.
+
+### Install
 
 Either run
 
