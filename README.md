@@ -9,7 +9,7 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ## Latest Release
 The latest version of the module is v2.6.0 released on 20-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
 
-Release 2.6.0 has BC breaking changes.
+Release 2.6.0 has changes that would break backward compatibility. This has been done to make the templates more efficient, configurable, and enable developers to setup the grid layout better.
 
 ### BC Breaking Changes
 
