@@ -32,7 +32,6 @@ use kartik\base\Config;
  */
 class GridView extends \yii\grid\GridView
 {
-
     /**
      * Bootstrap Contextual Color Types
      */

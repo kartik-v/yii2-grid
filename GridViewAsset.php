@@ -19,7 +19,6 @@ use yii\web\View;
  */
 class GridViewAsset extends AssetBundle
 {
-   
 	public function init()
 	{
 		$this->setSourcePath(__DIR__ . '/assets');

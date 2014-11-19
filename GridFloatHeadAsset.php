@@ -18,7 +18,6 @@ use kartik\base\AssetBundle;
  */
 class GridFloatHeadAsset extends AssetBundle
 {
-
 	public function init()
 	{
 		$this->setSourcePath(__DIR__ . '/assets');

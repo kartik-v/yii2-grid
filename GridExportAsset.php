@@ -18,7 +18,6 @@ use kartik\base\AssetBundle;
  */
 class GridExportAsset extends AssetBundle
 {
-
     public function init()
     {
         $this->setSourcePath(__DIR__ . '/assets');
