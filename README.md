@@ -11,7 +11,7 @@ The latest version of the module is v2.6.0 released on 20-Nov-2014. Refer the [C
 
 Release 2.6.0 has changes that would break backward compatibility. These changes have been done to make the templates more efficient, configurable, and enable developers to setup the grid layout better.
 
-### BC Breaking Changes
+### BC Breaking Changes (from v2.6.0)
 
 1. Removed `showFooter` from `panel` array configuration. This can be now configured with `footer` option within the `panel`.
 2. Removed `layout` from `panel` array configuration. This can be now configured with `panelTemplate` at the GridView level.
@@ -19,7 +19,7 @@ Release 2.6.0 has changes that would break backward compatibility. These changes
 4. Renamed `afterTemplate` property to `panelAfterTemplate`
 5. EditableColumn attribute naming convention has changed. Developers do not need to use `Model::loadMultiple` method anymore and have the ability to directly use the `$model->load` method.
 
-### Additions
+### Additions (in v2.6.0)
 1. Templates have been simplified and consolidated to the following configurable properties:
     - `panelTemplate`: Template to render the complete grid panel.
     - `panelHeadingTemplate`: Template to render the heading block part of the panel.
