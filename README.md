@@ -240,10 +240,14 @@ echo GridView::widget([
             'options'=>['class'=>'skip-export'] // remove this row from export
         ]
     ],
-    'toolbar' =>  Html::button('<i class="glyphicon glyphicon-plus"></i> ' . 
-        Yii::t('kvgrid', 'Add Book'), ['type'=>'button', 'class'=>'btn btn-success']) . ' ' .
-        Html::a('<i class="glyphicon glyphicon-repeat"></i> ' . 
-        Yii::t('kvgrid', 'Reset Grid'), ['grid-demo'], ['class' => 'btn btn-info']),
+    'toolbar' =>  [
+        ['content'=>
+            Html::button('&lt;i class="glyphicon glyphicon-plus">&lt;/i>', ['type'=>'button', 'title'=>Yii::t('kvgrid', 'Add Book'), 'class'=>'btn btn-success', 'onclick'=>'alert("This will launch the book creation form.\n\nDisabled for this demo!");']) . ' '.
+            Html::a('&lt;i class="glyphicon glyphicon-repeat">&lt;/i>', ['grid-demo'], ['data-pjax'=>0, 'class' => 'btn btn-default', 'title'=>Yii::t('kvgrid', 'Reset Grid')])
+        ],
+        '{export}',
+        '{toggleData}'
+    ],
     'pjax' => true,
     'bordered' => true,
     'striped' => false,
