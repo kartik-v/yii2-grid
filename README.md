@@ -17,7 +17,7 @@ Release 2.6.0 has changes that would break backward compatibility. These changes
 2. Renamed `beforeTemplate` property to `panelBeforeTemplate`.
 3. Renamed `afterTemplate` property to `panelAfterTemplate`.
 4. Renamed `beforeContent` tag used in `panelBeforeTemplate` to `before`.
-5. Renamed `afterContent` tag to `panelAfterTemplate` to `after`.
+5. Renamed `afterContent` tag used in `panelAfterTemplate` to `after`.
 6. EditableColumn attribute naming convention has changed. Developers do not need to use `Model::loadMultiple` method anymore and have the ability to directly use the `$model->load` method.
 
 ### Additions (in v2.6.0)
