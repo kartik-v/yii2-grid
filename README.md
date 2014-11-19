@@ -13,12 +13,13 @@ Release 2.6.0 has changes that would break backward compatibility. These changes
 
 ### BC Breaking Changes (from v2.6.0)
 
-1. Removed `showFooter` from `panel` array configuration.
-2. Renamed `beforeTemplate` property to `panelBeforeTemplate`.
-3. Renamed `afterTemplate` property to `panelAfterTemplate`.
-4. Renamed `beforeContent` tag used in `panelBeforeTemplate` to `before`.
-5. Renamed `afterContent` tag used in `panelAfterTemplate` to `after`.
-6. EditableColumn attribute naming convention has changed. Developers do not need to use `Model::loadMultiple` method anymore and have the ability to directly use the `$model->load` method.
+1. Removed `showFooter` from `panel` array configuration. This can be now configured with `footer` option within the `panel`.
+2. Removed `layout` from `panel` array configuration. This can be now configured with `panelTemplate` at the GridView level.
+3. Renamed `beforeTemplate` property to `panelBeforeTemplate`.
+4. Renamed `afterTemplate` property to `panelAfterTemplate`.
+5. Renamed `beforeContent` tag used in `panelBeforeTemplate` to `before`.
+6. Renamed `afterContent` tag to `panelAfterTemplate` to `after`.
+7. EditableColumn attribute naming convention has changed. Developers do not need to use `Model::loadMultiple` method anymore and have the ability to directly use the `$model->load` method.
 
 ### Additions (in v2.6.0)
 1. Templates have been simplified and consolidated to the following configurable properties:
