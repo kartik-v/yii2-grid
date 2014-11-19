@@ -13,10 +13,11 @@ Release 2.6.0 has BC breaking changes.
 
 ### BC Breaking Changes
 
-1. Removed `showFooter` from `panel` array configuration
-2. Renamed `beforeTemplate` property to `panelBeforeTemplate`
-3. Renamed `afterTemplate` property to `panelAfterTemplate`
-4. EditableColumn attribute naming convention has changed. Developers do not need to use `Model::loadMultiple` method anymore and have the ability to directly use the `$model->load` method.
+1. Removed `showFooter` from `panel` array configuration. This can be now configured with `footer` option within the `panel`.
+2. Removed `layout` from `panel` array configuration. This can be now configured with `panelTemplate` at the GridView level.
+3. Renamed `beforeTemplate` property to `panelBeforeTemplate`
+4. Renamed `afterTemplate` property to `panelAfterTemplate`
+5. EditableColumn attribute naming convention has changed. Developers do not need to use `Model::loadMultiple` method anymore and have the ability to directly use the `$model->load` method.
 
 ### Additions
 1. Templates have been simplified and consolidated to the following configurable properties:
