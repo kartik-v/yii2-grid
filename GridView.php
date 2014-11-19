@@ -107,67 +107,100 @@ class GridView extends \yii\grid\GridView
     const JSON = 'json';
 
     /**
-     * Grid Layout Templates
-     */
-    // panel grid template with `footer`, pager in the `footer`, and `summary` in the `heading`.
-    const TEMPLATE_1 = <<< HTML
-    <div class="panel {type}">
-        <div class="panel-heading">
-             <div class="pull-right">{summary}</div>
-             {heading}
-        </div>
-         {before}
-        {items}
-        {after}
-        <div class="panel-footer">
-            <div class="pull-right">{footer}</div>
-            <div class="kv-panel-pager">{pager}</div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-HTML;
-    // panel grid template with hidden `footer`, pager in the `after`, and `summary` in the `heading`.
-    const TEMPLATE_2 = <<< HTML
-    <div class="panel {type}">
-        <div class="panel-heading">
-             <div class="pull-right">{summary}</div>
-             {heading}
-        </div>
-        {before}
-        {items}
-        <div class="kv-panel-after">
-            <div class="pull-right">{after}</div>
-            <div class="kv-panel-pager">{pager}</div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-HTML;
-
-    /**
-     * @var string the template for rendering the {before} part in the layout templates.
+     * @var string the template for rendering the grid within a bootstrap styled panel.
      * The following special variables are recognized and will be replaced:
-     * - {toolbar}, string which will render the [[$toolbar]] property passed
-     * - {export}, string which will render the [[$export]] menu button content
-     * - {beforeContent}, string which will render the [[$before]] text passed in the panel settings
+     * - {type}, string the panel type that will append the bootstrap contextual CSS.
+     * - {panelHeading}, string, which will render the panel heading block.
+     * - {panelBefore}, string, which will render the panel before block.
+     * - {panelAfter}, string, which will render the panel after block.
+     * - {panelFooter}, string, which will render the panel footer block.
+     * - {items}, string, which will render the grid items.
+     * - {summary}, string, which will render the grid results summary.
+     * - {pager}, string, which will render the grid pagination links.
+     * - {toolbar}, string, which will render the [[$toolbar]] property passed
+     * - {export}, string, which will render the [[$export]] menu button content.
      */
-    public $beforeTemplate = <<< HTML
-<div class="pull-right">
-    <div class="btn-toolbar kv-grid-toolbar" role="toolbar">
-        {toolbar}
-    </div>    
+    public $panelTemplate = <<< HTML
+<div class="panel {type}">
+    {panelHeading}
+    {panelBefore}
+    {items}
+    {panelAfter}
+    {panelFooter}
 </div>
-{beforeContent}
-<div class="clearfix"></div>
 HTML;
 
     /**
-     * @var string the template for rendering the {after} part in the layout templates.
+     * @var string the template for rendering the panel heading:
      * The following special variables are recognized and will be replaced:
-     * - {toolbar}, string which will render the [[$toolbar]] property passed
-     * - {export}, string which will render the [[$export]] menu button content
-     * - {afterContent}, string which will render the [[$after]] text passed in the panel settings
+     * - `{heading}`: string, which will render the panel heading content.
+     * - `{summary}`: string, which will render the grid results summary.
+     * - `{items}`: string, which will render the grid items.
+     * - `{pager}`: string, which will render the grid pagination links.
+     * - `{sort}`: string, which will render the grid sort links.
+     * - `{toolbar}`: string, which will render the [[$toolbar]] property passed
+     * - `{export}`: string, which will render the [[$export]] menu button content.
      */
-    public $afterTemplate = '{afterContent}';
+    public $panelHeadingTemplate = <<< HTML
+    <div class="pull-right">
+        {summary}
+    </div>
+    {heading}
+    <div class="clearfix"></div>
+HTML;
+
+    /**
+     * @var string the template for rendering the panel footer:
+     * The following special variables are recognized and will be replaced:
+     * - `{footer}`: string, which will render the panel footer content.
+     * - `{summary}`: string, which will render the grid results summary.
+     * - `{items}`: string, which will render the grid items.
+     * - `{sort}`: string, which will render the grid sort links.
+     * - `{pager}`: string, which will render the grid pagination links.
+     * - `{toolbar}`: string, which will render the [[$toolbar]] property passed
+     * - `{export}`: string, which will render the [[$export]] menu button content
+     */
+    public $panelFooterTemplate = <<< HTML
+    <div class="kv-panel-pager">
+        {pager}
+    </div>
+    {footer}
+    <div class="clearfix"></div>
+HTML;
+
+    /**
+     * @var string the template for rendering the `{before} part in the layout templates.
+     * The following special variables are recognized and will be replaced:
+     * - `{beforeContent}`: string, which will render the [[$before]] text passed in the panel settings
+     * - `{summary}`: string, which will render the grid results summary.
+     * - `{items}`: string, which will render the grid items.
+     * - `{sort}`: string, which will render the grid sort links.
+     * - `{pager}`: string, which will render the grid pagination links.
+     * - `{toolbar}`: string, which will render the [[$toolbar]] property passed
+     * - `{export}`: string, which will render the [[$export]] menu button content
+     */
+    public $panelBeforeTemplate = <<< HTML
+    <div class="pull-right">
+        <div class="btn-toolbar kv-grid-toolbar" role="toolbar">
+            {toolbar}
+        </div>    
+    </div>
+    {beforeContent}
+    <div class="clearfix"></div>
+HTML;
+    
+    /**
+     * @var string the template for rendering the `{after} part in the layout templates.
+     * The following special variables are recognized and will be replaced:
+     * - `{afterContent}`: string, which will render the [[$after]] text passed in the panel settings
+     * - `{summary}`: string, which will render the grid results summary.
+     * - `{items}`: string, which will render the grid items.
+     * - `{sort}`: string, which will render the grid sort links.
+     * - `{pager}`: string, which will render the grid pagination links.
+     * - `{toolbar}`: string, which will render the [[$toolbar]] property passed
+     * - `{export}`: string, which will render the [[$export]] menu button content
+     */
+    public $panelAfterTemplate = '{afterContent}';
 
     /**
      * @var array|string, configuration of additional header table rows that will be rendered before the default grid
@@ -376,10 +409,14 @@ HTML;
      * @var array the panel settings. If this is set, the grid widget
      * will be embedded in a bootstrap panel. Applicable only if `bootstrap`
      * is `true`. The following array keys are supported:
-     * - `heading`: string, the panel heading. If not set, will not be displayed.
      * - `type`: string, the panel contextual type (one of the TYPE constants,
      *    if not set will default to `default` or `self::TYPE_DEFAULT`),
-     * - `footer`: string, the panel footer. If not set, will not be displayed.
+     * - `heading`: string|false, the panel heading. If set to false, will not be displayed.
+     * - `headingOptions`: array, HTML attributes for the panel heading container. 
+     *    Defaults to `['class'=>'panel-heading']`.
+     * - `footer`: string|boolean, the panel footer. If set to false will not be displayed.
+     * - `footerOptions`: array, HTML attributes for the panel footer container. 
+     *    Defaults to `['class'=>'panel-footer']`.     
      * - 'before': string|boolean, content to be placed before/above the grid table (after the header). 
      *   To not display this section, set this to `false`.
      * - `beforeOptions`: array, HTML attributes for the `before` text. If the
@@ -388,14 +425,6 @@ HTML;
      *   To not display this section, set this to `false`.
      * - `afterOptions`: array, HTML attributes for the `after` text. If the
      *   `class` is not set, it will default to `kv-panel-after`.
-     * - `showFooter`: boolean, whether to always show the footer. If so the,
-     *    layout will default to the constant `self::TEMPLATE_1`. If this is
-     *    set to false, the `pager` will be enclosed within the `kv-panel-after`
-     *    container. Defaults to `false`.
-     * - `layout`: string, the grid layout to be used if you are using a panel,
-     *    If not set, defaults to the constant `self::TEMPLATE_1` if
-     *    `showFooter` is `true. If `showFooter` is set to `false`, this will
-     *    default to the constant `self::TEMPLATE_2`.
      */
     public $panel = [];
 
@@ -974,40 +1003,49 @@ HTML;
         if (!$this->bootstrap || !is_array($this->panel) || empty($this->panel)) {
             return;
         }
-        $heading = ArrayHelper::getValue($this->panel, 'heading', '');
         $type = 'panel-' . ArrayHelper::getValue($this->panel, 'type', 'default');
+        $heading = ArrayHelper::getValue($this->panel, 'heading', '');
         $footer = ArrayHelper::getValue($this->panel, 'footer', '');
-        $showFooter = ArrayHelper::getValue($this->panel, 'showFooter', false);
-        $template = ($showFooter) ? self::TEMPLATE_1 : self::TEMPLATE_2;
-        $layout = ArrayHelper::getValue($this->panel, 'layout', $template);
         $before = ArrayHelper::getValue($this->panel, 'before', '');
         $after = ArrayHelper::getValue($this->panel, 'after', '');
+        $headingOptions = ArrayHelper::getValue($this->panel, 'headingOptions', []);
+        $footerOptions = ArrayHelper::getValue($this->panel, 'footerOptions', []);
         $beforeOptions = ArrayHelper::getValue($this->panel, 'beforeOptions', []);
         $afterOptions = ArrayHelper::getValue($this->panel, 'afterOptions', []);
-
+        $panelHeading = '';
+        $panelBefore = '';
+        $panelAfter = '';
+        $panelFooter = '';
+        
+        if ($heading !== false) {
+            Html::addCssClass($headingOptions, 'panel-heading');
+            $content = strtr($this->panelHeadingTemplate, ['{heading}' => $heading]);
+            $panelHeading = Html::tag('div', $content, $headingOptions);
+        }  
+        if ($footer !== false) {
+            Html::addCssClass($footerOptions, 'panel-footer');
+            $content = strtr($this->panelFooterTemplate, ['{footer}' => $footer]);
+            $panelFooter = Html::tag('div', $content, $footerOptions);
+        }          
         if ($before !== false) {
-            if (empty($beforeOptions['class'])) {
-                $beforeOptions['class'] = 'kv-panel-before';
-            }
-            $content = strtr($this->beforeTemplate, ['{beforeContent}' => $before]);
-            $before = Html::tag('div', $content, $beforeOptions);
+            Html::addCssClass($beforeOptions, 'kv-panel-before');
+            $content = strtr($this->panelBeforeTemplate, ['{beforeContent}' => $before]);
+            $panelBefore = Html::tag('div', $content, $beforeOptions);
+        } 
+        if ($after !== false) {
+            Html::addCssClass($afterOptions, 'kv-panel-after');
+            $content = strtr($this->panelAfterTemplate, ['{afterContent}' => $after]);
+            $panelAfter = Html::tag('div', $content, $afterOptions);
         }
-        if ($after !== false && $layout != self::TEMPLATE_2) {
-            if (empty($afterOptions['class'])) {
-                $afterOptions['class'] = 'kv-panel-after';
-            }
-            $content = strtr($this->afterTemplate, ['{afterContent}' => $after]);
-            $after = Html::tag('div', $content, $afterOptions);
-        }
-        $this->layout = strtr($layout, [
-            '{heading}' => $heading,
+        $this->layout = strtr($this->panelTemplate, [
+            '{panelHeading}' => $panelHeading,
             '{type}' => $type,
-            '{footer}' => $footer,
-            '{before}' => $before,
-            '{after}' => $after
+            '{panelFooter}' => $panelFooter,
+            '{panelBefore}' => $panelBefore,
+            '{panelAfter}' => $panelAfter
         ]);
     }
-
+    
     /**
      * Renders the table page summary.
      *

@@ -6,6 +6,26 @@ Version 2.6.0
 2. (enh #140): French translations added.
 3. (bug #141): Enhance EditableColumn to have unique attribute input ids yet the same name.
 4. (bug #142): Fix missing headers in export, due to improper floatThead settings.
+5. (bug #143): Ability to disable / hide GridView panel footer. 
+6. (enh #144): Revamp templates to easily configure different parts of the grid panel layout. (__BC breaking change__).
+7. (enh #145): Enhance style to enable floated header wrapper tables to autofit/expand inside panel.
+
+#### BC Breaking Changes
+
+1. Removed `showFooter` from `panel` array configuration
+2. Renamed `beforeTemplate` property to `panelBeforeTemplate`
+3. Renamed `afterTemplate` property to `panelAfterTemplate`
+
+#### Additions
+1. Templates have been simplified and consolidated to the following configurable properties:
+    - `panelTemplate`: Template to renders the complete grid panel.
+    - `panelHeadingTemplate`: Renders the heading block part of the panel.
+    - `panelBeforeTemplate`: Renders the before block part of the panel.
+    - `panelAfterTemplate`: Renders the after block part of the panel.
+    - `panelFooterTemplate`: Renders the footer block part of the panel.
+2. The `heading`, `footer`, `before`, and `after` properties in the `panel` typically accepts a string to render in that particular block. All of these can be set to boolean `false` to hide them.
+3. HTML attributes for each of the above containers are now configurable i.e via `headingOptions`, `footerOptions`, `beforeOptions`, and `afterOptions` properties in the `panel` array configuration.
+4. Vast enhancements to CSS styling when using Float Table Header wrapper. This now ensures tables auto fits and expand rightly to fit inside the panel.
 
 Version 2.5.0
 =============

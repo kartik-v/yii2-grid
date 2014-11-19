@@ -7,7 +7,26 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh5.googleusercontent.com/--KIuWE6iZYc/VFjWSphRmYI/AAAAAAAAAQA/EmL3jMMXW94/w795-h528-no/yii2-grid.png)
 
 ## Latest Release
-The latest version of the module is v2.6.0 released on 17-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
+The latest version of the module is v2.6.0 released on 17-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
+
+Release 2.6.0 has BC breaking changes and will affect developers using templates.
+
+### BC Breaking Changes
+
+1. Removed `showFooter` from `panel` array configuration
+2. Renamed `beforeTemplate` property to `panelBeforeTemplate`
+3. Renamed `afterTemplate` property to `panelAfterTemplate`
+
+### Additions
+1. Templates have been simplified and consolidated to the following configurable properties:
+    - `panelTemplate`: Template to renders the complete grid panel.
+    - `panelHeadingTemplate`: Renders the heading block part of the panel.
+    - `panelBeforeTemplate`: Renders the before block part of the panel.
+    - `panelAfterTemplate`: Renders the after block part of the panel.
+    - `panelFooterTemplate`: Renders the footer block part of the panel.
+2. The `heading`, `footer`, `before`, and `after` properties in the `panel` typically accepts a string to render in that particular block. All of these can be set to boolean `false` to hide them.
+3. HTML attributes for each of the above containers are now configurable i.e via `headingOptions`, `footerOptions`, `beforeOptions`, and `afterOptions` properties in the `panel` array configuration.
+4. Vast enhancements to CSS styling when using Float Table Header wrapper. This now ensures tables auto fits and expand rightly to fit inside the panel.
 
 > NOTE: This extension depends on other yii2 extensions based on the functionality chosen by you. It will not install such dependent packages by default, but will prompt through an exception, if accessed.
 For example, if you choose to enable PDF export, then the [yii2-mpdf](http://demos.krajee.com/mpdf) will be mandatory and exception will be raised if `yii2-mpdf` is not installed.
