@@ -7,7 +7,7 @@ Version 2.6.0
 3. (bug #141): Enhance EditableColumn to have unique attribute input ids yet the same name.
 4. (bug #142): Fix missing headers in export, due to improper floatThead settings.
 5. (bug #143): Ability to disable / hide GridView panel footer. 
-6. (enh #144): Revamp templates to easily configure different parts of the grid panel layout. (__BC breaking change__).
+6. (enh #144): Revamp templates to easily configure different parts of the grid panel layout. (_BC breaking change_).
 7. (enh #145): Enhance style to enable floated header wrapper tables to autofit/expand inside panel.
 
 #### BC Breaking Changes
