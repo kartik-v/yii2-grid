@@ -1,6 +1,6 @@
 Version 2.6.0
 =============
-**Date):** 19-Nov-2014
+**Date:** 19-Nov-2014
 
 1. (enh #139): German translations updated.
 2. (enh #140): French translations added.
@@ -9,7 +9,7 @@ Version 2.6.0
 
 Version 2.5.0
 =============
-**Date):** 17-Nov-2014
+**Date:** 17-Nov-2014
 
 1. (bug #135): Upgrade to latest release of floatTHeader plugin.
 2. (bug #136): Fix IE specific errors in floatHeader when columns are hidden.
@@ -17,14 +17,14 @@ Version 2.5.0
 
 Version 2.4.0
 =============
-**Date):** 14-Nov-2014
+**Date:** 14-Nov-2014
 
 1. (bug #132): Correct page summary calculation.
 2. (bug #133): Skip mPDF dependency when export is set to false.
 
 Version 2.3.0
 =============
-**Date):** 07-Nov-2014
+**Date:** 07-Nov-2014
 
 1. (bug #87): Fix key as object in mongodb.
 2. (enh #116): Vietnamese translations added.
@@ -36,7 +36,7 @@ Version 2.3.0
 
 Version 2.2.0
 =============
-**Date):** 04-Nov-2014
+**Date:** 04-Nov-2014
 
 1. (enh #110): Various export functionality enhancements):
     - Add a separate export popup progress window.
@@ -59,7 +59,7 @@ Version 2.2.0
 
 Version 2.1.0
 =============
-**Date):** 25-Oct-2014
+**Date:** 25-Oct-2014
 
 1. (enh #94): Enhance and revamp toolbar.
 2. (enh #95): Enhance export button dropdown feature.
@@ -71,7 +71,7 @@ Version 2.1.0
 
 Version 2.0.0
 =============
-**Date):** 14-Sep-2014
+**Date:** 14-Sep-2014
 
 1. (enh #80): Add hidden property for columns to be hidden from display but available on export.
 2. (bug #81): CSS class `kv-grid-hide` configured for hidden columns.
@@ -83,7 +83,7 @@ Version 2.0.0
 
 Version 1.9.0
 =============
-**Date):** 21-Aug-2014
+**Date:** 21-Aug-2014
 
 1. (enh #65): Various enhancements to the widget to work with Pjax 
 2. (enh #67): Fix Chrome bug for displaying loading indicator on tbody.
@@ -95,7 +95,7 @@ Version 1.9.0
 Version 1.8.0
 =============
 
-**Date):** 01-Aug-2014
+**Date:** 01-Aug-2014
 
 1. (enh #58, #59): Russian language translation included
 2. (enh #60): Added a new `EditableColumn` column to the grid that uses the enhanced `kartik\editable\Editable` widget to make the grid content editable.
@@ -103,7 +103,7 @@ Version 1.8.0
 Version 1.7.0
 =============
 
-**Date):** 14-Jul-2014
+**Date:** 14-Jul-2014
 
 1. (enh #57): Added `containerOptions` to grid layout for allowing configuration of the grid table container. This can be set to
 `false` to not display the container.
@@ -111,7 +111,7 @@ Version 1.7.0
 Version 1.6.0
 =============
 
-**Date):** 10-Jul-2014
+**Date:** 10-Jul-2014
 
 1. (enh #54): Grid Export Enhancements
 - Ability to preprocess and convert column data to your desired value before exporting. For example convert the HTML formatted icons for BooleanColumn to user friendly text like `Active` or `Inactive` after export.
@@ -134,7 +134,7 @@ Version 1.6.0
 Version 1.5.0
 =============
 
-**Date):** 04-Jul-2014
+**Date:** 04-Jul-2014
 
 1. (enh #51): Enhanced GridView header and footer, to include additional headers/footers before or after default header/footer. 
    The properties below can be set as an array or string):
@@ -147,7 +147,7 @@ Version 1.5.0
 Version 1.4.0
 =============
 
-**Date):** 29-Apr-2014
+**Date:** 29-Apr-2014
 
 1. (enh #25): Allow highlighting of selected row for a CheckboxColumn
     - Added `rowHighlight` property to set if a row needs to be highlighted
@@ -157,7 +157,7 @@ Version 1.4.0
 Version 1.3.0
 =============
 
-**Date):** 18-Apr-2014
+**Date:** 18-Apr-2014
 
 1. (enh #19): Gridview enhancements (export, toolbar, iframe)
     - Enable rendering of export without panel by passing `{export}` variable to grid `layout` property.
@@ -168,7 +168,7 @@ Version 1.3.0
 Version 1.2.0
 =============
 
-**Date):** 22-Mar-2014
+**Date:** 22-Mar-2014
 
 1. Converted the extension into a module.
 2. Export features enhanced for use across all browsers):
@@ -180,7 +180,7 @@ Version 1.2.0
 Version 1.1.0
 =============
 
-**Date):** 15-Mar-2014
+**Date:** 15-Mar-2014
 
 1. Export features added through a brand new custom JQuery plugin):
    - Save displayed grid as HTML
@@ -191,6 +191,6 @@ Version 1.1.0
 Version 1.0.0
 =============
 
-**Date):** 10-Mar-2014
+**Date:** 10-Mar-2014
 
 Initial release
