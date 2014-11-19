@@ -7,9 +7,7 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh5.googleusercontent.com/--KIuWE6iZYc/VFjWSphRmYI/AAAAAAAAAQA/EmL3jMMXW94/w795-h528-no/yii2-grid.png)
 
 ## Latest Release
-The latest version of the module is v2.5.0 released on 17-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
-
-Release 3.3.0 makes the extension leaner, by not installing dependent packages unless needed. The release v2.2.0 has various additional enhancements and features of exporting and formatting grid output data.
+The latest version of the module is v2.6.0 released on 17-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details.
 
 > NOTE: This extension depends on other yii2 extensions based on the functionality chosen by you. It will not install such dependent packages by default, but will prompt through an exception, if accessed.
 For example, if you choose to enable PDF export, then the [yii2-mpdf](http://demos.krajee.com/mpdf) will be mandatory and exception will be raised if `yii2-mpdf` is not installed.

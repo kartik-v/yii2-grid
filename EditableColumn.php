@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.5.0
+ * @version 2.6.0
  */
 
 namespace kartik\grid;
@@ -83,7 +83,8 @@ class EditableColumn extends DataColumn
         }
         if ($this->attribute !== null) {
             $this->_editableOptions['model'] = $model;
-            $this->_editableOptions['attribute'] = '[' . $index . ']' . $this->attribute;
+            $this->_editableOptions['attribute'] = $this->attribute;
+            $this->_editableOptions['options']['id'] = $this->attribute . "-" . $index;
         } elseif (empty($this->_editableOptions['name']) && empty($this->_editableOptions['model']) ||
             !empty($this->_editableOptions['model']) && empty($this->_editableOptions['attribute'])) {
             throw new InvalidConfigException("You must setup the 'attribute' for your EditableColumn OR set one of 'name' OR 'model' & 'attribute' in 'editableOptions' (Exception at index: '{$index}', key: '{$strKey}').");

@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.5.0
+ * @version 2.6.0
  */
 
 namespace kartik\grid;
@@ -1236,8 +1236,7 @@ HTML;
             GridFloatHeadAsset::register($view);
             $this->floatHeaderOptions = ArrayHelper::merge([
                 'floatTableClass' => 'kv-table-float',
-                'floatContainerClass' => 'kv-thead-float',
-                'useAbsolutePositioning' => false
+                'floatContainerClass' => 'kv-thead-float'
             ], $this->floatHeaderOptions);
             $opts = Json::encode($this->floatHeaderOptions);
             $this->_jsFloatTheadScript = "jQuery('#{$gridId} table').floatThead({$opts});";
