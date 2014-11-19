@@ -19,11 +19,11 @@ Release 2.6.0 has BC breaking changes and will affect developers using templates
 
 ### Additions
 1. Templates have been simplified and consolidated to the following configurable properties:
-    - `panelTemplate`: Template to renders the complete grid panel.
-    - `panelHeadingTemplate`: Renders the heading block part of the panel.
-    - `panelBeforeTemplate`: Renders the before block part of the panel.
-    - `panelAfterTemplate`: Renders the after block part of the panel.
-    - `panelFooterTemplate`: Renders the footer block part of the panel.
+    - `panelTemplate`: Template to render the complete grid panel.
+    - `panelHeadingTemplate`: Template to render the heading block part of the panel.
+    - `panelBeforeTemplate`: Template to render the before block part of the panel.
+    - `panelAfterTemplate`: Template to render the after block part of the panel.
+    - `panelFooterTemplate`: Template to render the footer block part of the panel.
 2. The `heading`, `footer`, `before`, and `after` properties in the `panel` typically accepts a string to render in that particular block. All of these can be set to boolean `false` to hide them.
 3. HTML attributes for each of the above containers are now configurable i.e via `headingOptions`, `footerOptions`, `beforeOptions`, and `afterOptions` properties in the `panel` array configuration.
 4. Vast enhancements to CSS styling when using Float Table Header wrapper. This now ensures tables auto fits and expand rightly to fit inside the panel.
