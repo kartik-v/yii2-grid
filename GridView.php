@@ -131,7 +131,7 @@ class GridView extends \yii\grid\GridView
 HTML;
 
     /**
-     * @var string the template for rendering the panel heading:
+     * @var string the template for rendering the panel heading.
      * The following special variables are recognized and will be replaced:
      * - `{heading}`: string, which will render the panel heading content.
      * - `{summary}`: string, which will render the grid results summary.
@@ -150,7 +150,7 @@ HTML;
 HTML;
 
     /**
-     * @var string the template for rendering the panel footer:
+     * @var string the template for rendering the panel footer.
      * The following special variables are recognized and will be replaced:
      * - `{footer}`: string, which will render the panel footer content.
      * - `{summary}`: string, which will render the grid results summary.
