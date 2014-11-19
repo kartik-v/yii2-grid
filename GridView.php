@@ -145,7 +145,9 @@ HTML;
     <div class="pull-right">
         {summary}
     </div>
-    {heading}
+    <h3 class="panel-title">
+        {heading}
+    </h3>
     <div class="clearfix"></div>
 HTML;
 
