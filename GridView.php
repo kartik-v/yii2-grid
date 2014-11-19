@@ -171,7 +171,7 @@ HTML;
     /**
      * @var string the template for rendering the `{before} part in the layout templates.
      * The following special variables are recognized and will be replaced:
-     * - `{beforeContent}`: string, which will render the [[$before]] text passed in the panel settings
+     * - `{before}`: string, which will render the [[$before]] text passed in the panel settings
      * - `{summary}`: string, which will render the grid results summary.
      * - `{items}`: string, which will render the grid items.
      * - `{sort}`: string, which will render the grid sort links.
@@ -185,14 +185,14 @@ HTML;
             {toolbar}
         </div>    
     </div>
-    {beforeContent}
+    {before}
     <div class="clearfix"></div>
 HTML;
     
     /**
      * @var string the template for rendering the `{after} part in the layout templates.
      * The following special variables are recognized and will be replaced:
-     * - `{afterContent}`: string, which will render the [[$after]] text passed in the panel settings
+     * - `{after}`: string, which will render the [[$after]] text passed in the panel settings
      * - `{summary}`: string, which will render the grid results summary.
      * - `{items}`: string, which will render the grid items.
      * - `{sort}`: string, which will render the grid sort links.
@@ -200,7 +200,7 @@ HTML;
      * - `{toolbar}`: string, which will render the [[$toolbar]] property passed
      * - `{export}`: string, which will render the [[$export]] menu button content
      */
-    public $panelAfterTemplate = '{afterContent}';
+    public $panelAfterTemplate = '{after}';
 
     /**
      * @var array|string, configuration of additional header table rows that will be rendered before the default grid
@@ -1029,12 +1029,12 @@ HTML;
         }          
         if ($before !== false) {
             Html::addCssClass($beforeOptions, 'kv-panel-before');
-            $content = strtr($this->panelBeforeTemplate, ['{beforeContent}' => $before]);
+            $content = strtr($this->panelBeforeTemplate, ['{before}' => $before]);
             $panelBefore = Html::tag('div', $content, $beforeOptions);
         } 
         if ($after !== false) {
             Html::addCssClass($afterOptions, 'kv-panel-after');
-            $content = strtr($this->panelAfterTemplate, ['{afterContent}' => $after]);
+            $content = strtr($this->panelAfterTemplate, ['{after}' => $after]);
             $panelAfter = Html::tag('div', $content, $afterOptions);
         }
         $this->layout = strtr($this->panelTemplate, [
