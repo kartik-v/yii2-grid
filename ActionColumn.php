@@ -152,7 +152,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     /**
      * @var bool is the dropdown menu to be rendered?
      */
-    private $_isDropdown = false;
+    protected $_isDropdown = false;
 
     public function init()
     {
@@ -235,17 +235,17 @@ class ActionColumn extends \yii\grid\ActionColumn
     protected function renderDataCellContent($model, $key, $index)
     {
         $content = parent::renderDataCellContent($model, $key, $index);
+        $options = $this->dropdownButton;
         if ($this->_isDropdown) {
-            $label = ArrayHelper::remove($this->dropdownButton, 'label', Yii::t('kvgrid', 'Actions'));
-            $caret = ArrayHelper::remove($this->dropdownButton, 'caret', ' <span class="caret"></span>');
-            $this->dropdownButton = ArrayHelper::merge($this->dropdownButton, ['type'=>'button', 'data-toggle'=>'dropdown']);
-            Html::addCssClass($this->dropdownButton, 'dropdown-toggle');
-            $button = Html::button($label . $caret, $this->dropdownButton);
+            $label = ArrayHelper::remove($options, 'label', Yii::t('kvgrid', 'Actions'));
+            $caret = ArrayHelper::remove($options, 'caret', ' <span class="caret"></span>');
+            $options = ArrayHelper::merge($options, ['type'=>'button', 'data-toggle'=>'dropdown']);
+            Html::addCssClass($options, 'dropdown-toggle');
+            $button = Html::button($label . $caret, $options);
             Html::addCssClass($this->dropdownMenu, 'dropdown-menu');
             $dropdown = $button . PHP_EOL . Html::tag('ul', $content, $this->dropdownMenu);
             return Html::tag('div', $dropdown, ['class'=>'dropdown']);
         }
         return $content;
     }
-
 }

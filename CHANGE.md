@@ -9,6 +9,8 @@ Version 2.6.0
 5. (bug #143): Ability to disable / hide GridView panel footer. 
 6. (enh #144): Revamp templates to easily configure different parts of the grid panel layout. (_BC breaking change_).
 7. (enh #145): Enhance style to enable floated header wrapper tables to autofit/expand inside panel.
+8. (bug #146): Create Spanish translations.
+9. (bug #147): ActionColumn dropdownButton label changes value only for 1st row.
 
 #### BC Breaking Changes
 
