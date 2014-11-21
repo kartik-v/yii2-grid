@@ -11,6 +11,7 @@ namespace kartik\grid;
 use Yii;
 use Closure;
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
 use kartik\editable\Editable;
 use kartik\base\Config;
@@ -55,6 +56,18 @@ class EditableColumn extends DataColumn
     }
     
     /**
+     * Set array value only if key not set
+     * @param array $array
+     * @param mixed $key
+     * @param mixed $value
+     */
+    protected static function setVal(&$array, $key, $val) {
+        if (empty($array[$key])) {
+            $array[$key] = $val;
+        }
+    }
+    
+    /**
      * Renders the data cell content.
      * @param mixed $model the data model
      * @param mixed $key the key associated with the data model
@@ -84,7 +97,8 @@ class EditableColumn extends DataColumn
         if ($this->attribute !== null) {
             $this->_editableOptions['model'] = $model;
             $this->_editableOptions['attribute'] = $this->attribute;
-            $this->_editableOptions['options']['id'] = $this->attribute . "-" . $index;
+            $type = ArrayHelper::getValue($this->_editableOptions, 'inputType', Editable::INPUT_TEXT);
+            static::setVal($this->_editableOptions['options'], 'id', $this->attribute . "-" . $index);
         } elseif (empty($this->_editableOptions['name']) && empty($this->_editableOptions['model']) ||
             !empty($this->_editableOptions['model']) && empty($this->_editableOptions['attribute'])) {
             throw new InvalidConfigException("You must setup the 'attribute' for your EditableColumn OR set one of 'name' OR 'model' & 'attribute' in 'editableOptions' (Exception at index: '{$index}', key: '{$strKey}').");
