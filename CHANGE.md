@@ -11,7 +11,8 @@ Version 2.6.0
 7. (enh #145): Enhance style to enable floated header wrapper tables to autofit/expand inside panel.
 8. (bug #146): Create Spanish translations.
 9. (bug #147): ActionColumn dropdownButton label changes value only for 1st row.
-9. (bug #148): Enhance EditableColumn to render unique ids for input widgets.
+10. (bug #148): Enhance EditableColumn to render unique ids for input widgets.
+11. (bug #149): Correct validation for EditableColumn ActiveForm attribs.
 
 #### BC Breaking Changes
 
