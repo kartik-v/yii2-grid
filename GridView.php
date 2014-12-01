@@ -270,6 +270,11 @@ HTML;
     ];
 
     /**
+     * @var boolean whether to enable toggling of grid data. Defaults to `true`.
+     */    
+    public $toggleData = true;
+
+    /**
      * @var array the settings for the toggle data button for the toggle data type. This will be setup as 
      * an associative array of $type => $options, where $type can be:
      * - 'all': for showing all grid data
@@ -573,6 +578,10 @@ HTML;
         }
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
+        }
+        if (!$this->toggleData) {
+            parent::init();
+            return;
         }
         $this->_toggleDataKey = $this->options['id'] . '-toggle-data';
         if (isset($_POST[$this->_toggleDataKey])) {
