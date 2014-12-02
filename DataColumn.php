@@ -106,6 +106,16 @@ class DataColumn extends \yii\grid\DataColumn
     public $pageSummary = false;
 
     /**
+     * @var string before the page summary result.
+     */
+    public $pageSummaryPrefix = '';
+
+    /**
+     * @var string after the page summary result.
+     */
+    public $pageSummaryPostfix = '';
+
+    /**
      * @var string the summary function used to calculate the page summary for the column
      */
     public $pageSummaryFunc = GridView::F_SUM;

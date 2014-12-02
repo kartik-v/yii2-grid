@@ -204,7 +204,7 @@ trait ColumnTrait
         }
         $content = $this->getPageSummaryCellContent();
         if ($this->pageSummary === true) {
-            return $this->grid->formatter->format($content, $this->format);
+            return $this->grid->formatter->format($this->pageSummaryPrefix.$content.$this->pageSummaryPostfix, $this->format);
         }
         return ($content === null) ? $this->grid->emptyCell : $content;
     }
