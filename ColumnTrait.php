@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.6.0
+ * @version 2.7.0
  */
 
 namespace kartik\grid;
@@ -165,16 +165,20 @@ trait ColumnTrait
 
     /**
      * Renders the page summary cell.
+     *
+     * @return string the rendered result
      */
     public function renderPageSummaryCell()
     {
-        return Html::tag('td', $this->renderPageSummaryCellContent(), $this->pageSummaryOptions);
+        $prepend = ArrayHelper::remove($this->pageSummaryOptions, 'prepend', '');
+        $append = ArrayHelper::remove($this->pageSummaryOptions, 'append', '');
+        return Html::tag('td', $prepend . $this->renderPageSummaryCellContent() . $append, $this->pageSummaryOptions);
     }
 
     /**
      * Gets the raw page summary cell content.
      *
-     * @return string the rendering result
+     * @return string the rendered result
      */
     protected function getPageSummaryCellContent()
     {
@@ -191,7 +195,7 @@ trait ColumnTrait
     /**
      * Renders the page summary cell content.
      *
-     * @return string the rendering result
+     * @return string the rendered result
      */
     protected function renderPageSummaryCellContent()
     {
@@ -208,7 +212,7 @@ trait ColumnTrait
     /**
      * Get the raw footer cell content.
      *
-     * @return string the rendering result
+     * @return string the rendered result
      */
     protected function getFooterCellContent()
     {

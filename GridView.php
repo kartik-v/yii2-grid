@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.6.0
+ * @version 2.7.0
  */
 
 namespace kartik\grid;
@@ -49,6 +49,20 @@ class GridView extends \yii\grid\GridView
     const ICON_ACTIVE = '<span class="glyphicon glyphicon-ok text-success"></span>';
     const ICON_INACTIVE = '<span class="glyphicon glyphicon-remove text-danger"></span>';
 
+    /**
+     * Expand Row Icons
+     */
+    const ICON_EXPAND = '<span class="glyphicon glyphicon-expand"></span>';
+    const ICON_COLLAPSE = '<span class="glyphicon glyphicon-collapse-down"></span>';
+    const ICON_UNCHECKED = '<span class="glyphicon glyphicon-unchecked"></span>';
+
+    /**
+     * Expand Row States
+     */
+    const ROW_NONE = -1;
+    const ROW_EXPANDED = 0;
+    const ROW_COLLAPSED = 1;
+    
     /**
      * Alignment
      */
@@ -273,7 +287,7 @@ HTML;
      * @var boolean whether to enable toggling of grid data. Defaults to `true`.
      */    
     public $toggleData = true;
-
+    
     /**
      * @var array the settings for the toggle data button for the toggle data type. This will be setup as 
      * an associative array of $type => $options, where $type can be:
@@ -592,7 +606,7 @@ HTML;
         if ($this->_isShowAll == true) {
             $this->dataProvider->pagination = false;
         }
-        $this->_jsToggleScript = "toggleGridData('{$this->_toggleDataKey}');";
+        $this->_jsToggleScript = "kvToggleGridData('{$this->_toggleDataKey}');";
         parent::init();
     }
     
@@ -829,6 +843,9 @@ HTML;
      */
     protected function initToggleData()
     {
+        if (!$this->toggleData) {
+            return;
+        }
         $defaultOptions = [
             'all' => [
                 'icon' => 'resize-full',
@@ -872,7 +889,7 @@ HTML;
             foreach ($exportConfig as $format => $setting) {
                 $setup = is_array($exportConfig[$format]) ? $exportConfig[$format] : [];
                 $exportConfig[$format] = empty($setup) ? $defaultExportConfig[$format] :
-                    ArrayHelper::merge($defaultExportConfig[$format], $setup);
+                    array_replace_recursive($defaultExportConfig[$format], $setup);
             }
             $config = $exportConfig;
         } else {
@@ -889,6 +906,7 @@ HTML;
      */
     protected function initBootstrapStyle()
     {
+        Html::addCssClass($this->tableOptions, 'kv-grid-table');
         if (!$this->bootstrap) {
             return;
         }
@@ -1121,6 +1139,9 @@ HTML;
      * @return string
      */
     public function renderToggleData() {
+        if (!$this->toggleData) {
+            return '';
+        }
         $tag = $this->_isShowAll ? 'page' : 'all';
         $id = $this->_toggleDataKey;
         $label = ArrayHelper::remove($this->toggleDataOptions[$tag], 'label', '');
@@ -1251,9 +1272,14 @@ HTML;
     protected function registerAssets()
     {
         $view = $this->getView();
-        GridViewAsset::register($view);
+        if ($this->bootstrap) {
+            GridViewAsset::register($view);
+        }
         $gridId = $this->options['id'];
-        $view->registerJs($this->_jsToggleScript);
+        if ($this->toggleData) {
+            GridToggleDataAsset::register($view);
+            $view->registerJs($this->_jsToggleScript);
+        }
         
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
@@ -1287,7 +1313,7 @@ HTML;
                 'floatContainerClass' => 'kv-thead-float'
             ], $this->floatHeaderOptions);
             $opts = Json::encode($this->floatHeaderOptions);
-            $this->_jsFloatTheadScript = "jQuery('#{$gridId} table').floatThead({$opts});";
+            $this->_jsFloatTheadScript = "jQuery('#{$gridId} .kv-grid-table').floatThead({$opts});";
             $view->registerJs($this->_jsFloatTheadScript);
         }
     }

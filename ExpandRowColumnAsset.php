@@ -12,18 +12,18 @@ use kartik\base\AssetBundle;
 use yii\web\View;
 
 /**
- * Asset bundle for GridView Widget
+ * Asset bundle for GridView ExpandRowColumn
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class GridViewAsset extends AssetBundle
+class ExpandRowColumnAsset extends AssetBundle
 {
 	public function init()
 	{
 		$this->setSourcePath(__DIR__ . '/assets');
-		$this->setupAssets('css', ['css/kv-grid']);
+		$this->setupAssets('js', ['js/kv-grid-expand']);
+		$this->setupAssets('css', ['css/kv-grid-expand']);
 		parent::init();
 	}
-
 }

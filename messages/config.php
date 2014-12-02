@@ -7,7 +7,7 @@ return [
     'messagePath' => __DIR__,
     // array, required, list of language codes that the extracted messages
     // should be translated to. For example, ['zh-CN', 'de'].
-    'languages' => ['de', 'en', 'fr', 'hu', 'it', 'nl', 'pl', 'pt', 'ru'],
+    'languages' => ['da', 'de', 'en', 'es', 'fr', 'hu', 'it', 'nl', 'pl', 'pt', 'ru'],
     // string, the name of the function for translating messages.
     // Defaults to 'Yii::t'. This is used as a mark to find the messages to be
     // translated. You may use a string for single function name or an array for
@@ -20,7 +20,7 @@ return [
     // boolean, whether the message file should be overwritten with the merged messages
     'overwrite' => true,
     // boolean, whether to remove messages that no longer appear in the source code.
-    // Defaults to false, which means each of these messages will be enclosed with a pair of '@@' marks.
+    // Defaults to false, which means each of these messages will be enclosed with a pair of '' marks.
     'removeUnused' => false,
     // array, list of patterns that specify which files/directories should NOT be processed.
     // If empty or not set, all files/directories will be processed.

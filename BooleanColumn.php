@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.6.0
+ * @version 2.7.0
  */
 
 namespace kartik\grid;
@@ -76,7 +76,10 @@ class BooleanColumn extends DataColumn
      * @var bool whether to show null value as a false icon.
      */
     public $showNullAsFalse = false;
-
+    
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         if (empty($this->trueLabel)) {
@@ -97,7 +100,10 @@ class BooleanColumn extends DataColumn
         
         parent::init();
     }
-
+    
+    /**
+     * @inheritdoc
+     */
     public function getDataCellValue($model, $key, $index)
     {
         $value = parent::getDataCellValue($model, $key, $index);

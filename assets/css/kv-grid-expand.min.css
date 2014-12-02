@@ -1,0 +1,11 @@
+/*!
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
+ * @package yii2-grid
+ * @version 2.7.0
+ *
+ * Gridview ExpandRowColumn styling and enhancements
+ * Built for Yii Framework 2.0
+ * Author: Kartik Visweswaran
+ * Year: 2014
+ * For more Yii related demos visit http://demos.krajee.com
+ */.kv-expand-header-cell,.kv-expand-icon-cell{padding-top:0;padding-bottom:0;cursor:pointer;font-size:1.35em}.kv-expand-header-cell .kv-expand-icon{width:100%;height:80px;padding:0}.kv-expand-header-cell:focus,.kv-expand-header-cell:hover{color:#245269;background-color:#eee}.kv-expand-icon-cell:focus,.kv-expand-icon-cell:hover{color:#245269;background-color:#d9edf7!important}.kv-expand-header-cell.kv-state-disabled,.kv-expand-header-cell.kv-state-disabled:hover,.kv-expand-icon-cell.kv-state-disabled,.kv-expand-icon-cell.kv-state-disabled:hover{cursor:not-allowed;color:#333;text-shadow:0 1px 0 #fff;filter:alpha(opacity=25);opacity:.25}.kv-expand-header-cell.kv-state-disabled:hover,.kv-expand-icon-cell.kv-state-disabled:hover{background:none!important}.kv-expand-detail-loading{background-image:url(../img/loading-sm.gif);background-position:right 2px center;background-repeat:no-repeat;cursor:wait;opacity:.6}

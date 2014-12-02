@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.6.0
+ * @version 2.7.0
  */
 
 namespace kartik\grid;
@@ -73,9 +73,9 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
 
     /**
      * @var string highlight CSS class to be applied for highlighting the row.
-     * Defaults to 'info'.
+     * Defaults to 'danger'.
      */
-    public $rowSelectedClass = GridView::TYPE_INFO;
+    public $rowSelectedClass = GridView::TYPE_DANGER;
     
     /**
      * @var boolean|string whether the page summary is displayed above the footer for this column.
@@ -104,7 +104,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $mergeHeader = true;
 
     /**
-     * Initializes the widget
+     * @inherit doc
      */
     public function init()
     {
@@ -112,7 +112,8 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
             Html::addCssClass($this->contentOptions, 'kv-row-select');
             Html::addCssClass($this->headerOptions, 'kv-all-select');
             $view = $this->grid->getView();
-            $view->registerJs('selectRow("' . $this->grid->options['id'] . '", "' . $this->rowSelectedClass . '");');
+            CheckboxColumnAsset::register($view);
+            $view->registerJs('kvSelectRow("' . $this->grid->options['id'] . '", "' . $this->rowSelectedClass . '");');
         }
         $this->parseFormat();
         $this->parseVisibility();
@@ -129,7 +130,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
             $cont = 'jQuery("#' . $this->grid->pjaxSettings['options']['id'] . '")';
             $grid = $this->grid->options['id'];
             $view = $this->grid->getView();
-            $view->registerJs("{$cont}.on('pjax:complete', function(){selectRow('{$grid}', '{$this->rowSelectedClass}');});");
+            $view->registerJs("{$cont}.on('pjax:complete', function(){kvSelectRow('{$grid}', '{$this->rowSelectedClass}');});");
         }
     }
     

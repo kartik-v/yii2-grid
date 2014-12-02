@@ -46,5 +46,14 @@ class Module extends \yii\base\Module
             ];
         }
         Yii::$app->i18n->translations['kvgrid'] = $this->i18n;
+        if (isset($dummyDemoTranslations)) {
+            $messages = Yii::t('kvgrid', 'Add Book') .
+                Yii::t('kvgrid', 'Book Listing') .
+                Yii::t('kvgrid', 'Download Selected') .
+                Yii::t('kvgrid', 'Library') .
+                Yii::t('kvgrid', 'Reset Grid') .
+                Yii::t('kvgrid', 'The page summary displays SUM for first 3 amount columns and AVG for the last.') .
+                Yii::t('kvgrid', 'The table header sticks to the top in this demo as you scroll');
+        }
     }
 }

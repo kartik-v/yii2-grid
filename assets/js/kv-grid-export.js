@@ -1,6 +1,6 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 2.6.0
+ * @version 2.7.0
  *
  * Grid Export Validation Module for Yii's Gridview. Supports export of
  * grid data as CSV, HTML, or Excel.
@@ -84,7 +84,7 @@
     var GridExport = function (element, options) {
         this.$element = $(element);
         this.$grid = options.grid;
-        this.$table = this.$grid.find('table');
+        this.$table = this.$grid.find('.kv-grid-table');
         this.$form = this.$grid.find('form.kv-export-form');
         this.encoding = this.$form.find('[name="export_encoding"]').val();
         this.filename = options.filename;
@@ -124,7 +124,7 @@
             var msg1 = isEmpty(self.alertMsg) ? '' : self.alertMsg,
                 msg2 = isEmpty(msgs.allowPopups) ? '' : msgs.allowPopups,
                 msg3 = isEmpty(msgs.confirmDownload) ? '' : msgs.confirmDownload,
-                msg = '';
+                msg = '', out;
             if (msg1.length && msg2.length) {
                 msg = msg1 + '\n\n' + msg2;
             } else {
@@ -137,11 +137,19 @@
             if (msg3.length) {
                 msg = msg + '\n\n' + msg3;
             }
-            out = isEmpty(msg) ? false : confirm(msg);
-            if (!out) {
-                e.preventDefault();
+            e.preventDefault();
+            if (isEmpty(msg)) {
+                return true;
             }
-            return out;
+            return self.kvConfirm(msg);
+        },
+        kvConfirm: function(msg) {
+            try {
+               return confirm(msg);
+            } 
+            catch (err) {
+                return true;
+            }
         },
         setPopupAlert: function (msg) {
             var self = this;

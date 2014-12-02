@@ -16,7 +16,7 @@
  *
  * NOTE: this file must be saved in UTF-8 encoding.
  */
- return [
+return [
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Extensions',
     'Actions' => 'Acciones',
     'Active' => 'Activo',
@@ -24,12 +24,16 @@
     'All' => 'Todo',
     'Are you sure to delete this item?' => '¿Esta seguro de eliminar este registro?',
     'Book Listing' => 'Listando libros',
+    'Collapse' => '',
+    'Collapse All' => '',
     'Comma Separated Values' => 'Valores separados por comas',
     'CSV' => 'CSV',
     'Delete' => 'Eliminar',
     'Disable any popup blockers in your browser to ensure proper download.' => 'Deshabilite cualquier bloqueador de ventanas emergentes, para una descarga adecuada',
     'Download Selected' => 'Descargar Seleccionados',
     'Excel' => 'Excel',
+    'Expand' => '',
+    'Expand All' => '',
     'Export' => 'Exportar',
     'export' => 'exportar',
     'Export All Data' => 'Exportar Todos los Datos',

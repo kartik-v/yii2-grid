@@ -7,30 +7,25 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh5.googleusercontent.com/--KIuWE6iZYc/VFjWSphRmYI/AAAAAAAAAQA/EmL3jMMXW94/w795-h528-no/yii2-grid.png)
 
 ## Latest Release
-The latest version of the module is v2.6.0 released on 20-Nov-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
+The latest version of the module is v2.7.0 released on 01-Dec-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
 
-Release 2.6.0 has changes that would break backward compatibility. These changes have been done to make the templates more efficient, configurable, and enable developers to setup the grid layout better.
+New features in release 2.7.0.
 
-### BC Breaking Changes (from v2.6.0)
-
-1. Removed `showFooter` from `panel` array configuration. This can be now configured with `footer` option within the `panel`.
-2. Removed `layout` from `panel` array configuration. This can be now configured with `panelTemplate` at the GridView level.
-3. Renamed `beforeTemplate` property to `panelBeforeTemplate`.
-4. Renamed `afterTemplate` property to `panelAfterTemplate`.
-5. Renamed `beforeContent` tag used in `panelBeforeTemplate` to `before`.
-6. Renamed `afterContent` tag to `panelAfterTemplate` to `after`.
-7. EditableColumn attribute naming convention has changed. Developers do not need to use `Model::loadMultiple` method anymore and have the ability to directly use the `$model->load` method.
-
-### Additions (in v2.6.0)
-1. Templates have been simplified and consolidated to the following configurable properties:
-    - `panelTemplate`: Template to render the complete grid panel.
-    - `panelHeadingTemplate`: Template to render the heading block part of the panel.
-    - `panelBeforeTemplate`: Template to render the before block part of the panel.
-    - `panelAfterTemplate`: Template to render the after block part of the panel.
-    - `panelFooterTemplate`: Template to render the footer block part of the panel.
-2. The `heading`, `footer`, `before`, and `after` properties in the `panel` typically accepts a string to render in that particular block. All of these can be set to boolean `false` to hide them.
-3. HTML attributes for each of the above containers are now configurable i.e via `headingOptions`, `footerOptions`, `beforeOptions`, and `afterOptions` properties in the `panel` array configuration.
-4. Vast enhancements to CSS styling when using Float Table Header wrapper. This now ensures tables auto fits and expand rightly to fit inside the panel.
+1. A brand new column `ExpandRowColumn` has been added which allows one to expand grid rows, show details, or load content via ajax. Check the [ExpandRowColumn documentation](http://demos.krajee.com/grid#expand-row-column) for further details. The features available with this column are:
+    - Ability to expand grid rows and show a detail content in a new row below it like a master detail record. 
+    - Allows configuring the column like any grid DataColumn. The value of the column determines if the row is to be expanded or collapsed by default.
+    - Allows you to configure/customize the expand and collapse indicators.
+    - Ability to configure only specific rows to have expand/collapse functionality.
+    - Ability to disable the expand / collapse behavior and indicators for selective rows.
+    - Allows you to configure the detail content markup directly in the column configuration (using `detail` property). This can be set as a HTML markup directly or via Closure callback using column parameters.
+    - Allows you to load the detail content markup via ajax. Set the `detailUrl` property directly or via a Closure callback using column parameters.
+    - Automatically caches the content loaded via ajax so that the content is rendered from local on toggling the expand/collapse indicators, until the grid state is changed via filtering, sorting, or pagination.
+    - Ability to batch expand or batch collapse grid rows from the header. If content is loaded via ajax, the batch expand and collapse will fire the ajax requests to load and use intelligently from cache where possible.
+2. Included `prepend` and `append` settings within `pageSummaryOptions` to prepend/append content to page summary.
+3. All asset (JS & CSS) files have been carefully isolated to only load them if the specific grid feature has been selected.
+4. Enhancements for JS confirmation popups being hidden by browser's hide dialog settings.
+5. Recursively replace/merge PDF export configuration correctly.
+6. Include demo messages for auto generating via config.
 
 > NOTE: This extension depends on other yii2 extensions based on the functionality chosen by you. It will not install such dependent packages by default, but will prompt through an exception, if accessed.
 For example, if you choose to enable PDF export, then the [yii2-mpdf](http://demos.krajee.com/mpdf) will be mandatory and exception will be raised if `yii2-mpdf` is not installed.
@@ -117,6 +112,10 @@ This extension (with v2.3.0) adds ability to toggle between viewing **all grid d
 ## Data Column (Enhanced)
 ### \kartik\grid\DataColumn
 The default Yii data column has been enhanced with various additional parameters. Refer [documentation](http://demos.krajee.com/grid#data-column) for details.
+
+## Expand Row Column (New)
+### \kartik\grid\ExpandRowColumn
+An enhanced data column that allows one to expand a grid row and display additional/detail content in a new row below it either directly or via ajax. Refer [documentation](http://demos.krajee.com/grid#expand-row-column) for details.
 
 ## Editable Column (New)
 ### \kartik\grid\EditableColumn

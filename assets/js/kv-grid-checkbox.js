@@ -1,16 +1,16 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 2.6.0
+ * @version 2.7.0
  *
- * Client actions for yii2-grid 
+ * Client actions for yii2-grid CheckboxColumn
  * 
  * Author: Kartik Visweswaran
- * Copyright: 2013, Kartik Visweswaran, Krajee.com
+ * Copyright: 2014, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
 (function ($) {
-    selectRow = function(gridId, css) {
+    kvSelectRow = function(gridId, css) {
         var $grid = jQuery('#' + gridId);
         $grid.find(".kv-row-select input").on('change', function () {
             var $el = $(this);
@@ -27,17 +27,6 @@
             else {
                 $grid.find(".kv-row-select").parents("tr").removeClass(css);
             }
-        });
-    }
-
-    toggleGridData = function(id) {
-        var $el = $('#' + id);
-        if ($el.length == 0) {
-            return;
-        }
-        $el.on('change', function() {
-            var $form = $el.closest('form');
-            $form.submit();
         });
     }
 })(window.jQuery);

@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.6.0
+ * @version 2.7.0
  */
 
 namespace kartik\grid;
@@ -111,7 +111,10 @@ class DataColumn extends \yii\grid\DataColumn
     public $pageSummaryFunc = GridView::F_SUM;
 
     /**
-     * @var array HTML attributes for the page summary cell
+     * @var array HTML attributes for the page summary cell. The following special attributes
+     * are available:
+     * - `prepend` string a prefix string that will be prepended before the pageSummary content
+     * - `append` string a suffix string that will be appended after the pageSummary content
      */
     public $pageSummaryOptions = [];
 
