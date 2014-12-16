@@ -1,3 +1,10 @@
+Version 2.8.0
+=============
+**Date:** 16-Dec-2014
+
+1. (bug #167): Fix Yii message parsing for Html5Input '$this->noSupport'.
+2. (enh #168): Prevent user to rapidly toggle and break the expand row before expansion or collapse.
+
 Version 2.7.0
 =============
 **Date:** 02-Dec-2014
@@ -48,7 +55,6 @@ Version 2.5.0
 
 1. (bug #135): Upgrade to latest release of floatTHeader plugin.
 2. (bug #136): Fix IE specific errors in floatHeader when columns are hidden.
-
 
 Version 2.4.0
 =============

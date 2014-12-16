@@ -1,6 +1,6 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 2.7.0
+ * @version 2.8.0
  *
  * jQuery methods library for yii2-grid expand row column
  * 
@@ -51,7 +51,10 @@
                 setCss($c, progress);
             },
             endLoading = function($c) {
-                $c.removeClass(progress);
+                var delay = isNaN(duration) ? 1000 : duration + 200;
+                setTimeout(function() {
+                    $c.removeClass(progress);
+                }, delay);
             };
         if ($rows.length == 0) {
             setCss($hdrCell, 'kv-state-disabled');
@@ -77,9 +80,9 @@
                 $detail = $newRow.find('.kv-expanded-row');
             }
             var loadDetail = function(postProcess) {
+                beginLoading($cell);
                 if (detailUrl.length > 0 && $detail.html().length == 0) {
                     $grid.trigger('kvexprow.beforeLoad', [vInd, vKey]);
-                    beginLoading($cell);
                     $detail.load(detailUrl, {
                         expandRowKey: vKey, 
                         expandRowInd: vInd
@@ -113,9 +116,12 @@
                     $detail.show();
                     setCollapsed($icon);
                 }
-                
+                if (detailUrl.length == 0) {
+                    endLoading($cell);
+                }
             },
             collapseRow = function() {
+                beginLoading($cell);
                 $container.html('');
                 $icon.html(expandIcon);
                 $cell.attr('title', expandTitle);
@@ -125,6 +131,7 @@
                     $detail.appendTo($container);
                     setExpanded($icon);
                 });
+                endLoading($cell);
             };
             if (expandAll && batchToggle) {
                 if (isCollapsed($icon)) {
@@ -161,8 +168,7 @@
             if (isExpanded($icon)) {
                 expandRow(false);
             }
-            $cell.off();
-            $cell.on('click', function() {
+            $cell.off().on('click', function() {
                 if ($cell.hasClass(progress)) {
                     return;
                 }

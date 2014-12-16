@@ -7,9 +7,9 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh5.googleusercontent.com/--KIuWE6iZYc/VFjWSphRmYI/AAAAAAAAAQA/EmL3jMMXW94/w795-h528-no/yii2-grid.png)
 
 ## Latest Release
-The latest version of the module is v2.7.0 released on 01-Dec-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
+The latest version of the module is v2.8.0 released on 16-Dec-2014. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
 
-New features in release 2.7.0.
+New features with release 2.7.0.
 
 1. A brand new column `ExpandRowColumn` has been added which allows one to expand grid rows, show details, or load content via ajax. Check the [ExpandRowColumn documentation](http://demos.krajee.com/grid#expand-row-column) for further details. The features available with this column are:
     - Ability to expand grid rows and show a detail content in a new row below it like a master detail record. 
