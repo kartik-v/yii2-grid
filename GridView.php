@@ -476,8 +476,11 @@ HTML;
      *   `<li role="presentation" class="dropdown-header">Export Page Data</li>`.
      * - fontAwesome: boolean, whether to use font awesome file type icons. Defaults to `false`. If you set it to `true`, then font awesome
      *   icons css class will be applied instead of glyphicons.
-     * - items: array, any additional items that will be merged with the export dropdown list. This should be similar to the `items`
-     *   property as supported by `\yii\bootstrap\ButtonDropdown` widget. Note the page export items will be automatically 
+     * - itemsBefore: array, any additional items that will be merged/prepended before with the export dropdown list. This should be similar 
+     *   to the `items` property as supported by `\yii\bootstrap\ButtonDropdown` widget. Note the page export items will be automatically 
+     *   generated based on settings in the `exportConfig` property.
+     * - itemsAfter: array, any additional items that will be merged/appended after with the export dropdown list. This should be similar 
+     *   to the `items` property as supported by `\yii\bootstrap\ButtonDropdown` widget. Note the page export items will be automatically 
      *   generated based on settings in the `exportConfig` property.
      * - options: array, HTML attributes for the export menu button. Defaults to `['class' => 'btn btn-default', 'title'=>'Export']`.
      * - encoding: string, the export output file encoding. If not set, defaults to `utf-8`.
@@ -1195,6 +1198,9 @@ HTML;
                 'options' => $setting['options']
             ];
         }
+        $itemsBefore = ArrayHelper::getValue($this->export, 'itemsBefore', []);
+        $itemsAfter = ArrayHelper::getValue($this->export, 'itemsAfter', []);
+        $items = ArrayHelper::merge($itemsBefore, $items, $itemsAfter);
         return ButtonDropdown::widget([
             'label' => $title,
             'dropdown' => ['items' => $items, 'encodeLabels' => false, 'options'=>$menuOptions],

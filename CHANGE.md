@@ -4,6 +4,7 @@ Version 2.8.0
 
 1. (bug #167): Fix Yii message parsing for Html5Input '$this->noSupport'.
 2. (enh #168): Prevent user to rapidly toggle and break the expand row before expansion or collapse.
+3. (enh #169): Enable itemsBefore and itemsAfter to be added for export dropdown menu.
 
 Version 2.7.0
 =============
