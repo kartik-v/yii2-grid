@@ -469,10 +469,9 @@ HTML;
     /**
      * @array|boolean the grid export menu settings. Displays a Bootstrap dropdown menu that allows you to export the grid as
      * either html, csv, or excel. If set to false, will not be displayed. The following options can be set:
-     * - label: string,the export menu label (this is not HTML encoded). Defaults to ''.
      * - icon: string,the glyphicon suffix to be displayed before the export menu label. If not set or is an empty string, this
      *   will not be displayed. Defaults to 'export'.
-     * - iconOptions: array, the HTML options for the icon.
+     * - label: string,the export menu label (this is not HTML encoded). Defaults to ''.
      * - showConfirmAlert: boolean, whether to show a confirmation alert dialog before download. This 
      *   confirmation dialog will notify user about the type of exported file for download 
      *   and to disable popup blockers. Defaults to `true`.
