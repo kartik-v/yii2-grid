@@ -1,6 +1,6 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 2.8.0
+ * @version 2.9.0
  *
  * Grid Export Validation Module for Yii's Gridview. Supports export of
  * grid data as CSV, HTML, or Excel.
@@ -11,19 +11,19 @@
  * For more Yii related demos visit http://demos.krajee.com
  */
 (function ($) {
-    replaceAll = function(str, from, to) {
+    var replaceAll = function(str, from, to) {
         return str.split(from).join(to);
-    };
+    },
     isEmpty = function (value, trim) {
         return value === null || value === undefined || value == []
         || value === '' || trim && $.trim(value) === '';
     };
     popupDialog = function (url, name, w, h) {
-        var left = (screen.width / 2) - (w / 2);
-        var top = 60; //(screen.height / 2) - (h / 2);
-        return window.open(url, name, 'toolbar=no, location=no, directories=no, status=yes, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' 
-            + w +', height=' + h + ', top=' + top + ', left=' + left);
-    };
+        var left = (screen.width / 2) - (w / 2), top = 60,
+            existWin = window.open('', name, '', true);
+        existWin.close();
+        return window.open(url, name, 'toolbar=no, location=no, directories=no, status=yes, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w +', height=' + h + ', top=' + top + ', left=' + left);
+    },
     slug = function (strText) {
         return strText.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
     };
@@ -93,6 +93,8 @@
         this.alertMsg = options.alertMsg;
         this.messages = options.messages;
         this.exportConversions = options.exportConversions;
+        this.target = options.target;
+        this.showConfirmAlert = options.showConfirmAlert;
         this.config = options.config;
         this.popup = '';
         this.listen();
@@ -120,7 +122,11 @@
             return data;
         },
         notify: function (e) {
-            var self = this, msgs = self.messages;
+            var self = this;
+            if (!self.showConfirmAlert) {
+                return true;
+            }
+            var msgs = self.messages;
             var msg1 = isEmpty(self.alertMsg) ? '' : self.alertMsg,
                 msg2 = isEmpty(msgs.allowPopups) ? '' : msgs.allowPopups,
                 msg3 = isEmpty(msgs.confirmDownload) ? '' : msgs.confirmDownload,
@@ -182,11 +188,13 @@
         },
         listen: function () {
             var self = this;
-            self.$form.on('submit', function() {
-                setTimeout(function () {
-                    self.setPopupAlert(self.messages.downloadComplete, true);
-                }, 1000);
-            });
+            if (self.target == '_popup') {
+                self.$form.on('submit', function() {
+                    setTimeout(function () {
+                        self.setPopupAlert(self.messages.downloadComplete, true);
+                    }, 1000);
+                });
+            }
             if (self.$element.hasClass('export-csv')) {
                 self.listenClick('exportTEXT', 'csv');
             }
@@ -251,9 +259,11 @@
             } else {    
                 self.$form.find('[name="export_config"]').val('');
             }
-            self.popup = popupDialog('', 'kvDownloadDialog', 350, 120);
-            self.popup.focus();
-            self.setPopupAlert(self.messages.downloadProgress);
+            if (self.target == '_popup') {            
+                self.popup = popupDialog('', 'kvDownloadDialog', 350, 120);
+                self.popup.focus();
+                self.setPopupAlert(self.messages.downloadProgress);
+            }
             self.$form.submit();
             
         },
@@ -330,10 +340,12 @@
 
     $.fn.gridexport.defaults = {
         filename: 'export',
+        target: '_popup',
         showHeader: true,
         showPageSummary: true,
         showFooter: true,
         showCaption: true,
+        showConfirmAlert: true,
         alertMsg: '',
         browserPopupsMsg: '',
         confirmMsg: '',

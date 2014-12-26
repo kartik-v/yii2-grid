@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.8.0
+ * @version 2.9.0
  */
 
 namespace kartik\grid;
@@ -118,6 +118,13 @@ class GridView extends \yii\grid\GridView
     const EXCEL = 'xls';
     const PDF = 'pdf';
     const JSON = 'json';
+    
+    /** 
+     * Grid export download targets
+     */
+    const TARGET_POPUP = '_popup';
+    const TARGET_SELF = '_self';
+    const TARGET_BLANK = '_blank';
 
     /**
      * @var string the template for rendering the grid within a bootstrap styled panel.
@@ -466,10 +473,18 @@ HTML;
      * - icon: string,the glyphicon suffix to be displayed before the export menu label. If not set or is an empty string, this
      *   will not be displayed. Defaults to 'export'.
      * - iconOptions: array, the HTML options for the icon.
+     * - showConfirmAlert: boolean, whether to show a confirmation alert dialog before download. This 
+     *   confirmation dialog will notify user about the type of exported file for download 
+     *   and to disable popup blockers. Defaults to `true`.
+     * - target: string, the target for submitting the export form, which will trigger 
+     *   the download of the exported file. Must be one of the `TARGET_` constants.
+     *   Defaults to `GridView::TARGET_POPUP`.
      * - messages: array, the configuration of various messages that will be displayed at runtime:
-     *     - allowPopups: string, the message to be shown to disable browser popups for download. Defaults to `Disable any popup blockers in your browser to ensure proper download.`.
+     *     - allowPopups: string, the message to be shown to disable browser popups for download.
+     *        Defaults to `Disable any popup blockers in your browser to ensure proper download.`.
      *     - confirmDownload: string, the message to be shown for confirming to proceed with the download. Defaults to `Ok to proceed?`.
-     *     - downloadProgress: string, the message to be shown in a popup dialog when download request is triggered. Defaults to `Generating file. Please wait...`.
+     *     - downloadProgress: string, the message to be shown in a popup dialog when download request is triggered. 
+     *       Defaults to `Generating file. Please wait...`.
      *     - downloadComplete: string, the message to be shown in a popup dialog when download request is completed. Defaults to 
      *       `All done! Click anywhere here to close this window, once you have downloaded the file.`.
      * - header: string, the header for the page data export dropdown. If set to empty string will not be displayed. Defaults to:
@@ -1173,10 +1188,11 @@ HTML;
             $action = [$action];
         }
         $encoding = ArrayHelper::getValue($this->export, 'encoding', 'utf-8');
+        $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
         $form = Html::beginForm($action, 'post', [
             'class' => 'kv-export-form',
             'style' => 'display:none',
-            'target' => 'kvDownloadDialog',
+            'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
             'data-pjax' => false
         ]) . "\n" .
         Html::hiddenInput('export_filetype') . "\n" .
@@ -1289,6 +1305,8 @@ HTML;
         
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
+            $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
+            $showConfirmAlert = ArrayHelper::getValue($this->export, 'showConfirmAlert', true);
             foreach ($this->exportConfig as $format => $setting) {
                 $id = "jQuery('#{$gridId} .export-{$format}')";
                 $grid = new JsExpression("jQuery('#{$gridId}')");
@@ -1296,9 +1314,11 @@ HTML;
                 $options = [
                     'grid' => $grid,
                     'filename' => $setting['filename'],
+                    'target' => $target,
                     'showHeader' => $setting['showHeader'],
                     'showPageSummary' => $setting['showPageSummary'],
                     'showFooter' => $setting['showFooter'],
+                    'showConfirmAlert' => $showConfirmAlert,
                     'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
                     'messages' => $this->export['messages'],
                     'exportConversions' => $this->exportConversions,
