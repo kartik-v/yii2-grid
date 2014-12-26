@@ -3,7 +3,7 @@ Version 2.9.0
 **Date:** 26-Dec-2014
 
 1. (bug #172): Ability to configure export form submission target.
-1. (bug #173): Ability to configure display of confirmation alert dialog before export.
+2. (bug #173): Ability to configure display of confirmation alert dialog before export.
 
 Version 2.8.0
 =============
