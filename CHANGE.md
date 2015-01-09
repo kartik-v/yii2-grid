@@ -1,3 +1,9 @@
+Version 2.9.1
+=============
+**Date:** 10-Jan-2015
+
+1. (bug #178): Enhance CheckboxColumn to allow contentOptions to be set as Closure.
+
 Version 2.9.0
 =============
 **Date:** 26-Dec-2014

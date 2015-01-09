@@ -109,7 +109,6 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public function init()
     {
         if ($this->rowHighlight) {
-            Html::addCssClass($this->contentOptions, 'kv-row-select');
             Html::addCssClass($this->headerOptions, 'kv-all-select');
             $view = $this->grid->getView();
             CheckboxColumnAsset::register($view);
@@ -133,14 +132,23 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
             $view->registerJs("{$cont}.on('pjax:complete', function(){kvSelectRow('{$grid}', '{$this->rowSelectedClass}');});");
         }
     }
-    
     /**
-     * Renders the data cell content
+     * Renders a data cell.
+     * @param mixed $model the data model being rendered
+     * @param mixed $key the key associated with the data model
+     * @param integer $index the zero-based index of the data item among the item array returned by [[GridView::dataProvider]].
+     * @return string the rendering result
      */
-    public function renderDataCellContent($model, $key, $index)
-    {        
+    public function renderDataCell($model, $key, $index) {
         $this->initPjax();
-        return parent::renderDataCellContent($model, $key, $index);
+        if ($this->contentOptions instanceof Closure) {
+            $options = call_user_func($this->contentOptions, $model, $key, $index, $this);
+        } else {
+            $options = $this->contentOptions;
+        }
+        if ($this->rowHighlight) {
+            Html::addCssClass($options, 'kv-row-select');
+        }
+        return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
-
 }
