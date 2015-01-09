@@ -3,14 +3,14 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.9.0
+ * @version 3.0.0
  */
 
 namespace kartik\grid;
 
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * A FormulaColumn to calculate values based on other column indexes
@@ -52,7 +52,9 @@ class FormulaColumn extends DataColumn
             throw new InvalidConfigException("Invalid column index {$i} used in FormulaColumn.");
         }
         if (!isset($this->value) || !$this->value instanceof \Closure) {
-            throw new InvalidConfigException("The 'value' must be set and defined as a `Closure` function for a FormulaColumn.");
+            throw new InvalidConfigException(
+                "The 'value' must be set and defined as a `Closure` function for a FormulaColumn."
+            );
         }
         $col = $this->grid->columns[$i];
         if ($col === $this) {

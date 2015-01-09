@@ -3,12 +3,10 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.9.0
+ * @version 3.0.0
  */
 
 namespace kartik\grid;
-
-use kartik\base\AssetBundle;
 
 /**
  * Asset bundle for GridView Widget (for exporting content)
@@ -18,11 +16,13 @@ use kartik\base\AssetBundle;
  */
 class GridExportAsset extends AssetBundle
 {
+    /**
+     * @inherit doc
+     */
     public function init()
     {
         $this->setSourcePath(__DIR__ . '/assets');
         $this->setupAssets('js', ['js/kv-grid-export']);
         parent::init();
     }
-
 }

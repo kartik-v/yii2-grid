@@ -3,14 +3,14 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.9.0
+ * @version 3.0.0
  */
 
 namespace kartik\grid;
 
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * Extends the Yii's DataColumn for the Grid widget [[\kartik\widgets\GridView]]
@@ -24,22 +24,22 @@ use yii\base\InvalidConfigException;
 class DataColumn extends \yii\grid\DataColumn
 {
     use ColumnTrait;
-    
+
     /**
-     * @var boolean whether the column is hidden from display. This is different 
+     * @var boolean whether the column is hidden from display. This is different
      * than the `visible` property, in the sense, that the column is rendered,
      * but hidden from display. This will allow you to still export the column
      * using the export function.
      */
     public $hidden;
-    
+
     /**
-     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, 
-     * it will hide the column for all export formats. If set as an array, it will accept the 
+     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`,
+     * it will hide the column for all export formats. If set as an array, it will accept the
      * list of GridView export `formats` and hide output only for them.
      */
-    public $hiddenFromExport = false;    
-    
+    public $hiddenFromExport = false;
+
     /**
      * @var string the horizontal alignment of each column. Should be one of
      * 'left', 'right', or 'center'.
@@ -128,7 +128,7 @@ class DataColumn extends \yii\grid\DataColumn
      * @var array of row data for the column for the current page
      */
     private $_rows = [];
-    
+
     public function init()
     {
         if ($this->mergeHeader && !isset($this->vAlign)) {
@@ -152,7 +152,9 @@ class DataColumn extends \yii\grid\DataColumn
     protected function renderFilterCellContent()
     {
         $content = parent::renderFilterCellContent();
-        $chkType = !empty($this->filterType) && $this->filterType !== GridView::FILTER_CHECKBOX && $this->filterType !== GridView::FILTER_RADIO && !class_exists($this->filterType);
+        $chkType = !empty($this->filterType) && $this->filterType !== GridView::FILTER_CHECKBOX && $this->filterType !== GridView::FILTER_RADIO && !class_exists(
+                $this->filterType
+            );
         if ($this->filter === false || empty($this->filterType) || $content === $this->grid->emptyCell || $chkType) {
             return $content;
         }
@@ -167,7 +169,12 @@ class DataColumn extends \yii\grid\DataColumn
                 $options['data'] = $this->filter;
             }
             if ($this->filterType === GridView::FILTER_RADIO) {
-                return Html::activeRadioList($this->grid->filterModel, $this->attribute, $this->filter, $this->filterInputOptions);
+                return Html::activeRadioList(
+                    $this->grid->filterModel,
+                    $this->attribute,
+                    $this->filter,
+                    $this->filterInputOptions
+                );
             }
         }
         if ($this->filterType === GridView::FILTER_CHECKBOX) {

@@ -3,15 +3,14 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.9.0
+ * @version 3.0.0
  */
 
 namespace kartik\grid;
 
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
-use kartik\base\Config;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * Trait for all column widgets in yii2-grid
@@ -22,9 +21,51 @@ use kartik\base\Config;
 trait ColumnTrait
 {
     /**
-     * Checks if the filter input types are valid
+     * Renders the header cell.
+     *
+     * @return string
      */
-    protected function checkValidFilters() {
+    public function renderHeaderCell()
+    {
+        if ($this->grid->filterModel !== null && $this->mergeHeader && $this->grid->filterPosition === GridView::FILTER_POS_BODY) {
+            $this->headerOptions['rowspan'] = 2;
+            Html::addCssClass($this->headerOptions, 'kv-merged-header');
+        }
+        return parent::renderHeaderCell();
+    }
+
+    /**
+     * Renders the filter cell.
+     *
+     * @return string
+     */
+    public function renderFilterCell()
+    {
+        if ($this->grid->filterModel !== null && $this->mergeHeader && $this->grid->filterPosition === GridView::FILTER_POS_BODY) {
+            return null;
+        }
+        return parent::renderFilterCell();
+    }
+
+    /**
+     * Renders the page summary cell.
+     *
+     * @return string the rendered result
+     */
+    public function renderPageSummaryCell()
+    {
+        $prepend = ArrayHelper::remove($this->pageSummaryOptions, 'prepend', '');
+        $append = ArrayHelper::remove($this->pageSummaryOptions, 'append', '');
+        return Html::tag('td', $prepend . $this->renderPageSummaryCellContent() . $append, $this->pageSummaryOptions);
+    }
+
+    /**
+     * Checks if the filter input types are valid
+     *
+     * @return void
+     */
+    protected function checkValidFilters()
+    {
         if (isset($this->filterType)) {
             Config::validateInputWidget($this->filterType, 'for filtering the grid as per your setup');
         }
@@ -32,8 +73,11 @@ trait ColumnTrait
 
     /**
      * Checks `hidden` property and hides the column from display
+     *
+     * @return void
      */
-    protected function parseVisibility() {
+    protected function parseVisibility()
+    {
         if ($this->hidden === true) {
             Html::addCssClass($this->filterOptions, 'kv-grid-hide');
             Html::addCssClass($this->contentOptions, 'kv-grid-hide');
@@ -51,7 +95,7 @@ trait ColumnTrait
         }
         if (is_array($this->hiddenFromExport) && !empty($this->hiddenFromExport)) {
             $tag = 'skip-export-';
-            $css =  $tag . implode(" {$tag}", $this->hiddenFromExport);
+            $css = $tag . implode(" {$tag}", $this->hiddenFromExport);
             Html::addCssClass($this->filterOptions, $css);
             Html::addCssClass($this->contentOptions, $css);
             Html::addCssClass($this->headerOptions, $css);
@@ -63,8 +107,11 @@ trait ColumnTrait
 
     /**
      * Parses and formats a grid column
+     *
+     * @return void
      */
-    protected function parseFormat() {
+    protected function parseFormat()
+    {
         if ($this->hAlign === GridView::ALIGN_LEFT || $this->hAlign === GridView::ALIGN_RIGHT || $this->hAlign === GridView::ALIGN_CENTER) {
             $class = "kv-align-{$this->hAlign}";
             Html::addCssClass($this->headerOptions, $class);
@@ -92,36 +139,18 @@ trait ColumnTrait
             Html::addCssStyle($this->footerOptions, "width:{$this->width};");
         }
     }
-    
-    /**
-     * Renders the header cell.
-     */
-    public function renderHeaderCell()
-    {
-        if ($this->grid->filterModel !== null && $this->mergeHeader && $this->grid->filterPosition === GridView::FILTER_POS_BODY) {
-            $this->headerOptions['rowspan'] = 2;
-            Html::addCssClass($this->headerOptions, 'kv-merged-header');
-        }
-        return parent::renderHeaderCell();
-    }
-
-    /**
-     * Renders the filter cell.
-     */
-    public function renderFilterCell()
-    {
-        if ($this->grid->filterModel !== null && $this->mergeHeader && $this->grid->filterPosition === GridView::FILTER_POS_BODY) {
-            return null;
-        }
-        return parent::renderFilterCell();
-    }
 
     /**
      * Store all rows for the column for the current page
+     *
+     * @return void
      */
     protected function setPageRows()
     {
-        if ($this->grid->showPageSummary && isset($this->pageSummary) && $this->pageSummary !== false && !is_string($this->pageSummary)) {
+        if ($this->grid->showPageSummary && isset($this->pageSummary) && $this->pageSummary !== false && !is_string(
+                $this->pageSummary
+            )
+        ) {
             $provider = $this->grid->dataProvider;
             $models = array_values($provider->getModels());
             $keys = $provider->getKeys();
@@ -164,18 +193,6 @@ trait ColumnTrait
     }
 
     /**
-     * Renders the page summary cell.
-     *
-     * @return string the rendered result
-     */
-    public function renderPageSummaryCell()
-    {
-        $prepend = ArrayHelper::remove($this->pageSummaryOptions, 'prepend', '');
-        $append = ArrayHelper::remove($this->pageSummaryOptions, 'append', '');
-        return Html::tag('td', $prepend . $this->renderPageSummaryCellContent() . $append, $this->pageSummaryOptions);
-    }
-
-    /**
      * Gets the raw page summary cell content.
      *
      * @return string the rendered result
@@ -184,7 +201,12 @@ trait ColumnTrait
     {
         if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
             $summary = $this->calculateSummary();
-            return ($this->pageSummary === true) ? $summary : call_user_func($this->pageSummary, $summary, $this->_rows, $this);
+            return ($this->pageSummary === true) ? $summary : call_user_func(
+                $this->pageSummary,
+                $summary,
+                $this->_rows,
+                $this
+            );
         }
         if ($this->pageSummary !== false) {
             return $this->pageSummary;

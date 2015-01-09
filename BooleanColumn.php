@@ -3,15 +3,15 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.9.0
+ * @version 3.0.0
  */
 
 namespace kartik\grid;
 
 use Yii;
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * A BooleanColumn to convert true/false values as user friendly indicators
@@ -76,7 +76,7 @@ class BooleanColumn extends DataColumn
      * @var bool whether to show null value as a false icon.
      */
     public $showNullAsFalse = false;
-    
+
     /**
      * @inheritdoc
      */
@@ -89,18 +89,18 @@ class BooleanColumn extends DataColumn
             $this->falseLabel = Yii::t('kvgrid', 'Inactive');
         }
         $this->filter = [true => $this->trueLabel, false => $this->falseLabel];
-        
+
         if (empty($this->trueIcon)) {
-            $this->trueIcon =  ($this->grid->bootstrap) ? GridView::ICON_ACTIVE : $this->trueLabel;
+            $this->trueIcon = ($this->grid->bootstrap) ? GridView::ICON_ACTIVE : $this->trueLabel;
         }
-        
+
         if (empty($this->falseIcon)) {
-            $this->falseIcon =  ($this->grid->bootstrap) ? GridView::ICON_INACTIVE : $this->falseIcon;
+            $this->falseIcon = ($this->grid->bootstrap) ? GridView::ICON_INACTIVE : $this->falseIcon;
         }
-        
+
         parent::init();
     }
-    
+
     /**
      * @inheritdoc
      */

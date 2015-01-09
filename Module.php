@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.5.0
+ * @version 3.0.0
  */
 
 namespace kartik\grid;
@@ -22,7 +22,7 @@ class Module extends \yii\base\Module
      * @var mixed the action (url) used for downloading exported file
      */
     public $downloadAction = '/gridview/export/download';
-    
+
     /**
      * @var array the the internalization configuration for this module
      */

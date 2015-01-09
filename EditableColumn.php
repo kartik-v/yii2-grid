@@ -3,18 +3,15 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.9.0
+ * @version 3.0.0
  */
 
 namespace kartik\grid;
 
 use Yii;
-use Closure;
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
-use kartik\editable\Editable;
-use kartik\base\Config;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * The EditableColumn converts the data to editable using
@@ -25,7 +22,7 @@ use kartik\base\Config;
  */
 class EditableColumn extends DataColumn
 {
-    
+
     /**
      * @var array|Closure the configuration options for the [[\kartik\editable\Editable]] widget. If not set as an array,
      * this can be passed as a callback function of the signature: `function ($model, $key, $index)`, where:
@@ -34,17 +31,17 @@ class EditableColumn extends DataColumn
      * - $index integer is the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
      */
     public $editableOptions = [];
-    
+
     /**
      * @var boolean whether to refresh the grid on successful submission of editable
      */
     public $refreshGrid = false;
-    
+
     /**
      * @var array the computed editable options
      */
     protected $_editableOptions = [];
-    
+
     /**
      * @inherit doc
      * @throws InvalidConfigException
@@ -54,7 +51,7 @@ class EditableColumn extends DataColumn
         parent::init();
         Config::checkDependency('editable\Editable', 'yii2-editable', 'for GridView EditableColumn');
     }
-    
+
     /**
      * Renders the data cell content.
      * @param mixed $model the data model
@@ -87,8 +84,11 @@ class EditableColumn extends DataColumn
             $this->_editableOptions['attribute'] = "[{$index}]{$this->attribute}";
             $type = ArrayHelper::getValue($this->_editableOptions, 'inputType', Editable::INPUT_TEXT);
         } elseif (empty($this->_editableOptions['name']) && empty($this->_editableOptions['model']) ||
-            !empty($this->_editableOptions['model']) && empty($this->_editableOptions['attribute'])) {
-            throw new InvalidConfigException("You must setup the 'attribute' for your EditableColumn OR set one of 'name' OR 'model' & 'attribute' in 'editableOptions' (Exception at index: '{$index}', key: '{$strKey}').");
+            !empty($this->_editableOptions['model']) && empty($this->_editableOptions['attribute'])
+        ) {
+            throw new InvalidConfigException(
+                "You must setup the 'attribute' for your EditableColumn OR set one of 'name' OR 'model' & 'attribute' in 'editableOptions' (Exception at index: '{$index}', key: '{$strKey}')."
+            );
         }
         $this->_editableOptions['displayValue'] = parent::renderDataCellContent($model, $key, $index);
         $params = Html::hiddenInput('editableIndex', $index) . Html::hiddenInput('editableKey', $strKey);
@@ -100,7 +100,7 @@ class EditableColumn extends DataColumn
         if ($this->refreshGrid) {
             $view = $this->grid->getView();
             $grid = 'jQuery("#' . $this->grid->options['id'] . '")';
-            $script =<<< JS
+            $script = <<< JS
 {$grid}.find('.kv-editable-input').each(function() {
     var \$input = $(this);
     \$input.on('editableSuccess', function(){

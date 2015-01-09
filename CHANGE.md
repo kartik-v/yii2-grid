@@ -1,8 +1,9 @@
-Version 2.9.1
+Version 3.0.0
 =============
 **Date:** 10-Jan-2015
 
 1. (bug #178): Enhance CheckboxColumn to allow contentOptions to be set as Closure.
+2. Code formatting updates as per Yii2 coding style.
 
 Version 2.9.0
 =============

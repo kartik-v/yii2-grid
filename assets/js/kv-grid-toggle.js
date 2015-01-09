@@ -1,6 +1,6 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 2.9.0
+ * @version 3.0.0
  *
  * Client actions for yii2-grid toggle data
  * 
@@ -10,12 +10,12 @@
  * For more Yii related demos visit http://demos.krajee.com
  */
 (function ($) {
-    kvToggleGridData = function(id) {
+    kvToggleGridData = function (id) {
         var $el = $('#' + id);
         if ($el.length == 0) {
             return;
         }
-        $el.on('change', function() {
+        $el.on('change', function () {
             var $form = $el.closest('form');
             $form.submit();
         });

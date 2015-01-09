@@ -3,15 +3,15 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.9.0
+ * @version 3.0.0
  */
 
 namespace kartik\grid;
 
 use Yii;
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\web\View;
 
 /**
@@ -26,22 +26,22 @@ use yii\web\View;
 class CheckboxColumn extends \yii\grid\CheckboxColumn
 {
     use ColumnTrait;
-    
+
     /**
-     * @var boolean whether the column is hidden from display. This is different 
+     * @var boolean whether the column is hidden from display. This is different
      * than the `visible` property, in the sense, that the column is rendered,
      * but hidden from display. This will allow you to still export the column
      * using the export function.
      */
     public $hidden;
-    
+
     /**
-     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, 
-     * it will hide the column for all export formats. If set as an array, it will accept the 
+     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`,
+     * it will hide the column for all export formats. If set as an array, it will accept the
      * list of GridView export `formats` and hide output only for them.
      */
     public $hiddenFromExport = true;
-    
+
     /**
      * @var string the horizontal alignment of each column. Should be one of
      * 'left', 'right', or 'center'.
@@ -76,7 +76,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      * Defaults to 'danger'.
      */
     public $rowSelectedClass = GridView::TYPE_DANGER;
-    
+
     /**
      * @var boolean|string whether the page summary is displayed above the footer for this column.
      * If this is set to a string, it will be displayed as is. If it is set to `false` the summary
@@ -121,25 +121,14 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     }
 
     /**
-     * Initialize column for pjax refresh
-     */
-    protected function initPjax()
-    {
-        if ($this->grid->pjax && $this->rowHighlight) {
-            $cont = 'jQuery("#' . $this->grid->pjaxSettings['options']['id'] . '")';
-            $grid = $this->grid->options['id'];
-            $view = $this->grid->getView();
-            $view->registerJs("{$cont}.on('pjax:complete', function(){kvSelectRow('{$grid}', '{$this->rowSelectedClass}');});");
-        }
-    }
-    /**
      * Renders a data cell.
      * @param mixed $model the data model being rendered
      * @param mixed $key the key associated with the data model
      * @param integer $index the zero-based index of the data item among the item array returned by [[GridView::dataProvider]].
      * @return string the rendering result
      */
-    public function renderDataCell($model, $key, $index) {
+    public function renderDataCell($model, $key, $index)
+    {
         $this->initPjax();
         if ($this->contentOptions instanceof Closure) {
             $options = call_user_func($this->contentOptions, $model, $key, $index, $this);
@@ -150,5 +139,20 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
             Html::addCssClass($options, 'kv-row-select');
         }
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
+    }
+
+    /**
+     * Initialize column for pjax refresh
+     */
+    protected function initPjax()
+    {
+        if ($this->grid->pjax && $this->rowHighlight) {
+            $cont = 'jQuery("#' . $this->grid->pjaxSettings['options']['id'] . '")';
+            $grid = $this->grid->options['id'];
+            $view = $this->grid->getView();
+            $view->registerJs(
+                "{$cont}.on('pjax:complete', function(){kvSelectRow('{$grid}', '{$this->rowSelectedClass}');});"
+            );
+        }
     }
 }

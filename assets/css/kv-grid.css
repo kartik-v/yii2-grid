@@ -1,7 +1,7 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-grid
- * @version 2.9.0
+ * @version 3.0.0
  *
  * Gridview widget styling and enhancements for Bootstrap.
  * Built for Yii Framework 2.0
@@ -9,9 +9,10 @@
  * Year: 2014
  * For more Yii related demos visit http://demos.krajee.com
  */
-.kv-panel-pager  {
+.kv-panel-pager {
     min-height: 34px;
 }
+
 .kv-panel-pager .pagination {
     margin: 0 0 -5px 0;
     padding: 0;
@@ -90,40 +91,44 @@
 
 .kv-grid-loading {
     opacity: 0.5;
-    background: #ffffff url('../img/loading.gif') center center no-repeat!important;
+    background: #ffffff url('../img/loading.gif') center center no-repeat !important;
 }
 
-.kv-grid-loading *{
-    background: transparent!important;
+.kv-grid-loading * {
+    background: transparent !important;
 }
 
 .kv-grid-loading td {
-    border-color: #efefef!important;
+    border-color: #efefef !important;
 }
 
 .kv-grid-hide {
-    display: none!important;
+    display: none !important;
 }
 
 .kv-grid-toolbar .dropdown-menu {
     z-index: 1025;
 }
+
 .panel > .floatThead-wrapper > .table,
 .panel .table-responsive > .floatThead-wrapper > .table,
 .panel > .panel-collapse > .table {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
+
 .panel > .floatThead-wrapper > .table caption,
 .panel .table-responsive > .floatThead-wrapper > .table caption,
 .panel > .panel-collapse > .table caption {
     padding-right: 15px;
     padding-left: 15px;
 }
+
 .panel > .floatThead-wrapper > .table:first-child,
 .panel > .table-responsive > .floatThead-wrapper:first-child > .table:first-child {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
+
 .panel > .floatThead-wrapper > .table:first-child > thead:first-child > tr:first-child,
 .panel > .table-responsive > .floatThead-wrapper:first-child > .table:first-child > thead:first-child > tr:first-child,
 .panel > .floatThead-wrapper > .table:first-child > tbody:first-child > tr:first-child,
@@ -131,6 +136,7 @@
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
+
 .panel > .floatThead-wrapper > .table:first-child > thead:first-child > tr:first-child td:first-child,
 .panel > .table-responsive > .floatThead-wrapper:first-child > .table:first-child > thead:first-child > tr:first-child td:first-child,
 .panel > .floatThead-wrapper > .table:first-child > tbody:first-child > tr:first-child td:first-child,
@@ -141,6 +147,7 @@
 .panel > .table-responsive > .floatThead-wrapper:first-child > .table:first-child > tbody:first-child > tr:first-child th:first-child {
     border-top-left-radius: 3px;
 }
+
 .panel > .floatThead-wrapper > .table:first-child > thead:first-child > tr:first-child td:last-child,
 .panel > .table-responsive > .floatThead-wrapper:first-child > .table:first-child > thead:first-child > tr:first-child td:last-child,
 .panel > .floatThead-wrapper > .table:first-child > tbody:first-child > tr:first-child td:last-child,
@@ -151,11 +158,13 @@
 .panel > .table-responsive > .floatThead-wrapper:first-child > .table:first-child > tbody:first-child > tr:first-child th:last-child {
     border-top-right-radius: 3px;
 }
+
 .panel > .floatThead-wrapper > .table:last-child,
 .panel > .table-responsive > .floatThead-wrapper:last-child > .table:last-child {
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }
+
 .panel > .floatThead-wrapper > .table:last-child > tbody:last-child > tr:last-child,
 .panel > .table-responsive > .floatThead-wrapper:last-child > .table:last-child > tbody:last-child > tr:last-child,
 .panel > .floatThead-wrapper > .table:last-child > tfoot:last-child > tr:last-child,
@@ -163,6 +172,7 @@
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }
+
 .panel > .floatThead-wrapper > .table:last-child > tbody:last-child > tr:last-child td:first-child,
 .panel > .table-responsive > .floatThead-wrapper:last-child > .table:last-child > tbody:last-child > tr:last-child td:first-child,
 .panel > .floatThead-wrapper > .table:last-child > tfoot:last-child > tr:last-child td:first-child,
@@ -173,6 +183,7 @@
 .panel > .table-responsive > .floatThead-wrapper:last-child > .table:last-child > tfoot:last-child > tr:last-child th:first-child {
     border-bottom-left-radius: 3px;
 }
+
 .panel > .floatThead-wrapper > .table:last-child > tbody:last-child > tr:last-child td:last-child,
 .panel > .table-responsive > .floatThead-wrapper:last-child > .table:last-child > tbody:last-child > tr:last-child td:last-child,
 .panel > .floatThead-wrapper > .table:last-child > tfoot:last-child > tr:last-child td:last-child,
@@ -183,20 +194,24 @@
 .panel > .table-responsive > .floatThead-wrapper:last-child > .table:last-child > tfoot:last-child > tr:last-child th:last-child {
     border-bottom-right-radius: 3px;
 }
+
 .panel > .panel-body + .table,
 .panel > .panel-body + .table-responsive,
 .panel > .floatThead-wrapper > .table + .panel-body,
 .panel > .table-responsive > .floatThead-wrapper + .panel-body {
     border-top: 1px solid #ddd;
 }
+
 .panel > .floatThead-wrapper > .table > tbody:first-child > tr:first-child th,
 .panel > .floatThead-wrapper > .table > tbody:first-child > tr:first-child td {
     border-top: 0;
 }
+
 .panel > .floatThead-wrapper > .table-bordered,
 .panel .table-responsive > .floatThead-wrapper > .table-bordered {
     border: 0;
 }
+
 .panel > .floatThead-wrapper > .table-bordered > thead > tr > th:first-child,
 .panel .table-responsive > .floatThead-wrapper > .table-bordered > thead > tr > th:first-child,
 .panel > .floatThead-wrapper > .table-bordered > tbody > tr > th:first-child,
@@ -211,6 +226,7 @@
 .panel .table-responsive > .floatThead-wrapper > .table-bordered > tfoot > tr > td:first-child {
     border-left: 0;
 }
+
 .panel > .floatThead-wrapper > .table-bordered > thead > tr > th:last-child,
 .panel .table-responsive > .floatThead-wrapper > .table-bordered > thead > tr > th:last-child,
 .panel > .floatThead-wrapper > .table-bordered > tbody > tr > th:last-child,
@@ -225,6 +241,7 @@
 .panel .table-responsive > .floatThead-wrapper > .table-bordered > tfoot > tr > td:last-child {
     border-right: 0;
 }
+
 .panel > .floatThead-wrapper > .table-bordered > thead > tr:first-child > td,
 .panel .table-responsive > .floatThead-wrapper > .table-bordered > thead > tr:first-child > td,
 .panel > .floatThead-wrapper > .table-bordered > tbody > tr:first-child > td,
@@ -235,6 +252,7 @@
 .panel .table-responsive > .floatThead-wrapper > .table-bordered > tbody > tr:first-child > th {
     border-bottom: 0;
 }
+
 .panel > .floatThead-wrapper > .table-bordered > tbody > tr:last-child > td,
 .panel .table-responsive > .floatThead-wrapper > .table-bordered > tbody > tr:last-child > td,
 .panel > .floatThead-wrapper > .table-bordered > tfoot > tr:last-child > td,
