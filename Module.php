@@ -1,9 +1,10 @@
 <?php
 
 /**
+ * @package   yii2-grid
+ * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @package yii2-grid
- * @version 3.0.0
+ * @version   3.0.0
  */
 
 namespace kartik\grid;
@@ -28,13 +29,18 @@ class Module extends \yii\base\Module
      */
     public $i18n = [];
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
         $this->initI18N();
-
     }
 
+    /**
+     * Initializes i18n settings for the module
+     */
     public function initI18N()
     {
         Yii::setAlias('@kvgrid', dirname(__FILE__));

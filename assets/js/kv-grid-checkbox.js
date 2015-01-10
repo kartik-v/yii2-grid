@@ -1,6 +1,8 @@
 /*!
+ * @package   yii2-grid
+ * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 3.0.0
+ * @version   3.0.0
  *
  * Client actions for yii2-grid CheckboxColumn
  * 

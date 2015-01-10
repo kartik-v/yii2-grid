@@ -1,9 +1,10 @@
 <?php
 
 /**
+ * @package   yii2-grid
+ * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @package yii2-grid
- * @version 3.0.0
+ * @version   3.0.0
  */
 
 namespace kartik\grid;
@@ -330,6 +331,7 @@ HTML;
      *
      * For example:
      * ['{flag}' => '<span class="glyphicon glyphicon-asterisk"></span']
+     *
      * @var array
      */
     public $replaceTags = [];
@@ -465,10 +467,11 @@ HTML;
     public $pageSummaryRowOptions = ['class' => 'kv-page-summary warning'];
 
     /**
-     * @array|boolean the grid export menu settings. Displays a Bootstrap dropdown menu that allows you to export the grid as
-     * either html, csv, or excel. If set to false, will not be displayed. The following options can be set:
-     * - icon: string,the glyphicon suffix to be displayed before the export menu label. If not set or is an empty string, this
-     *   will not be displayed. Defaults to 'export'.
+     * @array|boolean the grid export menu settings. Displays a Bootstrap dropdown menu that allows you to export the
+     *     grid as either html, csv, or excel. If set to false, will not be displayed. The following options can be
+     *     set:
+     * - icon: string,the glyphicon suffix to be displayed before the export menu label. If not set or is an empty
+     *     string, this will not be displayed. Defaults to 'export'.
      * - label: string,the export menu label (this is not HTML encoded). Defaults to ''.
      * - showConfirmAlert: boolean, whether to show a confirmation alert dialog before download. This
      *   confirmation dialog will notify user about the type of exported file for download
@@ -479,25 +482,30 @@ HTML;
      * - messages: array, the configuration of various messages that will be displayed at runtime:
      *     - allowPopups: string, the message to be shown to disable browser popups for download.
      *        Defaults to `Disable any popup blockers in your browser to ensure proper download.`.
-     *     - confirmDownload: string, the message to be shown for confirming to proceed with the download. Defaults to `Ok to proceed?`.
+     *     - confirmDownload: string, the message to be shown for confirming to proceed with the download. Defaults to
+     *     `Ok to proceed?`.
      *     - downloadProgress: string, the message to be shown in a popup dialog when download request is triggered.
      *       Defaults to `Generating file. Please wait...`.
-     *     - downloadComplete: string, the message to be shown in a popup dialog when download request is completed. Defaults to
+     *     - downloadComplete: string, the message to be shown in a popup dialog when download request is completed.
+     *     Defaults to
      *       `All done! Click anywhere here to close this window, once you have downloaded the file.`.
-     * - header: string, the header for the page data export dropdown. If set to empty string will not be displayed. Defaults to:
+     * - header: string, the header for the page data export dropdown. If set to empty string will not be displayed.
+     *     Defaults to:
      *   `<li role="presentation" class="dropdown-header">Export Page Data</li>`.
-     * - fontAwesome: boolean, whether to use font awesome file type icons. Defaults to `false`. If you set it to `true`, then font awesome
-     *   icons css class will be applied instead of glyphicons.
-     * - itemsBefore: array, any additional items that will be merged/prepended before with the export dropdown list. This should be similar
-     *   to the `items` property as supported by `\yii\bootstrap\ButtonDropdown` widget. Note the page export items will be automatically
-     *   generated based on settings in the `exportConfig` property.
-     * - itemsAfter: array, any additional items that will be merged/appended after with the export dropdown list. This should be similar
-     *   to the `items` property as supported by `\yii\bootstrap\ButtonDropdown` widget. Note the page export items will be automatically
-     *   generated based on settings in the `exportConfig` property.
-     * - options: array, HTML attributes for the export menu button. Defaults to `['class' => 'btn btn-default', 'title'=>'Export']`.
+     * - fontAwesome: boolean, whether to use font awesome file type icons. Defaults to `false`. If you set it to
+     *     `true`, then font awesome icons css class will be applied instead of glyphicons.
+     * - itemsBefore: array, any additional items that will be merged/prepended before with the export dropdown list.
+     *     This should be similar to the `items` property as supported by `\yii\bootstrap\ButtonDropdown` widget. Note
+     *     the page export items will be automatically generated based on settings in the `exportConfig` property.
+     * - itemsAfter: array, any additional items that will be merged/appended after with the export dropdown list. This
+     *     should be similar to the `items` property as supported by `\yii\bootstrap\ButtonDropdown` widget. Note the
+     *     page export items will be automatically generated based on settings in the `exportConfig` property.
+     * - options: array, HTML attributes for the export menu button. Defaults to `['class' => 'btn btn-default',
+     *     'title'=>'Export']`.
      * - encoding: string, the export output file encoding. If not set, defaults to `utf-8`.
-     * - menuOptions: array, HTML attributes for the export dropdown menu. Defaults to `['class' => 'dropdown-menu dropdown-menu-right']`.
-     *   This is to be set exactly as the options property for `\yii\bootstrap\Dropdown` widget.
+     * - menuOptions: array, HTML attributes for the export dropdown menu. Defaults to `['class' => 'dropdown-menu
+     *     dropdown-menu-right']`. This is to be set exactly as the options property for `\yii\bootstrap\Dropdown`
+     *     widget.
      */
     public $export = [];
 
@@ -506,17 +514,21 @@ HTML;
      * (CSV, HTML, TEXT, EXCEL, PDF, JSON) and the array value is a configuration array consisiting of these settings:
      * - label: string,the label for the export format menu item displayed
      * - icon: string,the glyphicon or font-awesome name suffix to be displayed before the export menu item label.
-     *   If set to an empty string, this will not be displayed. Refer `defaultConfig` in `initExport` method for default settings.
+     *   If set to an empty string, this will not be displayed. Refer `defaultConfig` in `initExport` method for
+     *     default settings.
      * - showHeader: boolean, whether to show table header row in the output. Defaults to `true`.
      * - showPageSummary: boolean, whether to show table page summary row in the output. Defaults to `true`.
      * - showFooter: boolean, whether to show table footer row in the output. Defaults to `true`.
      * - showCaption: boolean, whether to show table caption in the output (only for HTML). Defaults to `true`.
-     * - filename: the base file name for the generated file. Defaults to 'grid-export'. This will be used to generate a default
-     *   file name for downloading (extension will be one of csv, html, or xls - based on the format setting).
-     * - alertMsg: string, the message prompt to show before saving. If this is empty or not set it will not be displayed.
+     * - filename: the base file name for the generated file. Defaults to 'grid-export'. This will be used to generate
+     *     a default file name for downloading (extension will be one of csv, html, or xls - based on the format
+     *     setting).
+     * - alertMsg: string, the message prompt to show before saving. If this is empty or not set it will not be
+     *     displayed.
      * - options: array, HTML attributes for the export format menu item.
      * - mime: string, the mime type (for the file format) to be set before downloading.
-     * - config: array, the special configuration settings specific to each file format/type. The following configuration options are read specific to each file type:
+     * - config: array, the special configuration settings specific to each file format/type. The following
+     *     configuration options are read specific to each file type:
      *     - HTML:
      *          - cssFile: string, the css file that will be used in the exported HTML file. Defaults to:
      *            `http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css`.
@@ -526,19 +538,24 @@ HTML;
      *     - EXCEL:
      *          - worksheet: string, the name of the worksheet, when saved as EXCEL file.
      *     - PDF:
-     *          Supports all configuration properties as required in \kartik\mpdf\Pdf extension. In addition, the following
-     *          additional special options are recognized:
-     *          - contentBefore: string, any HTML formatted content that will be embedded in the PDF output before the grid.
-     *          - contentAfter: string, any HTML formatted content that will be embedded in the PDF output after the grid.
+     *          Supports all configuration properties as required in \kartik\mpdf\Pdf extension. In addition, the
+     *     following additional special options are recognized:
+     *          - contentBefore: string, any HTML formatted content that will be embedded in the PDF output before the
+     *     grid.
+     *          - contentAfter: string, any HTML formatted content that will be embedded in the PDF output after the
+     *     grid.
      *     - JSON:
-     *          - colHeads: array, the column heading names to be output in the json file. If not set, it will be autogenerated as
-     *             "col-{i}", where {i} is the column index. If `slugColHeads` is set to `true`, the extension will attempt to autogenerate
-     *             column heads based on table column heading, whereever possible.
-     *          - slugColHeads: boolean, whether to auto-generate column identifiers as slugs based on the table column heading name.
-     *             If the table column heading contains characters which cannot be slugified, then the extension will autogenerate the column
-     *             name as "col-{i}".
-     *          - jsonReplacer`: array|JsExpression, the JSON replacer property - can be an array or a JS function created using JsExpression.
-     *             Refer the [JSON documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_native_JSON#The_replacer_parameter for details on setting this property.
+     *          - colHeads: array, the column heading names to be output in the json file. If not set, it will be
+     *     autogenerated as
+     *             "col-{i}", where {i} is the column index. If `slugColHeads` is set to `true`, the extension will
+     *     attempt to autogenerate column heads based on table column heading, whereever possible.
+     *          - slugColHeads: boolean, whether to auto-generate column identifiers as slugs based on the table column
+     *     heading name. If the table column heading contains characters which cannot be slugified, then the extension
+     *     will autogenerate the column name as "col-{i}".
+     *          - jsonReplacer`: array|JsExpression, the JSON replacer property - can be an array or a JS function
+     *     created using JsExpression. Refer the [JSON
+     *     documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_native_JSON#The_replacer_parameter
+     *     for details on setting this property.
      *          - indentSpace: int, pretty print json output and indent by number of spaces specified. Defaults to `4`.
      */
     public $exportConfig = [];
@@ -598,6 +615,7 @@ HTML;
 
     /**
      * Parses export configuration and returns the merged defaults
+     *
      * @return array
      */
     protected static function parseExportConfig($exportConfig, $defaultExportConfig)
@@ -1308,6 +1326,7 @@ HTML;
      * Generate HTML markup for additional table rows for header and/or footer
      *
      * @param array|string $data the table rows configuration
+     *
      * @return string
      */
     protected function generateRows($data)

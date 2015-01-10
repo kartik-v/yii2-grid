@@ -1,9 +1,10 @@
 <?php
 
 /**
+ * @package   yii2-grid
+ * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @package yii2-grid
- * @version 3.0.0
+ * @version   3.0.0
  */
 
 namespace kartik\grid;
@@ -99,10 +100,8 @@ trait ColumnTrait
     }
 
     /**
-     * Calculates the summary of an input data based on aggregration function
+     * Calculates the summary of an input data based on page summary aggregration function.
      *
-     * @param array $data the input data
-     * @param string $type the summary aggregation function
      * @return float
      */
     protected function calculateSummary()
@@ -206,9 +205,11 @@ trait ColumnTrait
     /**
      * Parses and fetches updated content options for grid visibility and format
      *
-     * @param mixed $model the data model being rendered
-     * @param mixed $key the key associated with the data model
-     * @param integer $index the zero-based index of the data item among the item array returned by [[GridView::dataProvider]].
+     * @param mixed   $model the data model being rendered
+     * @param mixed   $key the key associated with the data model
+     * @param integer $index the zero-based index of the data item among the item array returned by
+     *     [[GridView::dataProvider]].
+     *
      * @return array
      */
     protected function fetchContentOptions($model, $key, $index)

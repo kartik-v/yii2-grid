@@ -1,9 +1,10 @@
 <?php
 
 /**
+ * @package   yii2-grid
+ * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @package yii2-grid
- * @version 3.0.0
+ * @version   3.0.0
  */
 
 namespace kartik\grid;
@@ -25,11 +26,12 @@ class EditableColumn extends DataColumn
 {
 
     /**
-     * @var array|Closure the configuration options for the [[\kartik\editable\Editable]] widget. If not set as an array,
-     * this can be passed as a callback function of the signature: `function ($model, $key, $index)`, where:
+     * @var array|Closure the configuration options for the [[\kartik\editable\Editable]] widget. If not set as an
+     *     array, this can be passed as a callback function of the signature: `function ($model, $key, $index)`, where:
      * - $model mixed is the data model
      * - $key mixed is the key associated with the data model
-     * - $index integer is the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
+     * - $index integer is the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
      */
     public $editableOptions = [];
 
@@ -55,9 +57,11 @@ class EditableColumn extends DataColumn
 
     /**
      * Renders the data cell content.
-     * @param mixed $model the data model
-     * @param mixed $key the key associated with the data model
-     * @param integer $index the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
+     *
+     * @param mixed   $model the data model
+     * @param mixed   $key the key associated with the data model
+     * @param integer $index the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
      *
      * @return string the rendering result
      * @throws InvalidConfigException

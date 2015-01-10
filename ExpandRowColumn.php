@@ -1,9 +1,10 @@
 <?php
 
 /**
+ * @package   yii2-grid
+ * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @package yii2-grid
- * @version 3.0.0
+ * @version   3.0.0
  */
 
 namespace kartik\grid;
@@ -26,17 +27,19 @@ use yii\web\View;
 class ExpandRowColumn extends DataColumn
 {
     /**
-     * @var int|Closure the value of this attribute will identify the state of the current row. The following values are supported:
+     * @var int|Closure the value of this attribute will identify the state of the current row. The following values
+     *     are supported:
      * - [[GridView::ROW_EXPANDED]] or 0: the row will be expanded by default and will display the collapse indicator.
      * - [[GridView::ROW_COLLAPSED]] or 1: the row will be collapsed by default and will display the expand indicator.
      * - [[GridView::ROW_NONE]] or -1: no indicator will be displayed for the row.
-     * If this is not set, `$model[$attribute]` will be used to obtain the value. If this value is evaluated as empty or null,
-     * it is treated as [[GridView::ROW_NONE]]. This can also be an anonymous function that returns one of the values above.
-     * The anonymous function should have the signature:
+     * If this is not set, `$model[$attribute]` will be used to obtain the value. If this value is evaluated as empty
+     *     or null, it is treated as [[GridView::ROW_NONE]]. This can also be an anonymous function that returns one of
+     *     the values above. The anonymous function should have the signature:
      * `function ($model, $key, $index, $column)`, where:
      * - $model mixed is the data model
      * - $key mixed is the key associated with the data model
-     * - $index integer is the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
+     * - $index integer is the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
      * - $column ExpandRowColumn is the column object instance
      */
     public $value = GridView::ROW_NONE;
@@ -99,28 +102,32 @@ class ExpandRowColumn extends DataColumn
      * `function ($model, $key, $index, $column)`, where:
      * - $model mixed is the data model
      * - $key mixed is the key associated with the data model
-     * - $index integer is the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
+     * - $index integer is the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
      * - $column ExpandRowColumn is the column object instance
      */
     public $disabled = false;
 
     /**
-     * @var string|Closure the detail content (html markup) to be displayed in the expanded row. Either `detail` OR `detailUrl` must be entered.
-     * This can be a normal html markup or an anonymous function that returns the markup. The anonymous function should have the signature:
+     * @var string|Closure the detail content (html markup) to be displayed in the expanded row. Either `detail` OR
+     *     `detailUrl` must be entered. This can be a normal html markup or an anonymous function that returns the
+     *     markup. The anonymous function should have the signature:
      * `function ($model, $key, $index, $column)`, where:
      * - $model mixed is the data model
      * - $key mixed is the key associated with the data model
-     * - $index integer is the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
+     * - $index integer is the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
      * - $column ExpandRowColumn is the column object instance
      */
     public $detail = '';
 
     /**
-     * @var string the url/action that would render the detail content via ajax. Either `detail` OR `detailUrl` must be entered.
-     * The ajax response must return the content/markup to render. The extension automatically passes the following data parameters
-     * to the server URL as POST data:
+     * @var string the url/action that would render the detail content via ajax. Either `detail` OR `detailUrl` must be
+     *     entered. The ajax response must return the content/markup to render. The extension automatically passes the
+     *     following data parameters to the server URL as POST data:
      * - `expandRowKey` the key associated with the data model
-     * - `expandRowIndex` the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
+     * - `expandRowIndex` the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
      * @see http://api.jquery.com/jquery.load/
      */
     public $detailUrl;
@@ -137,7 +144,8 @@ class ExpandRowColumn extends DataColumn
      * `function ($model, $key, $index, $column)`, where:
      * - $model mixed is the data model
      * - $key mixed is the key associated with the data model
-     * - $index integer is the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
+     * - $index integer is the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
      * - $column ExpandRowColumn is the column object instance
      */
     public $detailOptions = [];
@@ -194,10 +202,13 @@ class ExpandRowColumn extends DataColumn
 
     /**
      * Parses data for Closure and returns accordingly
-     * @param mixed $model is the data model
-     * @param mixed $key is the key associated with the data model
-     * @param integer $index is the zero-based index of the data model among the models array returned by [[GridView::dataProvider]].
+     *
+     * @param mixed           $model is the data model
+     * @param mixed           $key is the key associated with the data model
+     * @param integer         $index is the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
      * @param ExpandRowColumn $column is the column object instance
+     *
      * @return mixed
      */
     protected static function parseData($data, $model, $key, $index, $column)
@@ -318,7 +329,9 @@ HTML;
 
     /**
      * Get icon indicator
+     *
      * @param string $type one of `expand` or `collapse`
+     *
      * @return string the icon indicator markup
      */
     protected function getIcon($type)
@@ -338,6 +351,7 @@ HTML;
 
     /**
      * Sets property for the object instance if not set
+     *
      * @param string $prop the property name
      * @param string $val the property value
      */
@@ -365,6 +379,7 @@ HTML;
      * Renders the header cell content.
      * The default implementation simply renders [[header]].
      * This method may be overridden to customize the rendering of the header cell.
+     *
      * @return string the rendering result
      */
     protected function renderHeaderCellContent()
