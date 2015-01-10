@@ -104,7 +104,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $mergeHeader = true;
 
     /**
-     * @inherit doc
+     * @inheritdoc
      */
     public function init()
     {
@@ -121,20 +121,12 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     }
 
     /**
-     * Renders a data cell.
-     * @param mixed $model the data model being rendered
-     * @param mixed $key the key associated with the data model
-     * @param integer $index the zero-based index of the data item among the item array returned by [[GridView::dataProvider]].
-     * @return string the rendering result
+     * @inheritdoc
      */
     public function renderDataCell($model, $key, $index)
     {
         $this->initPjax();
-        if ($this->contentOptions instanceof Closure) {
-            $options = call_user_func($this->contentOptions, $model, $key, $index, $this);
-        } else {
-            $options = $this->contentOptions;
-        }
+        $options = $this->fetchContentOptions($model, $key, $index);
         if ($this->rowHighlight) {
             Html::addCssClass($options, 'kv-row-select');
         }

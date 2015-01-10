@@ -620,7 +620,7 @@ HTML;
     }
 
     /**
-     * @inherit doc
+     * @inheritdoc
      */
     public function init()
     {
@@ -651,7 +651,7 @@ HTML;
     }
 
     /**
-     * @inherit doc
+     * @inheritdoc
      * @throws InvalidConfigException
      */
     public function run()
@@ -659,7 +659,7 @@ HTML;
         $this->initToggleData();
         $this->initExport();
         if ($this->export !== false && isset($this->exportConfig[self::PDF])) {
-            Config::checkDependency(
+            \kartik\base\Config::checkDependency(
                 'mpdf\Pdf',
                 'yii2-mpdf',
                 "for PDF export functionality. To include PDF export, follow the install steps below. If you do not need PDF export functionality, do not include 'PDF' as a format in the 'export' property. You can otherwise set 'export' to false to disable all export functionality"

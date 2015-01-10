@@ -12,6 +12,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use kartik\editable\Editable;
 
 /**
  * The EditableColumn converts the data to editable using
@@ -43,13 +44,13 @@ class EditableColumn extends DataColumn
     protected $_editableOptions = [];
 
     /**
-     * @inherit doc
+     * @inheritdoc
      * @throws InvalidConfigException
      */
     public function init()
     {
         parent::init();
-        Config::checkDependency('editable\Editable', 'yii2-editable', 'for GridView EditableColumn');
+        \kartik\base\Config::checkDependency('editable\Editable', 'yii2-editable', 'for GridView EditableColumn');
     }
 
     /**

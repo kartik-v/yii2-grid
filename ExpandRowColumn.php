@@ -209,7 +209,7 @@ class ExpandRowColumn extends DataColumn
     }
 
     /**
-     * @inherit doc
+     * @inheritdoc
      */
     public function init()
     {
@@ -231,22 +231,11 @@ class ExpandRowColumn extends DataColumn
         if (!empty($onDetailLoaded) && !$onDetailLoaded instanceof JsExpression) {
             $onDetailLoaded = new JsExpression($onDetailLoaded);
         }
-        $css = 'kv-expand-icon-cell';
-        $this->contentOptions['title'] = $this->expandTitle;
         $this->headerOptions['title'] = $this->expandAllTitle;
-        if ($this->value === GridView::ROW_EXPANDED) {
-            $this->contentOptions['title'] = $this->collapseTitle;
-        }
         if ($this->defaultHeaderState === GridView::ROW_EXPANDED) {
             $this->headerOptions['title'] = $this->collapseTitle;
         }
-        if ($this->disabled) {
-            $css .= ' kv-state-disabled';
-        } elseif (!isset($this->contentOptions['title'])) {
-            $this->contentOptions['title'] = $title;
-        }
         Html::addCssClass($this->headerOptions, 'kv-expand-header-cell');
-        Html::addCssClass($this->contentOptions, $css);
         $view = $this->grid->getView();
         ExpandRowColumnAsset::register($view);
         $clientOptions = Json::encode(
@@ -307,13 +296,24 @@ HTML;
     }
 
     /**
-     * Renders the data cell content
+     * @inheritdoc
      */
-    public function renderDataCellContent($model, $key, $index)
+    public function renderDataCell($model, $key, $index)
     {
-        $content = parent::renderDataCellContent($model, $key, $index);
+        $options = $this->fetchContentOptions($model, $key, $index);
+        $css = 'kv-expand-icon-cell';
+        $options['title'] = $this->expandTitle;
+        if ($this->value === GridView::ROW_EXPANDED) {
+            $options['title'] = $this->collapseTitle;
+        }
+        if ($this->disabled) {
+            $css .= ' kv-state-disabled';
+        } elseif (!isset($options['title'])) {
+            $options['title'] = $title;
+        }
+        Html::addCssClass($options, $css);
         $this->initPjax();
-        return $content;
+        return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
 
     /**

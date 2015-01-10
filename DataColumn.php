@@ -145,6 +145,15 @@ class DataColumn extends \yii\grid\DataColumn
     }
 
     /**
+     * @inheritdoc
+     */
+    public function renderDataCell($model, $key, $index)
+    {
+        $options = $this->fetchContentOptions($model, $key, $index);
+        return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
+    }
+
+    /**
      * Renders filter inputs based on the `filterType`
      *
      * @return string

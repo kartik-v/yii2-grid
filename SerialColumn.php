@@ -102,6 +102,9 @@ class SerialColumn extends \yii\grid\SerialColumn
      */
     private $_rows = [];
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         $this->parseFormat();
@@ -110,4 +113,12 @@ class SerialColumn extends \yii\grid\SerialColumn
         $this->setPageRows();
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function renderDataCell($model, $key, $index)
+    {
+        $options = $this->fetchContentOptions($model, $key, $index);
+        return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
+    }
 }

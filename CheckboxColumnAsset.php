@@ -16,10 +16,10 @@ use yii\web\View;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class CheckboxColumnAsset extends AssetBundle
+class CheckboxColumnAsset extends \kartik\base\AssetBundle
 {
     /**
-     * @inherit doc
+     * @inheritdoc
      */
     public function init()
     {

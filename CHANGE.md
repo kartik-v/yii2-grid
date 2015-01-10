@@ -3,7 +3,9 @@ Version 3.0.0
 **Date:** 10-Jan-2015
 
 1. (bug #178): Enhance CheckboxColumn to allow contentOptions to be set as Closure.
-2. Code formatting updates as per Yii2 coding style.
+2. (enh #178): New validation of contentOptions for all the extended grid Columns.
+3. Code formatting updates as per Yii2 coding style.
+4. (bug #180): Fix namespaces of classes.
 
 Version 2.9.0
 =============

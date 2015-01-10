@@ -14,10 +14,10 @@ namespace kartik\grid;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class GridFloatHeadAsset extends AssetBundle
+class GridFloatHeadAsset extends \kartik\base\AssetBundle
 {
     /**
-     * @inherit doc
+     * @inheritdoc
      */
     public function init()
     {
