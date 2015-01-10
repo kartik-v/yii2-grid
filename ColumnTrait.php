@@ -204,7 +204,7 @@ trait ColumnTrait
     }
 
     /**
-     * Parses and fetches content options based on if it is a Closure
+     * Parses and fetches updated content options for grid visibility and format
      *
      * @param mixed $model the data model being rendered
      * @param mixed $key the key associated with the data model
@@ -213,10 +213,10 @@ trait ColumnTrait
      */
     protected function fetchContentOptions($model, $key, $index)
     {
-        if (!$this->contentOptions instanceof \Closure) {
-            $options = $this->contentOptions;
-        } else {
+        if ($this->contentOptions instanceof \Closure) {
             $options = call_user_func($this->contentOptions, $model, $key, $index, $this);
+        } else {
+            $options = $this->contentOptions;
         }
         if ($this->hidden === true) {
             Html::addCssClass($options, "kv-grid-hide");
