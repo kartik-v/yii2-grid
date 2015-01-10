@@ -60,159 +60,42 @@ trait ColumnTrait
     }
 
     /**
-     * Checks if the filter input types are valid
+     * Renders the page summary cell content.
      *
-     * @return void
+     * @return string the rendered result
      */
-    protected function checkValidFilters()
+    protected function renderPageSummaryCellContent()
     {
-        if (isset($this->filterType)) {
-            \kartik\base\Config::validateInputWidget($this->filterType, 'for filtering the grid as per your setup');
+        if ($this->hidePageSummary) {
+            return $this->grid->emptyCell;
         }
+        $content = $this->getPageSummaryCellContent();
+        if ($this->pageSummary === true) {
+            return $this->grid->formatter->format($content, $this->format);
+        }
+        return ($content === null) ? $this->grid->emptyCell : $content;
     }
 
     /**
-     * Add CSS to content options
+     * Gets the raw page summary cell content.
      *
-     * @param $class CSS class to add
-     * @return void
+     * @return string the rendered result
      */
-    protected function addContentCss($class) {
-        if (is_array($this->contentOptions)) {
-            Html::addCssClass($this->contentOptions, $class);
-        }
-    }
-    
-    /**
-     * Checks `hidden` property and hides the column from display
-     *
-     * @return void
-     */
-    protected function parseVisibility()
+    protected function getPageSummaryCellContent()
     {
-        if ($this->hidden === true) {
-            Html::addCssClass($this->filterOptions, 'kv-grid-hide');
-            $this->addContentCss('kv-grid-hide');
-            Html::addCssClass($this->headerOptions, 'kv-grid-hide');
-            Html::addCssClass($this->footerOptions, 'kv-grid-hide');
-            Html::addCssClass($this->pageSummaryOptions, 'kv-grid-hide');
+        if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
+            $summary = $this->calculateSummary();
+            return ($this->pageSummary === true) ? $summary : call_user_func(
+                $this->pageSummary,
+                $summary,
+                $this->_rows,
+                $this
+            );
         }
-        if ($this->hiddenFromExport === true) {
-            Html::addCssClass($this->filterOptions, 'skip-export');
-            $this->addContentCss('skip-export');
-            Html::addCssClass($this->headerOptions, 'skip-export');
-            Html::addCssClass($this->footerOptions, 'skip-export');
-            Html::addCssClass($this->pageSummaryOptions, 'skip-export');
-            Html::addCssClass($this->options, 'skip-export');
+        if ($this->pageSummary !== false) {
+            return $this->pageSummary;
         }
-        if (is_array($this->hiddenFromExport) && !empty($this->hiddenFromExport)) {
-            $tag = 'skip-export-';
-            $css = $tag . implode(" {$tag}", $this->hiddenFromExport);
-            Html::addCssClass($this->filterOptions, $css);
-            $this->addContentCss($css);
-            Html::addCssClass($this->headerOptions, $css);
-            Html::addCssClass($this->footerOptions, $css);
-            Html::addCssClass($this->pageSummaryOptions, $css);
-            Html::addCssClass($this->options, $css);
-        }
-    }
-    
-    /**
-     * Parses and formats a grid column
-     *
-     * @return void
-     */
-    protected function parseFormat()
-    {
-        if ($this->hAlign === GridView::ALIGN_LEFT || $this->hAlign === GridView::ALIGN_RIGHT || $this->hAlign === GridView::ALIGN_CENTER) {
-            $class = "kv-align-{$this->hAlign}";
-            Html::addCssClass($this->headerOptions, $class);
-            $this->addContentCss($class);
-            Html::addCssClass($this->pageSummaryOptions, $class);
-            Html::addCssClass($this->footerOptions, $class);
-        }
-        if ($this->noWrap) {
-            Html::addCssClass($this->headerOptions, GridView::NOWRAP);
-            $this->addContentCss(GridView::NOWRAP);
-            Html::addCssClass($this->pageSummaryOptions, GridView::NOWRAP);
-            Html::addCssClass($this->footerOptions, GridView::NOWRAP);
-        }
-        if ($this->vAlign === GridView::ALIGN_TOP || $this->vAlign === GridView::ALIGN_MIDDLE || $this->vAlign === GridView::ALIGN_BOTTOM) {
-            $class = "kv-align-{$this->vAlign}";
-            Html::addCssClass($this->headerOptions, $class);
-            $this->addContentCss($class);
-            Html::addCssClass($this->pageSummaryOptions, $class);
-            Html::addCssClass($this->footerOptions, $class);
-        }
-        if (trim($this->width) != '') {
-            Html::addCssStyle($this->headerOptions, "width:{$this->width};");
-            if (is_array($this->contentOptions)) {
-                Html::addCssStyle($this->contentOptions, "width:{$this->width};");
-            }
-            Html::addCssStyle($this->pageSummaryOptions, "width:{$this->width};");
-            Html::addCssStyle($this->footerOptions, "width:{$this->width};");
-        }
-    }
-
-    /**
-     * Parses and fetches content options based on if it is a Closure
-     *
-     * @param mixed $model the data model being rendered
-     * @param mixed $key the key associated with the data model
-     * @param integer $index the zero-based index of the data item among the item array returned by [[GridView::dataProvider]].
-     * @return array
-     */
-    protected function fetchContentOptions($model, $key, $index)
-    {
-        if (!$this->contentOptions instanceof \Closure) {
-            return $this->contentOptions;
-        }
-        $options = call_user_func($this->contentOptions, $model, $key, $index, $this);
-        if ($this->hidden === true) {
-            Html::addCssClass($options, "kv-grid-hide");
-        }
-        if ($this->hiddenFromExport === true) {
-            Html::addCssClass($options, "skip-export");
-        }
-        if (is_array($this->hiddenFromExport) && !empty($this->hiddenFromExport)) {
-            $tag = 'skip-export-';
-            $css = $tag . implode(" {$tag}", $this->hiddenFromExport);
-            Html::addCssClass($options, $css);
-        }
-        if ($this->hAlign === GridView::ALIGN_LEFT || $this->hAlign === GridView::ALIGN_RIGHT || $this->hAlign === GridView::ALIGN_CENTER) {
-            Html::addCssClass($options, "kv-align-{$this->hAlign}");
-        }
-        if ($this->noWrap) {
-            Html::addCssClass($options, GridView::NOWRAP);
-        }
-        if ($this->vAlign === GridView::ALIGN_TOP || $this->vAlign === GridView::ALIGN_MIDDLE || $this->vAlign === GridView::ALIGN_BOTTOM) {
-            Html::addCssClass($options, "kv-align-{$this->vAlign}");
-        }
-        if (trim($this->width) != '') {
-            Html::addCssStyle($options, "width:{$this->width};");
-        }
-        return $options;
-    }
-    
-    /**
-     * Store all rows for the column for the current page
-     *
-     * @return void
-     */
-    protected function setPageRows()
-    {
-        if ($this->grid->showPageSummary && isset($this->pageSummary) && $this->pageSummary !== false && !is_string(
-                $this->pageSummary
-            )
-        ) {
-            $provider = $this->grid->dataProvider;
-            $models = array_values($provider->getModels());
-            $keys = $provider->getKeys();
-            foreach ($models as $index => $model) {
-                $key = $keys[$index];
-                $this->_rows[] = $this->getDataCellValue($model, $key, $index);
-            }
-        }
+        return null;
     }
 
     /**
@@ -247,42 +130,139 @@ trait ColumnTrait
     }
 
     /**
-     * Gets the raw page summary cell content.
+     * Checks if the filter input types are valid
      *
-     * @return string the rendered result
+     * @return void
      */
-    protected function getPageSummaryCellContent()
+    protected function checkValidFilters()
     {
-        if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
-            $summary = $this->calculateSummary();
-            return ($this->pageSummary === true) ? $summary : call_user_func(
-                $this->pageSummary,
-                $summary,
-                $this->_rows,
-                $this
-            );
+        if (isset($this->filterType)) {
+            \kartik\base\Config::validateInputWidget($this->filterType, 'for filtering the grid as per your setup');
         }
-        if ($this->pageSummary !== false) {
-            return $this->pageSummary;
-        }
-        return null;
     }
 
     /**
-     * Renders the page summary cell content.
+     * Checks `hidden` property and hides the column from display
      *
-     * @return string the rendered result
+     * @return void
      */
-    protected function renderPageSummaryCellContent()
+    protected function parseVisibility()
     {
-        if ($this->hidePageSummary) {
-            return $this->grid->emptyCell;
+        if ($this->hidden === true) {
+            Html::addCssClass($this->filterOptions, 'kv-grid-hide');
+            Html::addCssClass($this->headerOptions, 'kv-grid-hide');
+            Html::addCssClass($this->footerOptions, 'kv-grid-hide');
+            Html::addCssClass($this->pageSummaryOptions, 'kv-grid-hide');
         }
-        $content = $this->getPageSummaryCellContent();
-        if ($this->pageSummary === true) {
-            return $this->grid->formatter->format($content, $this->format);
+        if ($this->hiddenFromExport === true) {
+            Html::addCssClass($this->filterOptions, 'skip-export');
+            Html::addCssClass($this->headerOptions, 'skip-export');
+            Html::addCssClass($this->footerOptions, 'skip-export');
+            Html::addCssClass($this->pageSummaryOptions, 'skip-export');
+            Html::addCssClass($this->options, 'skip-export');
         }
-        return ($content === null) ? $this->grid->emptyCell : $content;
+        if (is_array($this->hiddenFromExport) && !empty($this->hiddenFromExport)) {
+            $tag = 'skip-export-';
+            $css = $tag . implode(" {$tag}", $this->hiddenFromExport);
+            Html::addCssClass($this->filterOptions, $css);
+            Html::addCssClass($this->headerOptions, $css);
+            Html::addCssClass($this->footerOptions, $css);
+            Html::addCssClass($this->pageSummaryOptions, $css);
+            Html::addCssClass($this->options, $css);
+        }
+    }
+
+    /**
+     * Parses and formats a grid column
+     *
+     * @return void
+     */
+    protected function parseFormat()
+    {
+        if ($this->hAlign === GridView::ALIGN_LEFT || $this->hAlign === GridView::ALIGN_RIGHT || $this->hAlign === GridView::ALIGN_CENTER) {
+            $class = "kv-align-{$this->hAlign}";
+            Html::addCssClass($this->headerOptions, $class);
+            Html::addCssClass($this->pageSummaryOptions, $class);
+            Html::addCssClass($this->footerOptions, $class);
+        }
+        if ($this->noWrap) {
+            Html::addCssClass($this->headerOptions, GridView::NOWRAP);
+            Html::addCssClass($this->pageSummaryOptions, GridView::NOWRAP);
+            Html::addCssClass($this->footerOptions, GridView::NOWRAP);
+        }
+        if ($this->vAlign === GridView::ALIGN_TOP || $this->vAlign === GridView::ALIGN_MIDDLE || $this->vAlign === GridView::ALIGN_BOTTOM) {
+            $class = "kv-align-{$this->vAlign}";
+            Html::addCssClass($this->headerOptions, $class);
+            Html::addCssClass($this->pageSummaryOptions, $class);
+            Html::addCssClass($this->footerOptions, $class);
+        }
+        if (trim($this->width) != '') {
+            Html::addCssStyle($this->headerOptions, "width:{$this->width};");
+            Html::addCssStyle($this->pageSummaryOptions, "width:{$this->width};");
+            Html::addCssStyle($this->footerOptions, "width:{$this->width};");
+        }
+    }
+
+    /**
+     * Parses and fetches content options based on if it is a Closure
+     *
+     * @param mixed $model the data model being rendered
+     * @param mixed $key the key associated with the data model
+     * @param integer $index the zero-based index of the data item among the item array returned by [[GridView::dataProvider]].
+     * @return array
+     */
+    protected function fetchContentOptions($model, $key, $index)
+    {
+        if (!$this->contentOptions instanceof \Closure) {
+            $options = $this->contentOptions;
+        } else {
+            $options = call_user_func($this->contentOptions, $model, $key, $index, $this);
+        }
+        if ($this->hidden === true) {
+            Html::addCssClass($options, "kv-grid-hide");
+        }
+        if ($this->hiddenFromExport === true) {
+            Html::addCssClass($options, "skip-export");
+        }
+        if (is_array($this->hiddenFromExport) && !empty($this->hiddenFromExport)) {
+            $tag = 'skip-export-';
+            $css = $tag . implode(" {$tag}", $this->hiddenFromExport);
+            Html::addCssClass($options, $css);
+        }
+        if ($this->hAlign === GridView::ALIGN_LEFT || $this->hAlign === GridView::ALIGN_RIGHT || $this->hAlign === GridView::ALIGN_CENTER) {
+            Html::addCssClass($options, "kv-align-{$this->hAlign}");
+        }
+        if ($this->noWrap) {
+            Html::addCssClass($options, GridView::NOWRAP);
+        }
+        if ($this->vAlign === GridView::ALIGN_TOP || $this->vAlign === GridView::ALIGN_MIDDLE || $this->vAlign === GridView::ALIGN_BOTTOM) {
+            Html::addCssClass($options, "kv-align-{$this->vAlign}");
+        }
+        if (trim($this->width) != '') {
+            Html::addCssStyle($options, "width:{$this->width};");
+        }
+        return $options;
+    }
+
+    /**
+     * Store all rows for the column for the current page
+     *
+     * @return void
+     */
+    protected function setPageRows()
+    {
+        if ($this->grid->showPageSummary && isset($this->pageSummary) && $this->pageSummary !== false && !is_string(
+                $this->pageSummary
+            )
+        ) {
+            $provider = $this->grid->dataProvider;
+            $models = array_values($provider->getModels());
+            $keys = $provider->getKeys();
+            foreach ($models as $index => $model) {
+                $key = $keys[$index];
+                $this->_rows[] = $this->getDataCellValue($model, $key, $index);
+            }
+        }
     }
 
     /**
