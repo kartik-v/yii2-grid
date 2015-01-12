@@ -201,25 +201,6 @@ class ExpandRowColumn extends DataColumn
     protected $_hashVar;
 
     /**
-     * Parses data for Closure and returns accordingly
-     *
-     * @param mixed           $model is the data model
-     * @param mixed           $key is the key associated with the data model
-     * @param integer         $index is the zero-based index of the data model among the models array returned by
-     *     [[GridView::dataProvider]].
-     * @param ExpandRowColumn $column is the column object instance
-     *
-     * @return mixed
-     */
-    protected static function parseData($data, $model, $key, $index, $column)
-    {
-        if ($data instanceof \Closure) {
-            $data = call_user_func($data, $model, $key, $index, $column);
-        }
-        return $data;
-    }
-
-    /**
      * @inheritdoc
      */
     public function init()
@@ -274,60 +255,6 @@ class ExpandRowColumn extends DataColumn
     }
 
     /**
-     * @inheritdoc
-     */
-    public function getDataCellValue($model, $key, $index)
-    {
-        $value = parent::getDataCellValue($model, $key, $index);
-        $icon = '';
-        if ($value === GridView::ROW_EXPANDED) {
-            $type = 'collapsed';
-            $icon = $this->collapseIcon;
-        } elseif ($value === GridView::ROW_COLLAPSED) {
-            $type = 'expanded';
-            $icon = $this->expandIcon;
-        } else {
-            return $value;
-        }
-        $detail = static::parseData($this->detail, $model, $key, $index, $this);
-        $detailOptions = static::parseData($this->detailOptions, $model, $key, $index, $this);
-        $disabled = static::parseData($this->disabled, $model, $key, $index, $this) ? ' kv-state-disabled' : '';
-        $detailOptions['data-index'] = $index;
-        $detailOptions['data-key'] = $key;
-        Html::addCssClass($detailOptions, 'kv-expanded-row');
-        $content = Html::tag('div', $detail, $detailOptions);
-        return <<< HTML
-        <div class="kv-expand-row{$disabled}">
-            <div class="kv-expand-icon kv-state-{$type}{$disabled}" tabindex="-1">{$icon}</div>
-            <div class="kv-expand-detail skip-export" style='display:none;'>
-                {$content}
-            </div>
-        </div>
-HTML;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function renderDataCell($model, $key, $index)
-    {
-        $options = $this->fetchContentOptions($model, $key, $index);
-        $css = 'kv-expand-icon-cell';
-        $options['title'] = $this->expandTitle;
-        if ($this->value === GridView::ROW_EXPANDED) {
-            $options['title'] = $this->collapseTitle;
-        }
-        if ($this->disabled) {
-            $css .= ' kv-state-disabled';
-        } elseif (!isset($options['title'])) {
-            $options['title'] = $title;
-        }
-        Html::addCssClass($options, $css);
-        $this->initPjax();
-        return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
-    }
-
-    /**
      * Get icon indicator
      *
      * @param string $type one of `expand` or `collapse`
@@ -363,16 +290,76 @@ HTML;
     }
 
     /**
-     * Initialize column for pjax refresh
+     * @inheritdoc
      */
-    protected function initPjax()
+    public function getDataCellValue($model, $key, $index)
     {
-        if ($this->grid->pjax) {
-            $cont = 'jQuery("#' . $this->grid->pjaxSettings['options']['id'] . '")';
-            $grid = $this->grid->options['id'];
-            $view = $this->grid->getView();
-            $view->registerJs("{$cont}.on('pjax:complete', function(){kvExpandRow({$this->_hashVar});});");
+        $value = parent::getDataCellValue($model, $key, $index);
+        $icon = '';
+        if ($value === GridView::ROW_EXPANDED) {
+            $type = 'collapsed';
+            $icon = $this->collapseIcon;
+        } elseif ($value === GridView::ROW_COLLAPSED) {
+            $type = 'expanded';
+            $icon = $this->expandIcon;
+        } else {
+            return $value;
         }
+        $detail = static::parseData($this->detail, $model, $key, $index, $this);
+        $detailOptions = static::parseData($this->detailOptions, $model, $key, $index, $this);
+        $disabled = static::parseData($this->disabled, $model, $key, $index, $this) ? ' kv-state-disabled' : '';
+        $detailOptions['data-index'] = $index;
+        $detailOptions['data-key'] = $key;
+        Html::addCssClass($detailOptions, 'kv-expanded-row');
+        $content = Html::tag('div', $detail, $detailOptions);
+        return <<< HTML
+        <div class="kv-expand-row{$disabled}">
+            <div class="kv-expand-icon kv-state-{$type}{$disabled}" tabindex="-1">{$icon}</div>
+            <div class="kv-expand-detail skip-export" style='display:none;'>
+                {$content}
+            </div>
+        </div>
+HTML;
+    }
+
+    /**
+     * Parses data for Closure and returns accordingly
+     *
+     * @param mixed           $model is the data model
+     * @param mixed           $key is the key associated with the data model
+     * @param integer         $index is the zero-based index of the data model among the models array returned by
+     *     [[GridView::dataProvider]].
+     * @param ExpandRowColumn $column is the column object instance
+     *
+     * @return mixed
+     */
+    protected static function parseData($data, $model, $key, $index, $column)
+    {
+        if ($data instanceof \Closure) {
+            $data = call_user_func($data, $model, $key, $index, $column);
+        }
+        return $data;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function renderDataCell($model, $key, $index)
+    {
+        $options = $this->fetchContentOptions($model, $key, $index);
+        $css = 'kv-expand-icon-cell';
+        $options['title'] = $this->expandTitle;
+        if ($this->value === GridView::ROW_EXPANDED) {
+            $options['title'] = $this->collapseTitle;
+        }
+        if ($this->disabled) {
+            $css .= ' kv-state-disabled';
+        } elseif (!isset($options['title'])) {
+            $options['title'] = $title;
+        }
+        Html::addCssClass($options, $css);
+        $this->initPjax("kvExpandRow({$this->_hashVar});");
+        return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
 
     /**

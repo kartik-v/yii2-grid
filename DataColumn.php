@@ -64,7 +64,7 @@ class DataColumn extends \yii\grid\DataColumn
      * @see http://www.w3schools.com/cssref/pr_dim_width.asp
      */
     public $width;
-
+    
     /**
      * @var string the filter input type for each filter input. You can use one of the
      * `GridView::FILTER_` constants or pass any widget classname (extending the

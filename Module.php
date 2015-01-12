@@ -17,7 +17,7 @@ use Yii;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class Module extends \yii\base\Module
+class Module extends \kartik\base\Module
 {
     /**
      * @var mixed the action (url) used for downloading exported file
@@ -25,33 +25,12 @@ class Module extends \yii\base\Module
     public $downloadAction = '/gridview/export/download';
 
     /**
-     * @var array the the internalization configuration for this module
-     */
-    public $i18n = [];
-
-    /**
      * @inheritdoc
      */
     public function init()
     {
+        $this->_msgCat = 'kvgrid';
         parent::init();
-        $this->initI18N();
-    }
-
-    /**
-     * Initializes i18n settings for the module
-     */
-    public function initI18N()
-    {
-        Yii::setAlias('@kvgrid', dirname(__FILE__));
-        if (empty($this->i18n)) {
-            $this->i18n = [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'basePath' => '@kvgrid/messages',
-                'forceTranslation' => true
-            ];
-        }
-        Yii::$app->i18n->translations['kvgrid'] = $this->i18n;
         if (isset($dummyDemoTranslations)) {
             $messages = Yii::t('kvgrid', 'Add Book') .
                 Yii::t('kvgrid', 'Book Listing') .

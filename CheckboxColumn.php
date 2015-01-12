@@ -126,26 +126,14 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      */
     public function renderDataCell($model, $key, $index)
     {
-        $this->initPjax();
+        if ($this->rowHighlight) {
+            $grid = $this->grid->options['id'];
+            $this->initPjax("kvSelectRow('{$grid}', '{$this->rowSelectedClass}');");
+        }
         $options = $this->fetchContentOptions($model, $key, $index);
         if ($this->rowHighlight) {
             Html::addCssClass($options, 'kv-row-select');
         }
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
-    }
-
-    /**
-     * Initialize column for pjax refresh
-     */
-    protected function initPjax()
-    {
-        if ($this->grid->pjax && $this->rowHighlight) {
-            $cont = 'jQuery("#' . $this->grid->pjaxSettings['options']['id'] . '")';
-            $grid = $this->grid->options['id'];
-            $view = $this->grid->getView();
-            $view->registerJs(
-                "{$cont}.on('pjax:complete', function(){kvSelectRow('{$grid}', '{$this->rowSelectedClass}');});"
-            );
-        }
     }
 }

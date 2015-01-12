@@ -178,7 +178,7 @@ trait ColumnTrait
      */
     protected function parseFormat()
     {
-        if ($this->hAlign === GridView::ALIGN_LEFT || $this->hAlign === GridView::ALIGN_RIGHT || $this->hAlign === GridView::ALIGN_CENTER) {
+        if ($this->isValidAlignment()) {
             $class = "kv-align-{$this->hAlign}";
             Html::addCssClass($this->headerOptions, $class);
             Html::addCssClass($this->pageSummaryOptions, $class);
@@ -189,7 +189,7 @@ trait ColumnTrait
             Html::addCssClass($this->pageSummaryOptions, GridView::NOWRAP);
             Html::addCssClass($this->footerOptions, GridView::NOWRAP);
         }
-        if ($this->vAlign === GridView::ALIGN_TOP || $this->vAlign === GridView::ALIGN_MIDDLE || $this->vAlign === GridView::ALIGN_BOTTOM) {
+        if ($this->isValidAlignment('vAlign')) {
             $class = "kv-align-{$this->vAlign}";
             Html::addCssClass($this->headerOptions, $class);
             Html::addCssClass($this->pageSummaryOptions, $class);
@@ -200,6 +200,31 @@ trait ColumnTrait
             Html::addCssStyle($this->pageSummaryOptions, "width:{$this->width};");
             Html::addCssStyle($this->footerOptions, "width:{$this->width};");
         }
+    }
+
+    /**
+     * Check if the alignment provided is valid
+     *
+     * @param string $type the alignment type
+     *
+     * @return bool
+     */
+    protected function isValidAlignment($type = 'hAlign')
+    {
+        if ($type === 'hAlign') {
+            return (
+                $this->hAlign === GridView::ALIGN_LEFT ||
+                $this->hAlign === GridView::ALIGN_RIGHT ||
+                $this->hAlign === GridView::ALIGN_CENTER
+            );
+        } elseif ($type = 'vAlign') {
+            return (
+                $this->vAlign === GridView::ALIGN_TOP ||
+                $this->vAlign === GridView::ALIGN_MIDDLE ||
+                $this->vAlign === GridView::ALIGN_BOTTOM
+            );
+        }
+        return false;
     }
 
     /**
@@ -230,13 +255,13 @@ trait ColumnTrait
             $css = $tag . implode(" {$tag}", $this->hiddenFromExport);
             Html::addCssClass($options, $css);
         }
-        if ($this->hAlign === GridView::ALIGN_LEFT || $this->hAlign === GridView::ALIGN_RIGHT || $this->hAlign === GridView::ALIGN_CENTER) {
+        if ($this->isValidAlignment()) {
             Html::addCssClass($options, "kv-align-{$this->hAlign}");
         }
         if ($this->noWrap) {
             Html::addCssClass($options, GridView::NOWRAP);
         }
-        if ($this->vAlign === GridView::ALIGN_TOP || $this->vAlign === GridView::ALIGN_MIDDLE || $this->vAlign === GridView::ALIGN_BOTTOM) {
+        if ($this->isValidAlignment('vAlign')) {
             Html::addCssClass($options, "kv-align-{$this->vAlign}");
         }
         if (trim($this->width) != '') {
@@ -252,9 +277,9 @@ trait ColumnTrait
      */
     protected function setPageRows()
     {
-        if ($this->grid->showPageSummary && isset($this->pageSummary) && $this->pageSummary !== false && !is_string(
-                $this->pageSummary
-            )
+        if (
+            $this->grid->showPageSummary && isset($this->pageSummary) &&
+            $this->pageSummary !== false && !is_string($this->pageSummary)
         ) {
             $provider = $this->grid->dataProvider;
             $models = array_values($provider->getModels());
@@ -276,4 +301,23 @@ trait ColumnTrait
         return $this->footer;
     }
 
+    /**
+     * Initialize column specific JS functionality whenever pjax request completes
+     *
+     * @param string $script the js script to be used as a callback
+     *
+     * @return void
+     */
+    protected function initPjax($script = '')
+    {
+        if (!$this->grid->pjax || empty($script)) {
+            return;
+        }
+        $cont = 'jQuery("#' . $this->grid->pjaxSettings['options']['id'] . '")';
+        $grid = $this->grid->options['id'];
+        $view = $this->grid->getView();
+        $view->registerJs(
+            "{$cont}.on('pjax:complete', function(){{$script}});"
+        );
+    }
 }
