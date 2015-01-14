@@ -1,12 +1,13 @@
 Version 3.0.0
 =============
-**Date:** 12-Jan-2015
+**Date:** 14-Jan-2015
 
 1. (bug #178): Enhance CheckboxColumn to allow contentOptions to be set as Closure.
 2. (enh #178): New validation of contentOptions for all the extended grid Columns.
 3. Code formatting updates as per Yii2 coding style.
 4. (bug #180): Fix namespaces of classes.
 5. Revamp to use new Krajee base Module and TranslationTrait.
+6. (bug #183): Implement alignment validation for content within ActionColumn.
 
 Version 2.9.0
 =============

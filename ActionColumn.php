@@ -230,6 +230,15 @@ class ActionColumn extends \yii\grid\ActionColumn
     }
 
     /**
+     * @inheritdoc
+     */
+    public function renderDataCell($model, $key, $index)
+    {
+        $options = $this->fetchContentOptions($model, $key, $index);
+        return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
+    }
+    
+    /**
      * Renders the data cell.
      */
     protected function renderDataCellContent($model, $key, $index)
