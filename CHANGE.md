@@ -9,6 +9,7 @@ Version 3.0.0
 5. Revamp to use new Krajee base Module and TranslationTrait.
 6. (bug #183): Implement alignment validation for content within ActionColumn.
 7. (bug #184): Correct the dependency on kartik\mpdf\Pdf for export.
+8. (bug #185): Set right jQuery selector for grid table export.
 
 Version 2.9.0
 =============

@@ -87,7 +87,7 @@
     var GridExport = function (element, options) {
         this.$element = $(element);
         this.$grid = options.grid;
-        this.$table = this.$grid.find('.kv-grid-table');
+        this.$table = this.$grid.find('.kv-grid-table:first');
         this.$form = this.$grid.find('form.kv-export-form');
         this.encoding = this.$form.find('[name="export_encoding"]').val();
         this.filename = options.filename;
