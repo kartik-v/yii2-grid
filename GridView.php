@@ -852,7 +852,7 @@ HTML;
         $cells = [];
         foreach ($this->columns as $index => $column) {
             /* @var $column Column */
-            if ($this->resizableColumns) {
+            if ($this->resizableColumns && $this->persistResize) {
                 $column->headerOptions['data-resizable-column-id'] = "kv-col-{$index}";
             }
             $cells[] = $column->renderHeaderCell();
@@ -1195,7 +1195,7 @@ HTML;
      */
     protected function initLayout()
     {
-        if ($this->resizableColumns) {
+        if ($this->resizableColumns && $this->persistResize) {
             $key = empty($this->resizeStorageKey) ? Yii::$app->user->id : $this->resizeStorageKey;
             $gridId = empty($this->options['id']) ? $this->getId() : $this->options['id'];
             $this->options['data-resizable-columns-id'] = (empty($key) ? "kv-{$gridId}" : "kv-{$key}-{$gridId}");
