@@ -15,6 +15,7 @@ use yii\data\DataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Response;
+use kartik\mpdf\Pdf;
 
 class ExportController extends \yii\web\Controller
 {

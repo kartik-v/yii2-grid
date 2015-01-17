@@ -8,6 +8,7 @@ Version 3.0.0
 4. (bug #180): Fix namespaces of classes.
 5. Revamp to use new Krajee base Module and TranslationTrait.
 6. (bug #183): Implement alignment validation for content within ActionColumn.
+7. (bug #184): Correct the dependency on kartik\mpdf\Pdf for export.
 
 Version 2.9.0
 =============
