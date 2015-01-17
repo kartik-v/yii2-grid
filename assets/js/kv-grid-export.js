@@ -223,6 +223,7 @@
             // Skip the filter rows and header rowspans
             $table.find('tr.filters').remove();
             $table.find('th').removeAttr('rowspan');
+            $table.find('input').remove(); // remove any form inputs
             if (!self.showHeader) {
                 $table.find('thead').remove();
             }
@@ -317,7 +318,6 @@
         },
         exportEXCEL: function () {
             var self = this, $table = self.clean('xls'), cfg = self.config;
-            $table.find('input').remove(); // remove any form inputs as they do not align well in excel
             var css = (cfg.cssFile && self.config.cssFile.length) ? '<link href="' + self.config.cssFile + '" rel="stylesheet">' : '';
             var xls = templates.excel.replace('{encoding}', self.encoding).replace('{css}', css).replace('{worksheet}',
                 self.config.worksheet).replace('{data}', $('<div />').html($table).html()).replace(/"/g, '\'');

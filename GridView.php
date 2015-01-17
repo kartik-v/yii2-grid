@@ -1195,6 +1195,7 @@ HTML;
      */
     protected function initLayout()
     {
+        Html::addCssClass($this->filterRowOptions, 'skip-export');
         if ($this->resizableColumns && $this->persistResize) {
             $key = empty($this->resizeStorageKey) ? Yii::$app->user->id : $this->resizeStorageKey;
             $gridId = empty($this->options['id']) ? $this->getId() : $this->options['id'];
@@ -1463,7 +1464,7 @@ HTML;
                 $this->floatHeaderOptions
             );
             $opts = Json::encode($this->floatHeaderOptions);
-            $this->_jsFloatTheadScript = "jQuery('#{$gridId} .kv-grid-table').floatThead({$opts});";
+            $this->_jsFloatTheadScript = "jQuery('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
             $view->registerJs($this->_jsFloatTheadScript);
         }
     }

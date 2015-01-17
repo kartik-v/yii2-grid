@@ -11,6 +11,7 @@ Version 3.0.0
 7. (bug #184): Correct the dependency on kartik\mpdf\Pdf for export.
 8. (bug #185): Set right jQuery selector for grid table export.
 9. (enh #186): New feature - Allow resizing of columns like a spreadsheet.
+10. (enh #188): Prevent filter row or other form inputs in the grid from being exported.
 
 Version 2.9.0
 =============
