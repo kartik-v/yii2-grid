@@ -59,6 +59,7 @@ return [
     'Portable Document Format' => '',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '',
     'Reset Grid' => 'Nulstil Tabel',
+    'Resize table columns just like a spreadsheet by dragging the column edges' => 'Resize tabelkolonner ligesom et regneark ved at trække kolonnen kanter',
     'Show all data' => '',
     'Show first page data' => '',
     'Tab Delimited Text' => '',

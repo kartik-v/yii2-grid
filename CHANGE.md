@@ -1,6 +1,6 @@
 Version 3.0.0
 =============
-**Date:** 14-Jan-2015
+**Date:** 17-Jan-2015
 
 1. (bug #178): Enhance CheckboxColumn to allow contentOptions to be set as Closure.
 2. (enh #178): New validation of contentOptions for all the extended grid Columns.
@@ -10,6 +10,7 @@ Version 3.0.0
 6. (bug #183): Implement alignment validation for content within ActionColumn.
 7. (bug #184): Correct the dependency on kartik\mpdf\Pdf for export.
 8. (bug #185): Set right jQuery selector for grid table export.
+9. (enh #186): New feature - Allow resizing of columns like a spreadsheet.
 
 Version 2.9.0
 =============

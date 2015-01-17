@@ -55,6 +55,7 @@ return [
     'Portable Document Format' => '',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '',
     'Reset Grid' => 'Thiết lập lại lưới',
+    'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Thay đổi kích thước cột bảng giống như một bảng tính bằng cách kéo các cạnh cột.',
     'Show all data' => '',
     'Show first page data' => '',
     'Tab Delimited Text' => '',

@@ -59,6 +59,7 @@ return [
     'Portable Document Format' => '',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '',
     'Reset Grid' => '',
+    'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Resize tafel kolommen net als een spreadsheet door het slepen van de kolom randen.',
     'Show all data' => '',
     'Show first page data' => '',
     'Tab Delimited Text' => '',

@@ -59,6 +59,7 @@ return [
     'Portable Document Format' => 'Portable Document Format',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Pedido enviado! Com segurança, você pode fechar esta caixa de diálogo depois de salvar seu arquivo baixado.',
     'Reset Grid' => 'Redefinição de Grade',
+    'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Redimensionar colunas da tabela como uma planilha em arrastar as bordas de coluna.',
     'Show all data' => 'Mostrar todos',
     'Show first page data' => 'Mostrar primeira página',
     'Tab Delimited Text' => '',

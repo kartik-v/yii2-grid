@@ -7,7 +7,7 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh5.googleusercontent.com/--KIuWE6iZYc/VFjWSphRmYI/AAAAAAAAAQA/EmL3jMMXW94/w795-h528-no/yii2-grid.png)
 
 ## Latest Release
-The latest version of the module is v3.0.0 released on 10-Jan-2015. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
+The latest version of the module is v3.0.0 released on 17-Jan-2015. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
 
 New features with release 2.7.0.
 
@@ -53,6 +53,9 @@ Inbuilt support for Pjax. Enhancements for grid and columns to work with `yii\wi
 
 ### Custom Header & Footer (New)
 Add custom header or footer rows, above / below your default grid header and footer.
+
+### Resizing Columns (New)
+Allows resizing of the columns just like a spreadsheet (since v3.0.0). Uses the [JQuery ResizableColumns plugin](https://github.com/dobtco/jquery-resizable-columns) for resize and [store.js](https://github.com/marcuswestin/store.js/) for localStorage persistence.
 
 ### Floating Header (New)
 Allows the grid table to have a floating table header. Uses the [JQuery Float THead plugin](http://mkoryak.github.io/floatThead) to display a seamless floating table header. 

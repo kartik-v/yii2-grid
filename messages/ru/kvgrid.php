@@ -59,6 +59,7 @@ return [
     'Portable Document Format' => '',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '',
     'Reset Grid' => 'Сбросить сетку',
+    'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Изменение размера столбцов таблицы так же, как таблицы, перетаскивая края столбцов.',
     'Show all data' => '',
     'Show first page data' => '',
     'Tab Delimited Text' => '',

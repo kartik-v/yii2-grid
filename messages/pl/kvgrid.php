@@ -59,6 +59,7 @@ return [
     'Portable Document Format' => '',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '',
     'Reset Grid' => 'Zresetuj',
+    'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Zmiana rozmiaru kolumny tabeli, tak jak w arkuszu kalkulacyjnym, przeciągając krawędzie kolumn.',
     'Show all data' => '',
     'Show first page data' => '',
     'Tab Delimited Text' => '',

@@ -382,10 +382,27 @@ HTML;
     public $pjaxSettings = [];
 
     /**
+     * @var boolean whether to allow resizing of columns 
+     */
+    public $resizableColumns = true;
+
+    /**
+     * @var boolean whether to store resized column state using local storage persistence
+     * (supported by most modern browsers)
+     */
+    public $persistResize = true;
+
+    /**
+     * @var string resizable unique storage prefix to append to the grid id. If empty or not set
+     * it will default to Yii::$app->user->id.
+     */
+    public $resizeStorageKey;
+    
+    /**
      * @var boolean whether the grid view will have Bootstrap table styling.
      */
     public $bootstrap = true;
-
+    
     /**
      * @var boolean whether the grid table will have a `bordered` style.
      * Applicable only if `bootstrap` is `true`. Defaults to `true`.
@@ -594,6 +611,11 @@ HTML;
     protected $_jsToggleScript = '';
 
     /**
+     * @var string the generated javascript for resizable columns
+     */
+    protected $_jsResizableScript = '';
+
+    /**
      * @var string the generated javascript for grid float table header initialization
      */
     protected $_jsFloatTheadScript = '';
@@ -686,6 +708,7 @@ HTML;
         $this->initHeader();
         $this->initBootstrapStyle();
         $this->containerOptions['id'] = $this->options['id'] . '-container';
+        Html::addCssClass($this->containerOptions, 'kv-grid-container');
         $this->registerAssets();
         $this->renderPanel();
         $this->initLayout();
@@ -826,16 +849,27 @@ HTML;
      */
     public function renderTableHeader()
     {
-        $content = parent::renderTableHeader();
-        return strtr(
-            $content,
-            [
-                '<thead>' => "<thead>\n" . $this->generateRows($this->beforeHeader),
-                '</thead>' => $this->generateRows($this->afterHeader) . "\n</thead>",
-            ]
-        );
+        $cells = [];
+        foreach ($this->columns as $index => $column) {
+            /* @var $column Column */
+            if ($this->resizableColumns) {
+                $column->headerOptions['data-resizable-column-id'] = "kv-col-{$index}";
+            }
+            $cells[] = $column->renderHeaderCell();
+        }
+        $content = Html::tag('tr', implode('', $cells), $this->headerRowOptions);
+        if ($this->filterPosition == self::FILTER_POS_HEADER) {
+            $content = $this->renderFilters() . $content;
+        } elseif ($this->filterPosition == self::FILTER_POS_BODY) {
+            $content .= $this->renderFilters();
+        }
+        return "<thead>\n" . 
+            $this->generateRows($this->beforeHeader) . "\n" .
+            $content . "\n" .
+            $this->generateRows($this->afterHeader) . "\n" .
+            "</thead>";
     }
-
+    
     /**
      * Renders the table footer.
      *
@@ -1161,6 +1195,11 @@ HTML;
      */
     protected function initLayout()
     {
+        if ($this->resizableColumns) {
+            $key = empty($this->resizeStorageKey) ? Yii::$app->user->id : $this->resizeStorageKey;
+            $gridId = empty($this->options['id']) ? $this->getId() : $this->options['id'];
+            $this->options['data-resizable-columns-id'] = (empty($key) ? "kv-{$gridId}" : "kv-{$key}-{$gridId}");
+        }
         $export = $this->renderExport();
         $toggleData = $this->renderToggleData();
         $toolbar = strtr(
@@ -1218,6 +1257,9 @@ HTML;
         if (!empty($this->_jsExportScript)) {
             $id = 'jQuery("#' . $this->id . ' .export-csv")';
             $postPjaxJs .= "\n{$this->_jsExportScript}";
+        }
+        if (!empty($this->_jsResizableScript)) {
+            $postPjaxJs .= "\n{$this->_jsResizableScript}";
         }
         if (!empty($this->_jsFloatTheadScript)) {
             $postPjaxJs .= "\n{$this->_jsFloatTheadScript}";
@@ -1401,7 +1443,16 @@ HTML;
                 $view->registerJs($this->_jsExportScript);
             }
         }
-
+        if ($this->resizableColumns) {
+            $store = '{store:null}';
+            if ($this->persistResize) {
+                GridResizeStoreAsset::register($view);
+                $store = '';
+            }
+            GridResizeColumnsAsset::register($view);
+            $this->_jsResizableScript = "jQuery('#{$gridId}').resizableColumns({$store});";
+            $view->registerJs($this->_jsResizableScript);
+        }
         if ($this->floatHeader) {
             GridFloatHeadAsset::register($view);
             $this->floatHeaderOptions = ArrayHelper::merge(

@@ -59,6 +59,7 @@ return [
     'Portable Document Format' => 'Portable Document Format',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '¡Solicitud Enviada! Usted puede cerrar esta ventana luego de guardar su archivo descargado',
     'Reset Grid' => 'Reiniciar Cuadrícula',
+    'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Cambiar el tamaño de las columnas de tabla como una hoja de cálculo arrastrando los bordes de las columnas.',
     'Show all data' => 'Mostrar todos los datos',
     'Show first page data' => 'Mostrar primera página de datos',
     'Tab Delimited Text' => 'Texto Delimitado por Tabulaciones',

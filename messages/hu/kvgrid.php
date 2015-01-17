@@ -59,6 +59,7 @@ return [
     'Portable Document Format' => '',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Kérelem elküldve! Letöltés után az ablakot nyugodtan bezárhatod.',
     'Reset Grid' => 'Táblázat alaphelyzetbe állítása',
+    'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Átméretezni az oszlopokat, mint egy táblázatkezelő húzza az oszlop élek.',
     'Show all data' => 'Összes adat mutata',
     'Show first page data' => 'Első oldal adat mutat',
     'Tab Delimited Text' => 'Tabulátorral tagolt szöveg',
