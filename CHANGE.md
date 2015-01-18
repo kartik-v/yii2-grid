@@ -1,6 +1,6 @@
 Version 3.0.0
 =============
-**Date:** 17-Jan-2015
+**Date:** 18-Jan-2015
 
 1. (bug #178): Enhance CheckboxColumn to allow contentOptions to be set as Closure.
 2. (enh #178): New validation of contentOptions for all the extended grid Columns.
@@ -11,7 +11,8 @@ Version 3.0.0
 7. (bug #184): Correct the dependency on kartik\mpdf\Pdf for export.
 8. (bug #185): Set right jQuery selector for grid table export.
 9. (enh #186): New feature - Allow resizing of columns like a spreadsheet.
-10. (enh #188): Prevent filter row or other form inputs in the grid from being exported.
+10. (enh #188): Eliminate filter row and all form inputs from export.
+11. (enh #189): Various performance enhancements to client script and plugin registrations.
 
 Version 2.9.0
 =============

@@ -86,18 +86,22 @@
 
     var GridExport = function (element, options) {
         this.$element = $(element);
-        this.$grid = options.grid;
+        var gridOpts = options.gridOpts,
+            genOpts = options.genOpts;
+        this.$grid = $("#" + gridOpts.gridId);
+        this.messages = gridOpts.messages;
+        this.target = gridOpts.target;
+        this.exportConversions = gridOpts.exportConversions;
+        this.showConfirmAlert = gridOpts.showConfirmAlert;
+        this.filename = genOpts.filename;
+        this.showHeader = genOpts.showHeader;
+        this.showFooter = genOpts.showFooter;
+        this.showPageSummary = genOpts.showPageSummary;
         this.$table = this.$grid.find('.kv-grid-table:first');
         this.$form = this.$grid.find('form.kv-export-form');
         this.encoding = this.$form.find('[name="export_encoding"]').val();
-        this.filename = options.filename;
-        this.showHeader = options.showHeader;
-        this.columns = options.showHeader ? 'td,th' : 'td';
+        this.columns = this.showHeader ? 'td,th' : 'td';
         this.alertMsg = options.alertMsg;
-        this.messages = options.messages;
-        this.exportConversions = options.exportConversions;
-        this.target = options.target;
-        this.showConfirmAlert = options.showConfirmAlert;
         this.config = options.config;
         this.popup = '';
         this.listen();
@@ -345,35 +349,6 @@
         });
     };
 
-    $.fn.gridexport.defaults = {
-        filename: 'export',
-        target: '_popup',
-        showHeader: true,
-        showPageSummary: true,
-        showFooter: true,
-        showCaption: true,
-        showConfirmAlert: true,
-        alertMsg: '',
-        browserPopupsMsg: '',
-        confirmMsg: '',
-        messages: {
-            allowPopups: '',
-            confirmDownload: '',
-            downloadProgress: '',
-            downloadComplete: ''
-        },
-        config: {
-            worksheet: '',
-            colDelimiter: ',',
-            rowDelimiter: '\r\n',
-            cssFile: '',
-            colHeads: [],
-            slugColHeads: false,
-            jsonReplacer: null,
-            indentSpace: 4,
-            pdfSettings: ''
-        },
-        exportConversions: {}
-    };
+    $.fn.gridexport.defaults = {};
 
 })(window.jQuery);

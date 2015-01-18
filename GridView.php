@@ -601,24 +601,14 @@ HTML;
     public $containerOptions = [];
 
     /**
-     * @var string the generated javascript for grid export initialization
+     * @var string the generated client script for the grid
      */
-    protected $_jsExportScript = '';
+    protected $_clientScript = '';
 
     /**
      * @var string the generated javascript for toggling grid data
      */
     protected $_jsToggleScript = '';
-
-    /**
-     * @var string the generated javascript for resizable columns
-     */
-    protected $_jsResizableScript = '';
-
-    /**
-     * @var string the generated javascript for grid float table header initialization
-     */
-    protected $_jsFloatTheadScript = '';
 
     /**
      * @var Module the grid module.
@@ -1246,7 +1236,7 @@ HTML;
             $view->registerJs("{$container}.on('pjax:timeout', function(e){e.preventDefault()});");
         }
         $loadingCss = ArrayHelper::getvalue($this->pjaxSettings, 'loadingCssClass', 'kv-grid-loading');
-        $postPjaxJs = $this->_jsToggleScript;
+        $postPjaxJs = $this->_clientScript;
         if ($loadingCss !== false) {
             $grid = 'jQuery("#' . $this->containerOptions['id'] . '")';
             if ($loadingCss === true) {
@@ -1254,16 +1244,6 @@ HTML;
             }
             $view->registerJs("{$container}.on('pjax:send', function(){{$grid}.addClass('{$loadingCss}')});");
             $postPjaxJs .= "\n{$grid}.removeClass('{$loadingCss}');";
-        }
-        if (!empty($this->_jsExportScript)) {
-            $id = 'jQuery("#' . $this->id . ' .export-csv")';
-            $postPjaxJs .= "\n{$this->_jsExportScript}";
-        }
-        if (!empty($this->_jsResizableScript)) {
-            $postPjaxJs .= "\n{$this->_jsResizableScript}";
-        }
-        if (!empty($this->_jsFloatTheadScript)) {
-            $postPjaxJs .= "\n{$this->_jsFloatTheadScript}";
         }
         if (!empty($postPjaxJs)) {
             $view->registerJs("{$container}.on('pjax:complete', function(){{$postPjaxJs}});");
@@ -1407,41 +1387,46 @@ HTML;
     protected function registerAssets()
     {
         $view = $this->getView();
+        $script = '';
         if ($this->bootstrap) {
             GridViewAsset::register($view);
         }
         $gridId = $this->options['id'];
         if ($this->toggleData) {
             GridToggleDataAsset::register($view);
-            $view->registerJs($this->_jsToggleScript);
+            $script .= $this->_jsToggleScript;
         }
-
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
             $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
-            $showConfirmAlert = ArrayHelper::getValue($this->export, 'showConfirmAlert', true);
+            $gridOpts = Json::encode([
+                'gridId' => $gridId,
+                'target' => $target,
+                'messages' => $this->export['messages'],
+                'exportConversions' => $this->exportConversions,
+                'showConfirmAlert' => ArrayHelper::getValue($this->export, 'showConfirmAlert', true),
+            ]);
+            $gridOptsVar = 'kvGridExp_' . hash('crc32', $gridOpts);
+            $view->registerJs("var {$gridOptsVar}={$gridOpts};", View::POS_HEAD);
             foreach ($this->exportConfig as $format => $setting) {
-                $id = "jQuery('#{$gridId} .export-{$format}')";
-                $grid = new JsExpression("jQuery('#{$gridId}')");
-                $config = ArrayHelper::getValue($setting, 'config', []);
-                $options = [
-                    'grid' => $grid,
+                $id = "$('#{$gridId} .export-{$format}')";
+                $genOpts = Json::encode([
                     'filename' => $setting['filename'],
-                    'target' => $target,
                     'showHeader' => $setting['showHeader'],
                     'showPageSummary' => $setting['showPageSummary'],
                     'showFooter' => $setting['showFooter'],
-                    'showConfirmAlert' => $showConfirmAlert,
+                ]);
+                $genOptsVar = 'kvGridExp_' . hash('crc32', $genOpts);
+                $view->registerJs("var {$genOptsVar}={$genOpts};", View::POS_HEAD);
+                $expOpts = Json::encode([
+                    'gridOpts' => new JsExpression($gridOptsVar),
+                    'genOpts' => new JsExpression($genOptsVar),
                     'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
-                    'messages' => $this->export['messages'],
-                    'exportConversions' => $this->exportConversions,
-                    'config' => $config
-                ];
-                $opts = Json::encode($options);
-                $this->_jsExportScript .= "\n{$id}.gridexport({$opts});";
-            }
-            if (!empty($this->_jsExportScript)) {
-                $view->registerJs($this->_jsExportScript);
+                    'config' => ArrayHelper::getValue($setting, 'config', [])
+                ]);
+                $expOptsVar = 'kvGridExp_' . hash('crc32', $expOpts);
+                $view->registerJs("var {$expOptsVar}={$expOpts};", View::POS_HEAD);
+                $script .= "{$id}.gridexport({$expOptsVar});";
             }
         }
         if ($this->resizableColumns) {
@@ -1451,8 +1436,7 @@ HTML;
                 $store = '';
             }
             GridResizeColumnsAsset::register($view);
-            $this->_jsResizableScript = "jQuery('#{$gridId}').resizableColumns({$store});";
-            $view->registerJs($this->_jsResizableScript);
+            $script .= "$('#{$gridId}').resizableColumns({$store});";
         }
         if ($this->floatHeader) {
             GridFloatHeadAsset::register($view);
@@ -1464,8 +1448,9 @@ HTML;
                 $this->floatHeaderOptions
             );
             $opts = Json::encode($this->floatHeaderOptions);
-            $this->_jsFloatTheadScript = "jQuery('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
-            $view->registerJs($this->_jsFloatTheadScript);
+            $script .= "$('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
         }
+        $this->_clientScript = $script;
+        $view->registerJs("(function(\$){{$this->_clientScript}})(window.jQuery);");
     }
 }
