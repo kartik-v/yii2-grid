@@ -14,6 +14,7 @@ Version 3.0.0
 10. (enh #188): Eliminate filter row and all form inputs from export.
 11. (enh #189): Various performance enhancements to client script and plugin registrations.
 12. (bug #190): Allow editable beforeInput in EditableColumn to be passed as Closure.
+13. (bug #191): Correct Closure namespace for `value` validation in GridView.
 
 Version 2.9.0
 =============

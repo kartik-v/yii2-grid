@@ -1211,7 +1211,7 @@ HTML;
         $this->layout = str_replace('{items}', Html::tag('div', '{items}', $this->containerOptions), $this->layout);
         if (is_array($this->replaceTags) && !empty($this->replaceTags)) {
             foreach ($this->replaceTags as $key => $value) {
-                if ($value instanceof Closure) {
+                if ($value instanceof \Closure) {
                     $value = call_user_func($value, $this);
                 }
                 $this->layout = str_replace($key, $value, $this->layout);
