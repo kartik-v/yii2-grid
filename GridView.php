@@ -9,6 +9,7 @@
 
 namespace kartik\grid;
 
+use Closure;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\ButtonDropdown;
