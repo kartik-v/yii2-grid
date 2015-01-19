@@ -13,6 +13,7 @@ Version 3.0.0
 9. (enh #186): New feature - Allow resizing of columns like a spreadsheet.
 10. (enh #188): Eliminate filter row and all form inputs from export.
 11. (enh #189): Various performance enhancements to client script and plugin registrations.
+12. (bug #190): Allow editable beforeInput in EditableColumn to be passed as Closure.
 
 Version 2.9.0
 =============

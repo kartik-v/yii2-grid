@@ -100,7 +100,14 @@ class EditableColumn extends DataColumn
         if (empty($this->_editableOptions['beforeInput'])) {
             $this->_editableOptions['beforeInput'] = $params;
         } else {
-            $this->_editableOptions['beforeInput'] .= $params;
+            $output = $this->_editableOptions['beforeInput'];
+            $this->_editableOptions['beforeInput'] = function($form, $widget) use ($output) {
+                if ($output instanceof \Closure) {
+                    return $params . call_user_func($output, $form, $widget);
+                } else {
+                    return $params . $output;
+                }
+            };
         }
         if ($this->refreshGrid) {
             $view = $this->grid->getView();
