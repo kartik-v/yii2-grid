@@ -45,7 +45,7 @@ class FormulaColumn extends DataColumn
      * - key: mixed the key associated with the data model
      * - index: integer the zero-based index of the data item among
      *   the item array returned by [[GridView::dataProvider]].
-     *
+     * - widget: the current column widget instance
      * @throws InvalidConfigException
      */
     public function col($i, $params = [])
@@ -83,7 +83,7 @@ class FormulaColumn extends DataColumn
     protected function getFooterCellContent()
     {
         if ($this->autoFooter) {
-            return call_user_func($this->value, null, self::FOOTER, $this);
+            return call_user_func($this->value, null, self::FOOTER, self::FOOTER, $this);
         }
         return parent::getFooterCellContent();
     }

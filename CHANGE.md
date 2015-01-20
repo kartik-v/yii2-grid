@@ -15,6 +15,7 @@ Version 3.0.0
 11. (enh #189): Various performance enhancements to client script and plugin registrations.
 12. (bug #190): Allow editable beforeInput in EditableColumn to be passed as Closure.
 13. (bug #191): Correct Closure namespace for `value` validation in GridView.
+13. (bug #192): Correct value callback in `FormulaColumn`.
 
 Version 2.9.0
 =============
