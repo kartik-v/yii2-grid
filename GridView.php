@@ -603,7 +603,7 @@ HTML;
     /**
      * @var string the generated client script for the grid
      */
-    protected $_clientScript = '';
+    protected $_gridClientFunc = '';
 
     /**
      * @var string the generated javascript for toggling grid data
@@ -1232,21 +1232,25 @@ HTML;
             $this->pjaxSettings['options']['id'] = $this->options['id'] . '-pjax';
         }
         $container = 'jQuery("#' . $this->pjaxSettings['options']['id'] . '")';
+        $js = $container;
         if (ArrayHelper::getvalue($this->pjaxSettings, 'neverTimeout', true)) {
-            $view->registerJs("{$container}.on('pjax:timeout', function(e){e.preventDefault()});");
+            $js .= ".on('pjax:timeout', function(e){e.preventDefault()})";
         }
         $loadingCss = ArrayHelper::getvalue($this->pjaxSettings, 'loadingCssClass', 'kv-grid-loading');
-        $postPjaxJs = $this->_clientScript;
+        $postPjaxJs = "{$this->_gridClientFunc}();";
         if ($loadingCss !== false) {
             $grid = 'jQuery("#' . $this->containerOptions['id'] . '")';
             if ($loadingCss === true) {
                 $loadingCss = 'kv-grid-loading';
             }
-            $view->registerJs("{$container}.on('pjax:send', function(){{$grid}.addClass('{$loadingCss}')});");
-            $postPjaxJs .= "\n{$grid}.removeClass('{$loadingCss}');";
+            $js .= ".on('pjax:send', function(){{$grid}.addClass('{$loadingCss}')})";
+            $postPjaxJs .= "{$grid}.removeClass('{$loadingCss}');";
         }
         if (!empty($postPjaxJs)) {
-            $view->registerJs("{$container}.on('pjax:complete', function(){{$postPjaxJs}});");
+            $js .= ".on('pjax:complete', function(){{$postPjaxJs}})";
+        }
+        if ($js != $container) {
+            $view->registerJs("{$js};");
         }
         Pjax::begin($this->pjaxSettings['options']);
         echo ArrayHelper::getValue($this->pjaxSettings, 'beforeGrid', '');
@@ -1450,7 +1454,8 @@ HTML;
             $opts = Json::encode($this->floatHeaderOptions);
             $script .= "$('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
         }
-        $this->_clientScript = $script;
-        $view->registerJs("(function(\$){{$this->_clientScript}})(window.jQuery);");
+        $this->_gridClientFunc = 'kvGridInit_' . hash('crc32', $script);
+        $this->options['data-krajee-grid'] = $this->_gridClientFunc;
+        $view->registerJs("var {$this->_gridClientFunc}=function(){\n{$script}\n}\n{$this->_gridClientFunc}();");
     }
 }
