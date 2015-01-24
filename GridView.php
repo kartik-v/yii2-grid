@@ -1439,8 +1439,9 @@ HTML;
                 GridResizeStoreAsset::register($view);
                 $store = '';
             }
+            $contId = $this->containerOptions['id'];
             GridResizeColumnsAsset::register($view);
-            $script .= "$('#{$gridId}').resizableColumns({$store});";
+            $script .= "$('#{$contId}').resizableColumns({$store});";
         }
         if ($this->floatHeader) {
             GridFloatHeadAsset::register($view);

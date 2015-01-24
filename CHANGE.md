@@ -1,6 +1,6 @@
 Version 3.0.0
 =============
-**Date:** 18-Jan-2015
+**Date:** 24-Jan-2015
 
 1. (bug #178): Enhance CheckboxColumn to allow contentOptions to be set as Closure.
 2. (enh #178): New validation of contentOptions for all the extended grid Columns.
@@ -15,7 +15,8 @@ Version 3.0.0
 11. (enh #189): Various performance enhancements to client script and plugin registrations.
 12. (bug #190): Allow editable beforeInput in EditableColumn to be passed as Closure.
 13. (bug #191): Correct Closure namespace for `value` validation in GridView.
-13. (bug #192): Correct value callback in `FormulaColumn`.
+14. (bug #192): Correct value callback in `FormulaColumn`.
+15. (enh #198): Better container for initializing `resizableColumns`.
 
 Version 2.9.0
 =============
