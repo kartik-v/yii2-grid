@@ -97,6 +97,8 @@
                             $grid.trigger('kvexprow.loaded', [vInd, vKey]);
                         });
                         return;
+                    } else {
+                        endLoading($cell);
                     }
                     postProcess();
                 },

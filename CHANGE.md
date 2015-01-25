@@ -17,6 +17,7 @@ Version 3.0.0
 13. (bug #191): Correct Closure namespace for `value` validation in GridView.
 14. (bug #192): Correct value callback in `FormulaColumn`.
 15. (enh #198): Better container for initializing `resizableColumns`.
+16. (enh #200): Expand row loading indicator reset for ajax load.
 
 Version 2.9.0
 =============
