@@ -18,6 +18,7 @@ Version 3.0.0
 14. (bug #192): Correct value callback in `FormulaColumn`.
 15. (enh #198): Better container for initializing `resizableColumns`.
 16. (enh #200): Expand row loading indicator reset for ajax load.
+17. (enh #202, #203): Fix grid container overflow and responsive property.
 
 Version 2.9.0
 =============

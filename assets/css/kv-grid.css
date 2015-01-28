@@ -10,9 +10,6 @@
  * Year: 2014
  * For more Yii related demos visit http://demos.krajee.com
  */
-.kv-grid-container {
-    overflow-x: hidden;
-}
 .kv-panel-pager {
     min-height: 34px;
 }
