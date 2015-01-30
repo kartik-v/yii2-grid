@@ -69,7 +69,7 @@ class EditableColumn extends DataColumn
     public function renderDataCellContent($model, $key, $index)
     {
         $this->_editableOptions = $this->editableOptions;
-        if (!empty($this->editableOptions) && $this->editableOptions instanceof Closure) {
+        if (!empty($this->editableOptions) && $this->editableOptions instanceof \Closure) {
             $this->_editableOptions = call_user_func($this->editableOptions, $model, $key, $index);
         }
         if (!is_array($this->_editableOptions)) {
