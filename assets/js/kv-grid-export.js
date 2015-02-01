@@ -13,20 +13,21 @@
  * For more Yii related demos visit http://demos.krajee.com
  */
 (function ($) {
+    "use strict";
     var replaceAll = function (str, from, to) {
             return str.split(from).join(to);
         },
         isEmpty = function (value, trim) {
-            return value === null || value === undefined || value == []
-            || value === '' || trim && $.trim(value) === '';
-        };
-    popupDialog = function (url, name, w, h) {
-        var left = (screen.width / 2) - (w / 2), top = 60,
-            existWin = window.open('', name, '', true);
-        existWin.close();
-        return window.open(url, name,
-            'toolbar=no, location=no, directories=no, status=yes, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-    },
+            return value === null || value === undefined || value.length === 0 || (trim && $.trim(value) === '');
+        },
+        popupDialog = function (url, name, w, h) {
+            var left = (screen.width / 2) - (w / 2), top = 60,
+                existWin = window.open('', name, '', true);
+            existWin.close();
+            return window.open(url, name,
+                'toolbar=no, location=no, directories=no, status=yes, menubar=no, scrollbars=no, ' +
+                'resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+        },
         slug = function (strText) {
             return strText.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
         };
@@ -111,7 +112,7 @@
         constructor: GridExport,
         getArray: function (expType) {
             var self = this, $table = self.clean(expType), head = [], data = {};
-            if (self.config.colHeads != undefined && self.config.colHeads.length > 0) {
+            if (self.config.colHeads !== undefined && self.config.colHeads.length > 0) {
                 head = self.config.colHeads;
             } else {
                 $table.find('thead tr th').each(function (i, v) {
@@ -138,14 +139,14 @@
             var msg1 = isEmpty(self.alertMsg) ? '' : self.alertMsg,
                 msg2 = isEmpty(msgs.allowPopups) ? '' : msgs.allowPopups,
                 msg3 = isEmpty(msgs.confirmDownload) ? '' : msgs.confirmDownload,
-                msg = '', out;
+                msg = '';
             if (msg1.length && msg2.length) {
                 msg = msg1 + '\n\n' + msg2;
             } else {
                 if (!msg1.length && msg2.length) {
                     msg = msg2;
                 } else {
-                    msg = (msg1.length && !msg2.length) ? msg1 : ''
+                    msg = (msg1.length && !msg2.length) ? msg1 : '';
                 }
             }
             if (msg3.length) {
@@ -159,7 +160,7 @@
         },
         kvConfirm: function (msg) {
             try {
-                return confirm(msg);
+                return window.confirm(msg);
             }
             catch (err) {
                 return true;
@@ -167,7 +168,7 @@
         },
         setPopupAlert: function (msg) {
             var self = this;
-            if (self.popup.document == undefined) {
+            if (self.popup.document === undefined) {
                 return;
             }
             if (arguments.length && arguments[1]) {
@@ -196,7 +197,7 @@
         },
         listen: function () {
             var self = this;
-            if (self.target == '_popup') {
+            if (self.target === '_popup') {
                 self.$form.on('submit', function () {
                     setTimeout(function () {
                         self.setPopupAlert(self.messages.downloadComplete, true);
@@ -248,10 +249,11 @@
             return $table;
         },
         preProcess: function (content) {
-            var self = this, conv = self.exportConversions, l = conv.length, processed = content;
+            var self = this, conv = self.exportConversions, l = conv.length, processed = content, c;
             if (l > 0) {
                 for (var i = 0; i < l; i++) {
-                    processed = replaceAll(processed, conv[i]['from'], conv[i]['to']);
+                    c = conv[i];
+                    processed = replaceAll(processed, c.from, c.to);
                 }
             }
             return processed;
@@ -263,12 +265,12 @@
             self.$form.find('[name="export_filename"]').val(self.filename);
             self.$form.find('[name="export_content"]').val(content);
             self.$form.find('[name="export_mime"]').val(fmt);
-            if (type == 'pdf') {
+            if (type === 'pdf') {
                 self.$form.find('[name="export_config"]').val(JSON.stringify(config));
             } else {
                 self.$form.find('[name="export_config"]').val('');
             }
-            if (self.target == '_popup') {
+            if (self.target === '_popup') {
                 self.popup = popupDialog('', 'kvDownloadDialog', 350, 120);
                 self.popup.focus();
                 self.setPopupAlert(self.messages.downloadProgress);
@@ -316,8 +318,8 @@
             self.download(expType, txt);
         },
         exportJSON: function () {
-            var self = this, out = self.getArray('json'),
-                out = JSON.stringify(out, self.config.jsonReplacer, self.config.indentSpace);
+            var self = this, out = self.getArray('json');
+            out = JSON.stringify(out, self.config.jsonReplacer, self.config.indentSpace);
             self.download('json', out);
         },
         exportEXCEL: function () {
@@ -326,7 +328,7 @@
             var xls = templates.excel.replace('{encoding}', self.encoding).replace('{css}', css).replace('{worksheet}',
                 self.config.worksheet).replace('{data}', $('<div />').html($table).html()).replace(/"/g, '\'');
             self.download('xls', xls);
-        },
+        }
     };
 
     //GridExport plugin definition
@@ -350,5 +352,7 @@
     };
 
     $.fn.gridexport.defaults = {};
+
+    $.fn.gridexport.Constructor = GridExport;
 
 })(window.jQuery);

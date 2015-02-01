@@ -11,11 +11,12 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
-(function ($) {
-    kvSelectRow = function (gridId, css) {
-        var $grid = jQuery('#' + gridId);
+var kvSelectRow = function (gridId, css) {
+    "use strict";
+    (function ($) {
+        var $grid = $('#' + gridId), $el;
         $grid.find(".kv-row-select input").on('change', function () {
-            var $el = $(this);
+            $el = $(this);
             if ($el.is(':checked')) {
                 $el.parents("tr:first").removeClass(css).addClass(css);
             } else {
@@ -30,5 +31,5 @@
                 $grid.find(".kv-row-select").parents("tr").removeClass(css);
             }
         });
-    }
-})(window.jQuery);
+    })(window.jQuery);
+};

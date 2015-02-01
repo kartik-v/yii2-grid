@@ -11,15 +11,16 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
-(function ($) {
-    kvToggleGridData = function (id) {
+var kvToggleGridData = function (id) {
+    "use strict";
+    (function ($) {
         var $el = $('#' + id);
-        if ($el.length == 0) {
+        if ($el.length === 0) {
             return;
         }
         $el.on('change', function () {
             var $form = $el.closest('form');
             $form.submit();
         });
-    }
-})(window.jQuery);
+    })(window.jQuery);
+};

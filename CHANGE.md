@@ -19,6 +19,8 @@ Version 3.0.0
 15. (enh #198): Better container for initializing `resizableColumns`.
 16. (enh #200): Expand row loading indicator reset for ajax load.
 17. (enh #202, #203): Fix grid container overflow and responsive property.
+18. (enh #207): Fix EditableColumn to have absolute reference to Closure.
+19. (enh #209): Code cleanup and restructure for various JS lint changes (using JSHint Code cleanup library).
 
 Version 2.9.0
 =============
