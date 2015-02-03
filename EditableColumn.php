@@ -101,7 +101,7 @@ class EditableColumn extends DataColumn
             $this->_editableOptions['beforeInput'] = $params;
         } else {
             $output = $this->_editableOptions['beforeInput'];
-            $this->_editableOptions['beforeInput'] = function($form, $widget) use ($output) {
+            $this->_editableOptions['beforeInput'] = function($form, $widget) use ($output, $params) {
                 if ($output instanceof \Closure) {
                     return $params . call_user_func($output, $form, $widget);
                 } else {
