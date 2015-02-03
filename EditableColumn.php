@@ -10,6 +10,7 @@
 namespace kartik\grid;
 
 use Yii;
+use Closure;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -69,7 +70,7 @@ class EditableColumn extends DataColumn
     public function renderDataCellContent($model, $key, $index)
     {
         $this->_editableOptions = $this->editableOptions;
-        if (!empty($this->editableOptions) && $this->editableOptions instanceof \Closure) {
+        if (!empty($this->editableOptions) && $this->editableOptions instanceof Closure) {
             $this->_editableOptions = call_user_func($this->editableOptions, $model, $key, $index);
         }
         if (!is_array($this->_editableOptions)) {
@@ -102,7 +103,7 @@ class EditableColumn extends DataColumn
         } else {
             $output = $this->_editableOptions['beforeInput'];
             $this->_editableOptions['beforeInput'] = function($form, $widget) use ($output, $params) {
-                if ($output instanceof \Closure) {
+                if ($output instanceof Closure) {
                     return $params . call_user_func($output, $form, $widget);
                 } else {
                     return $params . $output;

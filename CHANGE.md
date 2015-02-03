@@ -21,6 +21,8 @@ Version 3.0.0
 17. (enh #202, #203): Fix grid container overflow and responsive property.
 18. (enh #207): Fix EditableColumn to have absolute reference to Closure.
 19. (enh #209): Code cleanup and restructure for various JS lint changes (using JSHint Code cleanup library).
+20. (enh #213): Default `persistResize` to false to prevent client caching of column widths.
+21. (bug #214): Fix EditableColumn Closure use bug.
 
 Version 2.9.0
 =============

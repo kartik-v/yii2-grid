@@ -388,9 +388,9 @@ HTML;
 
     /**
      * @var boolean whether to store resized column state using local storage persistence
-     * (supported by most modern browsers)
+     * (supported by most modern browsers). Defaults to `false`.
      */
-    public $persistResize = true;
+    public $persistResize = false;
 
     /**
      * @var string resizable unique storage prefix to append to the grid id. If empty or not set
