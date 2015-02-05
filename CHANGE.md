@@ -23,6 +23,8 @@ Version 3.0.0
 19. (enh #209): Code cleanup and restructure for various JS lint changes (using JSHint Code cleanup library).
 20. (enh #213): Default `persistResize` to false to prevent client caching of column widths.
 21. (bug #214): Fix EditableColumn Closure use bug.
+22. (bug #215): Add Simplified Chinese message translations. 
+23. (bug #216): Fix resizable columns container identifier.
 
 Version 2.9.0
 =============

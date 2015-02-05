@@ -1189,7 +1189,7 @@ HTML;
         if ($this->resizableColumns && $this->persistResize) {
             $key = empty($this->resizeStorageKey) ? Yii::$app->user->id : $this->resizeStorageKey;
             $gridId = empty($this->options['id']) ? $this->getId() : $this->options['id'];
-            $this->options['data-resizable-columns-id'] = (empty($key) ? "kv-{$gridId}" : "kv-{$key}-{$gridId}");
+            $this->containerOptions['data-resizable-columns-id'] = (empty($key) ? "kv-{$gridId}" : "kv-{$key}-{$gridId}");
         }
         $export = $this->renderExport();
         $toggleData = $this->renderToggleData();
