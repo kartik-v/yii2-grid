@@ -32,7 +32,7 @@ use kartik\base\Config;
  */
 class GridView extends \yii\grid\GridView
 {
-    const MODULE = "gridview";
+    use ModuleTrait;
 
     /**
      * Bootstrap Contextual Color Types
@@ -657,12 +657,7 @@ HTML;
      */
     public function init()
     {
-        $this->_module = Config::fetchModule(self::MODULE);
-        if ($this->_module == null || !$this->_module instanceof \kartik\grid\Module) {
-            throw new InvalidConfigException(
-                'The "' . self::MODULE . '" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.'
-            );
-        }
+        $this->initModule();
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
         }
