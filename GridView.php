@@ -19,6 +19,7 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\web\View;
 use yii\widgets\Pjax;
+use kartik\base\Config;
 
 /**
  * Enhances the Yii GridView widget with various options to include Bootstrap
@@ -31,6 +32,8 @@ use yii\widgets\Pjax;
  */
 class GridView extends \yii\grid\GridView
 {
+    const MODULE = "gridview";
+
     /**
      * Bootstrap Contextual Color Types
      */
@@ -648,16 +651,16 @@ HTML;
         }
         return $config;
     }
-
+    
     /**
      * @inheritdoc
      */
     public function init()
     {
-        $this->_module = (Yii::$app->controller->module && Yii::$app->controller->module->getModule('gridview')) ? Yii::$app->controller->module->getModule('gridview') : Yii::$app->getModule('gridview');
+        $this->_module = Config::fetchModule(self::MODULE);
         if ($this->_module == null || !$this->_module instanceof \kartik\grid\Module) {
             throw new InvalidConfigException(
-                'The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.'
+                'The "' . self::MODULE . '" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.'
             );
         }
         if (empty($this->options['id'])) {
@@ -777,7 +780,7 @@ HTML;
         $options = $this->export['options'];
         $menuOptions = $this->export['menuOptions'];
         $title = ($icon == '') ? $title : "<i class='glyphicon glyphicon-{$icon}'></i> {$title}";
-        $action = (Yii::$app->controller->module && Yii::$app->controller->module->getModule('gridview'))->downloadAction ? Yii::$app->controller->module->getModule('gridview') : Yii::$app->getModule('gridview')->downloadAction;
+        $action = $this->_module->downloadAction;
         if (!is_array($action)) {
             $action = [$action];
         }

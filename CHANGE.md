@@ -25,6 +25,7 @@ Version 3.0.0
 21. (bug #214): Fix EditableColumn Closure use bug.
 22. (bug #215): Add Simplified Chinese message translations. 
 23. (bug #216): Fix resizable columns container identifier.
+24. (enh #218): Allow gridview to be used as a sub-module.
 
 Version 2.9.0
 =============
