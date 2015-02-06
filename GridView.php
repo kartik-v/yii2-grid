@@ -654,7 +654,7 @@ HTML;
      */
     public function init()
     {
-        $this->_module = Yii::$app->getModule('gridview');
+        $this->_module = (Yii::$app->controller->module && Yii::$app->controller->module->getModule('gridview')) ? Yii::$app->controller->module->getModule('gridview') : Yii::$app->getModule('gridview');
         if ($this->_module == null || !$this->_module instanceof \kartik\grid\Module) {
             throw new InvalidConfigException(
                 'The "gridview" module MUST be setup in your Yii configuration file and assigned to "\kartik\grid\Module" class.'
@@ -777,7 +777,7 @@ HTML;
         $options = $this->export['options'];
         $menuOptions = $this->export['menuOptions'];
         $title = ($icon == '') ? $title : "<i class='glyphicon glyphicon-{$icon}'></i> {$title}";
-        $action = Yii::$app->getModule('gridview')->downloadAction;
+        $action = (Yii::$app->controller->module && Yii::$app->controller->module->getModule('gridview'))->downloadAction ? Yii::$app->controller->module->getModule('gridview') : Yii::$app->getModule('gridview')->downloadAction;
         if (!is_array($action)) {
             $action = [$action];
         }
