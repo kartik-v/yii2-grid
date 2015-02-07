@@ -19,7 +19,7 @@ use Yii;
  */
 class Module extends \kartik\base\Module
 {
-    const MODULE = 'gridview';
+    const MODULE = "gridview";
 
     /**
      * @var mixed the action (url) used for downloading exported file

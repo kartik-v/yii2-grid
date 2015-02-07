@@ -32,8 +32,6 @@ use kartik\base\Config;
  */
 class GridView extends \yii\grid\GridView
 {
-    use ModuleTrait;
-
     /**
      * Bootstrap Contextual Color Types
      */
@@ -657,7 +655,7 @@ HTML;
      */
     public function init()
     {
-        $this->initModule();
+        $this->_module = Config::initModule(Module::classname());
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
         }
