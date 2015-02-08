@@ -1,6 +1,6 @@
 Version 3.0.0
 =============
-**Date:** 24-Jan-2015
+**Date:** 09-Feb-2015
 
 1. (bug #178): Enhance CheckboxColumn to allow contentOptions to be set as Closure.
 2. (enh #178): New validation of contentOptions for all the extended grid Columns.
@@ -26,6 +26,7 @@ Version 3.0.0
 22. (bug #215): Add Simplified Chinese message translations. 
 23. (bug #216): Fix resizable columns container identifier.
 24. (enh #218): Allow gridview to be used as a sub-module.
+25. (enh #221): Trim json exported fields by default.
 
 Version 2.9.0
 =============

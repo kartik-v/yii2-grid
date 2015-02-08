@@ -1088,7 +1088,7 @@ HTML;
                 'config' => [
                     'colHeads' => [],
                     'slugColHeads' => false,
-                    'jsonReplacer' => null,
+                    'jsonReplacer' => new JsExpression("function(k,v){return typeof(v)==='string'?$.trim(v):v}"),
                     'indentSpace' => 4
                 ]
             ],
