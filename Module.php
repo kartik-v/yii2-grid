@@ -41,7 +41,7 @@ class Module extends \kartik\base\Module
                 Yii::t('kvgrid', 'Reset Grid') .
                 Yii::t('kvgrid', 'The page summary displays SUM for first 3 amount columns and AVG for the last.') .
                 Yii::t('kvgrid', 'The table header sticks to the top in this demo as you scroll') .
-               Yii::t('kvgrid', 'Resize table columns just like a spreadsheet by dragging the column edges.');
+                Yii::t('kvgrid', 'Resize table columns just like a spreadsheet by dragging the column edges.');
         }
     }
 }
