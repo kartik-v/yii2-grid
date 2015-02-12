@@ -29,7 +29,7 @@ kvSelectRadio = function (gridId, name, css) {
             kvClearRadioRow($grid, css);
             if ($el.is(':checked')) {
                 $row = $el.parent().closest('tr'), key = $row.data('key');
-                if (css.length > 0) {
+                if (css.length) {
                     $row.addClass(css);
                 }
                 $grid.trigger('grid.radiochecked', [key, $el.val()]);
