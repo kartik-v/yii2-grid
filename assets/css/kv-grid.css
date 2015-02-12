@@ -265,3 +265,7 @@
     border-bottom: 0;
     border-radius: 3px;
 }
+
+.kv-clear-radio {
+    float:none;
+}

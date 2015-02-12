@@ -27,6 +27,8 @@ Version 3.0.0
 23. (bug #216): Fix resizable columns container identifier.
 24. (enh #218): Allow gridview to be used as a sub-module.
 25. (enh #221): Trim json exported fields by default.
+26. (enh #226): Updated Russian Translations.
+27. (enh #227): New grid column extension RadioColumn.
 
 Version 2.9.0
 =============

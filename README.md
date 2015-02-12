@@ -137,6 +137,11 @@ Refer [documentation](http://demos.krajee.com/grid#boolean-column) for details. 
 
 - `BooleanColumn` icons have been setup as `ICON_ACTIVE` and `ICON_INACTIVE` constants in GridView.
 
+## Radio Column (New)
+### \kartik\grid\RadioColumn
+This is a new grid column that works similar to the `CheckboxColumn`, but allows and restricts only a single row to be selected using radio inputs. In addition, it includes a header level clear button to clear the selected rows. It automatically works with the new pageSummary and includes a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#radio-column) for details.
+
+
 ## Action Column (Enhanced)
 ### \kartik\grid\ActionColumn
 Enhancements of `\yii\grid\ActionColumn` to include optional dropdown Action menu and work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#action-column) for details.
