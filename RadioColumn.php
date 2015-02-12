@@ -192,7 +192,7 @@ class RadioColumn extends \yii\grid\Column
                 $this->clearOptions['title'] = Yii::t('kvgrid', 'Clear selection');
             }
             $this->_view->registerJs("kvClearRadio({$this->_clientVars});");
-            return Html::tag('span', $label, $this->clearOptions);
+            return Html::button($label, $this->clearOptions);
         }
     }
 
