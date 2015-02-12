@@ -18,6 +18,7 @@
  */
 return [
     'All' => '',
+    'Clear selection' => '',
     'Collapse' => '',
     'Collapse All' => '',
     'Comma Separated Values' => '',
@@ -37,7 +38,6 @@ return [
     'Page' => '',
     'Portable Document Format' => '',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '',
-    'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Resize tabelkolonner ligesom et regneark ved at trække kolonnen kanter.',
     'Show all data' => '',
     'Show first page data' => '',
     'Tab Delimited Text' => '',
@@ -64,6 +64,7 @@ return [
     'Library' => 'Bibliotek',
     'No data found' => 'Ingen data fundet',
     'Reset Grid' => 'Nulstil Tabel',
+    'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Resize tabelkolonner ligesom et regneark ved at trække kolonnen kanter.',
     'Text' => 'Tekst',
     'The CSV export file will be generated for download.' => 'CSV eksportfilen vil blive genereret til download.',
     'The EXCEL export file will be generated for download.' => 'EXCEL eksportfilen vil blive genereret til download.',

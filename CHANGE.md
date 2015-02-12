@@ -29,6 +29,7 @@ Version 3.0.0
 25. (enh #221): Trim json exported fields by default.
 26. (enh #226): Updated Russian Translations.
 27. (enh #227): New grid column extension RadioColumn.
+28. Update copyright year.
 
 Version 2.9.0
 =============

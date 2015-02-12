@@ -19,6 +19,7 @@
 return [
     'All' => '',
     'CSV' => '',
+    'Clear selection' => '',
     'Collapse' => '',
     'Collapse All' => '',
     'Comma Separated Values' => '',
