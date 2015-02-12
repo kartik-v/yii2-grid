@@ -51,7 +51,7 @@ class RadioColumn extends \yii\grid\Column
      * attributes or an anonymous function ([[Closure]]) that returns such an array.
      * The signature of the function should be the following: `function ($model, $key, $index, $column)`.
      * Where `$model`, `$key`, and `$index` refer to the model, key and index of the row currently being rendered
-     * and `$column` is a reference to the [[CheckboxColumn]] object.
+     * and `$column` is a reference to the [[RadioColumn]] object.
      * A function may be used to assign different attributes to different rows based on the data in that row.
      * Specifically if you want to set a different value for the radio, you can use this option in the 
      * following way (in this example using the `name` attribute of the model):
