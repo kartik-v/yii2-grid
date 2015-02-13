@@ -1,6 +1,6 @@
 Version 3.0.0
 =============
-**Date:** 09-Feb-2015
+**Date:** 13-Feb-2015
 
 1. (bug #178): Enhance CheckboxColumn to allow contentOptions to be set as Closure.
 2. (enh #178): New validation of contentOptions for all the extended grid Columns.
@@ -29,7 +29,7 @@ Version 3.0.0
 25. (enh #221): Trim json exported fields by default.
 26. (enh #226): Updated Russian Translations.
 27. (enh #227): New grid column extension RadioColumn.
-28. Update copyright year.
+28. Set copyright year to current.
 
 Version 2.9.0
 =============
