@@ -1233,7 +1233,7 @@ HTML;
             $js .= ".on('pjax:timeout', function(e){e.preventDefault()})";
         }
         $loadingCss = ArrayHelper::getvalue($this->pjaxSettings, 'loadingCssClass', 'kv-grid-loading');
-        $postPjaxJs = "{$this->_gridClientFunc}();";
+        $postPjaxJs = "setTimeout({$this->_gridClientFunc}(), 2500);";
         if ($loadingCss !== false) {
             $grid = 'jQuery("#' . $this->containerOptions['id'] . '")';
             if ($loadingCss === true) {

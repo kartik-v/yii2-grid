@@ -1,3 +1,9 @@
+Version 3.0.1
+=============
+**Date:** 18-Feb-2015
+
+1. (enh kartik-v/yii2-dynagrid#47): Set a timeout for plugin reinitialization on pjax complete.
+
 Version 3.0.0
 =============
 **Date:** 13-Feb-2015
