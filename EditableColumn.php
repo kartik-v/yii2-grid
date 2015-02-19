@@ -33,6 +33,7 @@ class EditableColumn extends DataColumn
      * - $key mixed is the key associated with the data model
      * - $index integer is the zero-based index of the data model among the models array returned by
      *     [[GridView::dataProvider]].
+     * - $widget EditableColumn is the editable column widget instance
      */
     public $editableOptions = [];
 
@@ -41,6 +42,19 @@ class EditableColumn extends DataColumn
      */
     public $refreshGrid = false;
 
+    /**
+     * @var boolean|Closure whether to prevent rendering the editable behavior
+     * and display a readonly data. You can also set this up as an anonymous function
+     * of the form `function($model, $key, $index, $widget)` that will return a boolean
+     * value, where:
+     * - $model mixed is the data model
+     * - $key mixed is the key associated with the data model
+     * - $index integer is the zero-based index of the data model among the models array
+     *   returned by [[GridView::dataProvider]].
+     * - $widget EditableColumn is the editable column widget instance
+     */
+    public $readonly = false;
+    
     /**
      * @var array the computed editable options
      */
@@ -69,9 +83,16 @@ class EditableColumn extends DataColumn
      */
     public function renderDataCellContent($model, $key, $index)
     {
+        $readonly = $this->readonly;
+        if ($readonly instanceof Closure) {
+            $readonly = call_user_func($readonly, $model, $key, $index, $this);
+        }
+        if ($readonly === true) {
+            return parent::renderDataCellContent($model, $key, $index);
+        }
         $this->_editableOptions = $this->editableOptions;
         if (!empty($this->editableOptions) && $this->editableOptions instanceof Closure) {
-            $this->_editableOptions = call_user_func($this->editableOptions, $model, $key, $index);
+            $this->_editableOptions = call_user_func($this->editableOptions, $model, $key, $index, $this);
         }
         if (!is_array($this->_editableOptions)) {
             $this->_editableOptions = [];

@@ -122,7 +122,7 @@ An enhanced data column that allows one to expand a grid row and display additio
 
 ## Editable Column (New)
 ### \kartik\grid\EditableColumn
-An enhanced data column that allows you to edit the cell content using [kartik\editable\Editable](http://demos.krajee.com/editable) widget. Refer [documentation](http://demos.krajee.com/grid#editable-column) for details.
+An enhanced data column that allows you to edit the cell content using [kartik\editable\Editable](http://demos.krajee.com/editable) widget. You can selectively choose to disable editable for certain rows or all rows. Refer [documentation](http://demos.krajee.com/grid#editable-column) for details.
 
 ## Formula Column (New)
 ### \kartik\grid\FormulaColumn
