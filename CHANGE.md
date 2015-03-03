@@ -5,6 +5,7 @@ Version 3.0.1
 1. (enh #176): Allow displayValue to be overridden for editable column.
 2. (enh kartik-v/yii2-dynagrid#47): Set a timeout for plugin reinitialization on pjax complete.
 3. (enh #229): Ability to set readonly rows in EditableColumn.
+4. (enh #237): Parse valueIfNull correctly within EditableColumn editableOptions.
 
 Version 3.0.0
 =============
