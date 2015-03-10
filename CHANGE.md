@@ -6,6 +6,8 @@ Version 3.0.1
 2. (enh kartik-v/yii2-dynagrid#47): Set a timeout for plugin reinitialization on pjax complete.
 3. (enh #229): Ability to set readonly rows in EditableColumn.
 4. (enh #237): Parse valueIfNull correctly within EditableColumn editableOptions.
+5. (enh #239): Updated Russian translations.
+6. (enh #245): Various enhancements to grid pagination toggle.
 
 Version 3.0.0
 =============

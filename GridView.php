@@ -607,11 +607,6 @@ HTML;
     protected $_gridClientFunc = '';
 
     /**
-     * @var string the generated javascript for toggling grid data
-     */
-    protected $_jsToggleScript = '';
-
-    /**
      * @var Module the grid module.
      */
     protected $_module;
@@ -644,9 +639,6 @@ HTML;
         } else {
             $config = $defaultExportConfig;
         }
-        foreach ($config as $format => $setting) {
-            $config[$format]['options']['data-pjax'] = false;
-        }
         return $config;
     }
     
@@ -663,16 +655,11 @@ HTML;
             parent::init();
             return;
         }
-        $this->_toggleDataKey = $this->options['id'] . '-toggle-data';
-        if (isset($_POST[$this->_toggleDataKey])) {
-            $this->_isShowAll = $_POST[$this->_toggleDataKey];
-        } else {
-            $this->_isShowAll = false;
-        }
-        if ($this->_isShowAll == true) {
+        $this->_toggleDataKey = '_tog' . hash('crc32', $this->options['id']);
+        $this->_isShowAll = ArrayHelper::getValue($_GET, $this->_toggleDataKey, 'page') === 'all';
+        if ($this->_isShowAll) {
             $this->dataProvider->pagination = false;
         }
-        $this->_jsToggleScript = "kvToggleGridData('{$this->_toggleDataKey}');";
         parent::init();
     }
 
@@ -734,7 +721,7 @@ HTML;
         }
         return $content;
     }
-
+    
     /**
      * Renders the toggle data button
      *
@@ -745,15 +732,12 @@ HTML;
         if (!$this->toggleData) {
             return '';
         }
+        
         $tag = $this->_isShowAll ? 'page' : 'all';
-        $id = $this->_toggleDataKey;
         $label = ArrayHelper::remove($this->toggleDataOptions[$tag], 'label', '');
-        $input = Html::checkbox($id, $this->_isShowAll, ['id' => $id, 'style' => 'display:none']);
-        return '<div class="btn-group">' . Html::beginForm('', 'post', []) . Html::label(
-            $label,
-            $id,
-            $this->toggleDataOptions[$tag]
-        ) . $input . '</form></div>';
+        $url = Url::current([$this->_toggleDataKey => $tag]);
+        
+        return '<div class="btn-group">' . Html::a($label, $url, $this->toggleDataOptions[$tag]) . '</div>';
     }
 
     /**
@@ -785,8 +769,7 @@ HTML;
                 [
                     'class' => 'kv-export-form',
                     'style' => 'display:none',
-                    'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
-                    'data-pjax' => false
+                    'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target
                 ]
             ) . "\n" .
             Html::hiddenInput('export_filetype') . "\n" .
@@ -1132,9 +1115,10 @@ HTML;
             $label = "<i class='glyphicon glyphicon-{$icon}'></i> " . $label;
         }
         $this->toggleDataOptions[$tag]['label'] = $label;
-        if (!isset($this->toggleDataOptions['title'])) {
-            $this->toggleDataOptions['title'] = $defaultOptions[$tag]['title'];
+        if (!isset($this->toggleDataOptions[$tag]['title'])) {
+            $this->toggleDataOptions[$tag]['title'] = $defaultOptions[$tag]['title'];
         }
+        $this->toggleDataOptions[$tag]['data-pjax'] = 0;
     }
 
     /**
@@ -1392,10 +1376,6 @@ HTML;
             GridViewAsset::register($view);
         }
         $gridId = $this->options['id'];
-        if ($this->toggleData) {
-            GridToggleDataAsset::register($view);
-            $script .= $this->_jsToggleScript;
-        }
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
             $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
