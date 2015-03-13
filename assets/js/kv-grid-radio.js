@@ -1,8 +1,8 @@
 /*!
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015
- * @version   3.0.0
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
+ * @version   3.0.1
  *
  * Client actions for yii2-grid RadioColumn
  * 
