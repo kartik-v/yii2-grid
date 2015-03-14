@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.0
+ * @version   3.0.1
  */
 
 namespace kartik\grid;
@@ -291,39 +291,6 @@ HTML;
     ];
 
     /**
-     * @var boolean whether to enable toggling of grid data. Defaults to `true`.
-     */
-    public $toggleData = true;
-
-    /**
-     * @var array the settings for the toggle data button for the toggle data type. This will be setup as
-     * an associative array of $type => $options, where $type can be:
-     * - 'all': for showing all grid data
-     * - 'page': for showing first page data
-     * and $options is the HTML attributes for the button. The following special options are recognized:
-     * - icon: string the glyphicon suffix name. If not set or empty will not be displayed.
-     * - label: string the label for the button.
-     *
-     * This defaults to the following setting:
-     *      [
-     *          'all' => [
-     *              'icon' => 'resize-full',
-     *              'label' => 'All',
-     *              'class' => 'btn btn-default',
-     *              'title' => 'Show all data'
-     *          ],
-     *          'page' => [
-     *              'icon' => 'resize-small',
-     *              'label' => 'Page',
-     *              'class' => 'btn btn-default',
-     *              'title' => 'Show first page data'
-     *          ],
-     *      ]
-     */
-
-    public $toggleDataOptions = [];
-
-    /**
      * Tags to replace in the rendered layout. Enter this as `$key => $value` pairs, where:
      * - $key: string, defines the flag.
      * - $value: string|Closure, the value that will be replaced. You can set it as a callback
@@ -483,6 +450,50 @@ HTML;
      * @array the HTML attributes for the summary row
      */
     public $pageSummaryRowOptions = ['class' => 'kv-page-summary warning'];
+
+    /**
+     * @var boolean whether to enable toggling of grid data. Defaults to `true`.
+     */
+    public $toggleData = true;
+
+    /**
+     * @var array the settings for the toggle data button for the toggle data type. This will be setup as
+     * an associative array of $type => $options, where $type can be:
+     * - 'all': for showing all grid data
+     * - 'page': for showing first page data
+     * and $options is the HTML attributes for the button. The following special options are recognized:
+     * - icon: string the glyphicon suffix name. If not set or empty will not be displayed.
+     * - label: string the label for the button.
+     *
+     * This defaults to the following setting:
+     *      [
+     *          'all' => [
+     *              'icon' => 'resize-full',
+     *              'label' => 'All',
+     *              'class' => 'btn btn-default',
+     *              'title' => 'Show all data'
+     *          ],
+     *          'page' => [
+     *              'icon' => 'resize-small',
+     *              'label' => 'Page',
+     *              'class' => 'btn btn-default',
+     *              'title' => 'Show first page data'
+     *          ],
+     *      ]
+     */
+    public $toggleDataOptions = [];
+
+    /**
+     * @var array the HTML attributes for the toggle data button group container. By default 
+     * this will always have the `class = btn-group` automatically added.
+     */
+    public $toggleDataContainer = [];
+    
+    /**
+     * @var array the HTML attributes for the export button group container. By default 
+     * this will always have the `class = btn-group` automatically added.
+     */
+    public $exportContainer = [];
 
     /**
      * @array|boolean the grid export menu settings. Displays a Bootstrap dropdown menu that allows you to export the
@@ -736,8 +747,8 @@ HTML;
         $tag = $this->_isShowAll ? 'page' : 'all';
         $label = ArrayHelper::remove($this->toggleDataOptions[$tag], 'label', '');
         $url = Url::current([$this->_toggleDataKey => $tag]);
-        
-        return '<div class="btn-group">' . Html::a($label, $url, $this->toggleDataOptions[$tag]) . '</div>';
+        Html::addCssClass($this->toggleDataContainer, 'btn-group');
+        return Html::tag('div', Html::a($label, $url, $this->toggleDataOptions[$tag]), $this->toggleDataContainer);
     }
 
     /**
@@ -806,6 +817,7 @@ HTML;
                 'label' => $title,
                 'dropdown' => ['items' => $items, 'encodeLabels' => false, 'options' => $menuOptions],
                 'options' => $options,
+                'containerOptions' => $this->exportContainer,
                 'encodeLabel' => false
             ]
         ) . $form;

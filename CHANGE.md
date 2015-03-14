@@ -1,6 +1,6 @@
 Version 3.0.1
 =============
-**Date:** 13-Mar-2015
+**Date:** 14-Mar-2015
 
 1. (enh #176): Allow displayValue to be overridden for editable column.
 2. (enh kartik-v/yii2-dynagrid#47): Set a timeout for plugin reinitialization on pjax complete.
@@ -9,6 +9,7 @@ Version 3.0.1
 5. (enh #239): Updated Russian translations.
 6. (enh #245): Various enhancements to grid pagination toggle.
 7. (enh #247): Add ability to set `dropdownOptions` for `ActionColumn` dropdown.
+8. (enh #249): Add new properties `toggleDataContainer` and `exportDataContainer` for controlling button group options.
 
 Version 3.0.0
 =============
