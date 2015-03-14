@@ -1130,7 +1130,7 @@ HTML;
         if (!isset($this->toggleDataOptions[$tag]['title'])) {
             $this->toggleDataOptions[$tag]['title'] = $defaultOptions[$tag]['title'];
         }
-        $this->toggleDataOptions[$tag]['data-pjax'] = 0;
+        $this->toggleDataOptions[$tag]['data-pjax'] = $this->pjax ? "true" : false;
     }
 
     /**
