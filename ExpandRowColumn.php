@@ -352,10 +352,8 @@ HTML;
         if ($this->value === GridView::ROW_EXPANDED) {
             $options['title'] = $this->collapseTitle;
         }
-        if ($this->disabled) {
+        if (static::parseData($this->disabled, $model, $key, $index, $this)) {
             $css .= ' kv-state-disabled';
-        } elseif (!isset($options['title'])) {
-            $options['title'] = $title;
         }
         Html::addCssClass($options, $css);
         $this->initPjax("kvExpandRow({$this->_hashVar});");
