@@ -136,7 +136,7 @@ class DataColumn extends \yii\grid\DataColumn
             $this->vAlign = GridView::ALIGN_MIDDLE;
         }
         if ($this->grid->bootstrap === false) {
-            Html::removeCssClass($filterInputOptions, 'form-control');
+            Html::removeCssClass($this->filterInputOptions, 'form-control');
         }
         $this->parseFormat();
         $this->parseVisibility();
