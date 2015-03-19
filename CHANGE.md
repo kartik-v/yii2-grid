@@ -11,6 +11,9 @@ Version 3.0.1
 7. (enh #247): Add ability to set `dropdownOptions` for `ActionColumn` dropdown.
 8. (enh #249): Add new properties `toggleDataContainer` and `exportDataContainer` for controlling button group options.
 9. (enh #250): Parse pjax setting in `toggleData` button to enable toggling pagination via pjax.
+10. (bug #251): Fix ExpandRowColumn bug with disabled closure and unnecessary check for title.
+11. (bug #252): Fix undefined `$filterInputOptions` in DataColumn.
+12. (enh #253): Enhance EditableColumn `refreshGrid` behavior for multiple editable columns on the grid.
 
 Version 3.0.0
 =============

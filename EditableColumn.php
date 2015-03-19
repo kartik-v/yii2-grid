@@ -61,6 +61,11 @@ class EditableColumn extends DataColumn
     protected $_editableOptions = [];
 
     /**
+     * @var string the css class to be appended for the editable inputs in this column
+     */
+    protected $_css;
+    
+    /**
      * @inheritdoc
      * @throws InvalidConfigException
      */
@@ -68,6 +73,7 @@ class EditableColumn extends DataColumn
     {
         parent::init();
         \kartik\base\Config::checkDependency('editable\Editable', 'yii2-editable', 'for GridView EditableColumn');
+        $this->_css = 'kv-edcol-' . hash('crc32', uniqid(rand(1,100), true)); 
     }
 
     /**
@@ -97,6 +103,9 @@ class EditableColumn extends DataColumn
         if (!is_array($this->_editableOptions)) {
             $this->_editableOptions = [];
         }
+        $options = ArrayHelper::getValue($this->_editableOptions, 'containerOptions', []);
+        Html::addCssClass($options, $this->_css);
+        $this->_editableOptions['containerOptions'] = $options;
         if ($this->grid->pjax && empty($this->_editableOptions['pjaxContainerId'])) {
             $this->_editableOptions['pjaxContainerId'] = $this->grid->pjaxSettings['options']['id'];
         }
@@ -138,9 +147,9 @@ class EditableColumn extends DataColumn
             $view = $this->grid->getView();
             $grid = 'jQuery("#' . $this->grid->options['id'] . '")';
             $script = <<< JS
-{$grid}.find('.kv-editable-input').each(function() {
-    var \$input = $(this);
-    \$input.on('editableSuccess', function(){
+{$grid}.find('.{$this->_css}').each(function() {
+    var \$el = $(this);
+    \$el.on('editableSuccess', function(){
         {$grid}.yiiGridView("applyFilter");
     });
 });
