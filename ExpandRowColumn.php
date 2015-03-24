@@ -48,6 +48,11 @@ class ExpandRowColumn extends DataColumn
      * @var boolean whether to toggle the expansion/collapse by clicking on the table row
      */
     public $enableRowClick = false;
+
+    /**
+     * @var array additional data that will be passed to the ajax load function as key value pairs
+     */
+    public $extraData = [];
     
     /**
      * @var string icon for the expand indicator. If this is not set, it will derive values automatically
@@ -63,7 +68,7 @@ class ExpandRowColumn extends DataColumn
      * using the following rules:
      * - If GridView `bootstrap` property is set to `true`, it will default to [[GridView::ICON_COLLAPSE]]
      *   or `<span class="glyphicon glyphicon-collapse-down"></span>`
-     * - If GridView `bootstrap` property is set to `false`, then it will default to `+`.
+     * - If GridView `bootstrap` property is set to `false`, then it will default to `-`.
      */
     public $collapseIcon;
 
@@ -253,6 +258,7 @@ class ExpandRowColumn extends DataColumn
                 'enableRowClick' => $this->enableRowClick,
                 'collapseAll' => false,
                 'expandAll' => false,
+                'extraData' => $this->extraData
             ]
         );
         $this->_hashVar = 'kvExpandRow_' . hash('crc32', $clientOptions);
