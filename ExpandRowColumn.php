@@ -45,6 +45,11 @@ class ExpandRowColumn extends DataColumn
     public $value = GridView::ROW_NONE;
 
     /**
+     * @var boolean whether to toggle the expansion/collapse by clicking on the table row
+     */
+    public $enableRowClick = false;
+    
+    /**
      * @var string icon for the expand indicator. If this is not set, it will derive values automatically
      * using the following rules:
      * - If GridView `bootstrap` property is set to `true`, it will default to [[GridView::ICON_EXPAND]]
@@ -245,6 +250,7 @@ class ExpandRowColumn extends DataColumn
                 'rowCssClass' => $this->detailRowCssClass,
                 'animationDuration' => $this->detailAnimationDuration,
                 'batchToggle' => $this->allowBatchToggle,
+                'enableRowClick' => $this->enableRowClick,
                 'collapseAll' => false,
                 'expandAll' => false,
             ]

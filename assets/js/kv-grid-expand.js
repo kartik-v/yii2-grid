@@ -26,6 +26,7 @@ kvExpandRow = function (options) {
             collapseTitle = options.collapseTitle,
             expandAllTitle = options.expandAllTitle,
             collapseAllTitle = options.collapseAllTitle,
+            enableRowClick = options.enableRowClick,
             rowCssClass = hiddenFromExport ? options.rowCssClass + ' skip-export' : options.rowCssClass,
             duration = options.animationDuration,
             $grid = $('#' + gridId),
@@ -137,6 +138,24 @@ kvExpandRow = function (options) {
                         setExpanded($icon);
                     });
                     endLoading($cell);
+                },
+                toggleRow = function() {
+                    if ($cell.hasClass(progress)) {
+                        return;
+                    }
+                    if (isCollapsed($icon)) {
+                        loadDetail(function () {
+                            expandRow(true);
+                        });
+                        $grid.trigger('kvexprow.toggle', [vInd, vKey, true]);
+                        $icon.focus();
+                        return;
+                    }
+                    if (isExpanded($icon)) {
+                        collapseRow();
+                        $grid.trigger('kvexprow.toggle', [vInd, vKey, false]);
+                        $icon.focus();
+                    }                    
                 };
             if (expandAll && batchToggle) {
                 if (isCollapsed($icon)) {
@@ -173,23 +192,11 @@ kvExpandRow = function (options) {
             if (isExpanded($icon)) {
                 expandRow(false);
             }
-            $cell.off().on('click', function () {
-                if ($cell.hasClass(progress)) {
-                    return;
-                }
-                if (isCollapsed($icon)) {
-                    loadDetail(function () {
-                        expandRow(true);
-                    });
-                    $grid.trigger('kvexprow.toggle', [vInd, vKey, true]);
-                    $icon.focus();
-                    return;
-                }
-                if (isExpanded($icon)) {
-                    collapseRow();
-                    $grid.trigger('kvexprow.toggle', [vInd, vKey, false]);
-                    $icon.focus();
-                }
+            $cell.off('click').on('click', function () {
+                toggleRow($cell);
+            });
+            $row.off('click').on('click', function () {
+                toggleRow($cell);
             });
         });
         if (!batchToggle) {
