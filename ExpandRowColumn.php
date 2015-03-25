@@ -219,9 +219,6 @@ class ExpandRowColumn extends DataColumn
         if (empty($this->detail) && empty($this->detailUrl)) {
             throw new InvalidConfigException("Either the 'detail' or 'detailUrl' must be entered");
         }
-        if ($this->hiddenFromExport) {
-            Html::addCssClass($this->detailOptions, 'skip-export');
-        }
         $this->format = 'raw';
         $this->expandIcon = $this->getIcon('expand');
         $this->collapseIcon = $this->getIcon('collapse');
@@ -320,6 +317,9 @@ class ExpandRowColumn extends DataColumn
         $detail = static::parseData($this->detail, $model, $key, $index, $this);
         $detailOptions = static::parseData($this->detailOptions, $model, $key, $index, $this);
         $disabled = static::parseData($this->disabled, $model, $key, $index, $this) ? ' kv-state-disabled' : '';
+        if ($this->hiddenFromExport) {
+            Html::addCssClass($detailOptions, 'skip-export');
+        }        
         $detailOptions['data-index'] = $index;
         $detailOptions['data-key'] = $key;
         Html::addCssClass($detailOptions, 'kv-expanded-row');

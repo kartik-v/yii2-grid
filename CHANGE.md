@@ -14,6 +14,9 @@ Version 3.0.1
 10. (bug #251): Fix ExpandRowColumn bug with disabled closure and unnecessary check for title.
 11. (bug #252): Fix undefined `$filterInputOptions` in DataColumn.
 12. (enh #253): Enhance EditableColumn `refreshGrid` behavior for multiple editable columns on the grid.
+13. (enh #255): Enhance ExpandRowColumn to allow expand/collapse on row click.
+14. (enh #256): New property `extraData` for sending extra data to ExpandRowColumn via ajax load call.
+15. (enh #257): Fix for `detailOptions` to be set as Closure in ExpandRowColumn.
 
 Version 3.0.0
 =============
