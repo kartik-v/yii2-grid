@@ -27,6 +27,7 @@ kvExpandRow = function (options) {
             expandAllTitle = options.expandAllTitle,
             collapseAllTitle = options.collapseAllTitle,
             enableRowClick = options.enableRowClick,
+            enableCache = options.enableCache,
             extraData = options.extraData,
             rowCssClass = hiddenFromExport ? options.rowCssClass + ' skip-export' : options.rowCssClass,
             duration = options.animationDuration,
@@ -35,7 +36,7 @@ kvExpandRow = function (options) {
             $hdrIcon = $hdrCell.find('.kv-expand-header-icon'),
             collapseAll = options.collapseAll === undefined ? false : options.collapseAll,
             expandAll = options.expandAll === undefined ? false : options.expandAll,
-            $rows = $grid.find("td:visible .kv-expand-row:not(.kv-state-disabled)"),
+            $rows = $grid.find("td .kv-expand-row:not(.kv-state-disabled)"),
             numRows = $rows.length, progress = 'kv-expand-detail-loading',
             isExpanded = function ($i) {
                 return $i.hasClass('kv-state-collapsed') && !$i.hasClass('kv-state-disabled');
@@ -91,9 +92,10 @@ kvExpandRow = function (options) {
                     var params = $.extend({
                         expandRowKey: vKey,
                         expandRowInd: vInd
-                    }, extraData);
+                    }, extraData), 
+                    reload = enableCache ? $detail.html().length === 0 : true;
                     beginLoading($cell);
-                    if (detailUrl.length > 0 && $detail.html().length === 0) {
+                    if (detailUrl.length > 0 && reload) {
                         $grid.trigger('kvexprow.beforeLoad', [vInd, vKey, extraData]);
                         $detail.load(detailUrl, params, function () {
                             endLoading($cell);

@@ -1,3 +1,9 @@
+Version 3.0.2
+=============
+**Date:** 05-Apr-2015
+
+1. (enh #261): Allow initialization of ExpandRowColumn cells even if they are hidden.
+
 Version 3.0.1
 =============
 **Date:** 14-Mar-2015
