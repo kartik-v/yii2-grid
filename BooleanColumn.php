@@ -96,7 +96,7 @@ class BooleanColumn extends DataColumn
         }
 
         if (empty($this->falseIcon)) {
-            $this->falseIcon = ($this->grid->bootstrap) ? GridView::ICON_INACTIVE : $this->falseIcon;
+            $this->falseIcon = ($this->grid->bootstrap) ? GridView::ICON_INACTIVE : $this->falseLabel;
         }
 
         parent::init();
