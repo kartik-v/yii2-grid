@@ -254,6 +254,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $options = ArrayHelper::merge(
                     [
                         'title' => $title,
+                        'data-pjax' => '0',
                     ],
                     $options
                 );
@@ -269,7 +270,6 @@ class ActionColumn extends \yii\grid\ActionColumn
                         [
                             'data-confirm' => Yii::t('kvgrid', 'Are you sure to delete this item?'),
                             'data-method' => 'post',
-                            'data-pjax' => '0'
                         ], $options
                     );
                 }
