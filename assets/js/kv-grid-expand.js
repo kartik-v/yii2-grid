@@ -78,7 +78,7 @@ kvExpandRow = function (options) {
                 $detail = $el.find('.kv-expanded-row'),
                 vKey = $detail.data('key'),
                 vInd = $detail.data('index'),
-                cols = $row.find('td:visible').length;
+                cols = $row.find('td').length;
 
             if (!isExpanded($icon) && !isCollapsed($icon)) {
                 return true;
