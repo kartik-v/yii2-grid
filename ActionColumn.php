@@ -160,11 +160,46 @@ class ActionColumn extends \yii\grid\ActionColumn
      */
     protected $_isDropdown = false;
 
+    /**
+     * @var boolean affects the Delete button only. Specifies whether the form row
+     * delete request is sent to the server for processing (false) or performed on
+     * the client (true) by removing the tabular form grid row. Client-deletion does
+     * not affect the record in the database. In this case, the deleted records need
+     * to be identified and processed on the server after form submission. Defaults
+     * to `false`.
+     */
+    public $clientDelete = false;
+
+    /**
+     * @var string an optional client-side JavaScript callback function to call after
+     * performing client-side deletion. It can be passed either as a function name
+     * or anonymous function as shown below:
+     *
+     * - Calling a function:
+     * 'clientDeleteCallback' => 'postDeleteRow'
+     * To call a function similar to:
+     * function postDeleteRow(key) {alert('Row with key '+key+' has been deleted.');}
+     *
+     * - Using an anonymous function:
+     * 'clientDeleteCallback' => new JsExpression(
+     *      "function(key) {alert('Row with key '+key+' has been deleted.');}"
+     * )
+     *
+     * Where `key` is the id of the deleted record. This parameter is effective only
+     * if `clientDelete` is true.
+     */
+    public $clientDeleteCallback;
+
     public function init()
     {
         $this->_isDropdown = ($this->grid->bootstrap && $this->dropdown);
         if (!isset($this->header)) {
             $this->header = Yii::t('kvgrid', 'Actions');
+        }
+        if($this->clientDelete) {
+            $view = $this->grid->view;
+            ActionColumnAsset::register($view);
+            $view->registerJs('kvDeleteRow("'.$this->grid->options['id'].'"'.(!empty($this->clientDeleteCallback) ? ', '.$this->clientDeleteCallback : '').')');
         }
         $this->parseFormat();
         $this->parseVisibility();
@@ -219,12 +254,25 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $options = ArrayHelper::merge(
                     [
                         'title' => $title,
-                        'data-confirm' => Yii::t('kvgrid', 'Are you sure to delete this item?'),
-                        'data-method' => 'post',
-                        'data-pjax' => '0'
+                        'data-pjax' => '0',
                     ],
                     $options
                 );
+                if ($this->clientDelete) {
+                    $url = '#';
+                    $options = ArrayHelper::merge(
+                        [
+                            'data-delete' => Yii::t('kvgrid', 'Are you sure to delete this item?'),
+                        ], $options
+                    );
+                } else {
+                    $options = ArrayHelper::merge(
+                        [
+                            'data-confirm' => Yii::t('kvgrid', 'Are you sure to delete this item?'),
+                            'data-method' => 'post',
+                        ], $options
+                    );
+                }
                 if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
                     return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
