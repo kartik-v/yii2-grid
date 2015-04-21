@@ -1,11 +1,11 @@
 yii2-grid
 =========
 
-[![Latest Stable Version](https://poser.pugx.org/kartik-v/yii2-grid/v/stable.svg)](https://packagist.org/packages/kartik-v/yii2-grid) 
-[![License](https://poser.pugx.org/kartik-v/yii2-grid/license.svg)](https://packagist.org/packages/kartik-v/yii2-grid)
-[![Total Downloads](https://poser.pugx.org/kartik-v/yii2-grid/downloads.svg)](https://packagist.org/packages/kartik-v/yii2-grid) 
-[![Monthly Downloads](https://poser.pugx.org/kartik-v/yii2-grid/d/monthly.png)](https://packagist.org/packages/kartik-v/yii2-grid)
-[![Daily Downloads](https://poser.pugx.org/kartik-v/yii2-grid/d/daily.png)](https://packagist.org/packages/kartik-v/yii2-grid)
+[![Latest Stable Version](https://poser.pugx.org/kartik-v/yii2-grid/v/stable)](https://packagist.org/packages/kartik-v/yii2-grid)
+[![License](https://poser.pugx.org/kartik-v/yii2-grid/license)](https://packagist.org/packages/kartik-v/yii2-grid)
+[![Total Downloads](https://poser.pugx.org/kartik-v/yii2-grid/downloads)](https://packagist.org/packages/kartik-v/yii2-grid)
+[![Monthly Downloads](https://poser.pugx.org/kartik-v/yii2-grid/d/monthly)](https://packagist.org/packages/kartik-v/yii2-grid)
+[![Daily Downloads](https://poser.pugx.org/kartik-v/yii2-grid/d/daily)](https://packagist.org/packages/kartik-v/yii2-grid)
 
 Yii2 GridView on steroids. A module with various modifications and enhancements to one of the most used widgets by Yii developers. The widget contains new additional Grid Columns with enhanced settings for Yii Framework 2.0. The widget also incorporates various Bootstrap 3.x styling options.
 Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo).
