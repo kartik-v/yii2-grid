@@ -27,7 +27,6 @@ kvExpandRow = function (options) {
             expandAllTitle = options.expandAllTitle,
             collapseAllTitle = options.collapseAllTitle,
             enableRowClick = options.enableRowClick,
-            rowClickExcludedTags = options.rowClickExcludedTags,
             enableCache = options.enableCache,
             extraData = options.extraData,
             rowCssClass = hiddenFromExport ? options.rowCssClass + ' skip-export' : options.rowCssClass,
@@ -91,10 +90,10 @@ kvExpandRow = function (options) {
             }
             var loadDetail = function (postProcess) {
                     var params = $.extend({
-                            expandRowKey: vKey,
-                            expandRowInd: vInd
-                        }, extraData),
-                        reload = enableCache ? $detail.html().length === 0 : true;
+                        expandRowKey: vKey,
+                        expandRowInd: vInd
+                    }, extraData), 
+                    reload = enableCache ? $detail.html().length === 0 : true;
                     beginLoading($cell);
                     if (detailUrl.length > 0 && reload) {
                         $grid.trigger('kvexprow.beforeLoad', [vInd, vKey, extraData]);
@@ -147,7 +146,7 @@ kvExpandRow = function (options) {
                     });
                     endLoading($cell);
                 },
-                toggleRow = function () {
+                toggleRow = function() {
                     if ($cell.hasClass(progress)) {
                         return;
                     }
@@ -163,7 +162,7 @@ kvExpandRow = function (options) {
                         collapseRow();
                         $grid.trigger('kvexprow.toggle', [vInd, vKey, extraData, false]);
                         $icon.focus();
-                    }
+                    }                    
                 };
             if (expandAll && batchToggle) {
                 if (isCollapsed($icon)) {
@@ -203,15 +202,11 @@ kvExpandRow = function (options) {
             $cell.off('click').on('click', function () {
                 toggleRow($cell);
             });
-
-            $row.off('click').on('click', function (event) {
-                if (enableRowClick &&
-                    $.inArray(event.target.nodeName, rowClickExcludedTags) === -1
-                ) {
+            $row.off('click').on('click', function () {
+                if (enableRowClick) {
                     toggleRow($cell);
                 }
             });
-
         });
         if (!batchToggle) {
             return;
