@@ -14,22 +14,24 @@
 var kvSelectRow = function (gridId, css) {
     "use strict";
     (function ($) {
-        var $grid = $('#' + gridId), $el;
+        var $grid = $('#' + gridId), $el,
+            toggle = function($el, all) {
+                var $row = (all === true) ? 
+                    $grid.find(".kv-row-select").parents("tr") : 
+                    $el.parents("tr:first");
+                if ($el.is(':checked')) {
+                    $row.removeClass(css).addClass(css);
+                } else {
+                    $row.removeClass(css);
+                }
+            };
         $grid.find(".kv-row-select input").on('change', function () {
-            $el = $(this);
-            if ($el.is(':checked')) {
-                $el.parents("tr:first").removeClass(css).addClass(css);
-            } else {
-                $el.parents("tr:first").removeClass(css);
-            }
+            toggle($(this));
+        }).each(function() {
+            toggle($(this));            
         });
         $grid.find(".kv-all-select input").on('change', function () {
-            if ($(this).is(':checked')) {
-                $grid.find(".kv-row-select").parents("tr").removeClass(css).addClass(css);
-            }
-            else {
-                $grid.find(".kv-row-select").parents("tr").removeClass(css);
-            }
+            toggle($(this), true);
         });
     })(window.jQuery);
 };
