@@ -45,9 +45,16 @@ class ExpandRowColumn extends DataColumn
     public $value = GridView::ROW_NONE;
 
     /**
-     * @var boolean whether to toggle the expansion/collapse by clicking on the table row
+     * @var boolean whether to toggle the expansion/collapse by clicking on the table row. To disable row 
+     * click for specific elements within the row you can add the CSS class `kv-disable-click` to tags/elements  
+     * to disable the toggle functionality.
      */
     public $enableRowClick = false;
+
+    /**
+     * @var array list of tags in the row on which row click will be disabled.
+     */
+    public $rowClickExcludedTags = ['a', 'button', 'input'];    
 
     /**
      * @var array additional data that will be passed to the ajax load function as key value pairs
@@ -253,6 +260,7 @@ class ExpandRowColumn extends DataColumn
                 'animationDuration' => $this->detailAnimationDuration,
                 'batchToggle' => $this->allowBatchToggle,
                 'enableRowClick' => $this->enableRowClick,
+                'rowClickExcludedTags' => array_map('strtoupper',$this->rowClickExcludedTags),
                 'collapseAll' => false,
                 'expandAll' => false,
                 'extraData' => $this->extraData

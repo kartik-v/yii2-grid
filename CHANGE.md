@@ -4,6 +4,8 @@ Version 3.0.2
 
 1. (enh #261): Allow initialization of ExpandRowColumn cells even if they are hidden.
 2. (enh #263): Added fa-IR (Farsi) translations.
+3. (enh #268): Fix `BooleanColumn::falseIcon` default.
+4. (enh #282, #284): Allow disabling click behavior for specific elements when ExpandRowColumn::enableRowClick is `true`.
 
 Version 3.0.1
 =============

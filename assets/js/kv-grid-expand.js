@@ -27,6 +27,7 @@ kvExpandRow = function (options) {
             expandAllTitle = options.expandAllTitle,
             collapseAllTitle = options.collapseAllTitle,
             enableRowClick = options.enableRowClick,
+            rowClickExcludedTags = options.rowClickExcludedTags,
             enableCache = options.enableCache,
             extraData = options.extraData,
             rowCssClass = hiddenFromExport ? options.rowCssClass + ' skip-export' : options.rowCssClass,
@@ -202,8 +203,11 @@ kvExpandRow = function (options) {
             $cell.off('click').on('click', function () {
                 toggleRow($cell);
             });
-            $row.off('click').on('click', function () {
-                if (enableRowClick) {
+            $row.off('click').on('click', function (event) {
+                var target = event.target, clickDisabled = $(target).length && 
+                    $(target).hasClass('kv-disable-click') ||
+                    $.inArray(target.nodeName, rowClickExcludedTags) !== -1;
+                if (enableRowClick && !clickDisabled) {
                     toggleRow($cell);
                 }
             });
