@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.1
+ * @version   3.0.2
  */
 
 namespace kartik\grid;
@@ -18,7 +18,7 @@ use yii\web\JsExpression;
 use yii\web\View;
 
 /**
- * A ExpandRowColumn can be used to expand a row and add content in a new
+ * An ExpandRowColumn can be used to expand a row and add content in a new
  * row below it either directly or via ajax.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
@@ -98,12 +98,6 @@ class ExpandRowColumn extends DataColumn
      * @var string title to display on hover of collapse indicator at header
      */
     public $collapseAllTitle;
-    
-    /**
-     * @var boolean whether to allow only one row to be expanded at a time and auto collapse other 
-     * expanded rows whenever a row is expanded. Defaults to `false`.
-     */
-    public $expandOneOnly = false;
 
     /**
      * @var int default state of the header.
@@ -111,6 +105,12 @@ class ExpandRowColumn extends DataColumn
      * - GridView::ROW_EXPANDED : Will set all rows to expanded and display the `collapseIcon`
      */
     public $defaultHeaderState = GridView::ROW_COLLAPSED;
+    
+    /**
+     * @var boolean whether to allow only one row to be expanded at a time and auto collapse other 
+     * expanded rows whenever a row is expanded. Defaults to `false`.
+     */
+    public $expandOneOnly = false;
 
     /**
      * @var boolean allow batch expansion or batch collapse of all rows by clicking
