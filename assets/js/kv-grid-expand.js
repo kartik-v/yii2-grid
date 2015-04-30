@@ -40,6 +40,21 @@ kvExpandRow = function (options) {
             expandAll = options.expandAll === undefined ? false : options.expandAll,
             $rows = $grid.find("td .kv-expand-row:not(.kv-state-disabled)"),
             numRows = $rows.length, progress = 'kv-expand-detail-loading',
+            getCols = function () {
+                var $row = $grid.find('.kv-expand-icon:first').closest('tr'), cols = 0;
+                if (!$row.length) {
+                    return 0;
+                }
+                $row = $row.clone();
+                $row.find('.kv-expand-row').remove();
+                $row.find('td').each(function() {
+                    if ($(this).css("display") !== "none") {
+                        cols++;
+                    }
+                });
+                return cols;
+            },
+            cols = getCols(),
             isExpanded = function ($i) {
                 return $i.hasClass('kv-state-collapsed') && !$i.hasClass('kv-state-disabled');
             },
@@ -79,9 +94,7 @@ kvExpandRow = function (options) {
                 $container = $el.find('.kv-expand-detail'),
                 $detail = $el.find('.kv-expanded-row'),
                 vKey = $detail.data('key'),
-                vInd = $detail.data('index'),
-                cols = $row.find('td:visible').length;
-
+                vInd = $detail.data('index');
             if (!isExpanded($icon) && !isCollapsed($icon)) {
                 return true;
             }

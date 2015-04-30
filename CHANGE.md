@@ -5,10 +5,11 @@ Version 3.0.2
 1. (enh #261): Allow initialization of ExpandRowColumn cells even if they are hidden.
 2. (enh #263): Added fa-IR (Farsi) translations.
 3. (enh #268): Fix `BooleanColumn::falseIcon` default.
-4. (enh #272): New property `ExpandRowColumn::expandOneOnly` to allow only one row to expand at a time.
-5. (enh #282, #284): Allow disabling click behavior for specific elements when ExpandRowColumn::enableRowClick is `true`.
-6. (enh #287): Allow columns to be highlighted on initialization of `CheckboxColumn`.
-7. (enh #288): Enhance grid export plugin to clean up hyperlink tags within table header.
+4. (enh #271): Better parsing of hidden columns to calculate ExpandRowColumn rowspan.
+5. (enh #272): New property `ExpandRowColumn::expandOneOnly` to allow only one row to expand at a time.
+6. (enh #282, #284): Allow disabling click behavior for specific elements when ExpandRowColumn::enableRowClick is `true`.
+7. (enh #287): Allow columns to be highlighted on initialization of `CheckboxColumn`.
+8. (enh #288): Enhance grid export plugin to clean up hyperlink tags within table header.
 
 Version 3.0.1
 =============
