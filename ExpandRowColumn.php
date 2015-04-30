@@ -50,6 +50,11 @@ class ExpandRowColumn extends DataColumn
     public $enableRowClick = false;
 
     /**
+     *  @var array when enableRowClick==true, clicks on this tags in the row will be ignored
+     */
+    public $rowClickExcludedTags = [];
+
+    /**
      * @var array additional data that will be passed to the ajax load function as key value pairs
      */
     public $extraData = [];
@@ -253,11 +258,13 @@ class ExpandRowColumn extends DataColumn
                 'animationDuration' => $this->detailAnimationDuration,
                 'batchToggle' => $this->allowBatchToggle,
                 'enableRowClick' => $this->enableRowClick,
+                'rowClickExcludedTags' => array_map('strtoupper',$this->rowClickExcludedTags),
                 'collapseAll' => false,
                 'expandAll' => false,
                 'extraData' => $this->extraData
             ]
         );
+
         $this->_hashVar = 'kvExpandRow_' . hash('crc32', $clientOptions);
         $view->registerJs("var {$this->_hashVar} = {$clientOptions};\n", View::POS_HEAD);
         $view->registerJs("kvExpandRow({$this->_hashVar});");
