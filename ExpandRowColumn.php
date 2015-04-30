@@ -98,6 +98,12 @@ class ExpandRowColumn extends DataColumn
      * @var string title to display on hover of collapse indicator at header
      */
     public $collapseAllTitle;
+    
+    /**
+     * @var boolean whether to allow only one row to be expanded at a time and auto collapse other 
+     * expanded rows whenever a row is expanded. Defaults to `false`.
+     */
+    public $expandOneOnly = false;
 
     /**
      * @var int default state of the header.
@@ -259,6 +265,7 @@ class ExpandRowColumn extends DataColumn
                 'rowCssClass' => $this->detailRowCssClass,
                 'animationDuration' => $this->detailAnimationDuration,
                 'batchToggle' => $this->allowBatchToggle,
+                'expandOneOnly' => $this->expandOneOnly,
                 'enableRowClick' => $this->enableRowClick,
                 'rowClickExcludedTags' => array_map('strtoupper',$this->rowClickExcludedTags),
                 'collapseAll' => false,

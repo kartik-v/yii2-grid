@@ -26,6 +26,7 @@ kvExpandRow = function (options) {
             collapseTitle = options.collapseTitle,
             expandAllTitle = options.expandAllTitle,
             collapseAllTitle = options.collapseAllTitle,
+            expandOneOnly = options.expandOneOnly,
             enableRowClick = options.enableRowClick,
             rowClickExcludedTags = options.rowClickExcludedTags,
             enableCache = options.enableCache,
@@ -148,15 +149,33 @@ kvExpandRow = function (options) {
                     endLoading($cell);
                 },
                 toggleRow = function() {
+                    var opt, chk, collapsed = false, loading = false;
                     if ($cell.hasClass(progress)) {
                         return;
                     }
                     if (isCollapsed($icon)) {
+                        chk = expandOneOnly && !collapseAll;
+                        if (chk) {
+                            opt = $.extend({}, options, {collapseAll: true});
+                            $rows.each(function() {
+                                if ($(this).closest('.kv-expand-icon-cell').hasClass(progress)) {
+                                    loading = true;
+                                    return;
+                                }
+                            });
+                            if (loading) {
+                                return;
+                            }
+                            kvExpandRow(opt);
+                            collapsed = true;
+                        }
                         loadDetail(function () {
                             expandRow(true);
                         });
-                        $grid.trigger('kvexprow.toggle', [vInd, vKey, extraData, true]);
-                        $icon.focus();
+                        if (!chk || collapsed) {
+                            $grid.trigger('kvexprow.toggle', [vInd, vKey, extraData, true]);
+                            $icon.focus();
+                        }
                         return;
                     }
                     if (isExpanded($icon)) {
