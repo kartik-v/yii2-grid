@@ -8,6 +8,7 @@ Version 3.0.2
 4. (enh #272): New property `ExpandRowColumn::expandOneOnly` to allow only one row to expand at a time.
 5. (enh #282, #284): Allow disabling click behavior for specific elements when ExpandRowColumn::enableRowClick is `true`.
 6. (enh #287): Allow columns to be highlighted on initialization of `CheckboxColumn`.
+7. (enh #288): Enhance grid export plugin to clean up hyperlink tags within table header.
 
 Version 3.0.1
 =============

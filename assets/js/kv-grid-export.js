@@ -228,6 +228,10 @@
             // Skip the filter rows and header rowspans
             $table.find('tr.filters').remove();
             $table.find('th').removeAttr('rowspan');
+            // remove link tags
+            $table.find('th').find('a').each(function() {
+                $(this).contents().unwrap();
+            });
             $table.find('input').remove(); // remove any form inputs
             if (!self.showHeader) {
                 $table.find('thead').remove();
