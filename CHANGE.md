@@ -11,6 +11,7 @@ Version 3.0.2
 7. (enh #287): Allow columns to be highlighted on initialization of `CheckboxColumn`.
 8. (enh #288): Enhance grid export plugin to clean up hyperlink tags within table header.
 9. (enh #290): Allow `expandOneOnly` property behavior even if `allowBatchToggle` is set to `false`.
+10. (enh #291): ExpandRowColumn styling enhancements.
 
 Version 3.0.1
 =============

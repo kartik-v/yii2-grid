@@ -14,8 +14,11 @@
 .kv-expand-icon-cell {
     padding-top: 0;
     padding-bottom: 0;
-    cursor: pointer;
     font-size: 1.35em;
+}
+.kv-expand-header-cell.kv-batch-toggle,
+.kv-expand-icon-cell {
+    cursor: pointer;
 }
 
 .kv-expand-header-cell .kv-expand-icon {
@@ -24,8 +27,8 @@
     padding: 0;
 }
 
-.kv-expand-header-cell:hover,
-.kv-expand-header-cell:focus {
+.kv-expand-header-cell.kv-batch-toggle:hover,
+.kv-expand-header-cell.kv-batch-toggle:focus {
     color: #245269;
     background-color: #eee;
 }

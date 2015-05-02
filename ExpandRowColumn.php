@@ -243,14 +243,14 @@ class ExpandRowColumn extends DataColumn
         if (!empty($onDetailLoaded) && !$onDetailLoaded instanceof JsExpression) {
             $onDetailLoaded = new JsExpression($onDetailLoaded);
         }
-        $this->headerOptions['title'] = $this->expandAllTitle;
-        if ($this->defaultHeaderState === GridView::ROW_EXPANDED) {
+        if ($this->allowBatchToggle) {
+            $this->headerOptions['title'] = $this->expandAllTitle;
+        }
+        if ($this->allowBatchToggle && $this->defaultHeaderState === GridView::ROW_EXPANDED) {
             $this->headerOptions['title'] = $this->collapseTitle;
         }
         $class = 'kv-expand-header-cell';
-        if ($this->allowBatchToggle) {
-            $class .= ' kv-batch-toggle';
-        }
+        $class .= $this->allowBatchToggle ? ' kv-batch-toggle' : ' text-muted';
         Html::addCssClass($this->headerOptions, $class);
         $view = $this->grid->getView();
         ExpandRowColumnAsset::register($view);
@@ -344,7 +344,7 @@ class ExpandRowColumn extends DataColumn
         $content = Html::tag('div', $detail, $detailOptions);
         return <<< HTML
         <div class="kv-expand-row{$disabled}">
-            <div class="kv-expand-icon kv-state-{$type}{$disabled}" tabindex="-1">{$icon}</div>
+            <div class="kv-expand-icon kv-state-{$type}{$disabled}">{$icon}</div>
             <div class="kv-expand-detail skip-export" style='display:none;'>
                 {$content}
             </div>
@@ -409,7 +409,6 @@ HTML;
             $icon = $this->collapseIcon;
             $css = 'kv-expand-header-icon kv-state-expanded';
         }
-        return "<div class='{$css}' tabindex='-1'>{$icon}</div>";
-
+        return "<div class='{$css}'>{$icon}</div>";
     }
 }
