@@ -10,6 +10,7 @@ Version 3.0.2
 6. (enh #282, #284): Allow disabling click behavior for specific elements when ExpandRowColumn::enableRowClick is `true`.
 7. (enh #287): Allow columns to be highlighted on initialization of `CheckboxColumn`.
 8. (enh #288): Enhance grid export plugin to clean up hyperlink tags within table header.
+9. (enh #290): Allow `expandOneOnly` property behavior even if `allowBatchToggle` is set to `false`.
 
 Version 3.0.1
 =============

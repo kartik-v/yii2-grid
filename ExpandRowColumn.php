@@ -247,7 +247,11 @@ class ExpandRowColumn extends DataColumn
         if ($this->defaultHeaderState === GridView::ROW_EXPANDED) {
             $this->headerOptions['title'] = $this->collapseTitle;
         }
-        Html::addCssClass($this->headerOptions, 'kv-expand-header-cell');
+        $class = 'kv-expand-header-cell';
+        if ($this->allowBatchToggle) {
+            $class .= ' kv-batch-toggle';
+        }
+        Html::addCssClass($this->headerOptions, $class);
         $view = $this->grid->getView();
         ExpandRowColumnAsset::register($view);
         $clientOptions = Json::encode(
@@ -264,7 +268,6 @@ class ExpandRowColumn extends DataColumn
                 'collapseAllTitle' => $this->collapseAllTitle,
                 'rowCssClass' => $this->detailRowCssClass,
                 'animationDuration' => $this->detailAnimationDuration,
-                'batchToggle' => $this->allowBatchToggle,
                 'expandOneOnly' => $this->expandOneOnly,
                 'enableRowClick' => $this->enableRowClick,
                 'rowClickExcludedTags' => array_map('strtoupper',$this->rowClickExcludedTags),

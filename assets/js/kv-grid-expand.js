@@ -19,7 +19,6 @@ kvExpandRow = function (options) {
             hiddenFromExport = options.hiddenFromExport,
             detailUrl = options.detailUrl,
             onDetailLoaded = options.onDetailLoaded,
-            batchToggle = options.batchToggle,
             expandIcon = options.expandIcon,
             collapseIcon = options.collapseIcon,
             expandTitle = options.expandTitle,
@@ -34,7 +33,7 @@ kvExpandRow = function (options) {
             rowCssClass = hiddenFromExport ? options.rowCssClass + ' skip-export' : options.rowCssClass,
             duration = options.animationDuration,
             $grid = $('#' + gridId),
-            $hdrCell = $grid.find('.kv-expand-header-cell'),
+            $hdrCell = $grid.find('.kv-expand-header-cell.kv-batch-toggle'),
             $hdrIcon = $hdrCell.find('.kv-expand-header-icon'),
             collapseAll = options.collapseAll === undefined ? false : options.collapseAll,
             expandAll = options.expandAll === undefined ? false : options.expandAll,
@@ -62,7 +61,9 @@ kvExpandRow = function (options) {
                 return $i.hasClass('kv-state-expanded') && !$i.hasClass('kv-state-disabled');
             },
             setCss = function ($el, css) {
-                $el.removeClass(css).addClass(css);
+                if ($el.length) {
+                    $el.removeClass(css).addClass(css);
+                }
             },
             setExpanded = function ($i) {
                 $i.removeClass('kv-state-collapsed').addClass('kv-state-expanded');
@@ -74,6 +75,9 @@ kvExpandRow = function (options) {
                 setCss($c, progress);
             },
             endLoading = function ($c) {
+                if (!$c.length) {
+                    return;
+                }
                 var delay = isNaN(duration) ? 1000 : duration + 200;
                 setTimeout(function () {
                     $c.removeClass(progress);
@@ -197,7 +201,7 @@ kvExpandRow = function (options) {
                         $icon.focus();
                     }                    
                 };
-            if (expandAll && batchToggle) {
+            if (expandAll) {
                 if (isCollapsed($icon)) {
                     loadDetail(function () {
                         expandRow(true);
@@ -214,7 +218,7 @@ kvExpandRow = function (options) {
                 }
                 return true;
             }
-            if (collapseAll && batchToggle) {
+            if (collapseAll) {
                 if (isExpanded($icon)) {
                     collapseRow();
                     kvRowNum++;
@@ -244,7 +248,7 @@ kvExpandRow = function (options) {
                 }
             });
         });
-        if (!batchToggle) {
+        if (!$hdrCell.length) {
             return;
         }
         $hdrCell.off().on('click', function () {
