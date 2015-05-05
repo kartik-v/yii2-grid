@@ -1,6 +1,6 @@
 Version 3.0.2
 =============
-**Date:** 30-Apr-2015
+**Date:** 05-May-2015
 
 1. (enh #261): Allow initialization of ExpandRowColumn cells even if they are hidden.
 2. (enh #263): Added fa-IR (Farsi) translations.
@@ -12,6 +12,7 @@ Version 3.0.2
 8. (enh #288): Enhance grid export plugin to clean up hyperlink tags within table header.
 9. (enh #290): Allow `expandOneOnly` property behavior even if `allowBatchToggle` is set to `false`.
 10. (enh #291): ExpandRowColumn styling enhancements.
+11. (enh #296): Responsively wrap table columns for smaller screen devices.
 
 Version 3.0.1
 =============

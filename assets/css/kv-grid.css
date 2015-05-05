@@ -269,3 +269,17 @@
 .kv-clear-radio {
     float:none;
 }
+
+@media screen and (max-width: 480px) {
+    .kv-table-wrap th, .kv-table-wrap td {
+		display: block;
+        width: 100%!important;
+        text-align: center;
+        font-size: 1.2em;
+	}
+    .kv-table-wrap tr > td:first-child {
+        border-top: 3px double #ccc;
+        margin-top: 10px;
+        font-size: 2em;
+    }
+}

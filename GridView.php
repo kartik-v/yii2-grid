@@ -396,6 +396,12 @@ HTML;
     public $responsive = true;
 
     /**
+     * @var boolean whether the grid table will automatically wrap to fit
+     * columns for smaller display sizes.
+     */
+    public $responsiveWrap = true;
+
+    /**
      * @var boolean whether the grid table will highlight row on `hover`.
      * Applicable only if `bootstrap` is `true`. Defaults to `false`.
      */
@@ -1158,6 +1164,9 @@ HTML;
         if ($this->responsive) {
             Html::addCssClass($this->containerOptions, 'table-responsive');
         }
+        if ($this->responsiveWrap) {
+            Html::addCssClass($this->tableOptions, 'kv-table-wrap');
+        } 
     }
 
     /**
