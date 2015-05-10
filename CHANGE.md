@@ -1,6 +1,6 @@
 Version 3.0.2
 =============
-**Date:** 05-May-2015
+**Date:** 11-May-2015
 
 1. (enh #261): Allow initialization of ExpandRowColumn cells even if they are hidden.
 2. (enh #263): Added fa-IR (Farsi) translations.
