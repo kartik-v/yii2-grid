@@ -1,3 +1,9 @@
+Version 3.0.3
+=============
+**Date:** 15-May-2015
+
+1. (enh #301): Add Greek Translations.
+
 Version 3.0.2
 =============
 **Date:** 11-May-2015
