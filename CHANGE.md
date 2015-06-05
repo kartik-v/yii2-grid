@@ -1,9 +1,11 @@
 Version 3.0.3
 =============
-**Date:** 15-May-2015
+**Date:** 05-Jun-2015
 
 1. (enh #300): Add Lithuanian Translations.
 2. (enh #301): Add Greek Translations.
+3. (enh #310): Updated German Translations.
+4. (enh #311): Better defaulting of Select2 `pluginOptions['width']`.
 
 Version 3.0.2
 =============
