@@ -6,6 +6,7 @@ Version 3.0.3
 2. (enh #301): Add Greek Translations.
 3. (enh #310): Updated German Translations.
 4. (enh #311): Better defaulting of Select2 `pluginOptions['width']`.
+5. (enh #313): Add Czech translations.
 
 Version 3.0.2
 =============
