@@ -45,7 +45,7 @@ trait ColumnTrait
         if ($this->grid->filterModel !== null && $this->mergeHeader && $this->grid->filterPosition === GridView::FILTER_POS_BODY) {
             return null;
         }
-        if ($this->filterType === GridView::FILTER_SELECT2 && empty($this->filterWidgetOptions['pluginOptions']['width'])) {
+        if (isset($this->filterType) && $this->filterType === GridView::FILTER_SELECT2 && empty($this->filterWidgetOptions['pluginOptions']['width'])) {
             $this->filterWidgetOptions['pluginOptions']['width'] = 'resolve';
         }
         return parent::renderFilterCell();
