@@ -17,11 +17,11 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Clear selection' => '',
-    'Collapse' => '',
-    'Collapse All' => '',
-    'Expand' => '',
-    'Expand All' => '',
+    'Clear selection' => 'Limpiar selección',
+    'Collapse' => 'Colapsar',
+    'Collapse All' => 'Colapsar Todo',
+    'Expand' => 'Expandir',
+    'Expand All' => 'Expandir Todo',
     'Actions' => 'Acciones',
     'Active' => 'Activo',
     'Add Book' => 'Agregar Libro',
