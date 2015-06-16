@@ -4,7 +4,7 @@
     "keywords": ["yii2", "extension", "widget", "grid"],
     "homepage": "https://github.com/kartik-v/yii2-grid",
     "type": "yii2-extension",
-    "license": "BSD 3-Clause",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Kartik Visweswaran",
@@ -14,7 +14,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "kartik-v/yii2-krajee-base": "*"
+        "kartik-v/yii2-krajee-base": "~1.7"
     },
     "autoload": {
         "psr-4": {
