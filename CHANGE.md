@@ -1,3 +1,9 @@
+Version 3.0.4
+=============
+**Date:** 23-Jun-2015
+
+1. (enh #320): Trim trailing whitespaces from text/csv exports.
+
 Version 3.0.3
 =============
 **Date:** 15-Jun-2015

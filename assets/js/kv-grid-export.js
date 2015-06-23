@@ -116,7 +116,7 @@
                 head = self.config.colHeads;
             } else {
                 $table.find('thead tr th').each(function (i, v) {
-                    var str = $(this).text(), slugStr = slug(str);
+                    var str = $(this).text().trim(), slugStr = slug(str);
                     head[i] = (!self.config.slugColHeads || isEmpty(slugStr)) ? 'col_' + i : slugStr;
                 });
             }
@@ -124,7 +124,7 @@
                 data[i] = {};
                 $(this).children('td').each(function (j, w) {
                     var col = head[j];
-                    data[i][col] = $(this).text();
+                    data[i][col] = $(this).text().trim();
                 });
             });
             return data;
@@ -313,7 +313,7 @@
             var txt = '"' + $rows.map(function (i, row) {
                     var $row = $(row), $cols = $row.find(self.columns);
                     return $cols.map(function (j, col) {
-                        var $col = $(col), text = $col.text();
+                        var $col = $(col), text = $col.text().trim();
                         return text.replace('"', '""'); // escape double quotes
                     }).get().join(tmpColDelim);
                 }).get().join(tmpRowDelim)
