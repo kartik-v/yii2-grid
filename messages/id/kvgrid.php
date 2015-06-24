@@ -67,6 +67,8 @@ return [
     'Update' => 'Ubah',
     'View' => 'Lihat',
     'Yii2 Grid Export {type}' => 'Yii2 Grid Export {type}',
+    'export' => '',
+    'grid-export' => '',
     'krajee, grid, export, yii2-grid, pdf' => '',
     '© Krajee Yii2 Extensions' => '',
 ];
