@@ -1,8 +1,9 @@
 Version 3.0.4
 =============
-**Date:** 23-Jun-2015
+**Date:** 24-Jun-2015
 
 1. (enh #320): Trim trailing whitespaces from text/csv exports.
+2. (enh #321): Add Indonesian translations.
 
 Version 3.0.3
 =============
