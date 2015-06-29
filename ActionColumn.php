@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
  * @package yii2-grid
- * @version 3.0.4
+ * @version 3.0.5
  */
 
 namespace kartik\grid;
@@ -264,5 +264,4 @@ class ActionColumn extends \yii\grid\ActionColumn
         }
         return $content;
     }
-
 }

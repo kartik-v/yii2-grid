@@ -4,20 +4,18 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.5
+ * @version   3.0.3
  */
 
 namespace kartik\grid;
 
-use yii\web\View;
-
 /**
- * Asset bundle for GridView Widget
+ * Asset bundle for GridView EditableColumn Widget
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class GridViewAsset extends \kartik\base\AssetBundle
+class EditableColumnAsset extends \kartik\base\AssetBundle
 {
     /**
      * @inheritdoc
@@ -25,7 +23,7 @@ class GridViewAsset extends \kartik\base\AssetBundle
     public function init()
     {
         $this->setSourcePath(__DIR__ . '/assets');
-        $this->setupAssets('css', ['css/kv-grid']);
+        $this->setupAssets('js', ['js/kv-grid-editable']);
         parent::init();
     }
 }

@@ -3,6 +3,7 @@ Version 3.0.5
 **Date:** 29-Jun-2015
 
 1. (enh #323): Prevent `pjax:complete` init script being called multiple times.
+2. (enh #325): Various enhancements to client script registrations.
 
 Version 3.0.4
 =============

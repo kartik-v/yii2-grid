@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.4
+ * @version   3.0.5
  */
 
 namespace kartik\grid;
@@ -73,7 +73,12 @@ class EditableColumn extends DataColumn
     {
         parent::init();
         \kartik\base\Config::checkDependency('editable\Editable', 'yii2-editable', 'for GridView EditableColumn');
-        $this->_css = 'kv-edcol-' . hash('crc32', uniqid(rand(1,100), true)); 
+        $this->_css = 'kv-edcol-' . hash('crc32', uniqid(rand(1,100), true));
+        if ($this->refreshGrid) {
+            EditableColumnAsset::register($this->_view);
+            $id =  $this->grid->options['id'];
+            $this->_view->registerJs("kvRefreshEC('{$id}','{$this->_css}');");
+        }
     }
 
     /**
@@ -142,19 +147,6 @@ class EditableColumn extends DataColumn
                     return $params . $output;
                 }
             };
-        }
-        if ($this->refreshGrid) {
-            $view = $this->grid->getView();
-            $grid = 'jQuery("#' . $this->grid->options['id'] . '")';
-            $script = <<< JS
-{$grid}.find('.{$this->_css}').each(function() {
-    var \$el = $(this);
-    \$el.on('editableSuccess', function(){
-        {$grid}.yiiGridView("applyFilter");
-    });
-});
-JS;
-            $view->registerJs($script);
         }
         return Editable::widget($this->_editableOptions);
     }

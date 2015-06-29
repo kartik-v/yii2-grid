@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.4
+ * @version   3.0.5
  */
 
 namespace kartik\grid;
@@ -317,11 +317,8 @@ trait ColumnTrait
             return;
         }
         $cont = 'jQuery("#' . $this->grid->pjaxSettings['options']['id'] . '")';
-        $grid = $this->grid->options['id'];
         $view = $this->grid->getView();
         $event = 'pjax:complete.' . hash('crc32', $script);
-        $view->registerJs(
-            "{$cont}.off('{$event}').on('{$event}', function(){{$script}});"
-        );
+        $view->registerJs("{$cont}.off('{$event}').on('{$event}', function(){{$script}});");
     }
 }
