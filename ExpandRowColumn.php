@@ -339,7 +339,7 @@ class ExpandRowColumn extends DataColumn
             Html::addCssClass($detailOptions, 'skip-export');
         }        
         $detailOptions['data-index'] = $index;
-        $detailOptions['data-key'] = $key;
+        $detailOptions['data-key'] = is_object($key) || is_array($key) ? serialize($key) : $key;
         Html::addCssClass($detailOptions, 'kv-expanded-row');
         $content = Html::tag('div', $detail, $detailOptions);
         return <<< HTML
