@@ -319,8 +319,9 @@ trait ColumnTrait
         $cont = 'jQuery("#' . $this->grid->pjaxSettings['options']['id'] . '")';
         $grid = $this->grid->options['id'];
         $view = $this->grid->getView();
+        $event = 'pjax:complete.' . hash('crc32', $script);
         $view->registerJs(
-            "{$cont}.on('pjax:complete', function(){{$script}});"
+            "{$cont}.off('{$event}').on('{$event}', function(){{$script}});"
         );
     }
 }

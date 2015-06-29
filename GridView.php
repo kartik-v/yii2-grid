@@ -1248,7 +1248,8 @@ HTML;
             $postPjaxJs .= "{$grid}.removeClass('{$loadingCss}');";
         }
         if (!empty($postPjaxJs)) {
-            $js .= ".on('pjax:complete', function(){{$postPjaxJs}})";
+            $event = 'pjax:complete.' . hash('crc32', $postPjaxJs);
+            $js .= ".off('{$event}').on('{$event}', function(){{$postPjaxJs}})";
         }
         if ($js != $container) {
             $view->registerJs("{$js};");

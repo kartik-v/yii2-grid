@@ -1,3 +1,9 @@
+Version 3.0.5
+=============
+**Date:** 29-Jun-2015
+
+1. (enh #323): Prevent `pjax:complete` init script being called multiple times.
+
 Version 3.0.4
 =============
 **Date:** 24-Jun-2015
