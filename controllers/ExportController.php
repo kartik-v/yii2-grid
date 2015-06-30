@@ -37,6 +37,8 @@ class ExportController extends \yii\web\Controller
             $config = Json::decode($config);
             $this->generatePDF($content, "{$name}.pdf", $config);
             return;
+        }else if ($type == GridView::EXCEL) {
+            $content = str_replace('<td>', '<td>&zwnj;', $content);
         }
         $this->setHttpHeaders($type, $name, $mime, $encoding);
         return $content;
