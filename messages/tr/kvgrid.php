@@ -77,4 +77,3 @@ return [
     'krajee, grid, export, yii2-grid, pdf' => 'Krajee, ızgara, ihracat, yii2-ızgara, pdf',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Uzantıları',
 ];
-
