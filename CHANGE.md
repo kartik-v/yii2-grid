@@ -1,12 +1,13 @@
 Version 3.0.5
 =============
-**Date:** 02-Jul-2015
+**Date:** 07-Jul-2015
 
 1. (enh #322): Send serialized `data-key` when ExpandRowColumn has a composite key.
 2. (enh #323): Prevent `pjax:complete` init script being called multiple times.
 3. (enh #325): Various enhancements to client script registrations.
 4. (enh #326): Zero width joiner for excel exports.
 5. (enh #328): Add Turkish translations.
+6. (enh #334): Add grid grouping functionalities.
 
 Version 3.0.4
 =============

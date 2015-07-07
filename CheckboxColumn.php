@@ -103,11 +103,11 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      * for the grid is set to FILTER_POS_BODY.
      */
     public $mergeHeader = true;
-    
+
     /**
-     * @var string the script to initialize
+     * @var string the client script to initialize
      */
-    protected $_initScript = '';
+    protected $_clientScript = '';
 
     /**
      * @inheritdoc
@@ -119,8 +119,8 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
             $view = $this->grid->getView();
             $id =  $this->grid->options['id'];
             CheckboxColumnAsset::register($view);
-            $this->_initScript = "kvSelectRow('{$id}', '{$this->rowSelectedClass}');";
-            $view->registerJs($this->_initScript);
+            $this->_clientScript = "kvSelectRow('{$id}', '{$this->rowSelectedClass}');";
+            $view->registerJs($this->_clientScript);
         }
         $this->parseFormat();
         $this->parseVisibility();
@@ -135,7 +135,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     {
         $options = $this->fetchContentOptions($model, $key, $index);
         if ($this->rowHighlight) {
-            $this->initPjax($this->_initScript);
+            $this->initPjax($this->_clientScript);
             Html::addCssClass($options, 'kv-row-select');
         }
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);

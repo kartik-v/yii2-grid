@@ -8,7 +8,7 @@ yii2-grid
 [![Daily Downloads](https://poser.pugx.org/kartik-v/yii2-grid/d/daily)](https://packagist.org/packages/kartik-v/yii2-grid)
 
 Yii2 GridView on steroids. A module with various modifications and enhancements to one of the most used widgets by Yii developers. The widget contains new additional Grid Columns with enhanced settings for Yii Framework 2.0. The widget also incorporates various Bootstrap 3.x styling options.
-Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo).
+Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete demo](http://demos.krajee.com/grid-demo). You can also view the [grid grouping demo here](http://demos.krajee.com/group-grid).
 
 ![GridView Screenshot](https://lh4.googleusercontent.com/-4x-CdyyZAsY/VNxLPmaaAXI/AAAAAAAAAQ8/XYYxTiQZvJk/w868-h516-no/krajee-yii2-grid.jpg)
 
@@ -32,6 +32,7 @@ New features with release 2.7.0.
 4. Enhancements for JS confirmation popups being hidden by browser's hide dialog settings.
 5. Recursively replace/merge PDF export configuration correctly.
 6. Include demo messages for auto generating via config.
+7. Allows grouping grid column data, including master detail groups and generating group summaries (since v3.0.5).
 
 > NOTE: This extension depends on other yii2 extensions based on the functionality chosen by you. It will not install such dependent packages by default, but will prompt through an exception, if accessed.
 For example, if you choose to enable PDF export, then the [yii2-mpdf](http://demos.krajee.com/mpdf) will be mandatory and exception will be raised if `yii2-mpdf` is not installed.
@@ -53,6 +54,21 @@ The following functionalities have been added/enhanced:
 
 ### Table Styling (Enhanced)
 Control various options to style your grid table. Added `containerOptions` to customize your grid table container. Enhancements for grid and columns to work with yii\widgets\Pjax.
+
+### Grid Grouping (New)
+With release v3.0.5, the module allows grouping of GridView data by setting various `group` related properties at the `kartik\grid\DataColumn` level. The following functionalities are supported:
+
+- Ability to group and merge similar data for each column.
+- Allow multi level/complex grouping and making a sub group dependent on a parent group.
+- Allow displaying grouped data as a separate grouped row above the child rows.
+- Allow configuring and displaying of group level summary rows.
+- Summaries can be setup as a group footer OR a group header.
+- Summaries intelligently embed between sub-groups and parent groups.
+- Summaries can include auto calculated values (for numbers) at runtime based on previous child column data.
+- Summaries can include advanced calculations using a javascript callback configuration.
+- Ability to merge columns in the summary group header or footer.
+- Complex configurations of groups will allow -  group properties to be set dynamically using Closure.
+- Allow you to style your group cells in various ways including setting odd and even row CSS properties.
 
 ### Pjax Settings (New)
 Inbuilt support for Pjax. Enhancements for grid and columns to work with `yii\widgets\Pjax`. Auto-reinitializes embedded javascript plugins when GridView is refreshed via Pjax. Added `pjax` property to enable pjax and `pjaxSettings` to customize the pjax behavior.
@@ -163,7 +179,7 @@ Enhancement of `\yii\grid\SerialColumn` to work with the new pageSummary and a d
 Enhancements of `\yii\grid\CheckboxColumn` to work with the new pageSummary and a default styling to work for many scenarios. Refer [documentation](http://demos.krajee.com/grid#checkbox-column) for details.
 
 ### Demo
-You can see detailed [documentation](http://demos.krajee.com/grid) and [demonstration](http://demos.krajee.com/grid-demo) on usage of the extension.
+You can see detailed [documentation](http://demos.krajee.com/grid) and [demonstration](http://demos.krajee.com/grid-demo) on usage of the extension. You can also view the [grid grouping demo here](http://demos.krajee.com/group-grid).
 
 ## Installation
 
@@ -186,13 +202,13 @@ Read this [web tip /wiki](http://webtips.krajee.com/setting-composer-minimum-sta
 Either run
 
 ```
-$ php composer.phar require kartik-v/yii2-grid "dev-master"
+$ php composer.phar require kartik-v/yii2-grid "@dev"
 ```
 
 or add
 
 ```
-"kartik-v/yii2-grid": "dev-master"
+"kartik-v/yii2-grid": "@dev"
 ```
 
 to the ```require``` section of your `composer.json` file.

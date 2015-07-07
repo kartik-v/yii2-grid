@@ -148,7 +148,7 @@ class RadioColumn extends \yii\grid\Column
     protected $_clientVars = '';
 
     /**
-     * @var string the client script
+     * @var string the client script to initialize
      */
     protected $_clientScript = '';
     
