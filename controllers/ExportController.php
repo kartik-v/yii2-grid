@@ -38,7 +38,12 @@ class ExportController extends \yii\web\Controller
             $this->generatePDF($content, "{$name}.pdf", $config);
             return;
         } elseif ($type == GridView::EXCEL) {
-            $content = str_replace('<td>', '<td>&zwnj;', $content);
+           $matches = array();
+           preg_match_all('/<td>([0-9]+)<\/td>/', $content, $matches);
+           foreach ($matches[0] as $match) {
+             $match_without_td = str_replace('<td>', '', str_replace('</td>', '', $match));
+             $content = str_replace($match, '<td style="vnd.ms-excel.numberformat:' . str_repeat('0', strlen($match_without_td)) . '">' . $match_without_td . '</td>', $content);
+           }
         }
         $this->setHttpHeaders($type, $name, $mime, $encoding);
         return $content;
