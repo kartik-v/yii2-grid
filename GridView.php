@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.5
+ * @version   3.0.6
  */
 
 namespace kartik\grid;
@@ -610,6 +610,13 @@ HTML;
      * ```
      */
     public $exportConversions = [];
+
+    /**
+     * @var boolean, applicable for EXCEL export content only. This determines whether the exported EXCEL cell data
+     * will be automatically guessed and formatted based on `DataColumn::format` property. You can override this 
+     * behavior and change the auto-derived format mask by setting `DataColumn::xlFormat`.
+     */
+    public $autoXlFormat = false;
 
     /**
      * @var array|boolean the HTML attributes for the grid container. The grid table items

@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.5
+ * @version   3.0.6
  */
 
 namespace kartik\grid;
@@ -145,6 +145,99 @@ trait ColumnTrait
         if (isset($this->filterType)) {
             \kartik\base\Config::validateInputWidget($this->filterType, 'for filtering the grid as per your setup');
         }
+    }
+
+    /**
+     * Gets Default Excel Cell Format
+     *
+     * @return string
+     */
+    public function getDefaultExcelFormat()
+    {
+        if (!isset($this->format)) {
+            return '';
+        }
+        
+    }
+    
+    /**
+     * Parses Excel Cell Formats for export
+     *
+     * @return string
+     */
+    public function parseExcelFormats(&$options, $model, $key, $index)
+    {
+        $autoFormat = $this->grid->autoXlFormat;
+        if (!isset($this->xlsFormat) && !$autoFormat) {
+            return;
+        }
+        $fmt = '';
+        $format = is_array($this->format) ? $this->format[0] : $this->format;
+        $formatter = $this->grid->formatter;
+        if (isset($this->xlFormat)) {
+            $fmt = $this->xlFormat;
+        } elseif ($autoFormat && isset($this->format)) {
+            $tSep = isset($formatter->thousandSeparator) ? $formatter->thousandSeparator : ',';
+            $dSep = isset($formatter->decimalSeparator) ? $formatter->decimalSeparator : '.';
+            switch ($format) {
+                case 'text':
+                case 'html':
+                case 'raw':
+                case 'ntext':
+                case 'paragraphs':
+                case 'spellout':
+                case 'boolean':
+                case 'relativeTime':
+                    $fmt = '\@';
+                    break;
+                case 'integer':
+                    $fmt = "\\#\\{$tSep}\\#\\#0";
+                    break;
+                case 'decimal':
+                case 'percent':
+                case 'scientific':
+                    $decimals = is_array($this->format) && isset($this->format[1]) ? $this->format[1] : 2;
+                    $append = $decimals > 0 ? "\\{$dSep}" . str_repeat('0', $decimals) : '';
+                    if ($format == 'percent') {
+                        $append .= '%';
+                    }
+                    $fmt = ($format == 'scientific') ? "0{$append}E+00" : "\\#\\{$tSep}\\#\\#0" . $append;
+                    break;
+                case 'currency':
+                    $curr = is_array($this->format) && isset($this->format[1]) ? $this->format[1] : 
+                        isset($formatter->currencyCode) ? $formatter->currencyCode . ' ' : '';
+                    $fmt = "{$curr}\\#\\{$tSep}\\#\\#0{$dSep}00";
+                    break;
+                case 'date':
+                case 'time':
+                    $fmt = 'Short ' . ucfirst($format);
+                    break;
+                case 'datetime':
+                    $fmt = 'yyyy\-MM\-dd HH\:mm\:ss';
+                    break;
+                default:
+                    $fmt = '';
+                    break;
+            }
+        }        
+        if ($format === 'date' || $format === 'datetime' || $format === 'time') { 
+            $rawValue = $this->getDataCellValue($model, $key, $index);
+            switch ($format) {
+                case 'date':
+                    $rawVal = $formatter->format($rawValue, ['date', 'php:Y-m-d']);
+                    break;
+                case 'datetime':
+                    $rawVal = $formatter->format($rawValue, ['date', 'php:Y-m-d H:i:s']);
+                    break;
+                case 'time':
+                    $rawVal = $formatter->format($rawValue, ['date', 'php:H:i:s']);
+                    break;
+            }
+            $options['data-raw-value'] = $rawVal;
+        } elseif ($format === 'integer' || $format === 'decimal' || $format === 'percent' || $format === 'scientific') { 
+            $options['data-raw-value'] = $this->getDataCellValue($model, $key, $index);
+        }
+        Html::addCssStyle($options, ['mso-number-format' => '"' . $fmt . '"']);
     }
 
     /**

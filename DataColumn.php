@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.5
+ * @version   3.0.6
  */
 
 namespace kartik\grid;
@@ -280,6 +280,12 @@ class DataColumn extends \yii\grid\DataColumn
      * - `options`: array, HTML attributes for the group footer row.
      */
     public $groupFooter = [];
+    
+    /**
+     * @var string the cell format for EXCEL exported content.
+     * @see http://cosicimiento.blogspot.in/2008/11/styling-excel-cells-with-mso-number.html
+     */
+    public $xlFormat;
 
     /**
      * @var array of row data for the column for the current page
@@ -324,6 +330,7 @@ class DataColumn extends \yii\grid\DataColumn
     {
         $options = $this->fetchContentOptions($model, $key, $index);
         $this->parseGrouping($options, $model, $key, $index);
+        $this->parseExcelFormats($options, $model, $key, $index);
         $this->initPjax($this->_clientScript);
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }

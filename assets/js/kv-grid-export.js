@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.5
+ * @version   3.0.6
  *
  * Grid Export Validation Module for Yii's Gridview. Supports export of
  * grid data as CSV, HTML, or Excel.
@@ -327,9 +327,15 @@
             self.download('json', out);
         },
         exportEXCEL: function () {
-            var self = this, $table = self.clean('xls'), cfg = self.config;
-            var css = (cfg.cssFile && self.config.cssFile.length) ? '<link href="' + self.config.cssFile + '" rel="stylesheet">' : '';
-            var xls = templates.excel.replace('{encoding}', self.encoding).replace('{css}', css).replace('{worksheet}',
+            var self = this, $table = self.clean('xls'), cfg = self.config, xls, $td,
+                css = (cfg.cssFile && self.config.cssFile.length) ? '<link href="' + self.config.cssFile + '" rel="stylesheet">' : '';
+            $table.find('td[data-raw-value]').each(function() {
+                $td = $(this);
+                if ($td.css('mso-number-format') || $td.css('mso-number-format') === 0 || $td.css('mso-number-format') === '0') {
+                    $td.html($td.attr('data-raw-value')).removeAttr('data-raw-value');
+                }
+            });
+            xls = templates.excel.replace('{encoding}', self.encoding).replace('{css}', css).replace('{worksheet}',
                 self.config.worksheet).replace('{data}', $('<div />').html($table).html()).replace(/"/g, '\'');
             self.download('xls', xls);
         }

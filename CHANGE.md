@@ -1,3 +1,9 @@
+Version 3.0.6
+=============
+**Date:** 15-Jul-2015
+
+1. (enh #338): Various enhancements for grid excel export formatting.
+
 Version 3.0.5
 =============
 **Date:** 07-Jul-2015

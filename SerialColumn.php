@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.5
+ * @version   3.0.6
  */
 
 namespace kartik\grid;
@@ -99,6 +99,20 @@ class SerialColumn extends \yii\grid\SerialColumn
     public $mergeHeader = true;
 
     /**
+     * @var string|array in which format should the value of each data model be displayed as (e.g. `"raw"`, `"text"`, `"html"`,
+     * `['date', 'php:Y-m-d']`). Supported formats are determined by the [[GridView::formatter|formatter]] used by
+     * the [[GridView]]. Default format is "text" which will format the value as an HTML-encoded plain text when
+     * [[\yii\i18n\Formatter]] is used as the [[GridView::$formatter|formatter]] of the GridView.
+     */
+    public $format = 'text';
+    
+    /**
+     * @var string the cell format for EXCEL exported content.
+     * @see http://cosicimiento.blogspot.in/2008/11/styling-excel-cells-with-mso-number.html
+     */
+    public $xlFormat;
+
+    /**
      * @var array of row data for the column for the current page
      */
     private $_rows = [];
@@ -120,6 +134,8 @@ class SerialColumn extends \yii\grid\SerialColumn
     public function renderDataCell($model, $key, $index)
     {
         $options = $this->fetchContentOptions($model, $key, $index);
-        return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
+        $this->parseExcelFormats($options, $model, $key, $index);
+        $out = $this->grid->formatter->format($this->renderDataCellContent($model, $key, $index), $this->format);
+        return Html::tag('td', $out, $options);
     }
 }

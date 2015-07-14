@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.5
+ * @version   3.0.6
  */
 
 namespace kartik\grid\controllers;
@@ -37,8 +37,6 @@ class ExportController extends \yii\web\Controller
             $config = Json::decode($config);
             $this->generatePDF($content, "{$name}.pdf", $config);
             return;
-        } elseif ($type == GridView::EXCEL) {
-            $content = str_replace('<td>', '<td>&zwnj;', $content);
         }
         $this->setHttpHeaders($type, $name, $mime, $encoding);
         return $content;
