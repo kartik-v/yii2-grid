@@ -234,7 +234,13 @@ kvExpandRow = function (options) {
                 return true;
             }
             if (isExpanded($icon)) {
-                expandRow(false);
+                if (detailUrl) {
+                    loadDetail(function () {
+                        expandRow(false);
+                    });
+                } else {
+                    expandRow(false);
+                }
             }
             $cell.off('click').on('click', function () {
                 toggleRow($cell);
