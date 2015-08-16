@@ -355,6 +355,11 @@ HTML;
     public $resizableColumns = true;
 
     /**
+     * @var boolean whether to allow resizing of columns
+     */
+    public $resizableColumnsOptions = [];
+    
+    /**
      * @var boolean whether to store resized column state using local storage persistence
      * (supported by most modern browsers). Defaults to `false`.
      */
@@ -1441,14 +1446,16 @@ HTML;
             }
         }
         if ($this->resizableColumns) {
-            $store = '{store:null}';
+            $rcDefaults=[];
             if ($this->persistResize) {
                 GridResizeStoreAsset::register($view);
-                $store = '';
+            } else {
+                $rcDefaults=['store'=>null];
             }
+            $rcOptions=Json::encode(ArrayHelper::merge($rcDefaults, $this->resizableColumnsOptions));
             $contId = $this->containerOptions['id'];
             GridResizeColumnsAsset::register($view);
-            $script .= "$('#{$contId}').resizableColumns({$store});";
+            $script .= "$('#{$contId}').resizableColumns({$rcOptions});";
         }
         if ($this->floatHeader) {
             GridFloatHeadAsset::register($view);
