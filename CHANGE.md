@@ -3,10 +3,11 @@ Change Log: `yii2-grid`
 
 ## Version 3.0.7
 
-**Date:** 15-Aug-2015
+**Date:** 19-Aug-2015
 
 1. (enh #336): Add `enableCache` property in `ExpandRowColumn`.
 2. (enh #352): Display expanded ajax content in ExpandRowColumn when initial value = ROW_EXPANDED.
+3. (enh #354): Add options to set resizableColumns plugin options.
 
 ## Version 3.0.6
 
