@@ -15,15 +15,23 @@ var kvSelectRow = function (gridId, css) {
     "use strict";
     (function ($) {
         var $grid = $('#' + gridId), $el,
-            toggle = function($el, all) {
-                var $row = (all === true) ? 
-                    $grid.find(".kv-row-select").parents("tr") : 
-                    $el.parents("tr:first");
-                if ($el.is(':checked')) {
+            highlight = function($el, $parent) {
+                var $row = $el.closest('tr'), $cbx = $parent || $el;
+                if ($cbx.is(':checked') && !$el.attr('disabled')) {
                     $row.removeClass(css).addClass(css);
                 } else {
                     $row.removeClass(css);
                 }
+            },
+            toggle = function($cbx, all) {
+                var $row;
+                if (all === true) {
+                    $grid.find(".kv-row-select input").each(function() {
+                        highlight($(this), $cbx);
+                    });
+                    return;
+                }
+                highlight($cbx);
             };
         $grid.find(".kv-row-select input").on('change', function () {
             toggle($(this));
