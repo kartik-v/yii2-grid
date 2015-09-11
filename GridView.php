@@ -355,9 +355,9 @@ HTML;
     public $resizableColumns = true;
 
     /**
-     * @var boolean whether to allow resizing of columns
+     * @var boolean the resizableColumns plugin options
      */
-    public $resizableColumnsOptions = [];
+    public $resizableColumnsOptions = ['resizeFromBody' => false];
     
     /**
      * @var boolean whether to store resized column state using local storage persistence
