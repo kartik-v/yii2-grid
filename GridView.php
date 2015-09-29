@@ -1393,7 +1393,7 @@ HTML;
                     $colOptions = ArrayHelper::getValue($col, 'options', []);
                     $colContent = ArrayHelper::getValue($col, 'content', '');
                     $tag = ArrayHelper::getValue($col, 'tag', 'th');
-                    $rows .= "\t" . Html::tag('th', $colContent, $colOptions) . "\n";
+                    $rows .= "\t" . Html::tag($tag, $colContent, $colOptions) . "\n";
                 }
                 $rows .= Html::endTag('tr') . "\n";
             }

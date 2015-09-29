@@ -6,6 +6,7 @@ Change Log: `yii2-grid`
 **Date:** 29-Sep-2015
 
 1. (bug #370): Enhance `EditableColumn::refreshGrid` validation.
+2. (bug #371): Allow `tag` to be set for rendering `beforeHeader`.
 
 ## Version 3.0.7
 
