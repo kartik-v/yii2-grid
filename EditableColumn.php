@@ -76,8 +76,6 @@ class EditableColumn extends DataColumn
         $this->_css = 'kv-edcol-' . hash('crc32', uniqid(rand(1,100), true));
         if ($this->refreshGrid) {
             EditableColumnAsset::register($this->_view);
-            $id =  $this->grid->options['id'];
-            $this->_view->registerJs("kvRefreshEC('{$id}','{$this->_css}');");
         }
     }
 
@@ -147,6 +145,10 @@ class EditableColumn extends DataColumn
                     return $params . $output;
                 }
             };
+        }
+        if ($this->refreshGrid) {
+            $id =  $this->grid->options['id'];
+            $this->_view->registerJs("kvRefreshEC('{$id}','{$this->_css}');");
         }
         return Editable::widget($this->_editableOptions);
     }

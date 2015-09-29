@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.0.8
+
+**Date:** 29-Sep-2015
+
+1. (bug #370): Enhance `EditableColumn::refreshGrid` validation.
+
 ## Version 3.0.7
 
 **Date:** 13-Sep-2015
