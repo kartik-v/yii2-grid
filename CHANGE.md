@@ -7,6 +7,7 @@ Change Log: `yii2-grid`
 
 1. (bug #370): Enhance `EditableColumn::refreshGrid` validation.
 2. (bug #371): Allow `tag` to be set for rendering `beforeHeader`.
+3. (bug #387): Rename Czech translation message folder from `cz` to `cs`.
 
 ## Version 3.0.7
 
