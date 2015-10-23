@@ -491,6 +491,10 @@ HTML;
      *      This defaults to the following setting:
      *      ```
      *      [
+     *          'maxCount' => 10000,
+     *          'confirm' => [
+     *              'minCount' => 1000
+     *          ],
      *          'all' => [
      *              'icon' => 'resize-full',
      *              'label' => 'All',
