@@ -4,26 +4,24 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  */
 
 namespace kartik\grid\controllers;
 
-use kartik\grid\GridView;
 use Yii;
-use yii\data\DataProvider;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\web\Controller;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
+use kartik\grid\GridView;
 
-class ExportController extends \yii\web\Controller
+class ExportController extends Controller
 {
-
     /**
      * Download the exported file
      *
-     * @return string
+     * @return mixed
      */
     public function actionDownload()
     {
@@ -36,6 +34,7 @@ class ExportController extends \yii\web\Controller
         if ($type == GridView::PDF) {
             $config = Json::decode($config);
             $this->generatePDF($content, "{$name}.pdf", $config);
+            /** @noinspection PhpInconsistentReturnPointsInspection */
             return;
         }
         $this->setHttpHeaders($type, $name, $mime, $encoding);
@@ -45,9 +44,9 @@ class ExportController extends \yii\web\Controller
     /**
      * Generates the PDF file
      *
-     * @param string $content  the file content
+     * @param string $content the file content
      * @param string $filename the file name
-     * @param array  $config   the configuration for yii2-mpdf component
+     * @param array  $config the configuration for yii2-mpdf component
      *
      * @return void
      */
@@ -65,9 +64,9 @@ class ExportController extends \yii\web\Controller
     /**
      * Sets the HTTP headers needed by file download action.
      *
-     * @param string $type     the file type
-     * @param string $name     the file name
-     * @param string $mime     the mime time for the file
+     * @param string $type the file type
+     * @param string $name the file name
+     * @param string $mime the mime time for the file
      * @param string $encoding the encoding for the file content
      *
      * @return void

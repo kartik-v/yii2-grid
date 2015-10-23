@@ -4,20 +4,16 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  */
 
 namespace kartik\grid;
 
 use Yii;
-use yii\base\InvalidConfigException;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\web\View;
 
 /**
- * Extends the Yii's CheckboxColumn for the Grid widget [[\kartik\widgets\GridView]]
- * with various enhancements.
+ * Extends the Yii's CheckboxColumn for the Grid widget [[\kartik\widgets\GridView]] with various enhancements.
  *
  * CheckboxColumn displays a column of checkboxes in a grid view.
  *
@@ -29,29 +25,26 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     use ColumnTrait;
 
     /**
-     * @var boolean whether the column is hidden from display. This is different
-     * than the `visible` property, in the sense, that the column is rendered,
-     * but hidden from display. This will allow you to still export the column
-     * using the export function.
+     * @var boolean whether the column is hidden from display. This is different than the `visible` property, in the
+     *     sense, that the column is rendered, but hidden from display. This will allow you to still export the column
+     *     using the export function.
      */
     public $hidden;
 
     /**
-     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`,
-     * it will hide the column for all export formats. If set as an array, it will accept the
-     * list of GridView export `formats` and hide output only for them.
+     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, it will hide the
+     *     column for all export formats. If set as an array, it will accept the list of GridView export `formats` and
+     *     hide output only for them.
      */
     public $hiddenFromExport = true;
 
     /**
-     * @var string the horizontal alignment of each column. Should be one of
-     * 'left', 'right', or 'center'.
+     * @var string the horizontal alignment of each column. Should be one of 'left', 'right', or 'center'.
      */
     public $hAlign = GridView::ALIGN_CENTER;
 
     /**
-     * @var string the vertical alignment of each column. Should be one of
-     * 'top', 'middle', or 'bottom'.
+     * @var string the vertical alignment of each column. Should be one of 'top', 'middle', or 'bottom'.
      */
     public $vAlign = GridView::ALIGN_MIDDLE;
 
@@ -79,9 +72,8 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $rowSelectedClass = GridView::TYPE_DANGER;
 
     /**
-     * @var boolean|string whether the page summary is displayed above the footer for this column.
-     * If this is set to a string, it will be displayed as is. If it is set to `false` the summary
-     * will not be displayed.
+     * @var boolean|string whether the page summary is displayed above the footer for this column. If this is set to a
+     *     string, it will be displayed as is. If it is set to `false` the summary will not be displayed.
      */
     public $pageSummary = false;
 
@@ -97,10 +89,9 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $hidePageSummary = false;
 
     /**
-     * @var boolean whether to merge the header title row and the filter row
-     * This will not render the filter for the column and can be used when `filter`
-     * is set to `false`. Defaults to `false`. This is only applicable when `filterPosition`
-     * for the grid is set to FILTER_POS_BODY.
+     * @var boolean whether to merge the header title row and the filter row This will not render the filter for the
+     *     column and can be used when `filter` is set to `false`. Defaults to `false`. This is only applicable when
+     *     `filterPosition` for the grid is set to FILTER_POS_BODY.
      */
     public $mergeHeader = true;
 
@@ -117,7 +108,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
         if ($this->rowHighlight) {
             Html::addCssClass($this->headerOptions, 'kv-all-select');
             $view = $this->grid->getView();
-            $id =  $this->grid->options['id'];
+            $id = $this->grid->options['id'];
             CheckboxColumnAsset::register($view);
             $this->_clientScript = "kvSelectRow('{$id}', '{$this->rowSelectedClass}');";
             $view->registerJs($this->_clientScript);
@@ -127,7 +118,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
         parent::init();
         $this->setPageRows();
     }
-        
+
     /**
      * @inheritdoc
      */

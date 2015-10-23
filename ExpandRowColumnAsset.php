@@ -4,12 +4,12 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  */
 
 namespace kartik\grid;
 
-use yii\web\View;
+use kartik\base\AssetBundle;
 
 /**
  * Asset bundle for GridView ExpandRowColumn
@@ -17,7 +17,7 @@ use yii\web\View;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class ExpandRowColumnAsset extends \kartik\base\AssetBundle
+class ExpandRowColumnAsset extends AssetBundle
 {
     /**
      * @inheritdoc
@@ -30,3 +30,5 @@ class ExpandRowColumnAsset extends \kartik\base\AssetBundle
         parent::init();
     }
 }
+
+

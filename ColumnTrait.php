@@ -4,19 +4,45 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  */
 
 namespace kartik\grid;
 
-use yii\base\InvalidConfigException;
+use \Closure;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use \Closure;
+use kartik\base\Config;
 
 /**
  * Trait for all column widgets in yii2-grid
+ *
+ * @property boolean         $mergeHeader
+ * @property boolean         $hidden
+ * @property boolean         $noWrap
+ * @property array           $options
+ * @property array           $headerOptions
+ * @property array           $filterOptions
+ * @property array           $footerOptions
+ * @property array           $contentOptions
+ * @property array           $pageSummaryOptions
+ * @property boolean         $hidePageSummary
+ * @property boolean         $hiddenFromExport
+ * @property boolean|Closure $pageSummary
+ * @property string|Closure  $pageSummaryFunc
+ * @property string          $footer
+ * @property string          $hAlign
+ * @property string          $vAlign
+ * @property string          $width
+ * @property array           $_rows
+ * @property string          $_columnKey
+ * @property string          $_clientScript
+ * @property GridView        $grid
+ * @property string          $format
+ * @method getDataCellValue() getDataCellValue($model, $key, $index)
+ * @method renderCell()
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
@@ -35,6 +61,8 @@ trait ColumnTrait
             Html::addCssClass($this->headerOptions, 'kv-merged-header');
         }
         $this->headerOptions['data-col-seq'] = array_search($this, $this->grid->columns);
+        /** @noinspection PhpUndefinedClassInspection */
+        /** @noinspection PhpUndefinedMethodInspection */
         return parent::renderHeaderCell();
     }
 
@@ -49,6 +77,8 @@ trait ColumnTrait
             return null;
         }
         $this->headerOptions['data-col-seq'] = array_search($this, $this->grid->columns);
+        /** @noinspection PhpUndefinedClassInspection */
+        /** @noinspection PhpUndefinedMethodInspection */
         return parent::renderFilterCell();
     }
 
@@ -140,25 +170,17 @@ trait ColumnTrait
     protected function checkValidFilters()
     {
         if (isset($this->filterType)) {
-            \kartik\base\Config::validateInputWidget($this->filterType, 'for filtering the grid as per your setup');
+            Config::validateInputWidget($this->filterType, 'for filtering the grid as per your setup');
         }
     }
 
     /**
-     * Gets Default Excel Cell Format
-     *
-     * @return string
-     */
-    public function getDefaultExcelFormat()
-    {
-        if (!isset($this->format)) {
-            return '';
-        }
-        
-    }
-    
-    /**
      * Parses Excel Cell Formats for export
+     *
+     * @param array $options the HTML attributes for the cell
+     * @param Model $model the current model being rendered
+     * @param mixed $key the primary key value for the model
+     * @param int   $index the zero-based index of the model being rendered
      *
      * @return string
      */
@@ -201,7 +223,7 @@ trait ColumnTrait
                     $fmt = ($format == 'scientific') ? "0{$append}E+00" : "\\#\\{$tSep}\\#\\#0" . $append;
                     break;
                 case 'currency':
-                    $curr = is_array($this->format) && isset($this->format[1]) ? $this->format[1] : 
+                    $curr = is_array($this->format) && isset($this->format[1]) ? $this->format[1] :
                         isset($formatter->currencyCode) ? $formatter->currencyCode . ' ' : '';
                     $fmt = "{$curr}\\#\\{$tSep}\\#\\#0{$dSep}00";
                     break;
@@ -216,22 +238,22 @@ trait ColumnTrait
                     $fmt = '';
                     break;
             }
-        }        
-        if ($format === 'date' || $format === 'datetime' || $format === 'time') { 
+        }
+        if ($format === 'date' || $format === 'datetime' || $format === 'time') {
             $rawValue = $this->getDataCellValue($model, $key, $index);
             switch ($format) {
                 case 'date':
-                    $rawVal = $formatter->format($rawValue, ['date', 'php:Y-m-d']);
+                    $rawValue = $formatter->format($rawValue, ['date', 'php:Y-m-d']);
                     break;
                 case 'datetime':
-                    $rawVal = $formatter->format($rawValue, ['date', 'php:Y-m-d H:i:s']);
+                    $rawValue = $formatter->format($rawValue, ['date', 'php:Y-m-d H:i:s']);
                     break;
                 case 'time':
-                    $rawVal = $formatter->format($rawValue, ['date', 'php:H:i:s']);
+                    $rawValue = $formatter->format($rawValue, ['date', 'php:H:i:s']);
                     break;
             }
-            $options['data-raw-value'] = $rawVal;
-        } elseif ($format === 'integer' || $format === 'decimal' || $format === 'percent' || $format === 'scientific') { 
+            $options['data-raw-value'] = $rawValue;
+        } elseif ($format === 'integer' || $format === 'decimal' || $format === 'percent' || $format === 'scientific') {
             $options['data-raw-value'] = $this->getDataCellValue($model, $key, $index);
         }
         Html::addCssStyle($options, ['mso-number-format' => '"' . $fmt . '"']);
@@ -375,9 +397,8 @@ trait ColumnTrait
      */
     protected function setPageRows()
     {
-        if (
-            $this->grid->showPageSummary && isset($this->pageSummary) &&
-            $this->pageSummary !== false && !is_string($this->pageSummary)
+        if ($this->grid->showPageSummary && isset($this->pageSummary) && $this->pageSummary !== false &&
+            !is_string($this->pageSummary)
         ) {
             $provider = $this->grid->dataProvider;
             $models = array_values($provider->getModels());
@@ -419,14 +440,21 @@ trait ColumnTrait
 
     /**
      * Parses a value if Closure and returns the right value
+     *
+     * @param mixed $var
+     * @param Model $model
+     * @param mixed $key
+     * @param int   $index
+     *
+     * @return mixed
      */
     protected function parseVal($var, $model, $key, $index)
     {
-        return $var instanceof Closure ? 
-            call_user_func($var, $model, $key, $index, $this) : 
+        return $var instanceof Closure ?
+            call_user_func($var, $model, $key, $index, $this) :
             $var;
     }
-    
+
     /**
      * Initializes grid grouping
      *
@@ -451,7 +479,10 @@ trait ColumnTrait
     /**
      * Parses grid grouping and sets data attributes
      *
-     * @return void
+     * @param array $options
+     * @param Model $model
+     * @param mixed $key
+     * @param int   $index
      */
     protected function parseGrouping(&$options, $model, $key, $index)
     {
@@ -495,7 +526,7 @@ trait ColumnTrait
             $key = $this->header;
         } else {
             $key = get_class($this);
-        } 
+        }
         return hash('crc32', $key);
     }
 }

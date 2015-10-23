@@ -4,10 +4,12 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  */
 
 namespace kartik\grid;
+
+use kartik\base\AssetBundle;
 
 /**
  * Asset bundle for GridView Widget (for grouping content)
@@ -15,7 +17,7 @@ namespace kartik\grid;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class GridGroupAsset extends \kartik\base\AssetBundle
+class GridGroupAsset extends AssetBundle
 {
     /**
      * @inheritdoc

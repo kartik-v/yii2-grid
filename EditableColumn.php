@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  */
 
 namespace kartik\grid;
@@ -15,10 +15,10 @@ use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use kartik\editable\Editable;
+use kartik\base\Config;
 
 /**
- * The EditableColumn converts the data to editable using
- * the Editable widget [[\kartik\editable\Editable]]
+ * The EditableColumn converts the data to editable using the Editable widget [[\kartik\editable\Editable]]
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
@@ -54,7 +54,7 @@ class EditableColumn extends DataColumn
      * - $widget EditableColumn is the editable column widget instance
      */
     public $readonly = false;
-    
+
     /**
      * @var array the computed editable options
      */
@@ -64,7 +64,7 @@ class EditableColumn extends DataColumn
      * @var string the css class to be appended for the editable inputs in this column
      */
     protected $_css;
-    
+
     /**
      * @inheritdoc
      * @throws InvalidConfigException
@@ -72,8 +72,8 @@ class EditableColumn extends DataColumn
     public function init()
     {
         parent::init();
-        \kartik\base\Config::checkDependency('editable\Editable', 'yii2-editable', 'for GridView EditableColumn');
-        $this->_css = 'kv-edcol-' . hash('crc32', uniqid(rand(1,100), true));
+        Config::checkDependency('editable\Editable', 'yii2-editable', 'for GridView EditableColumn');
+        $this->_css = 'kv-edcol-' . hash('crc32', uniqid(rand(1, 100), true));
         if ($this->refreshGrid) {
             EditableColumnAsset::register($this->_view);
         }
@@ -121,7 +121,6 @@ class EditableColumn extends DataColumn
         if ($this->attribute !== null) {
             $this->_editableOptions['model'] = $model;
             $this->_editableOptions['attribute'] = "[{$index}]{$this->attribute}";
-            $type = ArrayHelper::getValue($this->_editableOptions, 'inputType', Editable::INPUT_TEXT);
         } elseif (empty($this->_editableOptions['name']) && empty($this->_editableOptions['model']) ||
             !empty($this->_editableOptions['model']) && empty($this->_editableOptions['attribute'])
         ) {
@@ -138,7 +137,7 @@ class EditableColumn extends DataColumn
             $this->_editableOptions['beforeInput'] = $params;
         } else {
             $output = $this->_editableOptions['beforeInput'];
-            $this->_editableOptions['beforeInput'] = function($form, $widget) use ($output, $params) {
+            $this->_editableOptions['beforeInput'] = function ($form, $widget) use ($output, $params) {
                 if ($output instanceof Closure) {
                     return $params . call_user_func($output, $form, $widget);
                 } else {
@@ -147,7 +146,7 @@ class EditableColumn extends DataColumn
             };
         }
         if ($this->refreshGrid) {
-            $id =  $this->grid->options['id'];
+            $id = $this->grid->options['id'];
             $this->_view->registerJs("kvRefreshEC('{$id}','{$this->_css}');");
         }
         return Editable::widget($this->_editableOptions);

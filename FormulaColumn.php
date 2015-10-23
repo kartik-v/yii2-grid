@@ -4,18 +4,15 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  */
 
 namespace kartik\grid;
 
 use yii\base\InvalidConfigException;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 
 /**
- * A FormulaColumn to calculate values based on other column indexes
- * for the Grid widget [[\kartik\widgets\GridView]]
+ * A FormulaColumn to calculate values based on other column indexes for the Grid widget [[\kartik\widgets\GridView]]
  *
  * DataColumn is the default column type for the [[GridView]] widget.
  *
@@ -37,15 +34,16 @@ class FormulaColumn extends DataColumn
     /**
      * Gets the value of a column
      *
-     * @param integer $i the index of the grid column (the first column
-     * in the grid will be zero indexed). Note a column's index is to be
-     * considered, even if the `visible` property is set to false.
+     * @param integer $i the index of the grid column (the first column in the grid will be zero indexed). Note a
+     *     column's index is to be considered, even if the `visible` property is set to false.
      * @param array   $params which will contain these keys:
      * - model: mixed the data model being rendered
      * - key: mixed the key associated with the data model
-     * - index: integer the zero-based index of the data item among
-     *   the item array returned by [[GridView::dataProvider]].
+     * - index: integer the zero-based index of the data item among the item array returned by
+     *     [[GridView::dataProvider]].
      * - widget: the current column widget instance
+     *
+     * @return string
      * @throws InvalidConfigException
      */
     public function col($i, $params = [])
@@ -58,6 +56,7 @@ class FormulaColumn extends DataColumn
                 "The 'value' must be set and defined as a `Closure` function for a FormulaColumn."
             );
         }
+        /** @var DataColumn $col */
         $col = $this->grid->columns[$i];
         if ($col === $this) {
             throw new InvalidConfigException("Self-referencing FormulaColumn at column {$i}.");
@@ -100,5 +99,4 @@ class FormulaColumn extends DataColumn
         }
         return parent::renderFooterCellContent();
     }
-
 }

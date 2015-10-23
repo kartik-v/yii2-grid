@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  */
 
 namespace kartik\grid;
@@ -12,6 +12,7 @@ namespace kartik\grid;
 use Yii;
 use Closure;
 use yii\base\InvalidConfigException;
+use yii\grid\Column;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -25,7 +26,7 @@ use yii\web\View;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class RadioColumn extends \yii\grid\Column
+class RadioColumn extends Column
 {
     use ColumnTrait;
 
@@ -221,5 +222,5 @@ class RadioColumn extends \yii\grid\Column
             }
         }
         return Html::radio($this->name, !empty($options['checked']), $options);
-    }    
+    }
 }

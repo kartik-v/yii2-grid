@@ -3,23 +3,19 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
  * @package yii2-grid
- * @version 3.0.7
+ * @version 3.0.8
  */
 
 namespace kartik\grid;
 
 use Yii;
-use yii\base\InvalidConfigException;
-use yii\bootstrap\Dropdown;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
- * Extends the Yii's ActionColumn for the Grid widget [[\kartik\widgets\GridView]]
- * with various enhancements.
- *
- * ActionColumn is a column for the [[GridView]] widget that displays buttons
- * for viewing and manipulating the items.
+ * Extends the Yii's ActionColumn for the Grid widget [[\kartik\widgets\GridView]] with various enhancements.
+ * ActionColumn is a column for the [[GridView]] widget that displays buttons for viewing and manipulating the items.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
@@ -29,17 +25,16 @@ class ActionColumn extends \yii\grid\ActionColumn
     use ColumnTrait;
 
     /**
-     * @var boolean whether the column is hidden from display. This is different
-     * than the `visible` property, in the sense, that the column is rendered,
-     * but hidden from display. This will allow you to still export the column
-     * using the export function.
+     * @var boolean whether the column is hidden from display. This is different than the `visible` property, in the
+     *     sense, that the column is rendered, but hidden from display. This will allow you to still export the column
+     *     using the export function.
      */
     public $hidden;
 
     /**
-     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`,
-     * it will hide the column for all export formats. If set as an array, it will accept the
-     * list of GridView export `formats` and hide output only for them.
+     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, it will hide the
+     *     column for all export formats. If set as an array, it will accept the list of GridView export `formats` and
+     *     hide output only for them.
      */
     public $hiddenFromExport = true;
 
@@ -49,8 +44,8 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $dropdown = false;
 
     /**
-     * @var array the HTML attributes for the Dropdown container. The class `dropdown` will be added.
-     * To align a dropdown at the right edge of the page container, you set the class to `pull-right`.
+     * @var array the HTML attributes for the Dropdown container. The class `dropdown` will be added. To align a
+     *     dropdown at the right edge of the page container, you set the class to `pull-right`.
      */
     public $dropdownOptions = [];
 
@@ -60,8 +55,8 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $dropdownMenu = ['class' => 'text-left'];
 
     /**
-     * @var array the dropdown button options. Applicable if `dropdown` is `true`.
-     * The following special options are recognized:
+     * @var array the dropdown button options. Applicable if `dropdown` is `true`. The following special options are
+     *     recognized:
      * `label`: the button label to be displayed. Defaults to `Actions`.
      * `caret`: the caret symbol to be appended to the dropdown button.
      *  Defaults to `<span class="caret"></span>`
@@ -93,30 +88,26 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $width = '80px';
 
     /**
-     * @var array HTML attributes for the view action button. The following additional
-     * option is recognized:
+     * @var array HTML attributes for the view action button. The following additional option is recognized:
      * `label`: string, the label for the view action button. This is not html encoded.
      */
     public $viewOptions = [];
 
     /**
-     * @var array HTML attributes for the update action button. The following additional
-     * option is recognized:
+     * @var array HTML attributes for the update action button. The following additional option is recognized:
      * `label`: string, the label for the update action button. This is not html encoded.
      */
     public $updateOptions = [];
 
     /**
-     * @var array HTML attributes for the delete action button. The following additional
-     * option is recognized:
+     * @var array HTML attributes for the delete action button. The following additional option is recognized:
      * `label`: string, the label for the delete action button. This is not html encoded.
      */
     public $deleteOptions = [];
 
     /**
-     * @var boolean|string whether the page summary is displayed above the footer for this column.
-     * If this is set to a string, it will be displayed as is. If it is set to `false` the summary
-     * will not be displayed.
+     * @var boolean|string whether the page summary is displayed above the footer for this column. If this is set to a
+     *     string, it will be displayed as is. If it is set to `false` the summary will not be displayed.
      */
     public $pageSummary = false;
 
@@ -126,16 +117,15 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $pageSummaryOptions = [];
 
     /**
-     * @var boolean whether to just hide the page summary display but still calculate
-     * the summary based on `pageSummary` settings
+     * @var boolean whether to just hide the page summary display but still calculate the summary based on
+     *     `pageSummary` settings
      */
     public $hidePageSummary = false;
 
     /**
-     * @var boolean whether to merge the header title row and the filter row
-     * This will not render the filter for the column and can be used when `filter`
-     * is set to `false`. Defaults to `false`. This is only applicable when `filterPosition`
-     * for the grid is set to FILTER_POS_BODY.
+     * @var boolean whether to merge the header title row and the filter row This will not render the filter for the
+     *     column and can be used when `filter` is set to `false`. Defaults to `false`. This is only applicable when
+     *     `filterPosition` for the grid is set to FILTER_POS_BODY.
      */
     public $mergeHeader = true;
 
@@ -146,10 +136,10 @@ class ActionColumn extends \yii\grid\ActionColumn
     public $headerOptions = [];
 
     /**
-     * @var array|\Closure the HTML attributes for the data cell tag. This can either be an array of
-     * attributes or an anonymous function ([[Closure]]) that returns such an array.
-     * The signature of the function should be the following: `function ($model, $key, $index, $column)`.
-     * A function may be used to assign different attributes to different rows based on the data in that row.
+     * @var array|\Closure the HTML attributes for the data cell tag. This can either be an array of attributes or an
+     *     anonymous function ([[Closure]]) that returns such an array. The signature of the function should be the
+     *     following: `function ($model, $key, $index, $column)`. A function may be used to assign different attributes
+     *     to different rows based on the data in that row.
      *
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
@@ -162,6 +152,7 @@ class ActionColumn extends \yii\grid\ActionColumn
 
     public function init()
     {
+        /** @noinspection PhpUndefinedFieldInspection */
         $this->_isDropdown = ($this->grid->bootstrap && $this->dropdown);
         if (!isset($this->header)) {
             $this->header = Yii::t('kvgrid', 'Actions');
@@ -181,7 +172,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     protected function initDefaultButtons()
     {
         if (!isset($this->buttons['view'])) {
-            $this->buttons['view'] = function ($url, $model) {
+            $this->buttons['view'] = function ($url) {
                 $options = $this->viewOptions;
                 $title = Yii::t('kvgrid', 'View');
                 $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
@@ -196,7 +187,7 @@ class ActionColumn extends \yii\grid\ActionColumn
             };
         }
         if (!isset($this->buttons['update'])) {
-            $this->buttons['update'] = function ($url, $model) {
+            $this->buttons['update'] = function ($url) {
                 $options = $this->updateOptions;
                 $title = Yii::t('kvgrid', 'Update');
                 $icon = '<span class="glyphicon glyphicon-pencil"></span>';
@@ -211,7 +202,7 @@ class ActionColumn extends \yii\grid\ActionColumn
             };
         }
         if (!isset($this->buttons['delete'])) {
-            $this->buttons['delete'] = function ($url, $model) {
+            $this->buttons['delete'] = function ($url) {
                 $options = $this->deleteOptions;
                 $title = Yii::t('kvgrid', 'Delete');
                 $icon = '<span class="glyphicon glyphicon-trash"></span>';
@@ -243,9 +234,15 @@ class ActionColumn extends \yii\grid\ActionColumn
         $options = $this->fetchContentOptions($model, $key, $index);
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
-    
+
     /**
      * Renders the data cell.
+     *
+     * @param Model $model
+     * @param mixed $key
+     * @param int   $index
+     *
+     * @return mixed|string
      */
     protected function renderDataCellContent($model, $key, $index)
     {

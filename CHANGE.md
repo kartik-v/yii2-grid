@@ -3,11 +3,14 @@ Change Log: `yii2-grid`
 
 ## Version 3.0.8
 
-**Date:** 29-Sep-2015
+**Date:** 24-Oct-2015
 
 1. (bug #370): Enhance `EditableColumn::refreshGrid` validation.
 2. (bug #371): Allow `tag` to be set for rendering `beforeHeader`.
 3. (bug #387): Rename Czech translation message folder from `cz` to `cs`.
+4. (enh #389): Various enhancements to table float header.
+5. (enh #390): Perfect scroll bars plugin enhancement.
+6. Various coding style enhancements, optimizations, and fixes. 
 
 ## Version 3.0.7
 
