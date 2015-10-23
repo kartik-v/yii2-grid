@@ -4,18 +4,17 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  */
 
 namespace kartik\grid;
 
-use yii\base\InvalidConfigException;
+use Closure;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
- * Extends the Yii's DataColumn for the Grid widget [[\kartik\widgets\GridView]]
- * with various enhancements
+ * Extends the Yii's DataColumn for the Grid widget [[\kartik\widgets\GridView]] with various enhancements
  *
  * DataColumn is the default column type for the [[GridView]] widget.
  *
@@ -27,29 +26,26 @@ class DataColumn extends \yii\grid\DataColumn
     use ColumnTrait;
 
     /**
-     * @var boolean whether the column is hidden from display. This is different
-     * than the `visible` property, in the sense, that the column is rendered,
-     * but hidden from display. This will allow you to still export the column
-     * using the export function.
+     * @var boolean whether the column is hidden from display. This is different than the `visible` property, in the
+     *     sense, that the column is rendered, but hidden from display. This will allow you to still export the column
+     *     using the export function.
      */
     public $hidden;
 
     /**
-     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`,
-     * it will hide the column for all export formats. If set as an array, it will accept the
-     * list of GridView export `formats` and hide output only for them.
+     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, it will hide the
+     *     column for all export formats. If set as an array, it will accept the list of GridView export `formats` and
+     *     hide output only for them.
      */
     public $hiddenFromExport = false;
 
     /**
-     * @var string the horizontal alignment of each column. Should be one of
-     * 'left', 'right', or 'center'.
+     * @var string the horizontal alignment of each column. Should be one of 'left', 'right', or 'center'.
      */
     public $hAlign;
 
     /**
-     * @var string the vertical alignment of each column. Should be one of
-     * 'top', 'middle', or 'bottom'.
+     * @var string the vertical alignment of each column. Should be one of 'top', 'middle', or 'bottom'.
      */
     public $vAlign;
 
@@ -66,29 +62,27 @@ class DataColumn extends \yii\grid\DataColumn
     public $width;
 
     /**
-     * @var string the filter input type for each filter input. You can use one of the
-     * `GridView::FILTER_` constants or pass any widget classname (extending the
-     * Yii Input Widget).
+     * @var string the filter input type for each filter input. You can use one of the `GridView::FILTER_` constants or
+     *     pass any widget classname (extending the Yii Input Widget).
      */
     public $filterType;
 
     /**
-     * @var array the options/settings for the filter widget. Will be used only if
-     * you set `filterType` to a widget classname that exists.
+     * @var array the options/settings for the filter widget. Will be used only if you set `filterType` to a widget
+     *     classname that exists.
      */
     public $filterWidgetOptions = [];
 
     /**
-     * @var boolean whether to merge the header title row and the filter row
-     * This will not render the filter for the column and can be used when `filter`
-     * is set to `false`. Defaults to `false`. This is only applicable when `filterPosition`
-     * for the grid is set to FILTER_POS_BODY.
+     * @var boolean whether to merge the header title row and the filter row. This will not render the filter for the
+     *     column and can be used when `filter` is set to `false`. Defaults to `false`. This is only applicable when
+     *     `filterPosition` for the grid is set to FILTER_POS_BODY.
      */
     public $mergeHeader = false;
 
     /**
-     * @var boolean|string|Closure the page summary that is displayed above the footer. You can
-     * set it to one of the following:
+     * @var boolean|string|Closure the page summary that is displayed above the footer. You can set it to one of the
+     *     following:
      * - `false`: the summary will not be displayed.
      * - `true`: the page summary for the column will be calculated and displayed using the
      *   `pageSummaryFunc` setting.
@@ -112,16 +106,15 @@ class DataColumn extends \yii\grid\DataColumn
     public $pageSummaryFunc = GridView::F_SUM;
 
     /**
-     * @var array HTML attributes for the page summary cell. The following special attributes
-     * are available:
+     * @var array HTML attributes for the page summary cell. The following special attributes are available:
      * - `prepend` string a prefix string that will be prepended before the pageSummary content
      * - `append` string a suffix string that will be appended after the pageSummary content
      */
     public $pageSummaryOptions = [];
 
     /**
-     * @var boolean whether to just hide the page summary display but still calculate
-     * the summary based on `pageSummary` settings
+     * @var boolean whether to just hide the page summary display but still calculate the summary based on
+     *     `pageSummary` settings
      */
     public $hidePageSummary = false;
 
@@ -132,64 +125,63 @@ class DataColumn extends \yii\grid\DataColumn
     public $group = false;
 
     /**
-     * @var boolean|Closure, whether to add a separate group row for grouping. This is applicable only
-     * when `group` property is `true`. Defaults to `false`. If set to `true`, the column will be hidden
-     * and its value will be displayed in a separate row above. The default behavior is to show the grouped
-     * content in a separate column (when this property is `false`). If setup as a Closure, the signature
-     * of the function should be: `function ($model, $key, $index, $column)`, where `$model`, `$key`,
-     * and `$index` refer to the model, key and index of the row currently being rendered, and `$column` 
-     * is a reference to the [[DataColumn]] object.
+     * @var boolean|Closure, whether to add a separate group row for grouping. This is applicable only when `group`
+     *     property is `true`. Defaults to `false`. If set to `true`, the column will be hidden and its value will be
+     *     displayed in a separate row above. The default behavior is to show the grouped content in a separate column
+     *     (when this property is `false`). If setup as a Closure, the signature of the function should be: `function
+     *     ($model, $key, $index, $column)`, where `$model`, `$key`, and `$index` refer to the model, key and index of
+     *     the row currently being rendered, and `$column` is a reference to the [[DataColumn]] object.
      */
     public $groupedRow = false;
 
     /**
-     * @var string|Closure, the odd group css class. Defaults to 'kv-group-odd'. If setup as a Closure,
-     * the signature of the function should be: `function ($model, $key, $index, $column)`, where
-     * `$model`, `$key`, and `$index` refer to the model, key and index of the row currently being
-     * rendered, and `$column` is a reference to the [[DataColumn]] object.
+     * @var string|Closure, the odd group css class. Defaults to 'kv-group-odd'. If setup as a Closure, the signature
+     *     of the function should be: `function ($model, $key, $index, $column)`, where `$model`, `$key`, and `$index`
+     *     refer to the model, key and index of the row currently being rendered, and `$column` is a reference to the
+     *     [[DataColumn]] object.
      */
     public $groupOddCssClass = 'kv-group-odd';
 
     /**
-     * @var string|Closure, the even group css class. Defaults to 'kv-group-even'. If setup as a Closure,
-     * the signature of the function should be: `function ($model, $key, $index, $column)`, where
-     * `$model`, `$key`, and `$index` refer to the model, key and index of the row currently being
-     * rendered, and `$column` is a reference to the [[DataColumn]] object.
+     * @var string|Closure, the even group css class. Defaults to 'kv-group-even'. If setup as a Closure, the signature
+     *     of the function should be: `function ($model, $key, $index, $column)`, where `$model`, `$key`, and `$index`
+     *     refer to the model, key and index of the row currently being rendered, and `$column` is a reference to the
+     *     [[DataColumn]] object.
      */
     public $groupEvenCssClass = 'kv-group-even';
 
     /**
-     * @var integer|Closure the column index of which this group is a sub group of. This is validated
-     * only if `group` is set to `true`.  If setup as a Closure, the signature of the function should be: 
-     * `function ($model, $key, $index, $column)`, where `$model`, `$key`, and `$index` refer to the model, 
-     * key and index of the row currently being rendered, and `$column` is a reference to the [[DataColumn]] 
-     * object.
+     * @var integer|Closure the column index of which this group is a sub group of. This is validated only if `group`
+     *     is set to `true`.  If setup as a Closure, the signature of the function should be: `function ($model, $key,
+     *     $index, $column)`, where `$model`, `$key`, and `$index` refer to the model, key and index of the row
+     *     currently being rendered, and `$column` is a reference to the [[DataColumn]] object.
      */
     public $subGroupOf;
 
     /**
-     * @var array|Closure configuration of the group header which will be displayed as a separate
-     * row above the group. If this is empty, no group header will be rendered. If setup as a Closure, 
-     * the signature of the function should be: `function ($model, $key, $index, $column)`, where `$model`,
-     * `$key`, and `$index` refer to the model, key and index of the row currently being rendered, and 
-     * `$column` is a reference to the [[DataColumn]] object. The following array keys are recognized:
-     * - `mergeColumns`: array, of columns that will be merged as `from, to` pairs. For example if you
-     *    need to merge column numbers 0 to 2 and column numbers 3 to 6, you can set this as:
+     * @var array|Closure configuration of the group header which will be displayed as a separate row above the group.
+     *     If this is empty, no group header will be rendered. If setup as a Closure, the signature of the function
+     *     should be: `function ($model, $key, $index, $column)`, where `$model`, `$key`, and `$index` refer to the
+     *     model, key and index of the row currently being rendered, and `$column` is a reference to the [[DataColumn]]
+     *     object. The following array keys are recognized:
+     *
+     * - `mergeColumns`: array, of columns that will be merged as `from, to` pairs. For example if you need to merge
+     *    column numbers 0 to 2 and column numbers 3 to 6, you can set this as:
      *    ```
      *    [
      *      [0, 2], [3, 6]
      *    ]
      *    ```
-     * - `content`: array, header content for each column. You must set this as `$key => $value`, where
-     *    `$key` is the 0 based index for the column, and `$value` is the content to display for the
-     *    column. The `$value` can take in special function names to summarize values for the column.
-     *    If set to one of `GridView::F_COUNT`, `GridView::F_SUM`, `GridView::F_AVG`, `GridView::F_MAX`,
-     *    `GridView::F_MIN`, the values will be auto summarized.
      *
+     * - `content`: array, header content for each column. You must set this as `$key => $value`, where `$key` is the 0
+     *     based index for the column, and `$value` is the content to display for the column. The `$value` can take in
+     *     special function names to summarize values for the column. If set to one of `GridView::F_COUNT`,
+     *     `GridView::F_SUM`, `GridView::F_AVG`, `GridView::F_MAX`, `GridView::F_MIN`, the values will be auto
+     *     summarized.
      * - `contentFormats`: array, header content formats for each column. This is only applicable currently only for
-     *    number type or a custom type using a javascript callback. You must set this as `$key => $value`, where
-     *    `$key` is the 0 based index for the column, and  `$value` is the format settings for the column. The
-     *    `$value` is a format specification setup as an array containing one or more of the following options:
+     *     number type or a custom type using a javascript callback. You must set this as `$key => $value`, where
+     *     `$key` is the 0 based index for the column, and  `$value` is the format settings for the column. The
+     *     `$value` is a format specification setup as an array containing one or more of the following options:
      *    - `format`: string, whether `number` or `callback`
      *    - `decimals`: number, number of decimals (for number format only)
      *    - `decPoint`: string, decimals point character (for number format only). Defaults to `.`.
@@ -206,9 +198,9 @@ class DataColumn extends \yii\grid\DataColumn
      *    ]
      *    ```
      *
-     * - `contentOptions`: array, header HTML attributes for each column. You must set this as `$key => $value`,
-     *    where `$key` is the 0 based index for the column, and `$value` is the HTML attributes to apply for
-     *    the column. The `$value` must be an array of HTML attributes for the table column.
+     * - `contentOptions`: array, header HTML attributes for each column. You must set this as `$key => $value`, where
+     *     `$key` is the 0 based index for the column, and `$value` is the HTML attributes to apply for the column. The
+     *     `$value` must be an array of HTML attributes for the table column.
      *    ```
      *    [
      *       0 => ['style'=>'font-weight:bold'],
@@ -221,25 +213,25 @@ class DataColumn extends \yii\grid\DataColumn
     public $groupHeader = [];
 
     /**
-     * @var array|Closure configuration of the group footer which will be displayed as a separate
-     * row. If this is empty, no group footer will be rendered. If setup as a Closure, the signature
-     * of the function should be: `function ($model, $key, $index, $column)`, where `$model`, `$key`,
-     * and `$index` refer to the model, key and index of the row currently being rendered, and `$column` 
-     * is a reference to the [[DataColumn]] object.
-     * `$column` is a reference to the [[DataColumn]] object. The following array keys are recognized:
-     * - `mergeColumns`: array, of columns that will be merged as `from, to` pairs. For example if you
-     *    need to merge column numbers 0 to 2 and column numbers 3 to 6, you can set this as:
+     * @var array|Closure configuration of the group footer which will be displayed as a separate row. If this is
+     *     empty, no group footer will be rendered. If setup as a Closure, the signature of the function should be:
+     *     `function ($model, $key, $index, $column)`, where `$model`, `$key`, and `$index` refer to the model, key and
+     *     index of the row currently being rendered, and `$column` is a reference to the [[DataColumn]] object.
+     *     `$column` is a reference to the [[DataColumn]] object. The following array keys are recognized:
+     *
+     * - `mergeColumns`: array, of columns that will be merged as `from, to` pairs. For example if you need to merge
+     *     column numbers 0 to 2 and column numbers 3 to 6, you can set this as:
      *    ```
      *    [
      *      [0, 2], [3, 6]
      *    ]
      *    ```
      *
-     * - `content`: array, footer content for each column. You must set this as `$key => $value`, where
-     *    `$key` is the 0 based index for the column, and `$value` is the content to display for the
-     *    column. The `$value` can take in special function names to summarize values for the column.
-     *    If set to one of `GridView::F_COUNT`, `GridView::F_SUM`, `GridView::F_AVG`, `GridView::F_MAX`,
-     *    `GridView::F_MIN`, the values will be auto summarized. For example:
+     * - `content`: array, footer content for each column. You must set this as `$key => $value`, where `$key` is the 0
+     *     based index for the column, and `$value` is the content to display for the column. The `$value` can take in
+     *     special function names to summarize values for the column. If set to one of `GridView::F_COUNT`,
+     *     `GridView::F_SUM`, `GridView::F_AVG`, `GridView::F_MAX`, `GridView::F_MIN`, the values will be auto
+     *     summarized. For example:
      *    ```
      *    [
      *       0 => 'Total',
@@ -248,16 +240,16 @@ class DataColumn extends \yii\grid\DataColumn
      *    ```
      *
      * - `contentFormats`: array, footer content formats for each column. This is only applicable currently only for
-     *    number type or a custom type using a javascript callback. You must set this as `$key => $value`, where
-     *    `$key` is the 0 based index for the column, and  `$value` is the format settings for the column. The
-     *    `$value` is a format specification setup as an array containing one or more of the following options:
+     *     number type or a custom type using a javascript callback. You must set this as `$key => $value`, where
+     *     `$key` is the 0 based index for the column, and  `$value` is the format settings for the column. The
+     *     `$value` is a format specification setup as an array containing one or more of the following options:
      *    - `format`: string, whether `number` or `callback`
      *    - `decimals`: number, number of decimals (for number format only)
      *    - `decPoint`: string, decimals point character (for number format only). Defaults to `.`.
      *    - `thousandSep`: string, thousands separator character (for number format only). Defaults to `,`.
-     *    - `func`: JsExpression, the javascript callback function (for callback format only). This must be setup as
-     *      a javascript function of the signature: `function (source) { return custom_convert(source, data); }`. The
-     *      parameters for the callback function that will be passed are:
+     *    - `func`: JsExpression, the javascript callback function (for callback format only). This must be setup as a
+     *     javascript function of the signature: `function (source) { return custom_convert(source, data); }`. The
+     *     parameters for the callback function that will be passed are:
      *        - `source`: string, the summary column source as set in `content` section if available
      *        - `data`: array, the text values of each of the child columns in this group.
      *    ```
@@ -267,9 +259,9 @@ class DataColumn extends \yii\grid\DataColumn
      *    ]
      *    ```
      *
-     * - `contentOptions`: array, footer HTML attributes for each column. You must set this as `$key => $value`,
-     *    where `$key` is the 0 based index for the column, and `$value` is the HTML attributes to apply for
-     *    the column. The `$value` must be an array of HTML attributes for the table column.
+     * - `contentOptions`: array, footer HTML attributes for each column. You must set this as `$key => $value`, where
+     *     `$key` is the 0 based index for the column, and `$value` is the HTML attributes to apply for the column. The
+     *     `$value` must be an array of HTML attributes for the table column.
      *    ```
      *    [
      *       0 => ['style'=>'font-weight:bold'],
@@ -280,7 +272,7 @@ class DataColumn extends \yii\grid\DataColumn
      * - `options`: array, HTML attributes for the group footer row.
      */
     public $groupFooter = [];
-    
+
     /**
      * @var string the cell format for EXCEL exported content.
      * @see http://cosicimiento.blogspot.in/2008/11/styling-excel-cells-with-mso-number.html
@@ -290,7 +282,7 @@ class DataColumn extends \yii\grid\DataColumn
     /**
      * @var array of row data for the column for the current page
      */
-    private $_rows = [];
+    protected $_rows = [];
 
     /**
      * @var \yii\web\View the view instance
@@ -343,9 +335,8 @@ class DataColumn extends \yii\grid\DataColumn
     protected function renderFilterCellContent()
     {
         $content = parent::renderFilterCellContent();
-        $chkType = !empty($this->filterType) && $this->filterType !== GridView::FILTER_CHECKBOX && $this->filterType !== GridView::FILTER_RADIO && !class_exists(
-                $this->filterType
-            );
+        $chkType = !empty($this->filterType) && $this->filterType !== GridView::FILTER_CHECKBOX &&
+            $this->filterType !== GridView::FILTER_RADIO && !class_exists($this->filterType);
         if ($this->filter === false || empty($this->filterType) || $content === $this->grid->emptyCell || $chkType) {
             return $content;
         }
@@ -372,6 +363,7 @@ class DataColumn extends \yii\grid\DataColumn
             return Html::activeCheckbox($this->grid->filterModel, $this->attribute, $this->filterInputOptions);
         }
         $options = ArrayHelper::merge($this->filterWidgetOptions, $options);
+        /** @var \kartik\base\Widget $widgetClass */
         return $widgetClass::widget($options);
     }
 }

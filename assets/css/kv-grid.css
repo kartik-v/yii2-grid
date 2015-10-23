@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  *
  * Gridview widget styling and enhancements for Bootstrap.
  * Built for Yii Framework 2.0
@@ -322,4 +322,13 @@ td.kv-group-odd {
 
 .table-hover .kv-grouped-row:hover {
     background-color: #FFE4E1!important;
+}
+
+/**
+ * Grid styles for floating header and perfect scrollbar
+ */
+.kv-grid-wrapper {
+    position: relative;
+    overflow: auto;
+    height: 300px;
 }

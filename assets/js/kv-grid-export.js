@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  *
  * Grid Export Validation Module for Yii's Gridview. Supports export of
  * grid data as CSV, HTML, or Excel.
@@ -87,8 +87,10 @@
 
     var GridExport = function (element, options) {
         this.$element = $(element);
+        //noinspection JSUnresolvedVariable
         var gridOpts = options.gridOpts,
             genOpts = options.genOpts;
+        //noinspection JSUnresolvedVariable
         this.$grid = $("#" + gridOpts.gridId);
         this.messages = gridOpts.messages;
         this.target = gridOpts.target;
@@ -112,17 +114,20 @@
         constructor: GridExport,
         getArray: function (expType) {
             var self = this, $table = self.clean(expType), head = [], data = {};
+            /** @namespace self.config.colHeads */
+            /** @namespace self.config.slugColHeads */
             if (self.config.colHeads !== undefined && self.config.colHeads.length > 0) {
                 head = self.config.colHeads;
             } else {
-                $table.find('thead tr th').each(function (i, v) {
+                $table.find('thead tr th').each(function (i) {
                     var str = $(this).text().trim(), slugStr = slug(str);
                     head[i] = (!self.config.slugColHeads || isEmpty(slugStr)) ? 'col_' + i : slugStr;
                 });
             }
-            $table.find('tbody tr:has("td")').each(function (i, v) {
+            $table.find('tbody tr:has("td")').each(function (i) {
                 data[i] = {};
-                $(this).children('td').each(function (j, w) {
+                //noinspection JSValidateTypes
+                $(this).children('td').each(function (j) {
                     var col = head[j];
                     data[i][col] = $(this).text().trim();
                 });
@@ -229,7 +234,7 @@
             $table.find('tr.filters').remove();
             $table.find('th').removeAttr('rowspan');
             // remove link tags
-            $table.find('th').find('a').each(function() {
+            $table.find('th').find('a').each(function () {
                 $(this).contents().unwrap();
             });
             $table.find('input').remove(); // remove any form inputs
@@ -283,6 +288,7 @@
 
         },
         exportHTML: function () {
+            /** @namespace self.config.cssFile */
             var self = this, $table = self.clean('html'), cfg = self.config,
                 css = (self.config.cssFile && cfg.cssFile.length) ? '<link href="' + self.config.cssFile + '" rel="stylesheet">' : '',
                 html = templates.html.replace('{encoding}', self.encoding).replace('{css}', css).replace('{data}',
@@ -291,6 +297,8 @@
         },
         exportPDF: function () {
             var self = this, $table = self.clean('pdf');
+            /** @namespace self.config.contentAfter */
+            /** @namespace self.config.contentBefore */
             var before = isEmpty(self.config.contentBefore) ? '' : self.config.contentBefore,
                 after = isEmpty(self.config.contentAfter) ? '' : self.config.contentAfter,
                 css = self.config.css,
@@ -308,7 +316,9 @@
             var tmpColDelim = String.fromCharCode(11), // vertical tab character
                 tmpRowDelim = String.fromCharCode(0); // null character
             // actual delimiter characters for CSV format
-            var colDelim = '"' + self.config.colDelimiter + '"', rowDelim = '"' + self.config.rowDelimiter + '"';
+            /** @namespace self.config.rowDelimiter */
+            /** @namespace self.config.colDelimiter */
+            var colD = '"' + self.config.colDelimiter + '"', rowD = '"' + self.config.rowDelimiter + '"';
             // grab text from table into CSV formatted string
             var txt = '"' + $rows.map(function (i, row) {
                     var $row = $(row), $cols = $row.find(self.columns);
@@ -317,24 +327,27 @@
                         return text.replace('"', '""'); // escape double quotes
                     }).get().join(tmpColDelim);
                 }).get().join(tmpRowDelim)
-                    .split(tmpRowDelim).join(rowDelim)
-                    .split(tmpColDelim).join(colDelim) + '"';
+                    .split(tmpRowDelim).join(rowD)
+                    .split(tmpColDelim).join(colD) + '"';
             self.download(expType, txt);
         },
         exportJSON: function () {
             var self = this, out = self.getArray('json');
+            /** @namespace self.config.indentSpace */
+            /** @namespace self.config.jsonReplacer */
             out = JSON.stringify(out, self.config.jsonReplacer, self.config.indentSpace);
             self.download('json', out);
         },
         exportEXCEL: function () {
             var self = this, $table = self.clean('xls'), cfg = self.config, xls, $td,
                 css = (cfg.cssFile && self.config.cssFile.length) ? '<link href="' + self.config.cssFile + '" rel="stylesheet">' : '';
-            $table.find('td[data-raw-value]').each(function() {
+            $table.find('td[data-raw-value]').each(function () {
                 $td = $(this);
                 if ($td.css('mso-number-format') || $td.css('mso-number-format') === 0 || $td.css('mso-number-format') === '0') {
                     $td.html($td.attr('data-raw-value')).removeAttr('data-raw-value');
                 }
             });
+            /** @namespace self.config.worksheet */
             xls = templates.excel.replace('{encoding}', self.encoding).replace('{css}', css).replace('{worksheet}',
                 self.config.worksheet).replace('{data}', $('<div />').html($table).html()).replace(/"/g, '\'');
             self.download('xls', xls);

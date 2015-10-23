@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.7
+ * @version   3.0.8
  *
  * jQuery methods library for yii2-grid expand row column
  * 
@@ -12,9 +12,10 @@
  * For more Yii related demos visit http://demos.krajee.com
  */
 var kvRowNum = 0, kvExpandRow;
-kvExpandRow = function (options) {
+(function ($) {
     "use strict";
-    (function ($) {
+    kvExpandRow = function (options) {
+        //noinspection JSUnresolvedVariable
         var gridId = options.gridId,
             hiddenFromExport = options.hiddenFromExport,
             detailUrl = options.detailUrl,
@@ -46,7 +47,7 @@ kvExpandRow = function (options) {
                 }
                 $row = $row.clone();
                 $row.find('.kv-expand-row').remove();
-                $row.find('td').each(function() {
+                $row.find('td').each(function () {
                     if ($(this).css("display") !== "none") {
                         cols++;
                     }
@@ -109,10 +110,10 @@ kvExpandRow = function (options) {
             }
             var loadDetail = function (postProcess) {
                     var params = $.extend({
-                        expandRowKey: vKey,
-                        expandRowInd: vInd
-                    }, extraData), 
-                    reload = enableCache ? $detail.html().length === 0 : true;
+                            expandRowKey: vKey,
+                            expandRowInd: vInd
+                        }, extraData),
+                        reload = enableCache ? $detail.html().length === 0 : true;
                     beginLoading($cell);
                     if (detailUrl.length > 0 && reload) {
                         $grid.trigger('kvexprow.beforeLoad', [vInd, vKey, extraData]);
@@ -137,6 +138,7 @@ kvExpandRow = function (options) {
                     var newRow = '<tr class="kv-expand-detail-row ' + rowCssClass + '" ' +
                         'data-key="' + vKey + '" ' +
                         'data-index="' + vInd + '">';
+                    //noinspection JSValidateTypes
                     $detail.wrap('<td colspan="' + cols + '">').parent().wrap(newRow);
                     $icon.html(collapseIcon);
                     $cell.attr('title', collapseTitle);
@@ -165,7 +167,7 @@ kvExpandRow = function (options) {
                     });
                     endLoading($cell);
                 },
-                toggleRow = function() {
+                toggleRow = function () {
                     var opt, chk, collapsed = false, loading = false;
                     if ($cell.hasClass(progress)) {
                         return;
@@ -174,9 +176,10 @@ kvExpandRow = function (options) {
                         chk = expandOneOnly && !collapseAll;
                         if (chk) {
                             opt = $.extend({}, options, {collapseAll: true});
-                            $rows.each(function() {
+                            $rows.each(function () {
                                 if ($(this).closest('.kv-expand-icon-cell').hasClass(progress)) {
                                     loading = true;
+                                    //noinspection UnnecessaryReturnStatementJS
                                     return;
                                 }
                             });
@@ -199,7 +202,7 @@ kvExpandRow = function (options) {
                         collapseRow();
                         $grid.trigger('kvexprow.toggle', [vInd, vKey, extraData, false]);
                         $icon.focus();
-                    }                    
+                    }
                 };
             if (expandAll) {
                 if (isCollapsed($icon)) {
@@ -246,7 +249,7 @@ kvExpandRow = function (options) {
                 toggleRow($cell);
             });
             $row.off('click').on('click', function (event) {
-                var target = event.target, clickDisabled = $(target).length && 
+                var target = event.target, clickDisabled = $(target).length &&
                     $(target).hasClass('kv-disable-click') ||
                     $.inArray(target.nodeName, rowClickExcludedTags) !== -1;
                 if (enableRowClick && !clickDisabled) {
@@ -281,5 +284,5 @@ kvExpandRow = function (options) {
             }
             kvExpandRow(opt);
         });
-    })(window.jQuery);
-};
+    };
+})(window.jQuery);

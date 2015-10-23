@@ -9,13 +9,15 @@
 
 namespace kartik\grid;
 
+use kartik\base\AssetBundle;
+
 /**
  * Asset bundle for GridView EditableColumn Widget
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class EditableColumnAsset extends \kartik\base\AssetBundle
+class EditableColumnAsset extends AssetBundle
 {
     /**
      * @inheritdoc

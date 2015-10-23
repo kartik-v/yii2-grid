@@ -12,12 +12,12 @@ namespace kartik\grid;
 use kartik\base\AssetBundle;
 
 /**
- * Asset bundle for GridView Widget
+ * Asset bundle for GridView Widget (for perfect scrollbar)
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class GridViewAsset extends AssetBundle
+class GridPerfectScrollbarAsset extends AssetBundle
 {
     /**
      * @inheritdoc
@@ -25,7 +25,8 @@ class GridViewAsset extends AssetBundle
     public function init()
     {
         $this->setSourcePath(__DIR__ . '/assets');
-        $this->setupAssets('css', ['css/kv-grid']);
+        $this->setupAssets('css', ['css/perfect-scrollbar', 'css/perfect-scrollbar-kv']);
+        $this->setupAssets('js', ['js/perfect-scrollbar.jquery']);
         parent::init();
     }
 }
