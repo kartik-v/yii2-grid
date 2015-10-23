@@ -760,7 +760,7 @@ HTML;
      */
     public function renderToggleData()
     {
-        if (!$this->toggleData) {
+        if (!$this->toggleData || isset($this->toggleDataOptions['maxCount']) && $this->toggleDataOptions['maxCount'] < $this->dataProvider->getTotalCount()) {
             return '';
         }
 
@@ -768,6 +768,11 @@ HTML;
         $label = ArrayHelper::remove($this->toggleDataOptions[$tag], 'label', '');
         $url = Url::current([$this->_toggleDataKey => $tag]);
         Html::addCssClass($this->toggleDataContainer, 'btn-group');
+        if($tag == 'all' && isset($this->toggleDataOptions['confirm']) && ($this->toggleDataOptions['confirm']===true || isset($this->toggleDataOptions['confirm']['minCount']) && $this->dataProvider->getTotalCount() > $this->toggleDataOptions['confirm']['minCount'])) {
+            $this->toggleDataOptions[$tag]['data-confirm'] = Yii::t('kvgrid','There are {totalCount} records. Are you sure you want to display them all?',[
+                'totalCount' => number_format($this->dataProvider->getTotalCount())
+            ]);
+        }
         return Html::tag('div', Html::a($label, $url, $this->toggleDataOptions[$tag]), $this->toggleDataContainer);
     }
 
@@ -1120,6 +1125,10 @@ HTML;
             return;
         }
         $defaultOptions = [
+            'maxCount' => 10000,
+            'confirm' => [
+                'minCount' => 1000
+            ],
             'all' => [
                 'icon' => 'resize-full',
                 'label' => Yii::t('kvgrid', 'All'),
@@ -1138,6 +1147,12 @@ HTML;
         }
         if (empty($this->toggleDataOptions['all'])) {
             $this->toggleDataOptions['all'] = $defaultOptions['all'];
+        }
+        if (empty($this->toggleDataOptions['confirm'])) {
+            $this->toggleDataOptions['confirm'] = $defaultOptions['confirm'];
+        }
+        if (empty($this->toggleDataOptions['maxCount'])) {
+            $this->toggleDataOptions['maxCount'] = $defaultOptions['maxCount'];
         }
         $tag = $this->_isShowAll ? 'page' : 'all';
         $options = $this->toggleDataOptions[$tag];
