@@ -11,6 +11,7 @@ Change Log: `yii2-grid`
 4. (enh #389): Various enhancements to table float header.
 5. (enh #390): Perfect scroll bars plugin enhancement.
 6. Various coding style enhancements, optimizations, and fixes. 
+7. (enh #391): Toggle data enhancement with confirmation dialog for show all and hide maxCount. 
 
 ## Version 3.0.7
 
