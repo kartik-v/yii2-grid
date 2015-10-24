@@ -69,6 +69,7 @@ return [
     'The TEXT export file will be generated for download.' => '',
     'The page summary displays SUM for first 3 amount columns and AVG for the last.' => '',
     'The table header sticks to the top in this demo as you scroll' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => '',
     'Update' => '',
     'View' => '',
     'Yii2 Grid Export (PDF)' => '',

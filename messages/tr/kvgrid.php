@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'There are {totalCount} records. Are you sure you want to display them all?' => '',
     'Actions' => 'Eylemler',
     'Active' => 'Etkin',
     'Add Book' => 'Kitap Ekle',

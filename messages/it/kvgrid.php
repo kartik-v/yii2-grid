@@ -43,6 +43,7 @@ return [
     'Tab Delimited Text' => '',
     'The JSON export file will be generated for download.' => '',
     'The PDF export file will be generated for download.' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => '',
     'Yii2 Grid Export (PDF)' => '',
     'export' => '',
     'grid-export' => '',

@@ -28,6 +28,7 @@ return [
     'Microsoft Excel 95+' => '',
     'PDF' => '',
     'Portable Document Format' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => '',
     'krajee, grid, export, yii2-grid, pdf' => '',
     'Actions' => 'Műveletek',
     'Active' => 'Aktív',

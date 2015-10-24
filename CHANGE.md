@@ -14,6 +14,7 @@ Change Log: `yii2-grid`
 7. (enh #390): Perfect scroll bars plugin enhancement.
 8. Various coding style enhancements, optimizations, and fixes. 
 9. (enh #391): Toggle data enhancement with confirmation dialog for show all and hide maxCount. 
+10. Regenerate and update message translations.
 
 ## Version 3.0.7
 

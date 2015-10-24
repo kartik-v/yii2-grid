@@ -24,6 +24,7 @@ return [
     'Expand All' => '',
     'Export All Data' => '',
     'Tab Delimited Text' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => '',
     'Actions' => 'Ações',
     'Active' => 'Ativo',
     'Add Book' => 'Adicionar Livro',

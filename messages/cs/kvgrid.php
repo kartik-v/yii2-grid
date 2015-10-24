@@ -69,6 +69,7 @@ return [
     'The TEXT export file will be generated for download.' => 'Text soubor bude vygenerován.',
     'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'Shrnutí stránky zobrazuje součet pro prvé 3 číselné sloupce a průměr pro poslední sloupec.',
     'The table header sticks to the top in this demo as you scroll' => 'Záhlaví tabulky je během rolování nahoře ukotveno',
+    'There are {totalCount} records. Are you sure you want to display them all?' => '',
     'Update' => 'Obnovit',
     'View' => 'Zobrazit',
     'Yii2 Grid Export (PDF)' => 'Yii2 Grid Export (PDF)',

@@ -38,6 +38,7 @@ return [
     'Page' => '',
     'Portable Document Format' => '',
     'Text' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => '',
     'Yii2 Grid Export (PDF)' => '',
     'grid-export' => '',
     'krajee, grid, export, yii2-grid, pdf' => '',
