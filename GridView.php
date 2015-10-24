@@ -494,14 +494,16 @@ HTML;
     /**
      * @var array the settings for the toggle data button for the toggle data type. This will be setup as an
      *     associative array of $key => $value pairs, where $key can be:
-     * - 'maxCount': integer, the maximum number of records uptil which the toggle button will be rendered. If the
-     *     dataProvider records exceed this setting, the toggleButton will not be displayed.
-     * - 'minCount': integer, the minimum number of records beyond which a confirmation message will be displayed when
-     *     toggling all records. If the dataProvider record count exceeds this setting, a confirmation message will be
-     *     alerted to the user.
+     * - 'maxCount': integer|boolean, the maximum number of records uptil which the toggle button will be rendered. If the
+     *     dataProvider records exceed this setting, the toggleButton will not be displayed. Defaults to `10000` if
+     *     not set. If you set this to `true`, the toggle button will always be displayed. If you set this to `false the 
+     *     toggle button will not be displayed (similar to `toggleData` setting).
+     * - 'minCount': integer|boolean, the minimum number of records beyond which a confirmation message will be displayed
+     *     when toggling all records. If the dataProvider record count exceeds this setting, a confirmation message will be
+     *     alerted to the user. Defaults to `500` if not set. If you set this to `true`, the confirmation message will
+     *     always be displayed. If set to `false` no confirmation message will be displayed.
      * - 'confirmMsg': string, the confirmation message for the toggle data when `minCount` threshold is exceeded.
-     *     Defaults to
-     *   `'There are {totalCount} records. Are you sure you want to display them all?'`.
+     *     Defaults to `'There are {totalCount} records. Are you sure you want to display them all?'`.
      * - 'all': array, configuration for showing all grid data and the value is the HTML attributes for the button.
      *   (refer `page` for understanding the default options).
      * - 'page': array, configuration for showing first page data and $options is the HTML attributes for the button.
@@ -806,9 +808,11 @@ HTML;
      */
     public function renderToggleData()
     {
-        if (!$this->toggleData || isset($this->toggleDataOptions['maxCount']) &&
-            $this->toggleDataOptions['maxCount'] < $this->dataProvider->getTotalCount()
-        ) {
+        if (!$this->toggleData) {
+            return '';
+        }
+        $maxCount = ArrayHelper::getValue($this->toggleDataOptions, 'maxCount', false);
+        if ($maxCount !== true && (!$maxCount || (int) $maxCount <= $this->dataProvider->getTotalCount())) {
             return '';
         }
         $tag = $this->_isShowAll ? 'page' : 'all';
@@ -1157,7 +1161,7 @@ HTML;
         }
         $defaultOptions = [
             'maxCount' => 10000,
-            'minCount' => 5,
+            'minCount' => 500,
             'confirmMsg' => Yii::t(
                 'kvgrid',
                 'There are {totalCount} records. Are you sure you want to display them all?',
@@ -1176,18 +1180,7 @@ HTML;
                 'title' => Yii::t('kvgrid', 'Show first page data')
             ],
         ];
-        if (empty($this->toggleDataOptions['page'])) {
-            $this->toggleDataOptions['page'] = $defaultOptions['page'];
-        }
-        if (empty($this->toggleDataOptions['all'])) {
-            $this->toggleDataOptions['all'] = $defaultOptions['all'];
-        }
-        if (empty($this->toggleDataOptions['confirm'])) {
-            $this->toggleDataOptions['confirm'] = $defaultOptions['confirm'];
-        }
-        if (empty($this->toggleDataOptions['maxCount'])) {
-            $this->toggleDataOptions['maxCount'] = $defaultOptions['maxCount'];
-        }
+        $this->toggleDataOptions = ArrayHelper::merge($defaultOptions, $this->toggleDataOptions);
         $tag = $this->_isShowAll ? 'page' : 'all';
         $options = $this->toggleDataOptions[$tag];
         $this->toggleDataOptions[$tag]['id'] = $this->_toggleButtonId;
@@ -1484,13 +1477,12 @@ HTML;
         if (!$this->toggleData || $tag !== 'all') {
             return '';
         }
-        $c = ArrayHelper::getValue($this->toggleDataOptions, 'confirm', []);
-        $validate = ($c === true || isset($c['minCount']) && $this->dataProvider->getTotalCount() > $c['minCount']);
-        if (!$validate) {
+        $minCount = ArrayHelper::getValue($this->toggleDataOptions, 'minCount', 0);
+        if ($minCount !== true && (!$minCount || $minCount <= $this->dataProvider->getTotalCount())) {
             return '';
         }
         $event = $this->pjax ? 'pjax:click' : 'click';
-        $msg = 1;
+        $msg = $this->toggleDataOptions['confirmMsg'];
         return "\$('#{$this->_toggleButtonId}').on('{$event}',function(e){
             if(!window.confirm('{$msg}')){e.preventDefault();}
         });";
