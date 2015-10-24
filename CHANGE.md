@@ -5,13 +5,15 @@ Change Log: `yii2-grid`
 
 **Date:** 24-Oct-2015
 
-1. (bug #370): Enhance `EditableColumn::refreshGrid` validation.
-2. (bug #371): Allow `tag` to be set for rendering `beforeHeader`.
-3. (bug #387): Rename Czech translation message folder from `cz` to `cs`.
-4. (enh #389): Various enhancements to table float header.
-5. (enh #390): Perfect scroll bars plugin enhancement.
-6. Various coding style enhancements, optimizations, and fixes. 
-7. (enh #391): Toggle data enhancement with confirmation dialog for show all and hide maxCount. 
+1. (enh #347): New `defaultPagination` property to allow setting default to 'page' or 'all'.
+2. (bug #370): Enhance `EditableColumn::refreshGrid` validation.
+3. (bug #371): Allow `tag` to be set for rendering `beforeHeader`.
+4. (enh #380): Allow toolbar and panel classes/layouts to be overridden.
+5. (bug #387): Rename Czech translation message folder from `cz` to `cs`.
+6. (enh #389): Various enhancements to table float header.
+7. (enh #390): Perfect scroll bars plugin enhancement.
+8. Various coding style enhancements, optimizations, and fixes. 
+9. (enh #391): Toggle data enhancement with confirmation dialog for show all and hide maxCount. 
 
 ## Version 3.0.7
 

@@ -127,8 +127,14 @@ class GridView extends \yii\grid\GridView
     const TARGET_BLANK = '_blank';
 
     /**
+     * @var string the panel prefix
+     */
+    public $panelPrefix = 'panel panel-';
+
+    /**
      * @var string the template for rendering the grid within a bootstrap styled panel.
      * The following special variables are recognized and will be replaced:
+     * - {prefix}, string the CSS prefix name as set in panelPrefix. Defaults to `panel panel-`.
      * - {type}, string the panel type that will append the bootstrap contextual CSS.
      * - {panelHeading}, string, which will render the panel heading block.
      * - {panelBefore}, string, which will render the panel before block.
@@ -141,7 +147,7 @@ class GridView extends \yii\grid\GridView
      * - {export}, string, which will render the [[$export]] menu button content.
      */
     public $panelTemplate = <<< HTML
-<div class="panel {type}">
+<div class="{prefix}{type}">
     {panelHeading}
     {panelBefore}
     {items}
@@ -283,7 +289,7 @@ HTML;
      *          - {export}, string which will render the [[$export]] menu button content.
      *          - {toggleData}, string which will render the button to toggle between page data and all data.
      *      - options: the HTML attributes for the button group div container. By default the
-     *        CSS class `btn-group` will be attached to this container.
+     *        CSS class `btn-group` will be attached to this container if no class is set.
      */
     public $toolbar = [
         '{toggleData}',
@@ -475,16 +481,31 @@ HTML;
     public $pageSummaryRowOptions = ['class' => 'kv-page-summary warning'];
 
     /**
+     * @var string the default pagination that will be read by toggle data. Should be one of 'page' or 'all'.
+     * If not set to 'all', it will always defaults to 'page'.
+     */
+    public $defaultPagination = 'page';
+
+    /**
      * @var boolean whether to enable toggling of grid data. Defaults to `true`.
      */
     public $toggleData = true;
 
     /**
      * @var array the settings for the toggle data button for the toggle data type. This will be setup as an
-     *     associative array of $type => $options, where $type can be:
-     * - 'all': for showing all grid data
-     * - 'page': for showing first page data and $options is the HTML attributes for the button. The following special
-     *     options are recognized:
+     *     associative array of $key => $value pairs, where $key can be:
+     * - 'maxCount': integer, the maximum number of records uptil which the toggle button will be rendered. If the
+     *     dataProvider records exceed this setting, the toggleButton will not be displayed.
+     * - 'minCount': integer, the minimum number of records beyond which a confirmation message will be displayed when
+     *     toggling all records. If the dataProvider record count exceeds this setting, a confirmation message will be
+     *     alerted to the user.
+     * - 'confirmMsg': string, the confirmation message for the toggle data when `minCount` threshold is exceeded.
+     *     Defaults to
+     *   `'There are {totalCount} records. Are you sure you want to display them all?'`.
+     * - 'all': array, configuration for showing all grid data and the value is the HTML attributes for the button.
+     *   (refer `page` for understanding the default options).
+     * - 'page': array, configuration for showing first page data and $options is the HTML attributes for the button.
+     *    The following special options are recognized:
      *     - icon: string the glyphicon suffix name. If not set or empty will not be displayed.
      *     - label: string the label for the button.
      *
@@ -492,9 +513,12 @@ HTML;
      *      ```
      *      [
      *          'maxCount' => 10000,
-     *          'confirm' => [
-     *              'minCount' => 1000
-     *          ],
+     *          'minCount' => 1000
+     *          'confirmMsg' => Yii::t(
+     *              'kvgrid',
+     *              'There are {totalCount} records. Are you sure you want to display them all?',
+     *              ['totalCount' => number_format($this->dataProvider->getTotalCount())]
+     *          ),
      *          'all' => [
      *              'icon' => 'resize-full',
      *              'label' => 'All',
@@ -514,13 +538,13 @@ HTML;
 
     /**
      * @var array the HTML attributes for the toggle data button group container. By default this will always have the
-     *     `class = btn-group` automatically added.
+     *     `class = btn-group` automatically added, if no class is set.
      */
     public $toggleDataContainer = [];
 
     /**
      * @var array the HTML attributes for the export button group container. By default this will always have the
-     *     `class = btn-group` automatically added.
+     *     `class = btn-group` automatically added, if no class is set.
      */
     public $exportContainer = [];
 
@@ -660,6 +684,11 @@ HTML;
     protected $_toggleDataKey;
 
     /**
+     * @var string HTML attribute identifier for the toggle button
+     */
+    protected $_toggleButtonId;
+
+    /**
      * @var bool whether the current mode is showing all data
      */
     protected $_isShowAll = false;
@@ -699,11 +728,12 @@ HTML;
             return;
         }
         $this->_toggleDataKey = '_tog' . hash('crc32', $this->options['id']);
-        $this->_isShowAll = ArrayHelper::getValue($_GET, $this->_toggleDataKey, 'page') === 'all';
+        $this->_isShowAll = ArrayHelper::getValue($_GET, $this->_toggleDataKey, $this->defaultPagination) === 'all';
         if ($this->_isShowAll) {
             /** @noinspection PhpUndefinedFieldInspection */
             $this->dataProvider->pagination = false;
         }
+        $this->_toggleButtonId = $this->options['id'] . '-togdata-' . ($this->_isShowAll ? 'all' : 'page');
         parent::init();
     }
 
@@ -776,19 +806,15 @@ HTML;
      */
     public function renderToggleData()
     {
-        if (!$this->toggleData || isset($this->toggleDataOptions['maxCount']) && $this->toggleDataOptions['maxCount'] < $this->dataProvider->getTotalCount()) {
+        if (!$this->toggleData || isset($this->toggleDataOptions['maxCount']) &&
+            $this->toggleDataOptions['maxCount'] < $this->dataProvider->getTotalCount()
+        ) {
             return '';
         }
-
         $tag = $this->_isShowAll ? 'page' : 'all';
         $label = ArrayHelper::remove($this->toggleDataOptions[$tag], 'label', '');
         $url = Url::current([$this->_toggleDataKey => $tag]);
-        Html::addCssClass($this->toggleDataContainer, 'btn-group');
-        if($tag == 'all' && isset($this->toggleDataOptions['confirm']) && ($this->toggleDataOptions['confirm']===true || isset($this->toggleDataOptions['confirm']['minCount']) && $this->dataProvider->getTotalCount() > $this->toggleDataOptions['confirm']['minCount'])) {
-            $this->toggleDataOptions[$tag]['data-confirm'] = Yii::t('kvgrid','There are {totalCount} records. Are you sure you want to display them all?',[
-                'totalCount' => number_format($this->dataProvider->getTotalCount())
-            ]);
-        }
+        static::initCss($this->toggleDataContainer, 'btn-group');
         return Html::tag('div', Html::a($label, $url, $this->toggleDataOptions[$tag]), $this->toggleDataContainer);
     }
 
@@ -1131,9 +1157,12 @@ HTML;
         }
         $defaultOptions = [
             'maxCount' => 10000,
-            'confirm' => [
-                'minCount' => 1000
-            ],
+            'minCount' => 5,
+            'confirmMsg' => Yii::t(
+                'kvgrid',
+                'There are {totalCount} records. Are you sure you want to display them all?',
+                ['totalCount' => number_format($this->dataProvider->getTotalCount())]
+            ),
             'all' => [
                 'icon' => 'resize-full',
                 'label' => Yii::t('kvgrid', 'All'),
@@ -1161,6 +1190,7 @@ HTML;
         }
         $tag = $this->_isShowAll ? 'page' : 'all';
         $options = $this->toggleDataOptions[$tag];
+        $this->toggleDataOptions[$tag]['id'] = $this->_toggleButtonId;
         $icon = ArrayHelper::remove($this->toggleDataOptions[$tag], 'icon', '');
         $label = !isset($options['label']) ? $defaultOptions[$tag]['label'] : $options['label'];
         if (!empty($icon)) {
@@ -1314,6 +1344,19 @@ HTML;
     }
 
     /**
+     * Sets a default css value if not set
+     *
+     * @param array  $options
+     * @param string $css
+     */
+    protected static function initCss(&$options, $css)
+    {
+        if (!isset($options['class'])) {
+            $options['class'] = $css;
+        }
+    }
+
+    /**
      * Sets the grid layout based on the template and panel settings
      */
     protected function renderPanel()
@@ -1321,7 +1364,7 @@ HTML;
         if (!$this->bootstrap || !is_array($this->panel) || empty($this->panel)) {
             return;
         }
-        $type = 'panel-' . ArrayHelper::getValue($this->panel, 'type', 'default');
+        $type = ArrayHelper::getValue($this->panel, 'type', 'default');
         $heading = ArrayHelper::getValue($this->panel, 'heading', '');
         $footer = ArrayHelper::getValue($this->panel, 'footer', '');
         $before = ArrayHelper::getValue($this->panel, 'before', '');
@@ -1336,22 +1379,22 @@ HTML;
         $panelFooter = '';
 
         if ($heading !== false) {
-            Html::addCssClass($headingOptions, 'panel-heading');
+            static::initCss($headingOptions, 'panel-heading');
             $content = strtr($this->panelHeadingTemplate, ['{heading}' => $heading]);
             $panelHeading = Html::tag('div', $content, $headingOptions);
         }
         if ($footer !== false) {
-            Html::addCssClass($footerOptions, 'panel-footer');
+            static::initCss($footerOptions, 'panel-footer');
             $content = strtr($this->panelFooterTemplate, ['{footer}' => $footer]);
             $panelFooter = Html::tag('div', $content, $footerOptions);
         }
         if ($before !== false) {
-            Html::addCssClass($beforeOptions, 'kv-panel-before');
+            static::initCss($beforeOptions, 'kv-panel-before');
             $content = strtr($this->panelBeforeTemplate, ['{before}' => $before]);
             $panelBefore = Html::tag('div', $content, $beforeOptions);
         }
         if ($after !== false) {
-            Html::addCssClass($afterOptions, 'kv-panel-after');
+            static::initCss($afterOptions, 'kv-panel-after');
             $content = strtr($this->panelAfterTemplate, ['{after}' => $after]);
             $panelAfter = Html::tag('div', $content, $afterOptions);
         }
@@ -1359,6 +1402,7 @@ HTML;
             $this->panelTemplate,
             [
                 '{panelHeading}' => $panelHeading,
+                '{prefix}' => $this->panelPrefix,
                 '{type}' => $type,
                 '{panelFooter}' => $panelFooter,
                 '{panelBefore}' => $panelBefore,
@@ -1385,7 +1429,7 @@ HTML;
             if (is_array($item)) {
                 $content = ArrayHelper::getValue($item, 'content', '');
                 $options = ArrayHelper::getValue($item, 'options', []);
-                Html::addCssClass($options, 'btn-group');
+                static::initCss($options, 'btn-group');
                 $toolbar .= Html::tag('div', $content, $options);
             } else {
                 $toolbar .= "\n{$item}";
@@ -1409,7 +1453,6 @@ HTML;
         if (is_string($data)) {
             return $data;
         }
-
         $rows = '';
         if (is_array($data)) {
             foreach ($data as $row) {
@@ -1428,6 +1471,29 @@ HTML;
             }
         }
         return $rows;
+    }
+
+    /**
+     * Generate toggle data validation client script
+     *
+     * @return string
+     */
+    protected function getToggleDataScript()
+    {
+        $tag = $this->_isShowAll ? 'page' : 'all';
+        if (!$this->toggleData || $tag !== 'all') {
+            return '';
+        }
+        $c = ArrayHelper::getValue($this->toggleDataOptions, 'confirm', []);
+        $validate = ($c === true || isset($c['minCount']) && $this->dataProvider->getTotalCount() > $c['minCount']);
+        if (!$validate) {
+            return '';
+        }
+        $event = $this->pjax ? 'pjax:click' : 'click';
+        $msg = 1;
+        return "\$('#{$this->_toggleButtonId}').on('{$event}',function(e){
+            if(!window.confirm('{$msg}')){e.preventDefault();}
+        });";
     }
 
     /**
@@ -1490,7 +1556,8 @@ HTML;
         if ($this->floatHeader) {
             GridFloatHeadAsset::register($view);
             // fix floating header for IE browser when using group grid functionality
-            $js = 'function($table){return $table.find("tbody tr:not(.kv-grid-group-row,.kv-group-header,.kv-group-footer):visible:first>*");}';
+            $skipCss = '.kv-grid-group-row,.kv-group-header,.kv-group-footer'; // skip these CSS for IE
+            $js = 'function($table){return $table.find("tbody tr:not(' . $skipCss . '):visible:first>*");}';
             $opts = [
                 'floatTableClass' => 'kv-table-float',
                 'floatContainerClass' => 'kv-thead-float',
@@ -1507,6 +1574,7 @@ HTML;
             GridPerfectScrollbarAsset::register($view);
             $script .= "{$container}.perfectScrollbar(" . Json::encode($this->perfectScrollbarOptions) . ");";
         }
+        $script .= $this->getToggleDataScript();
         $this->_gridClientFunc = 'kvGridInit_' . hash('crc32', $script);
         $this->options['data-krajee-grid'] = $this->_gridClientFunc;
         $view->registerJs("var {$this->_gridClientFunc}=function(){\n{$script}\n};\n{$this->_gridClientFunc}();");
