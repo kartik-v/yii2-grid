@@ -17,7 +17,8 @@ Change Log: `yii2-grid`
 10. (enh #391): Toggle data enhancement with confirmation dialog for show all and hide maxCount. 
 11. Regenerate and update message translations.
 12. (enh #397): Updated Dutch Translations.
-13. (enh #410): Updated Czech Translations.
+13. (enh #399): Correct resizableColumns initialization for PJAX.
+14. (enh #410): Updated Czech Translations.
 
 ## Version 3.0.7
 

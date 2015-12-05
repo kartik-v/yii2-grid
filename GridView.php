@@ -1542,7 +1542,7 @@ HTML;
             $rcOptions = Json::encode(ArrayHelper::merge($rcDefaults, $this->resizableColumnsOptions));
             $contId = $this->containerOptions['id'];
             GridResizeColumnsAsset::register($view);
-            $script .= "$('#{$contId}').resizableColumns({$rcOptions});";
+            $script .= "$('#{$contId}').resizableColumns('destroy').resizableColumns({$rcOptions});";
         }
         $container = "\$('#{$this->containerOptions['id']}')";
         if ($this->floatHeader) {
