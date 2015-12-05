@@ -25,12 +25,12 @@ class ExportController extends Controller
      */
     public function actionDownload()
     {
-        $type = empty($_POST['export_filetype']) ? 'html' : $_POST['export_filetype'];
-        $name = empty($_POST['export_filename']) ? Yii::t('kvgrid', 'export') : $_POST['export_filename'];
-        $content = empty($_POST['export_content']) ? Yii::t('kvgrid', 'No data found') : $_POST['export_content'];
-        $mime = empty($_POST['export_mime']) ? 'text/plain' : $_POST['export_mime'];
-        $encoding = empty($_POST['export_encoding']) ? 'utf-8' : $_POST['export_encoding'];
-        $config = empty($_POST['export_config']) ? '{}' : $_POST['export_config'];
+        $type = static::getPostData('export_filetype', 'html');
+        $name = static::getPostData('export_filename', Yii::t('kvgrid', 'export'));
+        $content = static::getPostData('export_content', Yii::t('kvgrid', 'No data found'));
+        $mime = static::getPostData('export_mime', 'text/plain');
+        $encoding = static::getPostData('export_encoding', 'utf-8');
+        $config = static::getPostData('export_config', '{}');
         if ($type == GridView::PDF) {
             $config = Json::decode($config);
             $this->generatePDF($content, "{$name}.pdf", $config);
@@ -86,5 +86,18 @@ class ExportController extends Controller
         header("Content-Type: {$mime}; charset={$encoding}");
         header("Content-Disposition: attachment; filename={$name}.{$type}");
         header("Cache-Control: max-age=0");
+    }
+
+    /**
+     * Gets the value of a variable in $_POST
+     *
+     * @param int|string $key the variable name in $_POST
+     * @param mixed      $default the default value
+     *
+     * @return mixed the post data value
+     */
+    protected static function getPostData($key, $default = null)
+    {
+        return empty($_POST) || empty($_POST[$key]) ? $default : $_POST[$key];
     }
 }
