@@ -3,18 +3,21 @@ Change Log: `yii2-grid`
 
 ## Version 3.0.8
 
-**Date:** 24-Oct-2015
+**Date:** 05-Dec-2015
 
-1. (enh #347): New `defaultPagination` property to allow setting default to 'page' or 'all'.
-2. (bug #370): Enhance `EditableColumn::refreshGrid` validation.
-3. (bug #371): Allow `tag` to be set for rendering `beforeHeader`.
-4. (enh #380): Allow toolbar and panel classes/layouts to be overridden.
-5. (bug #387): Rename Czech translation message folder from `cz` to `cs`.
-6. (enh #389): Various enhancements to table float header.
-7. (enh #390): Perfect scroll bars plugin enhancement.
-8. Various coding style enhancements, optimizations, and fixes. 
-9. (enh #391): Toggle data enhancement with confirmation dialog for show all and hide maxCount. 
-10. Regenerate and update message translations.
+1. (enh #303): Correct Safari specific limitation for jQuery slideDown animation in ExpandRowColumn.
+2. (enh #347): New `defaultPagination` property to allow setting default to 'page' or 'all'.
+3. (bug #370): Enhance `EditableColumn::refreshGrid` validation.
+4. (bug #371): Allow `tag` to be set for rendering `beforeHeader`.
+5. (enh #380): Allow toolbar and panel classes/layouts to be overridden.
+6. (bug #387): Rename Czech translation message folder from `cz` to `cs`.
+7. (enh #389): Various enhancements to table float header.
+8. (enh #390): Perfect scroll bars plugin enhancement.
+9. Various coding style enhancements, optimizations, and fixes. 
+10. (enh #391): Toggle data enhancement with confirmation dialog for show all and hide maxCount. 
+11. Regenerate and update message translations.
+12. (enh #397): Updated Dutch Translations.
+13. (enh #410): Updated Czech Translations.
 
 ## Version 3.0.7
 

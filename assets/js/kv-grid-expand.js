@@ -145,6 +145,7 @@ var kvRowNum = 0, kvExpandRow;
                     if (animate) {
                         $detail.slideDown(duration, function () {
                             setCollapsed($icon);
+                            $detail.show();
                         });
                     } else {
                         $detail.show();
