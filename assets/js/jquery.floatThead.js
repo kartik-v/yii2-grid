@@ -1,4 +1,4 @@
-// @preserve jQuery.floatThead 1.3.0 - http://mkoryak.github.io/floatThead/ - Copyright (c) 2012 - 2015 Misha Koryak
+// @preserve jQuery.floatThead 1.3.2 - http://mkoryak.github.io/floatThead/ - Copyright (c) 2012 - 2015 Misha Koryak
 // @license MIT
 
 /* @author Misha Koryak
@@ -224,7 +224,7 @@
       }
       $table.data('floatThead-lazy', false);
 
-      var headerFloated = false;
+      var headerFloated = true;
       var scrollingTop, scrollingBottom;
       var scrollbarOffset = {vertical: 0, horizontal: 0};
       var scWidth = scrollbarWidth();
@@ -234,8 +234,21 @@
 
       var useAbsolutePositioning = null;
       if(typeof opts.useAbsolutePositioning !== 'undefined'){
-        debug("option 'useAbsolutePositioning' has been removed in v1.3.0, use 'position' instead. See docs for more info: http://mkoryak.github.io/floatThead/#options")
+        opts.position = 'auto';
+        if(opts.useAbsolutePositioning){
+          opts.position = opts.useAbsolutePositioning ? 'absolute' : 'fixed';
+        }
+        debug("option 'useAbsolutePositioning' has been removed in v1.3.0, use `position:'"+opts.position+"'` instead. See docs for more info: http://mkoryak.github.io/floatThead/#options")
       }
+      if(typeof opts.scrollingTop !== 'undefined'){
+        opts.top = opts.scrollingTop;
+        debug("option 'scrollingTop' has been renamed to 'top' in v1.3.0. See docs for more info: http://mkoryak.github.io/floatThead/#options");
+      }
+      if(typeof opts.scrollingBottom !== 'undefined'){
+          opts.bottom = opts.scrollingBottom;
+          debug("option 'scrollingBottom' has been renamed to 'bottom' in v1.3.0. See docs for more info: http://mkoryak.github.io/floatThead/#options");
+      }
+
 
       if (opts.position == 'auto') {
         useAbsolutePositioning = null;
@@ -250,16 +263,13 @@
       if(useAbsolutePositioning == null){ //defaults: locked=true, !locked=false
         useAbsolutePositioning = locked;
       }
-      if(!useAbsolutePositioning){
-        headerFloated = true; //#127
-      }
       var $caption = $table.find("caption");
       var haveCaption = $caption.length == 1;
       if(haveCaption){
         var captionAlignTop = ($caption.css("caption-side") || $caption.attr("align") || "top") === "top";
       }
 
-      var $fthGrp = $('<fthfoot style="display:table-footer-group;border-spacing:0;height:0;border-collapse:collapse;"/>');
+      var $fthGrp = $('<fthfoot style="display:table-footer-group;border-spacing:0;height:0;border-collapse:collapse;visibility:hidden"/>');
 
       var wrappedContainer = false; //used with absolute positioning enabled. did we need to wrap the scrollContainer/table with a relative div?
       var $wrapper = $([]); //used when absolute positioning enabled - wraps the table and the float container
@@ -808,7 +818,7 @@
 
       if (canObserveMutations) {
         var mutationElement = null;
-        if(_.isFunction(opts.autoReflow)){
+        if(util.isFunction(opts.autoReflow)){
           mutationElement = opts.autoReflow($table, $scrollContainer)
         }
         if(!mutationElement) {
@@ -887,6 +897,7 @@
     return this;
   };
 })(jQuery);
+
 /* jQuery.floatThead.utils - http://mkoryak.github.io/floatThead/ - Copyright (c) 2012 - 2014 Misha Koryak
  * License: MIT
  *
@@ -950,3 +961,4 @@
     return that;
   })();
 })(jQuery);
+

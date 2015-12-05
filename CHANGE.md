@@ -19,6 +19,7 @@ Change Log: `yii2-grid`
 12. (enh #397): Updated Dutch Translations.
 13. (enh #399): Correct resizableColumns initialization for PJAX.
 14. (enh #410): Updated Czech Translations.
+15. Update to release v1.3.2 of the `mkoryak/floatThead` plugin.
 
 ## Version 3.0.7
 
