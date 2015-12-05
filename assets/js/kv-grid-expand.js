@@ -119,7 +119,7 @@ var kvRowNum = 0, kvExpandRow;
                         $grid.trigger('kvexprow.beforeLoad', [vInd, vKey, extraData]);
                         $detail.load(detailUrl, params, function () {
                             endLoading($cell);
-                            if (onDetailLoaded && $.isFunction(onDetailLoaded)) {
+                            if (typeof onDetailLoaded === 'function') {
                                 onDetailLoaded();
                             }
                             postProcess();
@@ -135,9 +135,8 @@ var kvRowNum = 0, kvExpandRow;
                     $grid.find('tr[data-index="' + vInd + '"]').remove();
                     $detail.hide();
                     $row.after($detail);
-                    var newRow = '<tr class="kv-expand-detail-row ' + rowCssClass + '" ' +
-                        'data-key="' + vKey + '" ' +
-                        'data-index="' + vInd + '">';
+                    var newRow = '<tr class="kv-expand-detail-row ' + rowCssClass + '" data-key="' + vKey +
+                        '" data-index="' + vInd + '">';
                     //noinspection JSValidateTypes
                     $detail.wrap('<td colspan="' + cols + '">').parent().wrap(newRow);
                     $icon.html(collapseIcon);

@@ -25,8 +25,8 @@ var kvGridGroup;
         $pageSum = $grid.find('tr.kv-page-summary');
         $firstRow = $grid.find('tr[data-key]:first');
         $lastRow = $grid.find('tr[data-key]:last');
-        isEmpty = function ($var) {
-            return $var === undefined || $var === null || $var.length === 0;
+        isEmpty = function (v) {
+            return v === undefined || v === null || v.length === 0;
         };
         initPageSummary = function () {
             var i = 0;
@@ -59,19 +59,22 @@ var kvGridGroup;
             return s.join(dec);
         };
         applyFormat = function (source, config, $tr, $td, i) {
-            var decimals, decPoint, thousandSep;
+            var decimals, decPoint, thousandSep, data, func;
             /** @namespace config.thousandSep */
             /** @namespace config.decPoint */
             /** @namespace config.func */
-            if (config.format && config.format === 'number') {
+            if (config.format === 'number') {
                 decimals = config.decimals || 0;
                 decPoint = config.decPoint || '.';
                 thousandSep = config.thousandSep || ',';
                 return formatNumber(source, decimals, decPoint, thousandSep);
             }
-            if (config.format && config.format === 'callback' && config.func && $.isFunction(config.func)) {
-                data = getSummarySource($tr, $td, i);
-                return config.func(source, data);
+            if (config.format === 'callback') {
+                func = window[config.func];
+                if (typeof func === 'function') {
+                    data = getSummarySource($tr, $td, i);
+                    return func(source, data);
+                }
             }
             return source;
         };
@@ -192,9 +195,8 @@ var kvGridGroup;
             }
         };
         createSummary = function ($cell, type) {
-            var data = $cell.data(type), $parent, key, $tr, $td, i, j,
-                $row, $col, $target, content, isGroupedRow = false,
-                css = (type === 'groupHeader') ? 'kv-group-header' : 'kv-group-footer';
+            var data = $cell.data(type), $parent, key, $tr, $td, i, j, $row, $col, $target, content,
+                isGroupedRow = false, css = (type === 'groupHeader') ? 'kv-group-header' : 'kv-group-footer';
             if (!data) {
                 return;
             }
@@ -335,7 +337,7 @@ var kvGridGroup;
         $.each(groups, function (i, g) {
             var seq = 0;
             $grid.find('td[data-group-key="' + g + '"]').each(function () {
-                var $cell = $(this), $tr,  css = seq % 2 > 0 ? $cell.attr('data-odd-css') : $cell.attr('data-even-css');
+                var $cell = $(this), $tr, css = seq % 2 > 0 ? $cell.attr('data-odd-css') : $cell.attr('data-even-css');
                 if (css) {
                     $cell.removeClass(css).addClass(css);
                 }

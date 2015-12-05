@@ -186,14 +186,16 @@ class DataColumn extends \yii\grid\DataColumn
      *    - `decimals`: number, number of decimals (for number format only)
      *    - `decPoint`: string, decimals point character (for number format only). Defaults to `.`.
      *    - `thousandSep`: string, thousands separator character (for number format only). Defaults to `,`.
-     *    - `func`: JsExpression, the javascript callback function (for callback format only). This must be setup as
-     *      a javascript function of the signature: `function (source) { return custom_convert(source, data); }`. The
+     *    - `func`: string, the javascript callback function name (for callback format only). This should be set to a 
+     *      globally accessible javascript function name. For example if you set this to `customCallback`, the function 
+     *      should be of the signature: `function customCallback(source, data) { return custom_convert(source, data); }`. The
      *      parameters for the callback function that will be passed are:
      *        - `source`: string, the summary column source as set in `content` section if available
      *        - `data`: array, the text values of each of the child columns in this group.
+     *     
      *    ```
      *    [
-     *       7 => ['format'=>'callback', 'func'=>new yii\web\JsExpression('customCallback')]
+     *       7 => ['format'=>'callback', 'func'=>'customCallback']
      *       8 => ['format'=>'number', 'decimals'=>2, 'decPoint'=>'.', 'thousandSep'=>',']
      *    ]
      *    ```
@@ -241,20 +243,21 @@ class DataColumn extends \yii\grid\DataColumn
      *
      * - `contentFormats`: array, footer content formats for each column. This is only applicable currently only for
      *     number type or a custom type using a javascript callback. You must set this as `$key => $value`, where
-     *     `$key` is the 0 based index for the column, and  `$value` is the format settings for the column. The
-     *     `$value` is a format specification setup as an array containing one or more of the following options:
+     *     `$key` is the 0 based index for the column, and  `$value` is the format settings for the column. The `$value`
+     *      is a format specification setup as an array containing one or more of the following options:
      *    - `format`: string, whether `number` or `callback`
      *    - `decimals`: number, number of decimals (for number format only)
      *    - `decPoint`: string, decimals point character (for number format only). Defaults to `.`.
      *    - `thousandSep`: string, thousands separator character (for number format only). Defaults to `,`.
-     *    - `func`: JsExpression, the javascript callback function (for callback format only). This must be setup as a
-     *     javascript function of the signature: `function (source) { return custom_convert(source, data); }`. The
-     *     parameters for the callback function that will be passed are:
+     *    - `func`: string, the javascript callback function name (for callback format only). This should be set to a
+     *      globally accessible javascript function name. For example if you set this to `customCallback`, the function
+     *      should be of the signature: `function customCallback(source, data) { return custom_convert(source, data); }`.
+     *      The parameters for the callback function that will be passed are:
      *        - `source`: string, the summary column source as set in `content` section if available
      *        - `data`: array, the text values of each of the child columns in this group.
      *    ```
      *    [
-     *       7 => ['format'=>'callback', 'func'=>new yii\web\JsExpression('customCallback')]
+     *       7 => ['format'=>'callback', 'func'=>'customCallback']
      *       8 => ['format'=>'number', 'decimals'=>2, 'decPoint'=>'.', 'thousandSep'=>',']
      *    ]
      *    ```

@@ -99,7 +99,7 @@
     background: #ffffff url('../img/loading.gif') center center no-repeat !important;
 }
 
-.kv-grid-loading * {
+.kv-grid-loading tr, .kv-grid-loading td {
     background: transparent !important;
 }
 
