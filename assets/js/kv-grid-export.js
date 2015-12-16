@@ -324,7 +324,7 @@
                     var $row = $(row), $cols = $row.find(self.columns);
                     return $cols.map(function (j, col) {
                         var $col = $(col), text = $col.text().trim();
-                        return text.replace('"', '""'); // escape double quotes
+                        return text.replace(/"/g, '""'); // escape double quotes
                     }).get().join(tmpColDelim);
                 }).get().join(tmpRowDelim)
                     .split(tmpRowDelim).join(rowD)
