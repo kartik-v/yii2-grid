@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.8
+ * @version   3.0.9
  */
 
 namespace kartik\grid;
@@ -19,28 +19,28 @@ use kartik\base\Config;
 /**
  * Trait for all column widgets in yii2-grid
  *
- * @property boolean         $mergeHeader
- * @property boolean         $hidden
- * @property boolean         $noWrap
- * @property array           $options
- * @property array           $headerOptions
- * @property array           $filterOptions
- * @property array           $footerOptions
- * @property array           $contentOptions
- * @property array           $pageSummaryOptions
- * @property boolean         $hidePageSummary
- * @property boolean         $hiddenFromExport
- * @property boolean|Closure $pageSummary
- * @property string|Closure  $pageSummaryFunc
- * @property string          $footer
- * @property string          $hAlign
- * @property string          $vAlign
- * @property string          $width
- * @property array           $_rows
- * @property string          $_columnKey
- * @property string          $_clientScript
- * @property GridView        $grid
- * @property string          $format
+ * @property bool           $mergeHeader
+ * @property bool           $hidden
+ * @property bool           $noWrap
+ * @property array          $options
+ * @property array          $headerOptions
+ * @property array          $filterOptions
+ * @property array          $footerOptions
+ * @property array          $contentOptions
+ * @property array          $pageSummaryOptions
+ * @property bool           $hidePageSummary
+ * @property bool           $hiddenFromExport
+ * @property bool|Closure   $pageSummary
+ * @property string|Closure $pageSummaryFunc
+ * @property string         $footer
+ * @property string         $hAlign
+ * @property string         $vAlign
+ * @property string         $width
+ * @property array          $_rows
+ * @property string         $_columnKey
+ * @property string         $_clientScript
+ * @property GridView       $grid
+ * @property string         $format
  * @method getDataCellValue() getDataCellValue($model, $key, $index)
  * @method renderCell()
  *
@@ -205,7 +205,7 @@ trait ColumnTrait
                 case 'ntext':
                 case 'paragraphs':
                 case 'spellout':
-                case 'boolean':
+                case 'bool':
                 case 'relativeTime':
                     $fmt = '\@';
                     break;

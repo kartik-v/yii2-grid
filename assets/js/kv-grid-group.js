@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.8
+ * @version   3.0.9
  *
  * Grid grouping jquery library created for yii2-grid.
  * 
@@ -54,7 +54,7 @@ var kvGridGroup;
             }
             if ((s[1] || '').length < prec) {
                 s[1] = s[1] || '';
-                s[1] += new Array(prec - s[1].length + 1).join('0');
+                s[1] += [(prec - s[1].length + 1)].join('0');
             }
             return s.join(dec);
         };

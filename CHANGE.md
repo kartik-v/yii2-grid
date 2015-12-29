@@ -1,6 +1,15 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.0.9
+
+**Date:** 30-Dec-2015
+
+1. (enh #410, #413): Add Thai translations.
+2. (bug #415): Fix double quote replace in csv export.
+3. (enh #419): Create new `EditableColumnAction` class.
+4. (enh #420): Enhance EditableColumn to pass current model `attribute` as ajax posted data.
+
 ## Version 3.0.8
 
 **Date:** 05-Dec-2015

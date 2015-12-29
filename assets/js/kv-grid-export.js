@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.8
+ * @version   3.0.9
  *
  * Grid Export Validation Module for Yii's Gridview. Supports export of
  * grid data as CSV, HTML, or Excel.
@@ -14,25 +14,25 @@
  */
 (function ($) {
     "use strict";
-    var replaceAll = function (str, from, to) {
-            return str.split(from).join(to);
-        },
-        isEmpty = function (value, trim) {
-            return value === null || value === undefined || value.length === 0 || (trim && $.trim(value) === '');
-        },
-        popupDialog = function (url, name, w, h) {
-            var left = (screen.width / 2) - (w / 2), top = 60,
-                existWin = window.open('', name, '', true);
-            existWin.close();
-            return window.open(url, name,
-                'toolbar=no, location=no, directories=no, status=yes, menubar=no, scrollbars=no, ' +
-                'resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-        },
-        slug = function (strText) {
-            return strText.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
-        };
-
-    var templates = {
+    var replaceAll, isEmpty, popupDialog, slug, templates, GridExport, urn = "urn:schemas-microsoft-com:office:";
+    replaceAll = function (str, from, to) {
+        return str.split(from).join(to);
+    };
+    isEmpty = function (value, trim) {
+        return value === null || value === undefined || value.length === 0 || (trim && $.trim(value) === '');
+    };
+    popupDialog = function (url, name, w, h) {
+        var left = (screen.width / 2) - (w / 2), top = 60, existWin = window.open('', name, '', true);
+        existWin.close();
+        return window.open(url, name,
+            'toolbar=no, location=no, directories=no, status=yes, menubar=no, scrollbars=no, ' +
+            'resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+    };
+    slug = function (strText) {
+        return strText.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
+    };
+    //noinspection XmlUnusedNamespaceDeclaration
+    templates = {
         html: '<!DOCTYPE html>' +
         '<meta http-equiv="Content-Type" content="text/html;charset={encoding}"/>' +
         '<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>' +
@@ -53,8 +53,7 @@
         '{data}' +
         '</body>',
         pdf: '{before}\n{data}\n{after}',
-        excel: '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"' +
-        'xmlns="http://www.w3.org/TR/REC-html40">' +
+        excel: '<html xmlns:o="' + urn + 'office" xmlns:x="' + urn + 'excel" xmlns="http://www.w3.org/TR/REC-html40">' +
         '<head>' +
         '<meta http-equiv="Content-Type" content="text/html;charset={encoding}"/>' +
         '{css}' +
@@ -84,30 +83,28 @@
         '</body>' +
         '</html>'
     };
-
-    var GridExport = function (element, options) {
-        this.$element = $(element);
+    GridExport = function (element, options) {
         //noinspection JSUnresolvedVariable
-        var gridOpts = options.gridOpts,
-            genOpts = options.genOpts;
+        var self = this, gridOpts = options.gridOpts, genOpts = options.genOpts;
+        self.$element = $(element);
         //noinspection JSUnresolvedVariable
-        this.$grid = $("#" + gridOpts.gridId);
-        this.messages = gridOpts.messages;
-        this.target = gridOpts.target;
-        this.exportConversions = gridOpts.exportConversions;
-        this.showConfirmAlert = gridOpts.showConfirmAlert;
-        this.filename = genOpts.filename;
-        this.showHeader = genOpts.showHeader;
-        this.showFooter = genOpts.showFooter;
-        this.showPageSummary = genOpts.showPageSummary;
-        this.$table = this.$grid.find('.kv-grid-table:first');
-        this.$form = this.$grid.find('form.kv-export-form');
-        this.encoding = this.$form.find('[name="export_encoding"]').val();
-        this.columns = this.showHeader ? 'td,th' : 'td';
-        this.alertMsg = options.alertMsg;
-        this.config = options.config;
-        this.popup = '';
-        this.listen();
+        self.$grid = $("#" + gridOpts.gridId);
+        self.messages = gridOpts.messages;
+        self.target = gridOpts.target;
+        self.exportConversions = gridOpts.exportConversions;
+        self.showConfirmAlert = gridOpts.showConfirmAlert;
+        self.filename = genOpts.filename;
+        self.showHeader = genOpts.showHeader;
+        self.showFooter = genOpts.showFooter;
+        self.showPageSummary = genOpts.showPageSummary;
+        self.$table = self.$grid.find('.kv-grid-table:first');
+        self.$form = self.$grid.find('form.kv-export-form');
+        self.encoding = self.$form.find('[name="export_encoding"]').val();
+        self.columns = self.showHeader ? 'td,th' : 'td';
+        self.alertMsg = options.alertMsg;
+        self.config = options.config;
+        self.popup = '';
+        self.listen();
     };
 
     GridExport.prototype = {
@@ -140,11 +137,9 @@
                 e.preventDefault();
                 return true;
             }
-            var msgs = self.messages;
-            var msg1 = isEmpty(self.alertMsg) ? '' : self.alertMsg,
+            var msgs = self.messages, msg1 = isEmpty(self.alertMsg) ? '' : self.alertMsg,
                 msg2 = isEmpty(msgs.allowPopups) ? '' : msgs.allowPopups,
-                msg3 = isEmpty(msgs.confirmDownload) ? '' : msgs.confirmDownload,
-                msg = '';
+                msg3 = isEmpty(msgs.confirmDownload) ? '' : msgs.confirmDownload, msg = '';
             if (msg1.length && msg2.length) {
                 msg = msg1 + '\n\n' + msg2;
             } else {
@@ -324,7 +319,7 @@
                     var $row = $(row), $cols = $row.find(self.columns);
                     return $cols.map(function (j, col) {
                         var $col = $(col), text = $col.text().trim();
-                        return text.replace('"', '""'); // escape double quotes
+                        return text.replace(/"/g, '""'); // escape double quotes
                     }).get().join(tmpColDelim);
                 }).get().join(tmpRowDelim)
                     .split(tmpRowDelim).join(rowD)
@@ -343,7 +338,8 @@
                 css = (cfg.cssFile && self.config.cssFile.length) ? '<link href="' + self.config.cssFile + '" rel="stylesheet">' : '';
             $table.find('td[data-raw-value]').each(function () {
                 $td = $(this);
-                if ($td.css('mso-number-format') || $td.css('mso-number-format') === 0 || $td.css('mso-number-format') === '0') {
+                if ($td.css('mso-number-format') || $td.css('mso-number-format') === 0 || $td.css(
+                        'mso-number-format') === '0') {
                     $td.html($td.attr('data-raw-value')).removeAttr('data-raw-value');
                 }
             });

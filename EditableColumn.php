@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version   3.0.8
+ * @version   3.0.9
  */
 
 namespace kartik\grid;
@@ -125,14 +125,16 @@ class EditableColumn extends DataColumn
             !empty($this->_editableOptions['model']) && empty($this->_editableOptions['attribute'])
         ) {
             throw new InvalidConfigException(
-                "You must setup the 'attribute' for your EditableColumn OR set one of 'name' OR 'model' & 'attribute' in 'editableOptions' (Exception at index: '{$index}', key: '{$strKey}')."
+                "You must setup the 'attribute' for your EditableColumn OR set one of 'name' OR 'model' & 'attribute'" .
+                " in 'editableOptions' (Exception at index: '{$index}', key: '{$strKey}')."
             );
         }
         $val = $this->getDataCellValue($model, $key, $index);
         if (!isset($this->_editableOptions['displayValue']) && $val !== null && $val !== '') {
             $this->_editableOptions['displayValue'] = parent::renderDataCellContent($model, $key, $index);
         }
-        $params = Html::hiddenInput('editableIndex', $index) . Html::hiddenInput('editableKey', $strKey);
+        $params = Html::hiddenInput('editableIndex', $index) . Html::hiddenInput('editableKey', $strKey) .
+            Html::hiddenInput('editableAttribute', $this->attribute);
         if (empty($this->_editableOptions['beforeInput'])) {
             $this->_editableOptions['beforeInput'] = $params;
         } else {
