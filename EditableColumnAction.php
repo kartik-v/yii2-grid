@@ -17,7 +17,6 @@ use yii\helpers\Html;
 use yii\rest\Action;
 use yii\web\BadRequestHttpException;
 use yii\web\Response;
-use kartik\base\TranslationTrait;
 
 /**
  * Action for processing the editable column form submission. A typical usage of this action in your controller could
@@ -26,7 +25,7 @@ use kartik\base\TranslationTrait;
  * ```php
  *
  * // you can set the EditableColumn::editableOptions['formOptions']['action'] to point to the action below
- * // i.e. `/site/editcell` for the example below
+ * // i.e. `/site/editbook` for the example below
  *
  * use kartik\grid\EditableColumnAction;
  * use yii\web\Controller;
@@ -41,10 +40,10 @@ use kartik\base\TranslationTrait;
  *            'editbook' => [                                       // identifier for your editable column action
  *                'class' => EditableColumnAction::className(),     // action class name
  *                'modelClass' => Book::className(),                // the model for the record being edited
- *                'outputValue' => function ($model, $key, $index) {
- *                      return (int) $model->yourAttribute / 100;   // return a calculated output value if desired
+ *                'outputValue' => function ($model, $attribute, $key, $index) {
+ *                      return (int) $model->$attribute / 100;      // return a calculated output value if desired
  *                },
- *                'outputMessage' => function($model, $key, $index) {
+ *                'outputMessage' => function($model, $attribute, $key, $index) {
  *                      return '';                                  // any custom error to return after model save
  *                },
  *                'showModelErrors' => true,                        // show model validation errors after save
@@ -64,11 +63,9 @@ use kartik\base\TranslationTrait;
  */
 class EditableColumnAction extends Action
 {
-    use TranslationTrait;
-
     /**
      * @var string|Closure the output value from the editable. If set as a string, will be returned as is. If set as a
-     * Closure, the signature of the callback would be `function ($model, $key, $index) { }`, where:
+     * Closure, the signature of the callback would be `function ($model, $attribute, $key, $index) { }`, where:
      * - `$model`: \yii\base\Model, is the model data retrieved via POST.
      * - `$attribute`: string, the attribute name for which the editable plugin is initialized
      * - `$key`: mixed, is the model primary key value
@@ -78,7 +75,7 @@ class EditableColumnAction extends Action
 
     /**
      * @var string|Closure the output error message from the editable. If set as a string, will be returned as is. If
-     * set as a Closure, the signature of the callback would be `function ($model, $key, $index) { }`, where:
+     * set as a Closure, the signature of the callback would be `function ($model, $attribute, $key, $index) { }`, where:
      * - `$model`: \yii\base\Model, is the model data retrieved via POST.
      * - `$attribute`: string, the attribute name for which the editable plugin is initialized
      * - `$key`: mixed, is the model primary key value
@@ -107,22 +104,13 @@ class EditableColumnAction extends Action
     public $ajaxOnly = true;
 
     /**
-     * @var array the the internalization configuration for this widget
-     */
-    public $i18n = [];
-
-    /**
-     * @var string translation message file category name for i18n
-     */
-    protected $_msgCat = 'kvgrid';
-
-    /**
      * @inheritdoc
      */
     public function run()
     {
-        $this->initI18N();
+        $m = Yii::$app->getModule(Module::MODULE);
         $out = $this->validateEditable();
+        unset($m);
         return Yii::createObject(['class' => Response::className(), 'format' => Response::FORMAT_JSON, 'data' => $out]);
     }
 
