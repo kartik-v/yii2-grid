@@ -9,6 +9,7 @@ Change Log: `yii2-grid`
 2. (bug #415): Fix double quote replace in csv export.
 3. (enh #419): Create new `EditableColumnAction` class.
 4. (enh #420): Enhance EditableColumn to pass current model `attribute` as ajax posted data.
+5. (bug #421): Eliminate garbage characters in `kv-grid-export.min.js`.
 
 ## Version 3.0.8
 
