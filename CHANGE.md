@@ -9,8 +9,9 @@ Change Log: `yii2-grid`
 2. (bug #415): Fix double quote replace in csv export.
 3. (enh #419): Create new `EditableColumnAction` class.
 4. (enh #420): Enhance EditableColumn to pass current model `attribute` as ajax posted data.
-5. (enh #431): Disable PJAX pushState by default to avoid plugin conflict on browser back forward.
-6. (enh #432): Enhancements for PJAX reinitialization.
+5. Sort entries in message files.
+6. (enh #431): Disable PJAX pushState by default to avoid plugin conflict on browser back forward.
+7. (enh #432): Enhancements for PJAX reinitialization.
 
 ## Version 3.0.8
 
