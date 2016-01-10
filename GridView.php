@@ -1320,6 +1320,9 @@ HTML;
         if ($js != $container) {
             $view->registerJs("{$js};");
         }
+        if (!isset($this->pjaxSettings['options']['enablePushState'])) {
+            $this->pjaxSettings['options']['enablePushState'] = false;
+        }
         Pjax::begin($this->pjaxSettings['options']);
         echo ArrayHelper::getValue($this->pjaxSettings, 'beforeGrid', '');
     }

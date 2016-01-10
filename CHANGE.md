@@ -3,14 +3,14 @@ Change Log: `yii2-grid`
 
 ## Version 3.0.9
 
-**Date:** 30-Dec-2015
+**Date:** 10-Jan-2016
 
 1. (enh #410, #413): Add Thai translations.
 2. (bug #415): Fix double quote replace in csv export.
 3. (enh #419): Create new `EditableColumnAction` class.
 4. (enh #420): Enhance EditableColumn to pass current model `attribute` as ajax posted data.
-5. (bug #421): Eliminate garbage characters in `kv-grid-export.min.js`.
-6. Sort entries in message files.
+5. (enh #431): Disable PJAX pushState by default to avoid plugin conflict on browser back forward.
+6. (enh #432): Enhancements for PJAX reinitialization.
 
 ## Version 3.0.8
 

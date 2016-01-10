@@ -434,8 +434,8 @@ trait ColumnTrait
         }
         $cont = 'jQuery("#' . $this->grid->pjaxSettings['options']['id'] . '")';
         $view = $this->grid->getView();
-        $event = 'pjax:complete.' . hash('crc32', $script);
-        $view->registerJs("{$cont}.off('{$event}').on('{$event}', function(){{$script}});");
+        $ev = 'pjax:complete.' . hash('crc32', $script);
+        $view->registerJs("{$cont}.off('{$ev}').on('{$ev}', function(){ {$script} });");
     }
 
     /**
@@ -450,9 +450,7 @@ trait ColumnTrait
      */
     protected function parseVal($var, $model, $key, $index)
     {
-        return $var instanceof Closure ?
-            call_user_func($var, $model, $key, $index, $this) :
-            $var;
+        return $var instanceof Closure ? call_user_func($var, $model, $key, $index, $this) : $var;
     }
 
     /**
