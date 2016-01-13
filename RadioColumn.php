@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.0.9
+ * @version   3.1.0
  */
 
 namespace kartik\grid;
@@ -19,9 +19,8 @@ use yii\helpers\Json;
 use yii\web\View;
 
 /**
- * RadioColumn displays a column of radio inputs in a grid view. It 
- * is different than the CheckboxColumn in the sense that it allows
- * only a single row to be selected at a time.
+ * RadioColumn displays a column of radio inputs in a grid view. It is different than the CheckboxColumn in the sense
+ * that it allows only a single row to be selected at a time.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
@@ -41,21 +40,19 @@ class RadioColumn extends Column
     public $showClear = true;
 
     /**
-     * @var array the HTML attributes for the clear button in the header. The following
-     * special option is recognized:
+     * @var array the HTML attributes for the clear button in the header. The following special option is recognized:
      * - label: string, the label for the button (defaults to `&times;`);
      */
-    public $clearOptions = ['class'=>'close'];
-    
+    public $clearOptions = ['class' => 'close'];
+
     /**
-     * @var array|\Closure the HTML attributes for radio inputs. This can either be an array of
-     * attributes or an anonymous function ([[Closure]]) that returns such an array.
-     * The signature of the function should be the following: `function ($model, $key, $index, $column)`.
-     * Where `$model`, `$key`, and `$index` refer to the model, key and index of the row currently being rendered
-     * and `$column` is a reference to the [[RadioColumn]] object.
-     * A function may be used to assign different attributes to different rows based on the data in that row.
-     * Specifically if you want to set a different value for the radio, you can use this option in the 
-     * following way (in this example using the `name` attribute of the model):
+     * @var array|\Closure the HTML attributes for radio inputs. This can either be an array of attributes or an
+     *     anonymous function ([[Closure]]) that returns such an array. The signature of the function should be the
+     *     following: `function ($model, $key, $index, $column)`. Where `$model`, `$key`, and `$index` refer to the
+     *     model, key and index of the row currently being rendered and `$column` is a reference to the [[RadioColumn]]
+     *     object. A function may be used to assign different attributes to different rows based on the data in that
+     *     row. Specifically if you want to set a different value for the radio, you can use this option in the
+     *     following way (in this example using the `name` attribute of the model):
      *
      * ```php
      * 'radioOptions' => function($model, $key, $index, $column) {
@@ -68,34 +65,31 @@ class RadioColumn extends Column
     public $radioOptions = [];
 
     /**
-     * @var boolean whether the column is hidden from display. This is different
-     * than the `visible` property, in the sense, that the column is rendered,
-     * but hidden from display. This will allow you to still export the column
-     * using the export function.
+     * @var bool whether the column is hidden from display. This is different than the `visible` property, in the
+     *     sense, that the column is rendered, but hidden from display. This will allow you to still export the column
+     *     using the export function.
      */
     public $hidden;
 
     /**
-     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`,
-     * it will hide the column for all export formats. If set as an array, it will accept the
-     * list of GridView export `formats` and hide output only for them.
+     * @var bool|array whether the column is hidden in export output. If set to bool `true`, it will hide the column
+     *     for all export formats. If set as an array, it will accept the list of GridView export `formats` and hide
+     *     output only for them.
      */
     public $hiddenFromExport = true;
 
     /**
-     * @var string the horizontal alignment of each column. Should be one of
-     * 'left', 'right', or 'center'.
+     * @var string the horizontal alignment of each column. Should be one of 'left', 'right', or 'center'.
      */
     public $hAlign = GridView::ALIGN_CENTER;
 
     /**
-     * @var string the vertical alignment of each column. Should be one of
-     * 'top', 'middle', or 'bottom'.
+     * @var string the vertical alignment of each column. Should be one of 'top', 'middle', or 'bottom'.
      */
     public $vAlign = GridView::ALIGN_MIDDLE;
 
     /**
-     * @var boolean whether to force no wrapping on all table cells in the column
+     * @var bool whether to force no wrapping on all table cells in the column
      * @see http://www.w3schools.com/cssref/pr_text_white-space.asp
      */
     public $noWrap = false;
@@ -107,20 +101,18 @@ class RadioColumn extends Column
     public $width = '50px';
 
     /**
-     * @var boolean highlight current row if checkbox is checked
+     * @var bool highlight current row if checkbox is checked
      */
     public $rowHighlight = true;
 
     /**
-     * @var string highlight CSS class to be applied for highlighting the row.
-     * Defaults to 'success'.
+     * @var string highlight CSS class to be applied for highlighting the row. Defaults to 'success'.
      */
     public $rowSelectedClass = GridView::TYPE_SUCCESS;
 
     /**
-     * @var boolean|string whether the page summary is displayed above the footer for this column.
-     * If this is set to a string, it will be displayed as is. If it is set to `false` the summary
-     * will not be displayed.
+     * @var bool|string whether the page summary is displayed above the footer for this column. If this is set to a
+     *     string, it will be displayed as is. If it is set to `false` the summary will not be displayed.
      */
     public $pageSummary = false;
 
@@ -130,19 +122,18 @@ class RadioColumn extends Column
     public $pageSummaryOptions = [];
 
     /**
-     * @var boolean whether to just hide the page summary display but still calculate
-     * the summary based on `pageSummary` settings
+     * @var bool whether to just hide the page summary display but still calculate the summary based on `pageSummary`
+     *     settings
      */
     public $hidePageSummary = false;
 
     /**
-     * @var boolean whether to merge the header title row and the filter row
-     * This will not render the filter for the column and can be used when `filter`
-     * is set to `false`. Defaults to `false`. This is only applicable when `filterPosition`
-     * for the grid is set to FILTER_POS_BODY.
+     * @var bool whether to merge the header title row and the filter row This will not render the filter for the
+     *     column and can be used when `filter` is set to `false`. Defaults to `false`. This is only applicable when
+     *     `filterPosition` for the grid is set to FILTER_POS_BODY.
      */
     public $mergeHeader = true;
-    
+
     /**
      * @var string the variables for the client script
      */
@@ -152,12 +143,12 @@ class RadioColumn extends Column
      * @var string the client script to initialize
      */
     protected $_clientScript = '';
-    
+
     /**
      * @var View the widget view object instance
      */
     protected $_view;
-    
+
     /**
      * @inheritdoc
      */

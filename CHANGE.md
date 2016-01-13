@@ -1,6 +1,15 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.0
+
+**Date:** 13-Jan-2016
+
+1. (enh #402): Correct casting of primary key in EditableColumn for composite and MongoId scenario.
+2. (enh #407): Correct casting of primary key in ExpandRowColumn for composite and MongoId scenario.
+3. (bug #434): Correct pjax validation for DataColumn.
+4. (enh #436): Add branch alias for dev-master latest release.
+
 ## Version 3.0.9
 
 **Date:** 10-Jan-2016

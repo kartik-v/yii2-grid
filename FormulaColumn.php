@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.0.9
+ * @version   3.1.0
  */
 
 namespace kartik\grid;
@@ -25,9 +25,7 @@ class FormulaColumn extends DataColumn
     const FOOTER = -20000;
 
     /**
-     * @var boolean automatically generate the footer. If set to `true`, it will
-     * use the same formula to generate the footer. If set to `false`, will use
-     * the default footer.
+     * @var boolean automatically generate the footer. If set to `true`, it will use the same formula to generate the footer. If set to `false`, will use the default footer.
      */
     public $autoFooter = true;
 

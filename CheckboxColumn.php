@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.0.9
+ * @version   3.1.0
  */
 
 namespace kartik\grid;
@@ -25,14 +25,14 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     use ColumnTrait;
 
     /**
-     * @var boolean whether the column is hidden from display. This is different than the `visible` property, in the
+     * @var bool whether the column is hidden from display. This is different than the `visible` property, in the
      *     sense, that the column is rendered, but hidden from display. This will allow you to still export the column
      *     using the export function.
      */
     public $hidden;
 
     /**
-     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, it will hide the
+     * @var bool|array whether the column is hidden in export output. If set to boolean `true`, it will hide the
      *     column for all export formats. If set as an array, it will accept the list of GridView export `formats` and
      *     hide output only for them.
      */
@@ -49,7 +49,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $vAlign = GridView::ALIGN_MIDDLE;
 
     /**
-     * @var boolean whether to force no wrapping on all table cells in the column
+     * @var bool whether to force no wrapping on all table cells in the column
      * @see http://www.w3schools.com/cssref/pr_text_white-space.asp
      */
     public $noWrap = false;
@@ -61,7 +61,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $width = '50px';
 
     /**
-     * @var boolean highlight current row if checkbox is checked
+     * @var bool highlight current row if checkbox is checked
      */
     public $rowHighlight = true;
 
@@ -72,7 +72,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $rowSelectedClass = GridView::TYPE_DANGER;
 
     /**
-     * @var boolean|string whether the page summary is displayed above the footer for this column. If this is set to a
+     * @var bool|string whether the page summary is displayed above the footer for this column. If this is set to a
      *     string, it will be displayed as is. If it is set to `false` the summary will not be displayed.
      */
     public $pageSummary = false;
@@ -83,13 +83,13 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $pageSummaryOptions = [];
 
     /**
-     * @var boolean whether to just hide the page summary display but still calculate
+     * @var bool whether to just hide the page summary display but still calculate
      * the summary based on `pageSummary` settings
      */
     public $hidePageSummary = false;
 
     /**
-     * @var boolean whether to merge the header title row and the filter row This will not render the filter for the
+     * @var bool whether to merge the header title row and the filter row This will not render the filter for the
      *     column and can be used when `filter` is set to `false`. Defaults to `false`. This is only applicable when
      *     `filterPosition` for the grid is set to FILTER_POS_BODY.
      */
