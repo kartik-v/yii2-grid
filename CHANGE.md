@@ -9,7 +9,8 @@ Change Log: `yii2-grid`
 2. (enh #407): Correct casting of primary key in ExpandRowColumn for composite and MongoId scenario.
 3. (bug #434): Correct pjax validation for DataColumn.
 4. (enh #436): Add branch alias for dev-master latest release.
-5. (bug #438): Correct pjax validation for DataColumn.
+5. (enh #437): Update Brazilian Portuguese Translations
+6. (bug #438): Correct pjax validation for DataColumn.
 
 ## Version 3.0.9
 
