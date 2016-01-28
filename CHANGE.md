@@ -1,6 +1,14 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.1
+
+**Date:** 28-Jan-2016
+
+1. (enh #443): Enhance to show header in exported content when setting `floatHeader`.
+2. (enh #444): Set default PDF export encoding to utf8.
+3. (enh #445): Set default pjaxSettings `enablePushState` to match yii pjax defaults.
+
 ## Version 3.1.0
 
 **Date:** 13-Jan-2016

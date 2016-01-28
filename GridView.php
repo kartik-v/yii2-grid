@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.0
+ * @version   3.1.1
  */
 
 namespace kartik\grid;
@@ -614,7 +614,7 @@ HTML;
      *     configuration options are read specific to each file type:
      *     - HTML:
      *          - cssFile: string, the css file that will be used in the exported HTML file. Defaults to:
-     *            `http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css`.
+     *            `http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css`.
      *     - CSV and TEXT:
      *          - colDelimiter: string, the column delimiter string for TEXT and CSV downloads.
      *          - rowDelimiter: string, the row delimiter string for TEXT and CSV downloads.
@@ -1029,7 +1029,7 @@ HTML;
                 'options' => ['title' => Yii::t('kvgrid', 'Hyper Text Markup Language')],
                 'mime' => 'text/html',
                 'config' => [
-                    'cssFile' => 'http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css'
+                    'cssFile' => 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
                 ]
             ],
             self::CSV => [
@@ -1096,7 +1096,7 @@ HTML;
                 'options' => ['title' => Yii::t('kvgrid', 'Portable Document Format')],
                 'mime' => 'application/pdf',
                 'config' => [
-                    'mode' => 'c',
+                    'mode' => 'UTF-8',
                     'format' => 'A4-L',
                     'destination' => 'D',
                     'marginTop' => 20,
@@ -1319,9 +1319,6 @@ HTML;
         }
         if ($js != $container) {
             $view->registerJs("{$js};");
-        }
-        if (!isset($this->pjaxSettings['options']['enablePushState'])) {
-            $this->pjaxSettings['options']['enablePushState'] = false;
         }
         Pjax::begin($this->pjaxSettings['options']);
         echo ArrayHelper::getValue($this->pjaxSettings, 'beforeGrid', '');
