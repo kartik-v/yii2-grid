@@ -72,7 +72,7 @@ return [
     'The TEXT export file will be generated for download.' => 'Die Text-Export-Datei wird für den Download erstellt.',
     'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'Die Seite Zusammenfassung wird SUM für die ersten drei und AVG für die letzte Spalte anzeigen.',
     'The table header sticks to the top in this demo as you scroll' => 'Wenn Sie scrollen, hält sich der Tabellenkopf an der Oberkante der Demoseite.',
-    'There are {totalCount} records. Are you sure you want to display them all?' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => 'Es gibt insgesamt {totalCount} Einträge. Wollen Sie alle anzeigen?',
     'Update' => 'Bearbeiten',
     'View' => 'Anzeigen',
     'Yii2 Grid Export (PDF)' => '',
