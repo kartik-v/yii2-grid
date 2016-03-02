@@ -941,11 +941,11 @@ HTML;
             return;
         }
         $this->exportConversions = ArrayHelper::merge(
+            $this->exportConversions,
             [
                 ['from' => self::ICON_ACTIVE, 'to' => Yii::t('kvgrid', 'Active')],
                 ['from' => self::ICON_INACTIVE, 'to' => Yii::t('kvgrid', 'Inactive')]
-            ],
-            $this->exportConversions
+            ]
         );
 
         $this->export = ArrayHelper::merge(
