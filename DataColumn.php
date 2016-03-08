@@ -370,7 +370,7 @@ class DataColumn extends \yii\grid\DataColumn
         if ($this->filterType === GridView::FILTER_CHECKBOX) {
             return Html::activeCheckbox($this->grid->filterModel, $this->attribute, $this->filterInputOptions);
         }
-        $options = ArrayHelper::merge($this->filterWidgetOptions, $options);
+        $options = array_replace_recursive($this->filterWidgetOptions, $options);
         /** @var \kartik\base\Widget $widgetClass */
         return $widgetClass::widget($options);
     }

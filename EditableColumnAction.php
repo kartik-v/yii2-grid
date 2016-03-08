@@ -36,7 +36,7 @@ use yii\web\Response;
  * {
  *    public function actions()
  *    {
- *        return ArrayHelper::merge(parent::actions(), [
+ *        return array_replace_recursive(parent::actions(), [
  *            'editbook' => [                                       // identifier for your editable column action
  *                'class' => EditableColumnAction::className(),     // action class name
  *                'modelClass' => Book::className(),                // the model for the record being edited

@@ -3,11 +3,15 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.1
 
-**Date:** 28-Jan-2016
+**Date:** 08-Mar-2016
 
 1. (enh #443): Enhance to show header in exported content when setting `floatHeader`.
 2. (enh #444): Set default PDF export encoding to utf8.
 3. (enh #445): Set default pjaxSettings `enablePushState` to match yii pjax defaults.
+4. (enh #450): Update Hungarian Translations.
+5. (enh #455): Update German Translations.
+6. (enh #457): Implement `array_replace_recursive` instead of `ArrayHelper::merge` for overriding defaults.
+7. (enh #458): Add Slovak Translations.
 
 ## Version 3.1.0
 

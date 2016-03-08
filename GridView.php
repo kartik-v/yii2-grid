@@ -940,7 +940,7 @@ HTML;
         if ($this->export === false) {
             return;
         }
-        $this->exportConversions = ArrayHelper::merge(
+        $this->exportConversions = array_replace_recursive(
             [
                 ['from' => self::ICON_ACTIVE, 'to' => Yii::t('kvgrid', 'Active')],
                 ['from' => self::ICON_INACTIVE, 'to' => Yii::t('kvgrid', 'Inactive')]
@@ -948,7 +948,7 @@ HTML;
             $this->exportConversions
         );
 
-        $this->export = ArrayHelper::merge(
+        $this->export = array_replace_recursive(
             [
                 'label' => '',
                 'icon' => 'export',
@@ -1180,7 +1180,7 @@ HTML;
                 'title' => Yii::t('kvgrid', 'Show first page data')
             ],
         ];
-        $this->toggleDataOptions = ArrayHelper::merge($defaultOptions, $this->toggleDataOptions);
+        $this->toggleDataOptions = array_replace_recursive($defaultOptions, $this->toggleDataOptions);
         $tag = $this->_isShowAll ? 'page' : 'all';
         $options = $this->toggleDataOptions[$tag];
         $this->toggleDataOptions[$tag]['id'] = $this->_toggleButtonId;
@@ -1539,7 +1539,7 @@ HTML;
             } else {
                 $rcDefaults = ['store' => null];
             }
-            $rcOptions = Json::encode(ArrayHelper::merge($rcDefaults, $this->resizableColumnsOptions));
+            $rcOptions = Json::encode(array_replace_recursive($rcDefaults, $this->resizableColumnsOptions));
             $contId = $this->containerOptions['id'];
             GridResizeColumnsAsset::register($view);
             $script .= "$('#{$contId}').resizableColumns('destroy').resizableColumns({$rcOptions});";
@@ -1558,7 +1558,7 @@ HTML;
             if ($this->floatOverflowContainer) {
                 $opts['scrollContainer'] = new JsExpression("function(){return {$container};}");
             }
-            $this->floatHeaderOptions = ArrayHelper::merge($opts, $this->floatHeaderOptions);
+            $this->floatHeaderOptions = array_replace_recursive($opts, $this->floatHeaderOptions);
             $opts = Json::encode($this->floatHeaderOptions);
             $script .= "$('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
         }
