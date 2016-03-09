@@ -192,7 +192,6 @@ HTML;
     <div class="kv-panel-pager">
         {pager}
     </div>
-    {footer}
     <div class="clearfix"></div>
 HTML;
 
