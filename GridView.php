@@ -556,9 +556,10 @@ HTML;
      *     set:
      * - icon: string,the glyphicon suffix to be displayed before the export menu label. If not set or is an empty
      *     string, this will not be displayed. Defaults to 'export'.
-     * - label: string,the export menu label (this is not HTML encoded). Defaults to ''. - showConfirmAlert: boolean,
-     *     whether to show a confirmation alert dialog before download. This confirmation dialog will notify user about
-     *     the type of exported file for download and to disable popup blockers. Defaults to `true`.
+     * - label: string,the export menu label (this is not HTML encoded). Defaults to ''.
+     * - showConfirmAlert: boolean, whether to show a confirmation alert dialog before download. This confirmation
+     *     dialog will notify user about the type of exported file for download and to disable popup blockers.
+     *     Defaults to `true`.
      * - target: string, the target for submitting the export form, which will trigger
      *   the download of the exported file. Must be one of the `TARGET_` constants.
      *   Defaults to `GridView::TARGET_POPUP`.
@@ -838,7 +839,8 @@ HTML;
         $icon = $this->export['icon'];
         $options = $this->export['options'];
         $menuOptions = $this->export['menuOptions'];
-        $title = ($icon == '') ? $title : "<i class='glyphicon glyphicon-{$icon}'></i> {$title}";
+        $iconPrefix = $this->export['fontAwesome'] ? 'fa fa' : 'glyphicon glyphicon';
+        $title = ($icon == '') ? $title : "<i class='{$iconPrefix}-{$icon}'></i> {$title}";
         $action = $this->_module->downloadAction;
         if (!is_array($action)) {
             $action = [$action];
@@ -857,7 +859,6 @@ HTML;
             Html::hiddenInput('export_encoding', $encoding) . "\n" .
             Html::textArea('export_content') . "\n</form>";
         $items = empty($this->export['header']) ? [] : [$this->export['header']];
-        $iconPrefix = $this->export['fontAwesome'] ? 'fa fa-' : 'glyphicon glyphicon-';
         foreach ($this->exportConfig as $format => $setting) {
             $iconOptions = ArrayHelper::getValue($setting, 'iconOptions', []);
             Html::addCssClass($iconOptions, $iconPrefix . $setting['icon']);
