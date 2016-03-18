@@ -1,7 +1,7 @@
 Change Log: `yii2-grid`
 =======================
 
-## Version 3.1.1
+## Version 3.1.1 (under development)
 
 **Date:** 08-Mar-2016
 
@@ -12,6 +12,7 @@ Change Log: `yii2-grid`
 5. (enh #455): Update German Translations.
 6. (enh #457): Implement `array_replace_recursive` instead of `ArrayHelper::merge` for overriding defaults.
 7. (enh #458): Add Slovak Translations.
+8. (enh #461): Export configuration font awesome enhancements.
 
 ## Version 3.1.0
 

@@ -494,12 +494,12 @@ HTML;
     /**
      * @var array the settings for the toggle data button for the toggle data type. This will be setup as an
      *     associative array of $key => $value pairs, where $key can be:
-     * - 'maxCount': integer|boolean, the maximum number of records uptil which the toggle button will be rendered. If the
+     * - 'maxCount': int|bool, the maximum number of records uptil which the toggle button will be rendered. If the
      *     dataProvider records exceed this setting, the toggleButton will not be displayed. Defaults to `10000` if
      *     not set. If you set this to `true`, the toggle button will always be displayed. If you set this to `false the 
      *     toggle button will not be displayed (similar to `toggleData` setting).
-     * - 'minCount': integer|boolean, the minimum number of records beyond which a confirmation message will be displayed
-     *     when toggling all records. If the dataProvider record count exceeds this setting, a confirmation message will be
+     * - 'minCount': int|bool, the minimum number of records beyond which a confirmation message will be displayed when
+     *     toggling all records. If the dataProvider record count exceeds this setting, a confirmation message will be
      *     alerted to the user. Defaults to `500` if not set. If you set this to `true`, the confirmation message will
      *     always be displayed. If set to `false` no confirmation message will be displayed.
      * - 'confirmMsg': string, the confirmation message for the toggle data when `minCount` threshold is exceeded.
@@ -508,8 +508,8 @@ HTML;
      *   (refer `page` for understanding the default options).
      * - 'page': array, configuration for showing first page data and $options is the HTML attributes for the button.
      *    The following special options are recognized:
-     *     - icon: string the glyphicon suffix name. If not set or empty will not be displayed.
-     *     - label: string the label for the button.
+     *     - `icon`: string, the glyphicon suffix name. If not set or empty will not be displayed.
+     *     - `label`: string, the label for the button.
      *
      *      This defaults to the following setting:
      *      ```
@@ -551,13 +551,14 @@ HTML;
     public $exportContainer = [];
 
     /**
-     * @array|boolean the grid export menu settings. Displays a Bootstrap dropdown menu that allows you to export the
+     * @var array|bool the grid export menu settings. Displays a Bootstrap dropdown menu that allows you to export the
      *     grid as either html, csv, or excel. If set to false, will not be displayed. The following options can be
      *     set:
      * - icon: string,the glyphicon suffix to be displayed before the export menu label. If not set or is an empty
-     *     string, this will not be displayed. Defaults to 'export'.
+     *     string, this will not be displayed. Defaults to 'export' if `fontAwesome` is `false` and `share-square-o` if
+     *     fontAwesome is `true`.
      * - label: string,the export menu label (this is not HTML encoded). Defaults to ''.
-     * - showConfirmAlert: boolean, whether to show a confirmation alert dialog before download. This confirmation
+     * - showConfirmAlert: bool, whether to show a confirmation alert dialog before download. This confirmation
      *     dialog will notify user about the type of exported file for download and to disable popup blockers.
      *     Defaults to `true`.
      * - target: string, the target for submitting the export form, which will trigger
@@ -576,7 +577,7 @@ HTML;
      * - header: string, the header for the page data export dropdown. If set to empty string will not be displayed.
      *     Defaults to:
      *   `<li role="presentation" class="dropdown-header">Export Page Data</li>`.
-     * - fontAwesome: boolean, whether to use font awesome file type icons. Defaults to `false`. If you set it to
+     * - fontAwesome: bool, whether to use font awesome file type icons. Defaults to `false`. If you set it to
      *     `true`, then font awesome icons css class will be applied instead of glyphicons.
      * - itemsBefore: array, any additional items that will be merged/prepended before with the export dropdown list.
      *     This should be similar to the `items` property as supported by `\yii\bootstrap\ButtonDropdown` widget. Note
@@ -588,8 +589,8 @@ HTML;
      *     'title'=>'Export']`.
      * - encoding: string, the export output file encoding. If not set, defaults to `utf-8`.
      * - menuOptions: array, HTML attributes for the export dropdown menu. Defaults to `['class' => 'dropdown-menu
-     *     dropdown-menu-right']`. This is to be set exactly as the options property for `\yii\bootstrap\Dropdown`
-     *     widget.
+     *     dropdown-menu-right']`. This property is to be setup exactly as the `options` property required by the
+     *     `\yii\bootstrap\Dropdown` widget.
      */
     public $export = [];
 
@@ -839,8 +840,8 @@ HTML;
         $icon = $this->export['icon'];
         $options = $this->export['options'];
         $menuOptions = $this->export['menuOptions'];
-        $iconPrefix = $this->export['fontAwesome'] ? 'fa fa' : 'glyphicon glyphicon';
-        $title = ($icon == '') ? $title : "<i class='{$iconPrefix}-{$icon}'></i> {$title}";
+        $iconPrefix = $this->export['fontAwesome'] ? 'fa fa-' : 'glyphicon glyphicon-';
+        $title = ($icon == '') ? $title : "<i class='{$iconPrefix}{$icon}'></i> {$title}";
         $action = $this->_module->downloadAction;
         if (!is_array($action)) {
             $action = [$action];
@@ -948,11 +949,14 @@ HTML;
             ],
             $this->exportConversions
         );
-
+        if (!isset($this->export['fontAwesome'])) {
+            $this->export['fontAwesome'] = false;
+        }
+        $isFa = $this->export['fontAwesome'];
         $this->export = array_replace_recursive(
             [
                 'label' => '',
-                'icon' => 'export',
+                'icon' => $isFa ? 'share-square-o' : 'export',
                 'messages' => [
                     'allowPopups' => Yii::t(
                         'kvgrid',
@@ -977,9 +981,6 @@ HTML;
         if (!isset($this->export['headerAll'])) {
             $this->export['headerAll'] = '<li role="presentation" class="dropdown-header">' .
                 Yii::t('kvgrid', 'Export All Data') . '</li>';
-        }
-        if (!isset($this->export['fontAwesome'])) {
-            $this->export['fontAwesome'] = false;
         }
         $title = empty($this->caption) ? Yii::t('kvgrid', 'Grid Export') : $this->caption;
         $pdfHeader = [
@@ -1015,7 +1016,6 @@ HTML;
             ],
             'line' => true,
         ];
-        $isFa = $this->export['fontAwesome'];
         $defaultExportConfig = [
             self::HTML => [
                 'label' => Yii::t('kvgrid', 'HTML'),
