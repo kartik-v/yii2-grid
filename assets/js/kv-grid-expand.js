@@ -134,6 +134,7 @@ var kvRowNum = 0, kvExpandRow;
                 expandRow = function (animate) {
                     $grid.find('tr[data-index="' + vInd + '"]').remove();
                     $detail.hide();
+                    $row.addClass('kv-tr-expanded');
                     $row.after($detail);
                     var newRow = '<tr class="kv-expand-detail-row ' + rowCssClass + '" data-key="' + vKey +
                         '" data-index="' + vInd + '">';
@@ -157,6 +158,7 @@ var kvRowNum = 0, kvExpandRow;
                 collapseRow = function () {
                     beginLoading($cell);
                     $container.html('');
+                    $row.removeClass('kv-tr-expanded');
                     $icon.html(expandIcon);
                     $cell.attr('title', expandTitle);
                     $tr = $detail.closest('.kv-expand-detail-row');

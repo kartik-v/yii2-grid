@@ -56,9 +56,10 @@
 }
 
 .kv-expand-detail-loading {
-    background-image: url('../img/loading-sm.gif');
-    background-position: right 2px center;
-    background-repeat: no-repeat;
     cursor: wait;
     opacity: 0.6;
+}
+
+.kv-tr-expanded {
+
 }
