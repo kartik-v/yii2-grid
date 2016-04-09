@@ -3,7 +3,7 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.1 (under development)
 
-**Date:** 08-Mar-2016
+**Date:** 10-Apr-2016
 
 1. (enh #443): Enhance to show header in exported content when setting `floatHeader`.
 2. (enh #444): Set default PDF export encoding to utf8.
@@ -13,6 +13,7 @@ Change Log: `yii2-grid`
 6. (enh #457): Implement `array_replace_recursive` instead of `ArrayHelper::merge` for overriding defaults.
 7. (enh #458): Add Slovak Translations.
 8. (enh #461): Export configuration font awesome enhancements.
+9. (enh #462): Fix responsiveness for smaller devices (resizableColumns overflow).
 
 ## Version 3.1.0
 
