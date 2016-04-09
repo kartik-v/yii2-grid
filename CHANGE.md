@@ -1,7 +1,7 @@
 Change Log: `yii2-grid`
 =======================
 
-## Version 3.1.1 (under development)
+## Version 3.1.1
 
 **Date:** 10-Apr-2016
 
