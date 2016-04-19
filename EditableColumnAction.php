@@ -150,14 +150,17 @@ class EditableColumnAction extends Action
         }
         $index = ArrayHelper::getValue($post, 'editableIndex');
         $attribute = ArrayHelper::getValue($post, 'editableAttribute');
-        if ($this->formName) // allow override for getting the data
+        
+        if ($this->formName) {
             $formName = $this->formName;
-        else
+        } else {
             $formName = $model->formName();
+        }
+        
         if (!$formName || is_null($index) || !isset($post[$formName][$index])) {
             return ['output' => '', 'message' => Yii::t('kvgrid', 'Invalid editable index or model form name')];
         }
-        $postData = [$model->formName() => $post[$formName][$index]]; // still use model's form name
+        $postData = [$model->formName() => $post[$formName][$index]];
         if ($model->load($postData)) {
             $params = [$model, $attribute, $key, $index];
             $value = static::parseValue($this->outputValue, $params);
