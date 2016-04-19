@@ -102,6 +102,11 @@ class EditableColumnAction extends Action
      * @var bool whether to allow access to this action for AJAX requests only. Defaults to `true`.
      */
     public $ajaxOnly = true;
+    
+    /**
+     * @var string allows overriding the form name which is used to access posted data
+     */
+    public $formName = '';
 
     /**
      * @inheritdoc
@@ -145,11 +150,14 @@ class EditableColumnAction extends Action
         }
         $index = ArrayHelper::getValue($post, 'editableIndex');
         $attribute = ArrayHelper::getValue($post, 'editableAttribute');
-        $formName = $model->formName();
+        if ($this->formName) // allow override for getting the data
+            $formName = $this->formName;
+        else
+            $formName = $model->formName();
         if (!$formName || is_null($index) || !isset($post[$formName][$index])) {
             return ['output' => '', 'message' => Yii::t('kvgrid', 'Invalid editable index or model form name')];
         }
-        $postData = [$formName => $post[$formName][$index]];
+        $postData = [$model->formName() => $post[$formName][$index]]; // still use model's form name
         if ($model->load($postData)) {
             $params = [$model, $attribute, $key, $index];
             $value = static::parseValue($this->outputValue, $params);
