@@ -72,7 +72,7 @@ return [
     'The TEXT export file will be generated for download.' => 'El archivo de TEXTO será generado para descargar.',
     'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'El resumen de la página mostrará la SUMA de los montos de las 3 primeras columnas y el PROMEDIO para el resto',
     'The table header sticks to the top in this demo as you scroll' => 'El encabezado de la tabla se mantendrá fijo en este demo mientras usted se desplaza',
-    'There are {totalCount} records. Are you sure you want to display them all?' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => 'Hay {totalCount} registros. ¿Esta seguro que desea mostrar todos?',
     'Update' => 'Actualizar',
     'View' => 'Ver',
     'Yii2 Grid Export (PDF)' => 'Yii2 Exportar cuadrícula (PDF)',
