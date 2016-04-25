@@ -1,6 +1,14 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.2 (under development)
+
+**Date:** 10-Apr-2016
+
+1. (enh #472): Having different editable models in one gridview column.
+2. (enh #472): Update Spanish translations.
+3. (enh #475): Correct grid grouping `formatNumber` JS method.
+
 ## Version 3.1.1
 
 **Date:** 10-Apr-2016

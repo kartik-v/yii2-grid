@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.1
+ * @version   3.1.2
  */
 
 namespace kartik\grid;
@@ -616,7 +616,7 @@ HTML;
      *     configuration options are read specific to each file type:
      *     - HTML:
      *          - cssFile: string, the css file that will be used in the exported HTML file. Defaults to:
-     *            `http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css`.
+     *            `http://netdna.bootstrapcdn.com/bootstrap/3.1.2/css/bootstrap.min.css`.
      *     - CSV and TEXT:
      *          - colDelimiter: string, the column delimiter string for TEXT and CSV downloads.
      *          - rowDelimiter: string, the row delimiter string for TEXT and CSV downloads.
@@ -1030,7 +1030,7 @@ HTML;
                 'options' => ['title' => Yii::t('kvgrid', 'Hyper Text Markup Language')],
                 'mime' => 'text/html',
                 'config' => [
-                    'cssFile' => 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
+                    'cssFile' => 'http://netdna.bootstrapcdn.com/bootstrap/3.1.2/css/bootstrap.min.css'
                 ]
             ],
             self::CSV => [
