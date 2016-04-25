@@ -38,25 +38,19 @@ var kvGridGroup;
                 i++;
             });
         };
-        formatNumber = function (number, decimals, dec_point, thousands_sep) {
-            number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
-            var n = !isFinite(+number) ? 0 : +number, s,
-                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-                toFixedFix = function (n, prec) {
-                    var k = Math.pow(10, prec);
-                    return '' + Math.round(n * k) / k;
-                };
-            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-            if (s[0].length > 3) {
-                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-            }
-            if ((s[1] || '').length < prec) {
-                s[1] = s[1] || '';
-                s[1] += [(prec - s[1].length + 1)].join('0');
-            }
-            return s.join(dec);
+        /**
+         * Format a number
+         * @param n float, the number
+         * @param d integer, length of decimal (defaults to 2)
+         * @param c mixed, decimal delimiter (defaults to ".")
+         * @param s mixed, sections delimiter (defaults to ",")
+         * @param x integer, length of whole part (defaults to 3 for thousands)
+         * @returns string
+         */
+        formatNumber = function (n, d, c, s, x) {
+            var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+                num = n.toFixed(Math.max(0, Math.floor(d)));
+            return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
         };
         applyFormat = function (source, config, $tr, $td, i) {
             var decimals, decPoint, thousandSep, data, func;
