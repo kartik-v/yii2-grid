@@ -8,6 +8,7 @@ Change Log: `yii2-grid`
 1. (enh #472): Having different editable models in one gridview column.
 2. (enh #472): Update Spanish translations.
 3. (enh #475): Correct grid grouping `formatNumber` JS method.
+4. (enh #476): Improve responsiveness and control resizable columns for smaller devices.
 
 ## Version 3.1.1
 

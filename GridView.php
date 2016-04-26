@@ -355,6 +355,11 @@ HTML;
     public $resizableColumns = true;
 
     /**
+     * @var boolean whether to hide resizable columns for smaller screen sizes (< 768px). Defaults to `true`.
+     */
+    public $hideResizeMobile = true;
+
+    /**
      * @var array the resizableColumns plugin options
      */
     public $resizableColumnsOptions = ['resizeFromBody' => false];
@@ -1258,6 +1263,9 @@ HTML;
             $key = empty($this->resizeStorageKey) ? Yii::$app->user->id : $this->resizeStorageKey;
             $gridId = empty($this->options['id']) ? $this->getId() : $this->options['id'];
             $this->containerOptions['data-resizable-columns-id'] = (empty($key) ? "kv-{$gridId}" : "kv-{$key}-{$gridId}");
+        }
+        if ($this->hideResizeMobile) {
+            Html::addCssClass($this->options, 'hide-resize');
         }
         $export = $this->renderExport();
         $toggleData = $this->renderToggleData();

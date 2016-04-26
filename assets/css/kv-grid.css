@@ -334,8 +334,10 @@ td.kv-group-odd {
 }
 
 /**
- * Fix overflow and make responsive for mobile/small devices
+ * Fix overflow and make layout responsive for mobile/small devices
  */
-.grid-view .rc-handle-container {
-    overflow: hidden;
+@media (max-width:768px) {
+    .hide-resize .rc-handle-container {
+        overflow: hidden;
+    }
 }
