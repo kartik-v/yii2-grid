@@ -621,7 +621,7 @@ HTML;
      *     configuration options are read specific to each file type:
      *     - HTML:
      *          - cssFile: string, the css file that will be used in the exported HTML file. Defaults to:
-     *            `http://netdna.bootstrapcdn.com/bootstrap/3.1.2/css/bootstrap.min.css`.
+     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css`.
      *     - CSV and TEXT:
      *          - colDelimiter: string, the column delimiter string for TEXT and CSV downloads.
      *          - rowDelimiter: string, the row delimiter string for TEXT and CSV downloads.
@@ -1035,7 +1035,7 @@ HTML;
                 'options' => ['title' => Yii::t('kvgrid', 'Hyper Text Markup Language')],
                 'mime' => 'text/html',
                 'config' => [
-                    'cssFile' => 'http://netdna.bootstrapcdn.com/bootstrap/3.1.2/css/bootstrap.min.css'
+                    'cssFile' => 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'
                 ]
             ],
             self::CSV => [

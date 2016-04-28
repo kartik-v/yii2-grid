@@ -19,15 +19,12 @@ use \kartik\base\AssetBundle;
  */
 class GridResizeColumnsAsset extends AssetBundle
 {
-    public $depends = [
-        'kartik\grid\GridViewAsset'
-    ];
-
     /**
      * @inheritdoc
      */
     public function init()
     {
+        $this->depends = array_merge($this->depends, ['kartik\grid\GridViewAsset']);
         $this->setSourcePath(__DIR__ . '/assets');
         $this->setupAssets('js', ['js/jquery.resizableColumns']);
         $this->setupAssets('css', ['css/jquery.resizableColumns']);

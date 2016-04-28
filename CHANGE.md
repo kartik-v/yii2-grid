@@ -9,6 +9,7 @@ Change Log: `yii2-grid`
 2. (enh #472): Update Spanish translations.
 3. (enh #475): Correct grid grouping `formatNumber` JS method.
 4. (enh #476): Improve responsiveness and control resizable columns for smaller devices.
+5. (enh #479): Update default bootstrap css for HTML export of grid.
 
 ## Version 3.1.1
 
