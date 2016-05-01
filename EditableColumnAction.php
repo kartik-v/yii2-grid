@@ -139,24 +139,16 @@ class EditableColumnAction extends Action
             return ['output' => '', 'message' => Yii::t('kvgrid', 'Invalid or bad editable data')];
         }
         /**
-         * @var ActiveRecord $modelClass
          * @var ActiveRecord $model
          */
-        $modelClass = $this->modelClass;
         $key = ArrayHelper::getValue($post, 'editableKey');
-        $model = $modelClass::findOne($key);
+        $model = $this->findModel($key);
         if (!$model) {
             return ['output' => '', 'message' => Yii::t('kvgrid', 'No valid editable model found')];
         }
         $index = ArrayHelper::getValue($post, 'editableIndex');
         $attribute = ArrayHelper::getValue($post, 'editableAttribute');
-        
-        if ($this->formName) {
-            $formName = $this->formName;
-        } else {
-            $formName = $model->formName();
-        }
-        
+        $formName = $this->formName ? $this->formName: $model->formName();
         if (!$formName || is_null($index) || !isset($post[$formName][$index])) {
             return ['output' => '', 'message' => Yii::t('kvgrid', 'Invalid editable index or model form name')];
         }

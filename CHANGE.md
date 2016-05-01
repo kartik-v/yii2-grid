@@ -10,6 +10,7 @@ Change Log: `yii2-grid`
 3. (enh #475): Correct grid grouping `formatNumber` JS method.
 4. (enh #476): Improve responsiveness and control resizable columns for smaller devices.
 5. (enh #479): Update default bootstrap css for HTML export of grid.
+6. (enh #480): Enhance `EditableColumnAction` to find model better.
 
 ## Version 3.1.1
 
