@@ -72,7 +72,7 @@ return [
     'The TEXT export file will be generated for download.' => 'Будет сгенерирован текстовый файл для загрузки.',
     'The page summary displays SUM for first 3 amount columns and AVG for the last.' => 'Сводная страница отображает сумму 3 первых столбцов и среднее для последнего.',
     'The table header sticks to the top in this demo as you scroll' => 'В этой демо-версии заголовок таблицы прилипает к верху, пока вы скролите',
-    'There are {totalCount} records. Are you sure you want to display them all?' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => 'Всего записей: {totalCount}. Хотите отобразить их все?',
     'Update' => 'Изменить',
     'View' => 'Просмотр',
     'Yii2 Grid Export (PDF)' => 'PDF экспорт таблицы Yii2',
