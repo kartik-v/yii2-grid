@@ -77,7 +77,7 @@ return [
     'View' => 'Просмотр',
     'Yii2 Grid Export (PDF)' => 'PDF экспорт таблицы Yii2',
     'export' => 'экспорт',
-    'grid-export' => 'Экспорт таблицы',
+    'grid-export' => 'экспорт-таблицы',
     'krajee, grid, export, yii2-grid, pdf' => '',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Расширения',
 ];
