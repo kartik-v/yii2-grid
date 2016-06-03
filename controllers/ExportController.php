@@ -9,12 +9,12 @@
 
 namespace kartik\grid\controllers;
 
+use kartik\grid\GridView;
+use kartik\mpdf\Pdf;
 use Yii;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
-use kartik\mpdf\Pdf;
-use kartik\grid\GridView;
 
 class ExportController extends Controller
 {
@@ -30,13 +30,14 @@ class ExportController extends Controller
         $content = static::getPostData('export_content', Yii::t('kvgrid', 'No data found'));
         $mime = static::getPostData('export_mime', 'text/plain');
         $encoding = static::getPostData('export_encoding', 'utf-8');
+        $bom = static::getPostData('export_bom', true);
         $config = static::getPostData('export_config', '{}');
         if ($type == GridView::PDF) {
             $config = Json::decode($config);
             $this->generatePDF($content, "{$name}.pdf", $config);
             /** @noinspection PhpInconsistentReturnPointsInspection */
             return;
-        } elseif ($type == GridView::CSV || $type == GridView::TEXT) {
+        } elseif (($type == GridView::CSV || $type == GridView::TEXT) && $encoding == 'utf-8' && $bom) {
             $content = chr('0xEF') . chr('0xBB') . chr('0xBF') . $content; // add BOM
         }
         $this->setHttpHeaders($type, $name, $mime, $encoding);

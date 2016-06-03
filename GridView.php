@@ -593,6 +593,7 @@ HTML;
      * - options: array, HTML attributes for the export menu button. Defaults to `['class' => 'btn btn-default',
      *     'title'=>'Export']`.
      * - encoding: string, the export output file encoding. If not set, defaults to `utf-8`.
+     * - bom: boolean, whether a BOM is to be embedded for text or CSV files with utf-8 encoding. Defaults to `true`.
      * - menuOptions: array, HTML attributes for the export dropdown menu. Defaults to `['class' => 'dropdown-menu
      *     dropdown-menu-right']`. This property is to be setup exactly as the `options` property required by the
      *     `\yii\bootstrap\Dropdown` widget.
@@ -852,6 +853,7 @@ HTML;
             $action = [$action];
         }
         $encoding = ArrayHelper::getValue($this->export, 'encoding', 'utf-8');
+        $bom = ArrayHelper::getValue($this->export, 'bom', true);
         $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
         $form = Html::beginForm($action, 'post', [
                 'class' => 'kv-export-form',
@@ -863,6 +865,7 @@ HTML;
             Html::hiddenInput('export_mime') . "\n" .
             Html::hiddenInput('export_config') . "\n" .
             Html::hiddenInput('export_encoding', $encoding) . "\n" .
+            Html::hiddenInput('export_bom', $bom) . "\n" .
             Html::textArea('export_content') . "\n</form>";
         $items = empty($this->export['header']) ? [] : [$this->export['header']];
         foreach ($this->exportConfig as $format => $setting) {

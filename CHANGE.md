@@ -3,7 +3,7 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.2 (under development)
 
-**Date:** 08-May-2016
+**Date:** 03-Jun-2016
 
 1. (enh #472): Having different editable models in one gridview column.
 2. (enh #472): Update Spanish translations.
@@ -12,6 +12,10 @@ Change Log: `yii2-grid`
 5. (enh #479): Update default bootstrap css for HTML export of grid.
 6. (enh #480): Enhance `EditableColumnAction` to find model better.
 7. (enh #481): Add Ukranian translations.
+8. (enh #485): Add Estonian translations.
+9. (enh #490): Update Russian translations.
+10. (enh #494): Add Latvian translations.
+11. (enh #496): Add BOM to UTF-8 encoded text/CSV exports.
 
 ## Version 3.1.1
 
