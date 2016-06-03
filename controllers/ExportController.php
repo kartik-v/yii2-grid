@@ -36,6 +36,8 @@ class ExportController extends Controller
             $this->generatePDF($content, "{$name}.pdf", $config);
             /** @noinspection PhpInconsistentReturnPointsInspection */
             return;
+        } elseif ($type == GridView::CSV || $type == GridView::TEXT) {
+            $content = chr('0xEF') . chr('0xBB') . chr('0xBF') . $content; // add BOM
         }
         $this->setHttpHeaders($type, $name, $mime, $encoding);
         return $content;
