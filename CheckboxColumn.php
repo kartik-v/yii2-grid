@@ -96,6 +96,11 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $mergeHeader = true;
 
     /**
+     * @var string the attribute name from the model
+     */
+    public $attribute;
+
+    /**
      * @var string the client script to initialize
      */
     protected $_clientScript = '';
@@ -128,6 +133,9 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
         if ($this->rowHighlight) {
             $this->initPjax($this->_clientScript);
             Html::addCssClass($options, 'kv-row-select');
+        }
+        if ($this->attribute !== null) {
+            $this->name = Html::getInputName($model, "[{$index}]{$this->attribute}");
         }
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
