@@ -101,6 +101,11 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     public $attribute;
 
     /**
+     * @var string the css class that will be used to find the checkboxes
+     */
+    public $cssClass = 'kv-row-checkbox';
+
+    /**
      * @var string the client script to initialize
      */
     protected $_clientScript = '';
@@ -136,6 +141,7 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
         }
         if ($this->attribute !== null) {
             $this->name = Html::getInputName($model, "[{$index}]{$this->attribute}");
+            $this->checkboxOptions['value'] = Html::getAttributeValue($model, $this->attribute);
         }
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
