@@ -115,7 +115,7 @@ var kvGridGroup;
                 $row = $row.next(':not(.kv-grid-group-row');
                 while (!j && $row.length) {
                     $row.find('td[data-col-seq="' + i + '"]').each(function () {
-                        var out = $(this).text().replace(/[\s,]+/g, '');
+                        var out = $(this).is('[data-raw-value]') ? $(this).attr('data-raw-value') : $(this).text().replace(/[\s,]+/g, '');
                         out = parseFloat(out);
                         data.push(out);
                     }); // jshint ignore:line
@@ -125,7 +125,7 @@ var kvGridGroup;
             } else {
                 while (j <= rowspan && $row.length) {
                     $row.find('td[data-col-seq="' + i + '"]').each(function () {
-                        var out = $(this).text().replace(/[\s,]+/g, '');
+                        var out = $(this).is('[data-raw-value]') ? $(this).attr('data-raw-value') : $(this).text().replace(/[\s,]+/g, '');
                         out = parseFloat(out);
                         data.push(out);
                     }); // jshint ignore:line
