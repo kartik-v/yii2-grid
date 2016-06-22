@@ -1490,7 +1490,7 @@ HTML;
             return '';
         }
         $minCount = ArrayHelper::getValue($this->toggleDataOptions, 'minCount', 0);
-        if ($minCount !== true && (!$minCount || $minCount <= $this->dataProvider->getTotalCount())) {
+        if ($minCount !== true && (!$minCount || $minCount >= $this->dataProvider->getTotalCount())) {
             return '';
         }
         $event = $this->pjax ? 'pjax:click' : 'click';
