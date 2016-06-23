@@ -1583,4 +1583,34 @@ HTML;
         $this->options['data-krajee-grid'] = $this->_gridClientFunc;
         $view->registerJs("var {$this->_gridClientFunc}=function(){\n{$script}\n};\n{$this->_gridClientFunc}();");
     }
+    
+    /**
+     * Renders the column group HTML.
+     * @return boolean|string the column group HTML or `false` if no column group should be rendered.
+     */
+    public function renderColumnGroup()
+    {
+        $requireColumnGroup = false;
+        foreach ($this->columns as $column) {
+            /* @var $column Column */
+            if (!empty($column->options)) {
+                $requireColumnGroup = true;
+                break;
+            }
+        }
+        if ($requireColumnGroup) {
+            $cols = [];
+            foreach ($this->columns as $column) {
+                //Skip column with groupedRow
+                if(property_exists($column, 'groupedRow') && $column->groupedRow) { 
+                    continue;
+                }
+                $cols[] = Html::tag('col', '', $column->options);
+            }
+
+            return Html::tag('colgroup', implode("\n", $cols));
+        } else {
+            return false;
+        }
+    }
 }
