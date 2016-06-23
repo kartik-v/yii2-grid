@@ -34,7 +34,7 @@ var kvRowNum = 0, kvExpandRow;
             rowCssClass = hiddenFromExport ? options.rowCssClass + ' skip-export' : options.rowCssClass,
             duration = options.animationDuration,
             $grid = $('#' + gridId),
-            $hdrCell = $grid.find('.kv-expand-header-cell.kv-batch-toggle'),
+            $hdrCell = $grid.find('.kv-expand-header-cell.kv-batch-toggle').eq(0),
             $hdrIcon = $hdrCell.find('.kv-expand-header-icon'),
             collapseAll = options.collapseAll === undefined ? false : options.collapseAll,
             expandAll = options.expandAll === undefined ? false : options.expandAll,
@@ -93,11 +93,11 @@ var kvRowNum = 0, kvExpandRow;
         }
         $rows.each(function () {
             var $el = $(this), $newRow, $tr,
-                $icon = $el.find('.kv-expand-icon'),
+                $icon = $el.children('.kv-expand-icon'),
                 $row = $el.closest('tr'),
                 $cell = $el.closest('.kv-expand-icon-cell'),
-                $container = $el.find('.kv-expand-detail'),
-                $detail = $el.find('.kv-expanded-row'),
+                $container = $el.children('.kv-expand-detail'),
+                $detail = $el.children().children('.kv-expanded-row'),
                 vKey = $detail.data('key'),
                 vInd = $detail.data('index');
             if (!isExpanded($icon) && !isCollapsed($icon)) {
@@ -106,7 +106,7 @@ var kvRowNum = 0, kvExpandRow;
             if ($detail.length === 0) {
                 vKey = $row.data('key');
                 $newRow = $row.next('tr.kv-expand-detail-row[data-key="' + vKey + '"]');
-                $detail = $newRow.find('.kv-expanded-row');
+                $detail = $newRow.children().children('.kv-expanded-row');
             }
             var loadDetail = function (postProcess) {
                     var params = $.extend({
@@ -268,14 +268,14 @@ var kvRowNum = 0, kvExpandRow;
                 opt = $.extend({}, options, {expandAll: expAll, collapseAll: collAll});
             beginLoading($hdrCell);
             if (expAll) {
-                kvRowNum = $rows.find(".kv-state-collapsed").length;
+                kvRowNum = $rows.children(".kv-state-collapsed").length;
                 setExpanded($hdrIcon);
                 $hdrIcon.html(collapseIcon);
                 $hdrCell.attr('title', collapseAllTitle);
                 $grid.trigger('kvexprow.toggleAll', [extraData, false]);
             } else {
                 if (collAll) {
-                    kvRowNum = $rows.find(".kv-state-expanded").length;
+                    kvRowNum = $rows.children(".kv-state-expanded").length;
                     setCollapsed($hdrIcon);
                     $hdrIcon.html(expandIcon);
                     $hdrCell.attr('title', expandAllTitle);
