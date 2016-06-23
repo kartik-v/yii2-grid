@@ -9,8 +9,8 @@
 
 namespace kartik\grid;
 
-use Yii;
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 /**
  * Extends the Yii's CheckboxColumn for the Grid widget [[\kartik\widgets\GridView]] with various enhancements.
@@ -115,10 +115,10 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
      */
     public function init()
     {
+        $id = $this->grid->options['id'];
         if ($this->rowHighlight) {
             Html::addCssClass($this->headerOptions, 'kv-all-select');
             $view = $this->grid->getView();
-            $id = $this->grid->options['id'];
             CheckboxColumnAsset::register($view);
             $this->_clientScript = "kvSelectRow('{$id}', '{$this->rowSelectedClass}');";
             $view->registerJs($this->_clientScript);
@@ -127,6 +127,12 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
         $this->parseVisibility();
         parent::init();
         $this->setPageRows();
+        $opts = Json::encode([
+            'name' => $this->name,
+            'multiple' => $this->multiple,
+            'checkAll' => $this->grid->showHeader ? $this->getHeaderCheckBoxName() : null,
+        ]);
+        $this->_clientScript .= "\njQuery('#$id').yiiGridView('setSelectionColumn', {$opts});";
     }
 
     /**
@@ -136,9 +142,9 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
     {
         $options = $this->fetchContentOptions($model, $key, $index);
         if ($this->rowHighlight) {
-            $this->initPjax($this->_clientScript);
             Html::addCssClass($options, 'kv-row-select');
         }
+        $this->initPjax($this->_clientScript);
         if ($this->attribute !== null) {
             $this->name = Html::getInputName($model, "[{$index}]{$this->attribute}");
             $this->checkboxOptions['value'] = Html::getAttributeValue($model, $this->attribute);
