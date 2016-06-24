@@ -3,7 +3,7 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.2 (under development)
 
-**Date:** 23-Jun-2016
+**Date:** 24-Jun-2016
 
 1. (enh #472): Having different editable models in one gridview column.
 2. (enh #472): Update Spanish translations.
@@ -21,8 +21,9 @@ Change Log: `yii2-grid`
 14. (enh #500): Raw data value attribute for grid columns grouping.
 15. (bug #504): Fix toggle data minCount validation.
 16. (enh #505, #508): Replaced `ExportController::getPostData` by native `Yii::$app->request->post()`.
-17. (enh #510): Update French translations.
-18. (enh #511): Select all option in grid view.
+17. (enh #507): Purify HTML content for GridView HTML export.
+18. (enh #510): Update French translations.
+19. (enh #511): Select all option in grid view.
 
 ## Version 3.1.1
 

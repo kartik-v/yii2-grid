@@ -12,6 +12,7 @@ namespace kartik\grid\controllers;
 use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
 use Yii;
+use yii\helpers\HtmlPurifier;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
@@ -25,18 +26,21 @@ class ExportController extends Controller
      */
     public function actionDownload()
     {
-        $type = Yii::$app->request->post('export_filetype', 'html');
-        $name = Yii::$app->request->post('export_filename', Yii::t('kvgrid', 'export'));
-        $content = Yii::$app->request->post('export_content', Yii::t('kvgrid', 'No data found'));
-        $mime = Yii::$app->request->post('export_mime', 'text/plain');
-        $encoding = Yii::$app->request->post('export_encoding', 'utf-8');
-        $bom = Yii::$app->request->post('export_bom', true);
-        $config = Yii::$app->request->post('export_config', '{}');
+        $request = Yii::$app->request->post;
+        $type = $request->post('export_filetype', 'html');
+        $name = $request->post('export_filename', Yii::t('kvgrid', 'export'));
+        $content = $request->post('export_content', Yii::t('kvgrid', 'No data found'));
+        $mime = $request->post('export_mime', 'text/plain');
+        $encoding = $request->post('export_encoding', 'utf-8');
+        $bom = $request->post('export_bom', true);
+        $config = $request->post('export_config', '{}');
         if ($type == GridView::PDF) {
             $config = Json::decode($config);
             $this->generatePDF($content, "{$name}.pdf", $config);
             /** @noinspection PhpInconsistentReturnPointsInspection */
             return;
+        }  elseif ($type == GridView::HTML) {
+            $content = HtmlPurifier::process($content);
         } elseif (($type == GridView::CSV || $type == GridView::TEXT) && $encoding == 'utf-8' && $bom) {
             $content = chr('0xEF') . chr('0xBB') . chr('0xBF') . $content; // add BOM
         }
