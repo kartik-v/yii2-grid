@@ -26,7 +26,7 @@ class ExportController extends Controller
      */
     public function actionDownload()
     {
-        $request = Yii::$app->request->post;
+        $request = Yii::$app->request;
         $type = $request->post('export_filetype', 'html');
         $name = $request->post('export_filename', Yii::t('kvgrid', 'export'));
         $content = $request->post('export_content', Yii::t('kvgrid', 'No data found'));

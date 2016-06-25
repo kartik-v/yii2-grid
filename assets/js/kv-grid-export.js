@@ -89,6 +89,7 @@
         self.$element = $(element);
         //noinspection JSUnresolvedVariable
         self.$grid = $("#" + gridOpts.gridId);
+        self.dialogLib = options.dialogLib;
         self.messages = gridOpts.messages;
         self.target = gridOpts.target;
         self.exportConversions = gridOpts.exportConversions;
@@ -131,41 +132,6 @@
             });
             return data;
         },
-        notify: function (e) {
-            var self = this;
-            if (!self.showConfirmAlert) {
-                e.preventDefault();
-                return true;
-            }
-            var msgs = self.messages, msg1 = isEmpty(self.alertMsg) ? '' : self.alertMsg,
-                msg2 = isEmpty(msgs.allowPopups) ? '' : msgs.allowPopups,
-                msg3 = isEmpty(msgs.confirmDownload) ? '' : msgs.confirmDownload, msg = '';
-            if (msg1.length && msg2.length) {
-                msg = msg1 + '\n\n' + msg2;
-            } else {
-                if (!msg1.length && msg2.length) {
-                    msg = msg2;
-                } else {
-                    msg = (msg1.length && !msg2.length) ? msg1 : '';
-                }
-            }
-            if (msg3.length) {
-                msg = msg + '\n\n' + msg3;
-            }
-            e.preventDefault();
-            if (isEmpty(msg)) {
-                return true;
-            }
-            return self.kvConfirm(msg);
-        },
-        kvConfirm: function (msg) {
-            try {
-                return window.confirm(msg);
-            }
-            catch (err) {
-                return true;
-            }
-        },
         setPopupAlert: function (msg) {
             var self = this;
             if (self.popup.document === undefined) {
@@ -182,17 +148,44 @@
             }
         },
         listenClick: function (callback) {
-            var self = this, arg = arguments.length > 1 ? arguments[1] : '';
-            self.$element.on("click", function (e) {
-                if (!self.notify(e)) {
+            var self = this, arg = arguments.length > 1 ? arguments[1] : '', lib = window[self.dialogLib];
+            self.$element.off("click").on("click", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                if (!self.showConfirmAlert) {
                     return;
                 }
-                if (!isEmpty(arg)) {
-                    self[callback](arg);
+                var msgs = self.messages, msg1 = isEmpty(self.alertMsg) ? '' : self.alertMsg,
+                    msg2 = isEmpty(msgs.allowPopups) ? '' : msgs.allowPopups,
+                    msg3 = isEmpty(msgs.confirmDownload) ? '' : msgs.confirmDownload, msg = '';
+                if (msg1.length && msg2.length) {
+                    msg = msg1 + '\n\n' + msg2;
                 } else {
-                    self[callback]();
+                    if (!msg1.length && msg2.length) {
+                        msg = msg2;
+                    } else {
+                        msg = (msg1.length && !msg2.length) ? msg1 : '';
+                    }
                 }
-                e.preventDefault();
+                if (msg3.length) {
+                    msg = msg + '\n\n' + msg3;
+                }
+                if (isEmpty(msg)) {
+                    return;
+                }
+                lib.confirm(msg, function(result) {
+                    if (result) {
+                        setTimeout(function() {
+                            if (!isEmpty(arg)) {
+                                self[callback](arg);
+                            } else {
+                                self[callback]();
+                            }
+                        }, 100);
+                    }
+                    e.preventDefault();
+                });
+                return false;
             });
         },
         listen: function () {
@@ -376,7 +369,7 @@
         });
     };
 
-    $.fn.gridexport.defaults = {};
+    $.fn.gridexport.defaults = {dialogLib: 'krajeeDialog'};
 
     $.fn.gridexport.Constructor = GridExport;
 

@@ -25,6 +25,8 @@ Change Log: `yii2-grid`
 18. (enh #507): Purify HTML content for GridView HTML export.
 19. (enh #510): Update French translations.
 20. (enh #511): Select all option in grid view.
+21. (enh #514): Implement Krajee Dialog for all alerts and confirmation.
+22. (enh #515): Implement ajax delete with pjax refresh for default delete action in ActionColumn.
 
 ## Version 3.1.1
 

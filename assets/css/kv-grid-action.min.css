@@ -1,0 +1,12 @@
+/*!
+ * @package   yii2-grid
+ * @author    Kartik Visweswaran <kartikv2@gmail.com>
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
+ * @version   3.1.2
+ *
+ * Gridview ActionColumn styling and enhancements
+ * Built for Yii Framework 2.0
+ * Author: Kartik Visweswaran
+ * Year: 2015
+ * For more Yii related demos visit http://demos.krajee.com
+ */.kv-delete-row{opacity:.5}.kv-delete-cell{background-image:url(../img/loading-sm.gif);background-position:right center;background-repeat:no-repeat;cursor:wait;opacity:.5}

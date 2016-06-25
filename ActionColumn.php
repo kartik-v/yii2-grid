@@ -12,6 +12,7 @@ use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 /**
  * Extends the Yii's ActionColumn for the Grid widget [[\kartik\widgets\GridView]] with various enhancements.
@@ -207,15 +208,27 @@ class ActionColumn extends \yii\grid\ActionColumn
                 $title = Yii::t('kvgrid', 'Delete');
                 $icon = '<span class="glyphicon glyphicon-trash"></span>';
                 $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
-                $options = array_replace_recursive(
-                    [
-                        'title' => $title,
-                        'data-confirm' => Yii::t('kvgrid', 'Are you sure to delete this item?'),
-                        'data-method' => 'post',
-                        'data-pjax' => '0'
-                    ],
-                    $options
-                );
+                $defaults = ['title' => $title, 'data-pjax' => 'false'];
+                $pjax = $this->grid->pjax ? true : false;
+                $pjaxContainer = $pjax ? $this->grid->pjaxSettings['options']['id'] : '';
+                if ($pjax) {
+                    $defaults['data-pjax-container'] = $pjaxContainer;
+                }
+                $options = array_replace_recursive($defaults, $options);
+                $css = $this->grid->options['id'] . '-action-del';
+                Html::addCssClass($options, $css);
+                $view = $this->grid->getView();
+                $delOpts = Json::encode([
+                    'css' => $css,
+                    'pjax' => $pjax,
+                    'pjaxContainer' => $pjaxContainer,
+                    'lib' => ArrayHelper::getValue($this->grid->krajeeDialogSettings, 'libName', 'krajeeDialog'),
+                    'msg' => Yii::t('kvgrid', 'Are you sure to delete this item?')
+                ]);
+                ActionColumnAsset::register($view);
+                $js = "kvActionDelete({$delOpts});";
+                $view->registerJs($js);
+                $this->initPjax($js);
                 if ($this->_isDropdown) {
                     $options['tabindex'] = '-1';
                     return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;

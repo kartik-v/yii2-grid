@@ -16,10 +16,12 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use yii\grid\Column;
 use yii\web\JsExpression;
 use yii\web\View;
 use yii\widgets\Pjax;
 use kartik\base\Config;
+use kartik\dialog\Dialog;
 
 /**
  * Enhances the Yii GridView widget with various options to include Bootstrap specific styling enhancements. Also
@@ -125,6 +127,13 @@ class GridView extends \yii\grid\GridView
     const TARGET_POPUP = '_popup';
     const TARGET_SELF = '_self';
     const TARGET_BLANK = '_blank';
+
+    /**
+     * @var array configuration settings for the Krajee dialog widget that will be used to render alerts and
+     *     confirmation dialog prompts
+     * @see http://demos.krajee.com/dialog
+     */
+    public $krajeeDialogSettings = [];
 
     /**
      * @var string the panel prefix
@@ -501,7 +510,7 @@ HTML;
      *     associative array of $key => $value pairs, where $key can be:
      * - 'maxCount': int|bool, the maximum number of records uptil which the toggle button will be rendered. If the
      *     dataProvider records exceed this setting, the toggleButton will not be displayed. Defaults to `10000` if
-     *     not set. If you set this to `true`, the toggle button will always be displayed. If you set this to `false the 
+     *     not set. If you set this to `true`, the toggle button will always be displayed. If you set this to `false the
      *     toggle button will not be displayed (similar to `toggleData` setting).
      * - 'minCount': int|bool, the minimum number of records beyond which a confirmation message will be displayed when
      *     toggling all records. If the dataProvider record count exceeds this setting, a confirmation message will be
@@ -729,7 +738,7 @@ HTML;
      */
     public function init()
     {
-        $this->_module = Config::initModule(Module::classname());
+        $this->_module = Config::initModule(Module::className());
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
         }
@@ -820,7 +829,7 @@ HTML;
             return '';
         }
         $maxCount = ArrayHelper::getValue($this->toggleDataOptions, 'maxCount', false);
-        if ($maxCount !== true && (!$maxCount || (int) $maxCount <= $this->dataProvider->getTotalCount())) {
+        if ($maxCount !== true && (!$maxCount || (int)$maxCount <= $this->dataProvider->getTotalCount())) {
             return '';
         }
         $tag = $this->_isShowAll ? 'page' : 'all';
@@ -867,7 +876,7 @@ HTML;
             Html::hiddenInput('export_config') . "\n" .
             Html::hiddenInput('export_encoding', $encoding) . "\n" .
             Html::hiddenInput('export_bom', $bom) . "\n" .
-            Html::textArea('export_content') . "\n</form>";
+            Html::textarea('export_content') . "\n</form>";
         $items = empty($this->export['header']) ? [] : [$this->export['header']];
         foreach ($this->exportConfig as $format => $setting) {
             $iconOptions = ArrayHelper::getValue($setting, 'iconOptions', []);
@@ -1313,10 +1322,10 @@ HTML;
         }
         $container = 'jQuery("#' . $this->pjaxSettings['options']['id'] . '")';
         $js = $container;
-        if (ArrayHelper::getvalue($this->pjaxSettings, 'neverTimeout', true)) {
+        if (ArrayHelper::getValue($this->pjaxSettings, 'neverTimeout', true)) {
             $js .= ".on('pjax:timeout', function(e){e.preventDefault()})";
         }
-        $loadingCss = ArrayHelper::getvalue($this->pjaxSettings, 'loadingCssClass', 'kv-grid-loading');
+        $loadingCss = ArrayHelper::getValue($this->pjaxSettings, 'loadingCssClass', 'kv-grid-loading');
         $postPjaxJs = "setTimeout({$this->_gridClientFunc}, 2500);";
         if ($loadingCss !== false) {
             $grid = 'jQuery("#' . $this->containerOptions['id'] . '")';
@@ -1326,6 +1335,7 @@ HTML;
             $js .= ".on('pjax:send', function(){{$grid}.addClass('{$loadingCss}')})";
             $postPjaxJs .= "{$grid}.removeClass('{$loadingCss}');";
         }
+        $postPjaxJs .= "\n" . $this->getToggleDataScript();
         if (!empty($postPjaxJs)) {
             $event = 'pjax:complete.' . hash('crc32', $postPjaxJs);
             $js .= ".off('{$event}').on('{$event}', function(){{$postPjaxJs}})";
@@ -1352,7 +1362,7 @@ HTML;
     /**
      * Sets a default css value if not set
      *
-     * @param array  $options
+     * @param array $options
      * @param string $css
      */
     protected static function initCss(&$options, $css)
@@ -1486,18 +1496,31 @@ HTML;
      */
     protected function getToggleDataScript()
     {
-        $tag = $this->_isShowAll ? 'page' : 'all';
-        if (!$this->toggleData || $tag !== 'all') {
+        if (!$this->toggleData) {
             return '';
         }
         $minCount = ArrayHelper::getValue($this->toggleDataOptions, 'minCount', 0);
-        if ($minCount !== true && (!$minCount || $minCount >= $this->dataProvider->getTotalCount())) {
+        if (!$minCount || $minCount >= $this->dataProvider->getTotalCount()) {
             return '';
         }
         $msg = $this->toggleDataOptions['confirmMsg'];
-        return "\$('#{$this->_toggleButtonId}').on('click',function(e){
-            if(!window.confirm('{$msg}')){e.preventDefault();}
-        });";
+        $lib = ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog');
+        $script = <<< JS
+$('#{$this->_toggleButtonId}').off('click').on('click', function(e, options){
+    var b = $(this);
+    options = options || {};
+    if (!options.redirect) {
+        e.stopPropagation();
+        e.preventDefault();
+        {$lib}.confirm('{$msg}', function(result){
+            if(result){
+                b.trigger('click', {redirect: true});
+            }
+        });
+    }
+});
+JS;
+        return $script;
     }
 
     /**
@@ -1510,6 +1533,7 @@ HTML;
         if ($this->bootstrap) {
             GridViewAsset::register($view);
         }
+        Dialog::widget($this->krajeeDialogSettings);
         $gridId = $this->options['id'];
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
@@ -1534,6 +1558,7 @@ HTML;
                 $genOptsVar = 'kvGridExp_' . hash('crc32', $genOpts);
                 $view->registerJs("var {$genOptsVar}={$genOpts};", View::POS_HEAD);
                 $expOpts = Json::encode([
+                    'dialogLib' => ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog'),
                     'gridOpts' => new JsExpression($gridOptsVar),
                     'genOpts' => new JsExpression($genOptsVar),
                     'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
@@ -1583,7 +1608,7 @@ HTML;
         $this->options['data-krajee-grid'] = $this->_gridClientFunc;
         $view->registerJs("var {$this->_gridClientFunc}=function(){\n{$script}\n};\n{$this->_gridClientFunc}();");
     }
-    
+
     /**
      * Renders the column group HTML.
      * @return boolean|string the column group HTML or `false` if no column group should be rendered.
@@ -1602,7 +1627,8 @@ HTML;
             $cols = [];
             foreach ($this->columns as $column) {
                 //Skip column with groupedRow
-                if(property_exists($column, 'groupedRow') && $column->groupedRow) { 
+                /** @noinspection PhpUndefinedFieldInspection */
+                if (property_exists($column, 'groupedRow') && $column->groupedRow) {
                     continue;
                 }
                 $cols[] = Html::tag('col', '', $column->options);
