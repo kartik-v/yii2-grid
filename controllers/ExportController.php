@@ -9,13 +9,13 @@
 
 namespace kartik\grid\controllers;
 
-use kartik\grid\GridView;
-use kartik\mpdf\Pdf;
 use Yii;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
+use kartik\grid\GridView;
+use kartik\mpdf\Pdf;
 
 class ExportController extends Controller
 {
@@ -42,7 +42,7 @@ class ExportController extends Controller
         }  elseif ($type == GridView::HTML) {
             $content = HtmlPurifier::process($content);
         } elseif (($type == GridView::CSV || $type == GridView::TEXT) && $encoding == 'utf-8' && $bom) {
-            $content = chr('0xEF') . chr('0xBB') . chr('0xBF') . $content; // add BOM
+            $content = chr(239) . chr(187) . chr(191) . $content; // add BOM
         }
         $this->setHttpHeaders($type, $name, $mime, $encoding);
         return $content;
