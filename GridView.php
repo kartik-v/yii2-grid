@@ -824,10 +824,11 @@ HTML;
             return '';
         }
         $tag = $this->_isShowAll ? 'page' : 'all';
-        $label = ArrayHelper::remove($this->toggleDataOptions[$tag], 'label', '');
+        $options = $this->toggleDataOptions[$tag];
+        $label = ArrayHelper::remove($options, 'label', '');
         $url = Url::current([$this->_toggleDataKey => $tag]);
         static::initCss($this->toggleDataContainer, 'btn-group');
-        return Html::tag('div', Html::a($label, $url, $this->toggleDataOptions[$tag]), $this->toggleDataContainer);
+        return Html::tag('div', Html::a($label, $url, $options), $this->toggleDataContainer);
     }
 
     /**
@@ -1493,9 +1494,8 @@ HTML;
         if ($minCount !== true && (!$minCount || $minCount >= $this->dataProvider->getTotalCount())) {
             return '';
         }
-        $event = $this->pjax ? 'pjax:click' : 'click';
         $msg = $this->toggleDataOptions['confirmMsg'];
-        return "\$('#{$this->_toggleButtonId}').on('{$event}',function(e){
+        return "\$('#{$this->_toggleButtonId}').on('click',function(e){
             if(!window.confirm('{$msg}')){e.preventDefault();}
         });";
     }
