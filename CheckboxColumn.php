@@ -132,7 +132,14 @@ class CheckboxColumn extends \yii\grid\CheckboxColumn
             'multiple' => $this->multiple,
             'checkAll' => $this->grid->showHeader ? $this->getHeaderCheckBoxName() : null,
         ]);
-        $this->_clientScript .= "\njQuery('#$id').yiiGridView('setSelectionColumn', {$opts});";
+        $this->_clientScript .= "\nkvSelectColumn('{$id}', {$opts});";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function run()
+    {
     }
 
     /**
