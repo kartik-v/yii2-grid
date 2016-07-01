@@ -38,7 +38,7 @@ var kvRowNum = 0, kvExpandRow;
             $hdrIcon = $hdrCell.find('.kv-expand-header-icon'),
             collapseAll = options.collapseAll === undefined ? false : options.collapseAll,
             expandAll = options.expandAll === undefined ? false : options.expandAll,
-            $rows = $grid.find("td .kv-expand-row:not(.kv-state-disabled)"),
+            $rows = $grid.find("td .kv-expand-row." + gridId + ":not(.kv-state-disabled)"),
             numRows = $rows.length, progress = 'kv-expand-detail-loading',
             getCols = function () {
                 var $row = $grid.find('.kv-expand-icon:first').closest('tr'), cols = 0;

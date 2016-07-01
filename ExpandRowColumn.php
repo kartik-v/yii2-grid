@@ -348,8 +348,9 @@ class ExpandRowColumn extends DataColumn
             (is_array($key) ? Json::encode($key) : (string)$key) : $key;
         Html::addCssClass($detailOptions, 'kv-expanded-row');
         $content = Html::tag('div', $detail, $detailOptions);
+        $id = $this->grid->options['id'];
         return <<< HTML
-        <div class="kv-expand-row{$disabled}">
+        <div class="kv-expand-row {$id}{$disabled}">
             <div class="kv-expand-icon kv-state-{$type}{$disabled}">{$icon}</div>
             <div class="kv-expand-detail skip-export" style="display:none;">
                 {$content}
