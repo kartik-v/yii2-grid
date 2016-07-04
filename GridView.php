@@ -708,6 +708,16 @@ HTML;
     protected $_toggleButtonId;
 
     /**
+     * @var string the JS variable to store the toggle options
+     */
+    protected $_toggleOptionsVar;
+
+    /**
+     * @var string generated plugin script for the toggle button
+     */
+    protected $_toggleScript;
+
+    /**
      * @var bool whether the current mode is showing all data
      */
     protected $_isShowAll = false;
@@ -1335,7 +1345,7 @@ HTML;
             $js .= ".on('pjax:send', function(){{$grid}.addClass('{$loadingCss}')})";
             $postPjaxJs .= "{$grid}.removeClass('{$loadingCss}');";
         }
-        $postPjaxJs .= "\n" . $this->getToggleDataScript();
+        $postPjaxJs .= "\n" . $this->_toggleScript;
         if (!empty($postPjaxJs)) {
             $event = 'pjax:complete.' . hash('crc32', $postPjaxJs);
             $js .= ".off('{$event}').on('{$event}', function(){{$postPjaxJs}})";
@@ -1491,36 +1501,29 @@ HTML;
 
     /**
      * Generate toggle data validation client script
-     *
-     * @return string
      */
-    protected function getToggleDataScript()
+    protected function genToggleDataScript()
     {
+        $this->_toggleScript = '';
         if (!$this->toggleData) {
-            return '';
+            return;
         }
         $minCount = ArrayHelper::getValue($this->toggleDataOptions, 'minCount', 0);
         if (!$minCount || $minCount >= $this->dataProvider->getTotalCount()) {
-            return '';
+            return;
         }
-        $msg = $this->toggleDataOptions['confirmMsg'];
-        $lib = ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog');
-        $script = <<< JS
-$('#{$this->_toggleButtonId}').off('click').on('click', function(e, options){
-    var b = $(this);
-    options = options || {};
-    if (!options.redirect) {
-        e.stopPropagation();
-        e.preventDefault();
-        {$lib}.confirm('{$msg}', function(result){
-            if(result){
-                b.trigger('click', {redirect: true});
-            }
-        });
-    }
-});
-JS;
-        return $script;
+        $view = $this->getView();
+        $opts = Json::encode([
+            'id' => $this->_toggleButtonId,
+            'pjax' => $this->pjax ? 1 : 0,
+            'mode' => $this->_isShowAll ? 'all' : 'page',
+            'msg' => ArrayHelper::getValue($this->toggleDataOptions, 'confirmMsg', ''),
+            'lib' => new JsExpression(ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog'))
+        ]);
+        $this->_toggleOptionsVar = 'kvTogOpts_' . hash('crc32', $opts);
+        $view->registerJs("{$this->_toggleOptionsVar}={$opts};", View::POS_HEAD);
+        GridToggleDataAsset::register($view);
+        $this->_toggleScript = "kvToggleData({$this->_toggleOptionsVar});";
     }
 
     /**
@@ -1603,7 +1606,8 @@ JS;
             GridPerfectScrollbarAsset::register($view);
             $script .= "{$container}.perfectScrollbar(" . Json::encode($this->perfectScrollbarOptions) . ");";
         }
-        $script .= $this->getToggleDataScript();
+        $this->genToggleDataScript();
+        $script .= $this->_toggleScript;
         $this->_gridClientFunc = 'kvGridInit_' . hash('crc32', $script);
         $this->options['data-krajee-grid'] = $this->_gridClientFunc;
         $view->registerJs("var {$this->_gridClientFunc}=function(){\n{$script}\n};\n{$this->_gridClientFunc}();");
