@@ -155,7 +155,6 @@ class EditableColumnAction extends Action
         $postData = [$model->formName() => $post[$formName][$index]];
         if ($model->load($postData)) {
             $params = [$model, $attribute, $key, $index];
-            $value = static::parseValue($this->outputValue, $params);
             if (!$model->save()) {
                 $message = static::parseValue($this->outputMessage, $params);
                 if (empty($message) && $this->showModelErrors) {
@@ -164,6 +163,7 @@ class EditableColumnAction extends Action
             } else {
                 $message = static::parseValue($this->outputMessage, $params);
             }
+            $value = static::parseValue($this->outputValue, $params);
             return ['output' => $value, 'message' => $message];
         }
         return ['output' => '', 'message' => ''];

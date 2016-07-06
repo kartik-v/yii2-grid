@@ -30,6 +30,7 @@ Change Log: `yii2-grid`
 23. (enh #515): Implement ajax delete with pjax refresh for default delete action in `ActionColumn`.
 24. (enh #517): Allow nested grids as part of `ExpandRowColumn`.
 25. (enh #519): Toggle all data correction for non pjax grids.
+26. (kartik-v/yii2-editable#124): Set output value after model save in `EditableColumnAction`.
 
 ## Version 3.1.1
 
