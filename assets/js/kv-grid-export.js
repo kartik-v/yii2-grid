@@ -153,7 +153,15 @@
                 e.stopPropagation();
                 e.preventDefault();
                 if (!self.showConfirmAlert) {
-                    return;
+                     setTimeout(function() {
+                            if (!isEmpty(arg)) {
+                                self[callback](arg);
+                            } else {
+                                self[callback]();
+                            }
+                        }, 100);
+                        
+                    return false;
                 }
                 var msgs = self.messages, msg1 = isEmpty(self.alertMsg) ? '' : self.alertMsg,
                     msg2 = isEmpty(msgs.allowPopups) ? '' : msgs.allowPopups,
