@@ -1,9 +1,9 @@
 Change Log: `yii2-grid`
 =======================
 
-## Version 3.1.2 (under development)
+## Version 3.1.2
 
-**Date:** 24-Jun-2016
+**Date:** 25-Jul-2016
 
 1. (enh #472): Having different editable models in one gridview column.
 2. (enh #472): Update Spanish translations.
@@ -31,6 +31,8 @@ Change Log: `yii2-grid`
 24. (enh #517): Allow nested grids as part of `ExpandRowColumn`.
 25. (enh #519): Toggle all data correction for non pjax grids.
 26. (kartik-v/yii2-editable#124): Set output value after model save in `EditableColumnAction`.
+27. (bug #532): Correct export download when using without confirm alert.
+28. Add github contribution and issue/PR logging templates.
 
 ## Version 3.1.1
 
