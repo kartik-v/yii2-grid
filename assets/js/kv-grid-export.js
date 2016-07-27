@@ -147,13 +147,13 @@
                 self.popup.document.write(newmsg);
             }
         },
-        processExport: function(callback) {
-            var self = this;
+        processExport: function(callback, arg) {
+            var self = this, func = self[callback];
             setTimeout(function() {
                 if (!isEmpty(arg)) {
-                    self[callback](arg);
+                    func(arg);
                 } else {
-                    self[callback]();
+                    func();
                 }
             }, 100);
         },
@@ -163,7 +163,7 @@
                 e.stopPropagation();
                 e.preventDefault();
                 if (!self.showConfirmAlert) {
-                    self.processExport(callback);
+                    self.processExport(callback, arg);
                     return;
                 }
                 var msgs = self.messages, msg1 = isEmpty(self.alertMsg) ? '' : self.alertMsg,
@@ -186,7 +186,7 @@
                 }
                 lib.confirm(msg, function(result) {
                     if (result) {
-                        self.processExport(callback);
+                        self.processExport(callback, arg);
                     }
                     e.preventDefault();
                 });
