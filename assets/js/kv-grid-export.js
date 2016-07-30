@@ -148,12 +148,12 @@
             }
         },
         processExport: function(callback, arg) {
-            var self = this, func = self[callback];
+            var self = this;
             setTimeout(function() {
                 if (!isEmpty(arg)) {
-                    func(arg);
+                    self[callback](arg);
                 } else {
-                    func();
+                    self[callback]();
                 }
             }, 100);
         },
