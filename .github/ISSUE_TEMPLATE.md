@@ -2,9 +2,8 @@
 
 - [ ] I have searched for similar issues in both open and closed tickets and cannot find a duplicate.
 - [ ] The issue still exists against the latest `master` branch of yii2-grid.
-- [ ] This is not an usage question. I confirm having gone through and read the [documentation](https://demos.krajee.com/grid) and [demos](https://demos.krajee.com/grid-demo).
+- [ ] This is not an usage question. I confirm having gone through and read the [documentation](http://demos.krajee.com/grid) and [demos](http://demos.krajee.com/grid-demo).
 - [ ] This is not a general programming / coding question. (Those should be directed to the [webtips Q & A forum](http://webtips.krajee.com/questions)).
-- [ ] This is not a source plugin (select2) issue. (Those should be directed to the [plugin issues repo](https://github.com/select2/select2/search?q=&type=Issues)).
 - [ ] I have attempted to find the simplest possible steps to reproduce the issue.
 - [ ] I have included a failing test as a pull request (Optional).
 

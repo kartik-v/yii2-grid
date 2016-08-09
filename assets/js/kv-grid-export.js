@@ -147,7 +147,7 @@
                 self.popup.document.write(newmsg);
             }
         },
-        processExport: function(callback) {
+        processExport: function(callback, arg) {
             var self = this;
             setTimeout(function() {
                 if (!isEmpty(arg)) {
@@ -163,7 +163,7 @@
                 e.stopPropagation();
                 e.preventDefault();
                 if (!self.showConfirmAlert) {
-                    self.processExport(callback);
+                    self.processExport(callback, arg);
                     return;
                 }
                 var msgs = self.messages, msg1 = isEmpty(self.alertMsg) ? '' : self.alertMsg,
@@ -186,7 +186,7 @@
                 }
                 lib.confirm(msg, function(result) {
                     if (result) {
-                        self.processExport(callback);
+                        self.processExport(callback, arg);
                     }
                     e.preventDefault();
                 });
