@@ -109,9 +109,6 @@ var kvRowNum = 0, kvExpandRow;
                 $detail = $newRow.find('.kv-expanded-row');
             }
             var loadDetail = function (postProcess) {
-                    if(vInd === undefined) {
-                        return;
-                    }
                     var params = $.extend({
                             expandRowKey: vKey,
                             expandRowInd: vInd
@@ -240,12 +237,14 @@ var kvRowNum = 0, kvExpandRow;
                 return true;
             }
             if (isExpanded($icon)) {
-                if (detailUrl) {
-                    loadDetail(function () {
+                if(vInd !== undefined) {
+                    if (detailUrl) {
+                        loadDetail(function () {
+                            expandRow(false);
+                        });
+                    } else {
                         expandRow(false);
-                    });
-                } else {
-                    expandRow(false);
+                    }
                 }
             }
             $cell.off('click').on('click', function () {
