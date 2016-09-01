@@ -100,9 +100,6 @@ var kvRowNum = 0, kvExpandRow;
                 $detail = $el.find('.kv-expanded-row'),
                 vKey = $detail.data('key'),
                 vInd = $detail.data('index');
-            if(vInd === undefined) {
-                return;
-            }
             if (!isExpanded($icon) && !isCollapsed($icon)) {
                 return true;
             }
@@ -112,6 +109,9 @@ var kvRowNum = 0, kvExpandRow;
                 $detail = $newRow.find('.kv-expanded-row');
             }
             var loadDetail = function (postProcess) {
+                    if(vInd === undefined) {
+                        return;
+                    }
                     var params = $.extend({
                             expandRowKey: vKey,
                             expandRowInd: vInd

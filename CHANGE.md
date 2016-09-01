@@ -3,6 +3,9 @@ Change Log: `yii2-grid`
 
 **Date:** 01-Sep-2016
 
+Revision:
+Adding the code to line 103 broke expand / collapse all functionality. Moving the code to line 112 after "var loadDetail = function (postProcess) {" fixed the problem.
+
 Initial release
 
 Fix for pjax gridview using expandRow with detailUrl pjax form.
@@ -14,12 +17,12 @@ Steps to reproduce:
 1. Expand two rows
 2. When you submit the form on the second expanded row, the first row disappears
 
-Fix: add following lines to /assets/js/kv-grid-expand.js at line 103
+Fix: add following lines to /assets/js/kv-grid-expand.js at line 112
 
 ```
-                if(vInd === undefined) {
-                    return;
-                }
+                    if(vInd === undefined) {
+                        return;
+                    }
 ```
 
 CODES:
@@ -50,7 +53,7 @@ echo GridView::widget([
         ],
         'bordered' => true,
         'striped' => false,
-        'condensed' => true,
+        'condensed' => true ,
         'responsive' => true,
         'responsiveWrap' => false,
         'hover' => true,
