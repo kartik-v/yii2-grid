@@ -237,12 +237,14 @@ var kvRowNum = 0, kvExpandRow;
                 return true;
             }
             if (isExpanded($icon)) {
-                if (detailUrl) {
-                    loadDetail(function () {
+                if(vInd !== undefined) {
+                    if (detailUrl) {
+                        loadDetail(function () {
+                            expandRow(false);
+                        });
+                    } else {
                         expandRow(false);
-                    });
-                } else {
-                    expandRow(false);
+                    }
                 }
             }
             $cell.off('click').on('click', function () {
