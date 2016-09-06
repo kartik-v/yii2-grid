@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.2
+ * @version   3.1.3
  */
 
 namespace kartik\grid\controllers;
@@ -17,6 +17,12 @@ use yii\web\Response;
 use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
 
+/**
+ * Export management controller for downloading content from [[GridView]] in various export formats.
+ *
+ * @author Kartik Visweswaran <kartikv2@gmail.com>
+ * @since 1.0
+ */
 class ExportController extends Controller
 {
     /**

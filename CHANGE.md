@@ -1,6 +1,18 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.3
+
+**Date:** 06-Sep-2016
+
+1. (enh #554): Add ability to configure delete confirmation message within `ActionColumn::deleteOptions`.
+2. (bug #556): Correct expandRow behavior when using with `detailUrl` pjax form.
+3. (bug #557): Update Ukranian Translations.
+4. (enh #561): Enhance `ExpandRowColumn` to better support nested grid views and nested tree expansion.
+5. (enh #562): Enhance `EditableColumnAction` to support model scenario as a parameter.
+6. (enh #564): Enhance page summary to render within table body and add new property`GridView::pageSummaryContainer`.
+7. Enhance PHP Documentation for all classes and methods in the extension.
+
 ## Version 3.1.2
 
 **Date:** 17-Aug-2016

@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.2
+ * @version   3.1.3
  *
  * jQuery methods library for yii2-grid expand row column
  * 
@@ -93,11 +93,12 @@ var kvRowNum = 0, kvExpandRow;
         }
         $rows.each(function () {
             var $el = $(this), $newRow, $tr,
-                $icon = $el.find('.kv-expand-icon'),
+                $icon = $el.find('.kv-expand-icon.' + gridId),
+                $icons = $el.find('.kv-expand-icon'),
                 $row = $el.closest('tr'),
                 $cell = $el.closest('.kv-expand-icon-cell'),
-                $container = $el.find('.kv-expand-detail'),
-                $detail = $el.find('.kv-expanded-row'),
+                $container = $el.find('.kv-expand-detail.' + gridId),
+                $detail = $el.find('.kv-expanded-row.' + gridId),
                 vKey = $detail.data('key'),
                 vInd = $detail.data('index');
             if (!isExpanded($icon) && !isCollapsed($icon)) {
@@ -157,13 +158,13 @@ var kvRowNum = 0, kvExpandRow;
                 collapseRow = function () {
                     beginLoading($cell);
                     $container.html('');
-                    $icon.html(expandIcon);
+                    $icons.html(expandIcon);
                     $cell.attr('title', expandTitle);
                     $tr = $detail.closest('.kv-expand-detail-row');
                     $detail.slideUp(duration, function () {
                         $detail.unwrap().unwrap();
                         $detail.appendTo($container);
-                        setExpanded($icon);
+                        setExpanded($icons);
                     });
                     endLoading($cell);
                 },
@@ -236,7 +237,7 @@ var kvRowNum = 0, kvExpandRow;
                 }
                 return true;
             }
-            if (isExpanded($icon)) {
+            if (isExpanded($icon) && vInd) {
                 if (detailUrl) {
                     loadDetail(function () {
                         expandRow(false);

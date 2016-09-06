@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.2
+ * @version   3.1.3
  */
 
 namespace kartik\grid;
@@ -17,30 +17,30 @@ use yii\helpers\Json;
 use kartik\base\Config;
 
 /**
- * Trait for all column widgets in yii2-grid
+ * ColumnTrait maintains generic methods used by all column widgets in [[GridView]].
  *
- * @property bool           $mergeHeader
- * @property bool           $hidden
- * @property bool           $noWrap
- * @property array          $options
- * @property array          $headerOptions
- * @property array          $filterOptions
- * @property array          $footerOptions
- * @property array          $contentOptions
- * @property array          $pageSummaryOptions
- * @property bool           $hidePageSummary
- * @property bool           $hiddenFromExport
- * @property bool|Closure   $pageSummary
+ * @property boolean $mergeHeader
+ * @property boolean $hidden
+ * @property boolean $noWrap
+ * @property array $options
+ * @property array $headerOptions
+ * @property array $filterOptions
+ * @property array $footerOptions
+ * @property array $contentOptions
+ * @property array $pageSummaryOptions
+ * @property boolean $hidePageSummary
+ * @property boolean $hiddenFromExport
+ * @property boolean|Closure $pageSummary
  * @property string|Closure $pageSummaryFunc
- * @property string         $footer
- * @property string         $hAlign
- * @property string         $vAlign
- * @property string         $width
- * @property array          $_rows
- * @property string         $_columnKey
- * @property string         $_clientScript
- * @property GridView       $grid
- * @property string         $format
+ * @property string $footer
+ * @property string $hAlign
+ * @property string $vAlign
+ * @property string $width
+ * @property array $_rows
+ * @property string $_columnKey
+ * @property string $_clientScript
+ * @property GridView $grid
+ * @property string $format
  * @method getDataCellValue() getDataCellValue($model, $key, $index)
  * @method renderCell()
  *
@@ -164,8 +164,6 @@ trait ColumnTrait
 
     /**
      * Checks if the filter input types are valid
-     *
-     * @return void
      */
     protected function checkValidFilters()
     {
@@ -181,8 +179,6 @@ trait ColumnTrait
      * @param Model $model the current model being rendered
      * @param mixed $key the primary key value for the model
      * @param int   $index the zero-based index of the model being rendered
-     *
-     * @return string
      */
     public function parseExcelFormats(&$options, $model, $key, $index)
     {
@@ -261,8 +257,6 @@ trait ColumnTrait
 
     /**
      * Checks `hidden` property and hides the column from display
-     *
-     * @return void
      */
     protected function parseVisibility()
     {
@@ -292,8 +286,6 @@ trait ColumnTrait
 
     /**
      * Parses and formats a grid column
-     *
-     * @return void
      */
     protected function parseFormat()
     {
@@ -326,7 +318,7 @@ trait ColumnTrait
      *
      * @param string $type the alignment type
      *
-     * @return bool
+     * @return boolean
      */
     protected function isValidAlignment($type = 'hAlign')
     {
@@ -352,7 +344,7 @@ trait ColumnTrait
      * @param mixed   $model the data model being rendered
      * @param mixed   $key the key associated with the data model
      * @param integer $index the zero-based index of the data item among the item array returned by
-     *     [[GridView::dataProvider]].
+     * [[GridView::dataProvider]].
      *
      * @return array
      */
@@ -392,8 +384,6 @@ trait ColumnTrait
 
     /**
      * Store all rows for the column for the current page
-     *
-     * @return void
      */
     protected function setPageRows()
     {
@@ -424,8 +414,6 @@ trait ColumnTrait
      * Initialize column specific JS functionality whenever pjax request completes
      *
      * @param string $script the js script to be used as a callback
-     *
-     * @return void
      */
     protected function initPjax($script = '')
     {
@@ -441,10 +429,10 @@ trait ColumnTrait
     /**
      * Parses a value if Closure and returns the right value
      *
-     * @param mixed $var
-     * @param Model $model
-     * @param mixed $key
-     * @param int   $index
+     * @param string|int|Closure $var the variable to parse
+     * @param Model $model the model instance
+     * @param string|object $key the current model key value
+     * @param int   $index the index of the current record in the data provider
      *
      * @return mixed
      */

@@ -12,7 +12,7 @@ namespace kartik\grid;
 use kartik\base\AssetBundle;
 
 /**
- * Asset bundle for GridView EditableColumn Widget
+ * Asset bundle for [[EditableColumn]] functionality of the [[GridView]] widget.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0

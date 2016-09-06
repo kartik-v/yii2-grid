@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.2
+ * @version   3.1.3
  *
  * Grid Export Validation Module for Yii's Gridview. Supports export of
  * grid data as CSV, HTML, or Excel.
@@ -253,7 +253,6 @@
             var htmlContent = $table.html();
             htmlContent = self.preProcess(htmlContent);
             $table.html(htmlContent);
-            console.log($table);
             return $table;
         },
         preProcess: function (content) {

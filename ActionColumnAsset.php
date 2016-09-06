@@ -12,7 +12,7 @@ namespace kartik\grid;
 use kartik\base\AssetBundle;
 
 /**
- * Asset bundle for GridView ActionColumn Widget
+ * Asset bundle for [[ActionColumn]] functionality of the [[GridView]] widget.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0

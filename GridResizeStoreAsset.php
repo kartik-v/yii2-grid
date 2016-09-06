@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.2
+ * @version   3.1.3
  */
 
 namespace kartik\grid;
@@ -12,7 +12,7 @@ namespace kartik\grid;
 use kartik\base\AssetBundle;
 
 /**
- * Asset bundle for GridView Widget (for resizing columns)
+ * Asset bundle for storage of resizable columns setting for the [[GridView]] widget.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0

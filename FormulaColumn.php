@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.2
+ * @version   3.1.3
  */
 
 namespace kartik\grid;
@@ -12,9 +12,8 @@ namespace kartik\grid;
 use yii\base\InvalidConfigException;
 
 /**
- * A FormulaColumn to calculate values based on other column indexes for the Grid widget [[\kartik\widgets\GridView]]
- *
- * DataColumn is the default column type for the [[GridView]] widget.
+ * A FormulaColumn to calculate values based on other column indexes for the Grid widget [[\kartik\grid\GridView]].
+ * This extends and builds upon the [[DataColumn]] in the [[GridView]] widget.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
@@ -33,13 +32,13 @@ class FormulaColumn extends DataColumn
      * Gets the value of a column
      *
      * @param integer $i the index of the grid column (the first column in the grid will be zero indexed). Note a
-     *     column's index is to be considered, even if the `visible` property is set to false.
+     * column's index is to be considered, even if the `visible` property is set to false.
      * @param array   $params which will contain these keys:
-     * - model: mixed the data model being rendered
-     * - key: mixed the key associated with the data model
-     * - index: integer the zero-based index of the data item among the item array returned by
-     *     [[GridView::dataProvider]].
-     * - widget: the current column widget instance
+     * - `model`: _yii\base\Model`, the data model being rendered
+     * - `key`: _string|object_, the key associated with the data model
+     * - `index`: _integer_, the zero-based index of the data item among the item array returned by
+     *   [[GridView::dataProvider]].
+     * - widget: _FormulaColumn_, the current column widget instance
      *
      * @return string
      * @throws InvalidConfigException
