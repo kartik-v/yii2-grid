@@ -93,11 +93,11 @@ var kvRowNum = 0, kvExpandRow;
         }
         $rows.each(function () {
             var $el = $(this), $newRow, $tr,
-                $icon = $el.find('.kv-expand-icon'),
+                $icon = $el.find('.kv-expand-icon.' + gridId),
                 $row = $el.closest('tr'),
                 $cell = $el.closest('.kv-expand-icon-cell'),
-                $container = $el.find('.kv-expand-detail'),
-                $detail = $el.find('.kv-expanded-row'),
+                $container = $el.find('.kv-expand-detail.' + gridId),
+                $detail = $el.find('.kv-expanded-row.' + gridId),
                 vKey = $detail.data('key'),
                 vInd = $detail.data('index');
             if (!isExpanded($icon) && !isCollapsed($icon)) {
