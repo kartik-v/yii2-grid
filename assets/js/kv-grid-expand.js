@@ -94,6 +94,7 @@ var kvRowNum = 0, kvExpandRow;
         $rows.each(function () {
             var $el = $(this), $newRow, $tr,
                 $icon = $el.find('.kv-expand-icon.' + gridId),
+                $icons = $el.find('.kv-expand-icon'),
                 $row = $el.closest('tr'),
                 $cell = $el.closest('.kv-expand-icon-cell'),
                 $container = $el.find('.kv-expand-detail.' + gridId),
@@ -157,13 +158,13 @@ var kvRowNum = 0, kvExpandRow;
                 collapseRow = function () {
                     beginLoading($cell);
                     $container.html('');
-                    $icon.html(expandIcon);
+                    $icons.html(expandIcon);
                     $cell.attr('title', expandTitle);
                     $tr = $detail.closest('.kv-expand-detail-row');
                     $detail.slideUp(duration, function () {
                         $detail.unwrap().unwrap();
                         $detail.appendTo($container);
-                        setExpanded($icon);
+                        setExpanded($icons);
                     });
                     endLoading($cell);
                 },
