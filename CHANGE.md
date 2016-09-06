@@ -12,6 +12,7 @@ Change Log: `yii2-grid`
 5. (enh #562): Enhance `EditableColumnAction` to support model scenario as a parameter.
 6. (enh #564): Enhance page summary to render within table body and add new property`GridView::pageSummaryContainer`.
 7. Enhance PHP Documentation for all classes and methods in the extension.
+8. (enh #565): Better exported content parsing for header, footer, and page summary.
 
 ## Version 3.1.2
 

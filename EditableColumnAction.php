@@ -131,7 +131,7 @@ class EditableColumnAction extends Action
     /**
      * @var string allows overriding the form name which is used to access posted data
      */
-    public $formName = '';
+    public $formName;
 
     /**
      * @inheritdoc
