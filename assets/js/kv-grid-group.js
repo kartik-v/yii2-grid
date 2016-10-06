@@ -64,13 +64,13 @@ var kvGridGroup;
             if (config.format === 'number') {
                 decimals = config.decimals || 0;
                 decPoint = config.decPoint || '.';
-                thousandSep = config.thousandSep || ',';
+                thousandSep = config.thousandSep || '.';
                 return formatNumber(source, decimals, decPoint, thousandSep);
             }
             if (config.format === 'callback') {
                 func = window[config.func];
                 if (typeof func === 'function') {
-                    data = getSummarySource($tr, $td, i);
+                    data = getSummarySource($tr, $td, i,thousandSep);
                     return func(source, data);
                 }
             }
@@ -107,7 +107,7 @@ var kvGridGroup;
             }
             return $endRow.length ? $endRow : $lastRow;
         };
-        getSummarySource = function ($tr, $td, i) {
+        getSummarySource = function ($tr, $td, i,thousandSep) {
             var j = 1, data = [], $row = $tr, isGrouped = $row.hasClass('kv-grid-group-row'),
                 rowspan = $td.attr('rowspan') || 1;
             if (isGrouped) {
@@ -115,7 +115,8 @@ var kvGridGroup;
                 $row = $row.next(':not(.kv-grid-group-row');
                 while (!j && $row.length) {
                     $row.find('td[data-col-seq="' + i + '"]').each(function () {
-                        var out = $(this).is('[data-raw-value]') ? $(this).attr('data-raw-value') : $(this).text().replace(/[\s,]+/g, '');
+                        var out = $(this).is('[data-raw-value]') ? $(this).attr('data-raw-value') : $(this).text().replace(/[\s]+/g, '').replace(thousandSep,'').replace(',','.');
+                        console.log($out);
                         out = parseFloat(out);
                         data.push(out);
                     }); // jshint ignore:line
@@ -125,7 +126,8 @@ var kvGridGroup;
             } else {
                 while (j <= rowspan && $row.length) {
                     $row.find('td[data-col-seq="' + i + '"]').each(function () {
-                        var out = $(this).is('[data-raw-value]') ? $(this).attr('data-raw-value') : $(this).text().replace(/[\s,]+/g, '');
+
+                        var out = $(this).is('[data-raw-value]') ? $(this).attr('data-raw-value') : $(this).text().replace(/[\s]+/g, '').replace(thousandSep,'').replace(',','.');
                         out = parseFloat(out);
                         data.push(out);
                     }); // jshint ignore:line
