@@ -22,7 +22,7 @@ return [
     'Invalid editable index or model form name' => '',
     'Invalid or bad editable data' => '',
     'No valid editable model found' => '',
-    'There are {totalCount} records. Are you sure you want to display them all?' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => '有{totalCount}条记录。你确定你想要显示他们所有？',
     'Actions' => '动作',
     'Active' => '已激活',
     'Add Book' => '新增书籍',
