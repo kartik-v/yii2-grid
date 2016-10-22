@@ -9,7 +9,7 @@
 
 namespace kartik\grid;
 
-use \Closure;
+use Closure;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -140,11 +140,14 @@ trait ColumnTrait
      */
     protected function calculateSummary()
     {
+        $data = $this->_rows;
+        $type = $this->pageSummaryFunc;
+        if ($type instanceof Closure) {
+            return call_user_func($type, $data);
+        }
         if (empty($this->_rows)) {
             return '';
         }
-        $data = $this->_rows;
-        $type = $this->pageSummaryFunc;
         switch ($type) {
             case null:
                 return array_sum($data);

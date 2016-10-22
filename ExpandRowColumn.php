@@ -21,6 +21,18 @@ use yii\web\View;
 /**
  * An ExpandRowColumn can be used to expand a row and add content in a new row below it either directly or via ajax.
  *
+ * To add an ExpandRowColumn to the gridview, add it to the [[GridView::columns|columns]] configuration as follows:
+ *
+ * ```php
+ * 'columns' => [
+ *     // ...
+ *     [
+ *         'class' => ExpandRowColumn::className(),
+ *         // you may configure additional properties here
+ *     ],
+ * ]
+ * ```
+ *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */

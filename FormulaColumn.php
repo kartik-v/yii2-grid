@@ -15,6 +15,18 @@ use yii\base\InvalidConfigException;
  * A FormulaColumn to calculate values based on other column indexes for the Grid widget [[\kartik\grid\GridView]].
  * This extends and builds upon the [[DataColumn]] in the [[GridView]] widget.
  *
+ * To add a FormulaColumn to the gridview, add it to the [[GridView::columns|columns]] configuration as follows:
+ *
+ * ```php
+ * 'columns' => [
+ *     // ...
+ *     [
+ *         'class' => FormulaColumn::className(),
+ *         // you may configure additional properties here
+ *     ],
+ * ]
+ * ```
+ *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */

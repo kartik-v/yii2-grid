@@ -18,6 +18,18 @@ use yii\helpers\Json;
  * The CheckboxColumn displays a column of checkboxes in a grid view and extends the [[YiiCheckboxColumn]] with
  * various enhancements.
  *
+ * To add a CheckboxColumn to the gridview, add it to the [[GridView::columns|columns]] configuration as follows:
+ *
+ * ```php
+ * 'columns' => [
+ *     // ...
+ *     [
+ *         'class' => CheckboxColumn::className(),
+ *         // you may configure additional properties here
+ *     ],
+ * ]
+ * ```
+ *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */

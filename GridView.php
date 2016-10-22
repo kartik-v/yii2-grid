@@ -38,7 +38,7 @@ use yii\widgets\Pjax;
  *
  * A basic usage of the widget looks like the following:
  *
- * ```php
+ * ~~~
  * <?= GridView::widget([
  *     'dataProvider' => $dataProvider,
  *     'columns' => [
@@ -48,7 +48,7 @@ use yii\widgets\Pjax;
  *         // ...
  *     ]
  * ]) ?>
- * ```
+ * ~~~
  *
  * @see http://demos.krajee.com/grid
  * @author Kartik Visweswaran <kartikv2@gmail.com>
@@ -1044,18 +1044,17 @@ HTML;
         $iconPrefix = $this->export['fontAwesome'] ? 'fa fa-' : 'glyphicon glyphicon-';
         $title = ($icon == '') ? $title : "<i class='{$iconPrefix}{$icon}'></i> {$title}";
         $action = $this->_module->downloadAction;
-        if (!is_array($action)) {
-            $action = [$action];
-        }
         $encoding = ArrayHelper::getValue($this->export, 'encoding', 'utf-8');
         $bom = ArrayHelper::getValue($this->export, 'bom', true);
         $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
         $form = Html::beginForm(
-                $action, 'post', [
-                           'class' => 'kv-export-form',
-                           'style' => 'display:none',
-                           'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
-                       ]
+                is_array($action) ? $action : [$action],
+                'post',
+                [
+                   'class' => 'kv-export-form',
+                   'style' => 'display:none',
+                   'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
+                ]
             ) . "\n" .
             Html::hiddenInput('export_filetype') . "\n" .
             Html::hiddenInput('export_filename') . "\n" .

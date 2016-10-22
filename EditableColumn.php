@@ -19,7 +19,19 @@ use kartik\editable\Editable;
 use kartik\base\Config;
 
 /**
- * The EditableColumn converts the data to editable using the Editable widget [[\kartik\editable\Editable]]
+ * The EditableColumn converts the data to editable using the Editable widget [[\kartik\editable\Editable]].
+ *
+ * To add an EditableColumn to the gridview, add it to the [[GridView::columns|columns]] configuration as follows:
+ *
+ * ```php
+ * 'columns' => [
+ *     // ...
+ *     [
+ *         'class' => EditableColumn::className(),
+ *         // you may configure additional properties here
+ *     ],
+ * ]
+ * ```
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0

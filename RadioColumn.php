@@ -22,6 +22,18 @@ use yii\web\View;
  * RadioColumn displays a column of radio inputs in a grid view. It is different than the CheckboxColumn in the sense
  * that it allows only a single row to be selected at a time.
  *
+ * To add a RadioColumn to the gridview, add it to the [[GridView::columns|columns]] configuration as follows:
+ *
+ * ```php
+ * 'columns' => [
+ *     // ...
+ *     [
+ *         'class' => RadioColumn::className(),
+ *         // you may configure additional properties here
+ *     ],
+ * ]
+ * ```
+ *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */

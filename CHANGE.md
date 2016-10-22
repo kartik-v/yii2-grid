@@ -3,7 +3,7 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.3
 
-**Date:** 06-Sep-2016
+**Date:** 22-Oct-2016
 
 1. (enh #554): Add ability to configure delete confirmation message within `ActionColumn::deleteOptions`.
 2. (bug #556): Correct expandRow behavior when using with `detailUrl` pjax form.
@@ -13,6 +13,13 @@ Change Log: `yii2-grid`
 6. (enh #564): Enhance page summary to render within table body and add new property`GridView::pageSummaryContainer`.
 7. Enhance PHP Documentation for all classes and methods in the extension.
 8. (enh #565): Better exported content parsing for header, footer, and page summary.
+9. (enh #578): Update Italian Translations.
+10. (enh #542, #579): Allow `thousandSep` config for grid group summary.
+11. (enh #580): Update Dutch Translations.
+12. (enh #581): Update Chinese Translations.
+13. (enh #583): Add Gujarati and Hindi Translations.
+14. (enh #584): Update Vietnamese Translations.
+15. Update message config to include all default standard translation files.
 
 ## Version 3.1.2
 

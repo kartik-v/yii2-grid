@@ -18,6 +18,18 @@ use yii\helpers\Html;
  * A SerialColumn displays a column of row numbers (1-based) and extends the [[YiiSerialColumn]] with various
  * enhancements.
  *
+ * To add a SerialColumn to the gridview, add it to the [[GridView::columns|columns]] configuration as follows:
+ *
+ * ```php
+ * 'columns' => [
+ *     // ...
+ *     [
+ *         'class' => SerialColumn::className(),
+ *         // you may configure additional properties here
+ *     ],
+ * ]
+ * ```
+ *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */

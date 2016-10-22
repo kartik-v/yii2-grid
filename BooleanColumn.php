@@ -13,8 +13,20 @@ use Yii;
 use Closure;
 
 /**
- * A BooleanColumn to convert true/false values as user friendly indicators with an automated drop down filter for the
+ * A BooleanColumn will convert true/false values as user friendly indicators with an automated drop down filter for the
  * [[GridView]] widget.
+ *
+ * To add a BooleanColumn to the gridview, add it to the [[GridView::columns|columns]] configuration as follows:
+ *
+ * ```php
+ * 'columns' => [
+ *     // ...
+ *     [
+ *         'class' => BooleanColumn::className(),
+ *         // you may configure additional properties here
+ *     ],
+ * ]
+ * ```
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0

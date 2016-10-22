@@ -18,7 +18,7 @@ use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
 
 /**
- * Export management controller for downloading content from [[GridView]] in various export formats.
+ * ExportController manages actions for downloading the [[GridView]] tabular content in various export formats.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
