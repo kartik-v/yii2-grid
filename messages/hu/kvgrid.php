@@ -17,7 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Failed to update editable data due to an unknown server error' => '',
+    'Failed to update editable data due to an unknown server error' => 'Nem sikerült szerkeszteni az adatot egy ismeretlen szerverhiba miatt.',
     'Hyper Text Markup Language' => '',
     'JSON' => '',
     'JavaScript Object Notation' => '',
