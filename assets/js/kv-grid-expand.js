@@ -237,7 +237,7 @@ var kvRowNum = 0, kvExpandRow;
                 }
                 return true;
             }
-            if (isExpanded($icon) && vInd) {
+            if (isExpanded($icon)) {
                 if (detailUrl) {
                     loadDetail(function () {
                         expandRow(false);
