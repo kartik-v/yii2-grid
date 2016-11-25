@@ -1,6 +1,14 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.4
+
+**Date:** 26-Nov-2016
+
+1. (enh #586, #587): Fix for expanding row on init.
+2. (enh #588): Update Hungarian Translations.
+3. (enh #592): Convert encoding for non UTF-8 content in CSV and Text exports.
+
 ## Version 3.1.3
 
 **Date:** 22-Oct-2016

@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.3
+ * @version   3.1.4
  */
 
 namespace kartik\grid\controllers;
@@ -47,8 +47,12 @@ class ExportController extends Controller
             return;
         }  elseif ($type == GridView::HTML) {
             $content = HtmlPurifier::process($content);
-        } elseif (($type == GridView::CSV || $type == GridView::TEXT) && $encoding == 'utf-8' && $bom) {
-            $content = chr(239) . chr(187) . chr(191) . $content; // add BOM
+        } elseif ($type == GridView::CSV || $type == GridView::TEXT) {
+            if ($encoding != 'utf-8') {
+                $content = mb_convert_encoding($content, $encoding, 'utf-8');
+            } elseif ($bom) {
+                $content = chr(239) . chr(187) . chr(191) . $content; // add BOM
+            }
         }
         $this->setHttpHeaders($type, $name, $mime, $encoding);
         return $content;
