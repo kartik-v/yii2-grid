@@ -1379,6 +1379,12 @@ HTML;
                 ],
             ],
         ];
+
+        // Remove PDF if dependency is not loaded.
+        if (!class_exists(\kartik\mpdf\Pdf::class)) {
+            unset($defaultExportConfig[self::PDF]);
+        }
+
         $this->exportConfig = self::parseExportConfig($this->exportConfig, $defaultExportConfig);
     }
 
