@@ -2,6 +2,7 @@ yii2-grid
 =========
 
 [![Latest Stable Version](https://poser.pugx.org/kartik-v/yii2-grid/v/stable)](https://packagist.org/packages/kartik-v/yii2-grid)
+[![Latest Unstable Version](https://poser.pugx.org/kartik-v/yii2-grid/v/unstable)](https://packagist.org/packages/kartik-v/yii2-grid)
 [![License](https://poser.pugx.org/kartik-v/yii2-grid/license)](https://packagist.org/packages/kartik-v/yii2-grid)
 [![Total Downloads](https://poser.pugx.org/kartik-v/yii2-grid/downloads)](https://packagist.org/packages/kartik-v/yii2-grid)
 [![Monthly Downloads](https://poser.pugx.org/kartik-v/yii2-grid/d/monthly)](https://packagist.org/packages/kartik-v/yii2-grid)
@@ -13,7 +14,7 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh4.googleusercontent.com/-4x-CdyyZAsY/VNxLPmaaAXI/AAAAAAAAAQ8/XYYxTiQZvJk/w868-h516-no/krajee-yii2-grid.jpg)
 
 ## Latest Release
-The latest version of the module is v3.1.2. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
+The latest version of the module is v3.1.4. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
 
 New features with release 2.7.0.
 

@@ -26,6 +26,9 @@
             "kartik\\grid\\": ""
         }
     },
+    "suggest": {
+        "kartik-v/yii2-mpdf": "For exporting grids to PDF"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "3.1.x-dev"

@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.0.3
+ * @version   3.1.4
  */
 
 namespace kartik\grid;
@@ -12,7 +12,7 @@ namespace kartik\grid;
 use kartik\base\AssetBundle;
 
 /**
- * Asset bundle for GridView EditableColumn Widget
+ * Asset bundle for [[EditableColumn]] functionality of the [[GridView]] widget.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0

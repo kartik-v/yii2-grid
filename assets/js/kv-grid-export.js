@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   3.1.2
+ * @version   3.1.4
  *
  * Grid Export Validation Module for Yii's Gridview. Supports export of
  * grid data as CSV, HTML, or Excel.
@@ -88,6 +88,7 @@
         var self = this, gridOpts = options.gridOpts, genOpts = options.genOpts;
         self.$element = $(element);
         //noinspection JSUnresolvedVariable
+        self.gridId = gridOpts.gridId;
         self.$grid = $("#" + gridOpts.gridId);
         self.dialogLib = options.dialogLib;
         self.messages = gridOpts.messages;
@@ -223,7 +224,10 @@
         },
         clean: function (expType) {
             var self = this, $table = self.$table.clone(),
-                $tHead = self.$table.closest('.kv-grid-container').find('.kv-thead-float thead');
+                $tHead = self.$table.closest('.kv-grid-container').find('.kv-thead-float thead'),
+                safeRemove = function(selector) {
+                    $table.find(selector + '.' + self.gridId).remove();
+                };
             if ($tHead.length) {
                 $tHead = $tHead.clone();
                 $table.find('thead').before($tHead).remove();
@@ -237,23 +241,22 @@
             });
             $table.find('input').remove(); // remove any form inputs
             if (!self.showHeader) {
-                $table.find('thead').remove();
+                $table.children('thead').remove();
             }
             if (!self.showPageSummary) {
-                $table.find('tfoot.kv-page-summary').remove();
+                safeRemove('.kv-page-summary-container');
             }
             if (!self.showFooter) {
-                $table.find('tfoot.kv-table-footer').remove();
+                safeRemove('.kv-footer-container');
             }
             if (!self.showCaption) {
-                $table.find('kv-table-caption').remove();
+                safeRemove('.kv-caption-container');
             }
             $table.find('.skip-export').remove();
             $table.find('.skip-export-' + expType).remove();
             var htmlContent = $table.html();
             htmlContent = self.preProcess(htmlContent);
             $table.html(htmlContent);
-            console.log($table);
             return $table;
         },
         preProcess: function (content) {

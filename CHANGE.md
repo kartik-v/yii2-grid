@@ -1,9 +1,37 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.4
+
+**Date:** 26-Nov-2016
+
+1. (enh #586, #587): Fix for expanding row on init.
+2. (enh #588): Update Hungarian Translations.
+3. (enh #592): Convert encoding for non UTF-8 content in CSV and Text exports.
+
+## Version 3.1.3
+
+**Date:** 22-Oct-2016
+
+1. (enh #554): Add ability to configure delete confirmation message within `ActionColumn::deleteOptions`.
+2. (bug #556): Correct expandRow behavior when using with `detailUrl` pjax form.
+3. (bug #557): Update Ukranian Translations.
+4. (enh #561): Enhance `ExpandRowColumn` to better support nested grid views and nested tree expansion.
+5. (enh #562): Enhance `EditableColumnAction` to support model scenario as a parameter.
+6. (enh #564): Enhance page summary to render within table body and add new property`GridView::pageSummaryContainer`.
+7. Enhance PHP Documentation for all classes and methods in the extension.
+8. (enh #565): Better exported content parsing for header, footer, and page summary.
+9. (enh #578): Update Italian Translations.
+10. (enh #542, #579): Allow `thousandSep` config for grid group summary.
+11. (enh #580): Update Dutch Translations.
+12. (enh #581): Update Chinese Translations.
+13. (enh #583): Add Gujarati and Hindi Translations.
+14. (enh #584): Update Vietnamese Translations.
+15. Update message config to include all default standard translation files.
+
 ## Version 3.1.2
 
-**Date:** 25-Jul-2016
+**Date:** 17-Aug-2016
 
 1. (enh #472): Having different editable models in one gridview column.
 2. (enh #472): Update Spanish translations.
@@ -33,6 +61,9 @@ Change Log: `yii2-grid`
 26. (kartik-v/yii2-editable#124): Set output value after model save in `EditableColumnAction`.
 27. (bug #532): Correct export download when using without confirm alert.
 28. Add github contribution and issue/PR logging templates.
+29. (bug #537): Correct export arg validation
+30. (bug #538): Correct export callback validation
+31. (enh #541, #543): Update French translations.
 
 ## Version 3.1.1
 
