@@ -11,6 +11,7 @@ namespace kartik\grid;
 
 use kartik\base\Config;
 use kartik\dialog\Dialog;
+use kartik\mpdf\Pdf;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\bootstrap\ButtonDropdown;
@@ -1056,25 +1057,35 @@ HTML;
                    'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
                 ]
             ) . "\n" .
+            Html::hiddenInput('export_hash') . "\n" .
             Html::hiddenInput('export_filetype') . "\n" .
             Html::hiddenInput('export_filename') . "\n" .
             Html::hiddenInput('export_mime') . "\n" .
             Html::hiddenInput('export_config') . "\n" .
             Html::hiddenInput('export_encoding', $encoding) . "\n" .
             Html::hiddenInput('export_bom', $bom) . "\n" .
-            Html::textarea('export_content') . "\n</form>";
+            Html::textarea('export_content') . "\n" .
+            "</form>";
         $items = empty($this->export['header']) ? [] : [$this->export['header']];
         foreach ($this->exportConfig as $format => $setting) {
             $iconOptions = ArrayHelper::getValue($setting, 'iconOptions', []);
             Html::addCssClass($iconOptions, $iconPrefix . $setting['icon']);
             $label = (empty($setting['icon']) || $setting['icon'] == '') ? $setting['label'] :
                 Html::tag('i', '', $iconOptions) . ' ' . $setting['label'];
+            $mime = ArrayHelper::getValue($setting, 'mime', 'text/plain');
+            $config = ArrayHelper::getValue($setting, 'config', []);
+            if ($format === self::JSON) {
+                unset($config['jsonReplacer']);
+            }
+            $dataToHash = $setting['filename'] . $mime . $encoding . $bom . Json::encode($config);
+            $hash = Yii::$app->security->hashData($dataToHash, $this->_module->exportEncryptSalt);
             $items[] = [
                 'label' => $label,
                 'url' => '#',
                 'linkOptions' => [
                     'class' => 'export-' . $format,
-                    'data-format' => ArrayHelper::getValue($setting, 'mime', 'text/plain'),
+                    'data-mime' => $mime,
+                    'data-hash' => $hash,
                 ],
                 'options' => $setting['options'],
             ];
@@ -1381,7 +1392,7 @@ HTML;
         ];
 
         // Remove PDF if dependency is not loaded.
-        if (!class_exists(\kartik\mpdf\Pdf::class)) {
+        if (!class_exists(Pdf::class)) {
             unset($defaultExportConfig[self::PDF]);
         }
 
@@ -1739,7 +1750,7 @@ HTML;
         $gridId = $this->options['id'];
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
-            $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
+            $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_BLANK);
             $gridOpts = Json::encode(
                 [
                     'gridId' => $gridId,
@@ -1763,15 +1774,13 @@ HTML;
                 );
                 $genOptsVar = 'kvGridExp_' . hash('crc32', $genOpts);
                 $view->registerJs("var {$genOptsVar}={$genOpts};", View::POS_HEAD);
-                $expOpts = Json::encode(
-                    [
-                        'dialogLib' => ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog'),
-                        'gridOpts' => new JsExpression($gridOptsVar),
-                        'genOpts' => new JsExpression($genOptsVar),
-                        'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
-                        'config' => ArrayHelper::getValue($setting, 'config', []),
-                    ]
-                );
+                $expOpts = Json::encode([
+                    'dialogLib' => ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog'),
+                    'gridOpts' => new JsExpression($gridOptsVar),
+                    'genOpts' => new JsExpression($genOptsVar),
+                    'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
+                    'config' => ArrayHelper::getValue($setting, 'config', [])
+                ]);
                 $expOptsVar = 'kvGridExp_' . hash('crc32', $expOpts);
                 $view->registerJs("var {$expOptsVar}={$expOpts};", View::POS_HEAD);
                 $script .= "{$id}.gridexport({$expOptsVar});";

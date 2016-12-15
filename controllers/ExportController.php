@@ -10,12 +10,15 @@
 namespace kartik\grid\controllers;
 
 use Yii;
+use yii\base\InvalidCallException;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
+use kartik\base\Config;
 use kartik\grid\GridView;
 use kartik\mpdf\Pdf;
+use kartik\grid\Module;
 
 /**
  * ExportController manages actions for downloading the [[GridView]] tabular content in various export formats.
@@ -32,14 +35,27 @@ class ExportController extends Controller
      */
     public function actionDownload()
     {
+        /**
+         * @var Module $module
+         */
+        $module = Config::initModule(Module::className());
         $request = Yii::$app->request;
         $type = $request->post('export_filetype', 'html');
         $name = $request->post('export_filename', Yii::t('kvgrid', 'export'));
         $content = $request->post('export_content', Yii::t('kvgrid', 'No data found'));
         $mime = $request->post('export_mime', 'text/plain');
         $encoding = $request->post('export_encoding', 'utf-8');
-        $bom = $request->post('export_bom', true);
+        $bom = $request->post('export_bom', 1);
         $config = $request->post('export_config', '{}');
+        $oldHash = $request->post('export_hash');
+        $newData = $name . $mime . $encoding . $bom . $config;
+        $security = Yii::$app->security;
+        $salt = $module->exportEncryptSalt;
+        $newHash = $security->hashData($newData, $salt);
+        if (!$security->validateData($oldHash, $salt) || $oldHash !== $newHash) {
+            $params = "\nOld Hash:{$oldHash}\nNew Hash:{$newHash}\n";
+            throw new InvalidCallException("The parameters for yii2-grid export seem to be tampered. Please retry!{$params}");
+        }
         if ($type == GridView::PDF) {
             $config = Json::decode($config);
             $this->generatePDF($content, "{$name}.pdf", $config);

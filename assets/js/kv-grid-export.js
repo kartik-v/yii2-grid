@@ -96,6 +96,7 @@
         self.exportConversions = gridOpts.exportConversions;
         self.showConfirmAlert = gridOpts.showConfirmAlert;
         self.filename = genOpts.filename;
+        self.expHash = genOpts.expHash;
         self.showHeader = genOpts.showHeader;
         self.showFooter = genOpts.showFooter;
         self.showPageSummary = genOpts.showPageSummary;
@@ -148,9 +149,9 @@
                 self.popup.document.write(newmsg);
             }
         },
-        processExport: function(callback, arg) {
+        processExport: function (callback, arg) {
             var self = this;
-            setTimeout(function() {
+            setTimeout(function () {
                 if (!isEmpty(arg)) {
                     self[callback](arg);
                 } else {
@@ -185,7 +186,7 @@
                 if (isEmpty(msg)) {
                     return;
                 }
-                lib.confirm(msg, function(result) {
+                lib.confirm(msg, function (result) {
                     if (result) {
                         self.processExport(callback, arg);
                     }
@@ -225,7 +226,7 @@
         clean: function (expType) {
             var self = this, $table = self.$table.clone(),
                 $tHead = self.$table.closest('.kv-grid-container').find('.kv-thead-float thead'),
-                safeRemove = function(selector) {
+                safeRemove = function (selector) {
                     $table.find(selector + '.' + self.gridId).remove();
                 };
             if ($tHead.length) {
@@ -270,24 +271,26 @@
             return processed;
         },
         download: function (type, content) {
-            var self = this, fmt = self.$element.data('format'),
-                config = isEmpty(self.config) ? {} : self.config;
-            self.$form.find('[name="export_filetype"]').val(type);
-            self.$form.find('[name="export_filename"]').val(self.filename);
-            self.$form.find('[name="export_content"]').val(content);
-            self.$form.find('[name="export_mime"]').val(fmt);
-            if (type === 'pdf') {
-                self.$form.find('[name="export_config"]').val(JSON.stringify(config));
-            } else {
-                self.$form.find('[name="export_config"]').val('');
+            var self = this, $el = self.$element, mime = $el.attr('data-mime') || 'text/plain',
+                hashData = $el.attr('data-hash') || '', config = isEmpty(self.config) ? {} : self.config,
+                setValue = function (f, v) {
+                    self.$form.find('[name="export_' + f + '"]').val(v);
+                };
+            if (type === 'json' && config.jsonReplacer) {
+                delete config.jsonReplacer;
             }
+            setValue('filetype', type);
+            setValue('filename', self.filename);
+            setValue('content', content);
+            setValue('mime', mime);
+            setValue('hash', hashData);
+            setValue('config', JSON.stringify(config));
             if (self.target === '_popup') {
                 self.popup = popupDialog('', 'kvDownloadDialog', 350, 120);
                 self.popup.focus();
                 self.setPopupAlert(self.messages.downloadProgress);
             }
             self.$form.submit();
-
         },
         exportHTML: function () {
             /** @namespace self.config.cssFile */
