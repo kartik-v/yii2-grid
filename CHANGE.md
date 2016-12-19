@@ -13,6 +13,7 @@ Change Log: `yii2-grid`
     - New property `Module::exportEncryptSalt` available to generate a stateless hashed signature.
     - If `exportEncryptSalt` is not set, it will be randomly generated and stored in a session variable.
     - Export settings will be signed and the same data via POST will be cross checked using `yii\base\Security::hashData` and `yii\base\Security::validateData`.  
+6. (enh #604): Fix PDF class name check error.
 
 ## Version 3.1.3
 
