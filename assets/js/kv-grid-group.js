@@ -96,11 +96,11 @@ var kvGridGroup;
                 out =  $col.attr('data-raw-value');
             } else {
                 out = $col.text();
+                flag = new RegExp('[\\s' + thousandSep + ']', 'g');
+                out = out.replace(flag, '');
                 if (decPoint && decPoint !== '.') {
                     out = out.replace(decPoint, '.');
                 }
-                flag = new RegExp('[\\s' + thousandSep + ']', 'g');
-                out = out.replace(flag, '');
             }
             return out ? parseFloat(out) : 0;
         };

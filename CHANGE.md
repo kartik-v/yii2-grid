@@ -3,17 +3,18 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.4
 
-**Date:** 15-Dec-2016
+**Date:** 02-Jan-2017
 
-1. (enh #586, #587): Fix for expanding row on init.
-2. (enh #588): Update Hungarian Translations.
-3. (enh #592): Convert encoding for non UTF-8 content in CSV and Text exports.
-4. (enh #572, #601): Silently disable PDF when dependency is not available.
-5. (enh #600): Enhance security for ExportController actions using a stateless signature to prevent data tampering:
+1. (enh #542): More correct group summation.
+2. (enh #586, #587): Fix for expanding row on init.
+3. (enh #588): Update Hungarian Translations.
+4. (enh #592): Convert encoding for non UTF-8 content in CSV and Text exports.
+5. (enh #572, #601): Silently disable PDF when dependency is not available.
+6. (enh #600): Enhance security for ExportController actions using a stateless signature to prevent data tampering:
     - New property `Module::exportEncryptSalt` available to generate a stateless hashed signature.
     - If `exportEncryptSalt` is not set, it will be randomly generated and stored in a session variable.
     - Export settings will be signed and the same data via POST will be cross checked using `yii\base\Security::hashData` and `yii\base\Security::validateData`.  
-6. (enh #604): Fix PDF class name check error.
+7. (enh #604): Fix PDF class name check error.
 
 ## Version 3.1.3
 
