@@ -3,7 +3,7 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.4
 
-**Date:** 02-Jan-2017
+**Date:** 03-Jan-2017
 
 1. (enh #542): More correct group summation.
 2. (enh #586, #587): Fix for expanding row on init.
@@ -15,6 +15,7 @@ Change Log: `yii2-grid`
     - If `exportEncryptSalt` is not set, it will be randomly generated and stored in a session variable.
     - Export settings will be signed and the same data via POST will be cross checked using `yii\base\Security::hashData` and `yii\base\Security::validateData`.  
 7. (enh #604): Fix PDF class name check error.
+8. Code enhancements for grid group.
 
 ## Version 3.1.3
 

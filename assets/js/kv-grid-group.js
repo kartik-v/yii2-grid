@@ -17,7 +17,7 @@ var kvGridGroup;
     kvGridGroup = function (gridId) {
         var $grid, data, groups, $groupRows, i, n, colCount, $pageSum, $firstRow, $lastRow, isEmpty, initPageSummary,
             formatNumber, getParentGroup, getLastGroupRow, getColValue, getSummarySource, getSummaryContent, addRowSpan,
-            adjustLastRow, createSummary;
+            adjustLastRow, createSummary, calculate;
         $grid = $('#' + gridId);
         data = {};
         groups = [];
@@ -87,13 +87,13 @@ var kvGridGroup;
             }
             return $endRow.length ? $endRow : $lastRow;
         };
-        getColValue = function($col, decPoint, thousandSep) {
+        getColValue = function ($col, decPoint, thousandSep) {
             var flag, out;
             if (!$col || !$col.length) {
                 return 0;
             }
             if ($col.is('[data-raw-value]')) {
-                out =  $col.attr('data-raw-value');
+                out = $col.attr('data-raw-value');
             } else {
                 out = $col.text();
                 flag = new RegExp('[\\s' + thousandSep + ']', 'g');
@@ -129,58 +129,49 @@ var kvGridGroup;
             return data;
         };
         getSummaryContent = function (source, $tr, $td, i, config) {
-            var out = 0, n, decimals, decPoint, thousandSep, data, func;
+            var out, fmt, decimals, decPoint, thousandSep, data, func;
             /** @namespace config.thousandSep */
             /** @namespace config.decPoint */
+            /** @namespace config.func */
+            /** @namespace config.format */
             /** @namespace config.func */
             decimals = config.decimals || 0;
             decPoint = config.decPoint || '.';
             thousandSep = config.thousandSep || ',';
-            switch (source) {
-                case 'f_count':
-                case 'f_sum':
-                case 'f_avg':
-                case 'f_max':
-                case 'f_min':
-                    data = getSummarySource($tr, $td, i, decPoint, thousandSep);
-                    switch (source) {
-                        case 'f_count':
-                            out = data.length;
-                            break;
-                        case 'f_sum':
-                        case 'f_avg':
-                            $.each(data, function (key, val) {
-                                out += val;
-                            });
-                            if (source === 'f_sum') {
-                                break;
-                            }
-                            n = data.length;
-                            if (n) {
-                                out = out / n;
-                            }
-                            break;
-                        case 'f_max':
-                        case 'f_min':
-                            func = source.replace('f_', '');
-                            out = Math[func].apply(null, data);
-                            break;
-                    }
-                    break;
-                default:
-                    out = source;
-            }
-            if (config.format === 'number') {
+            fmt = config.format || '';
+            func = config.func ? window[config.func] : '';
+            if (fmt === 'number') {
+                data = getSummarySource($tr, $td, i, decPoint, thousandSep);
+                out = calculate(data, source);
                 return formatNumber(out, decimals, decPoint, thousandSep);
             }
-            if (config.format === 'callback') {
-                func = window[config.func];
-                if (typeof func === 'function') {
-                    data = getSummarySource($tr, $td, i, decPoint, thousandSep);
-                    return func(out, data);
-                }
+            if (fmt === 'callback' && typeof func === 'function') {
+                data = getSummarySource($tr, $td, i, decPoint, thousandSep);
+                return func(data);
             }
-            return out;
+            return '';
+        };
+        calculate = function (data, func) {
+            var i, fn, out = 0, n = data && data.length || 0;
+            if (!n) {
+                return '';
+            }
+            switch (func) {
+                case 'f_count':
+                    return n;
+                case 'f_sum':
+                case 'f_avg':
+                    for (i = 0; i < n; i++) {
+                        out += data[i];
+                    }
+                    return func === 'f_sum' ? out : out / n;
+                case 'f_max':
+                case 'f_min':
+                    fn = func === 'f_max' ? 'max' : 'min';
+                    return Math[fn].apply(null, data);
+                default:
+                    return '';
+            }
         };
         addRowSpan = function ($el, n) {
             n = n || 1;
