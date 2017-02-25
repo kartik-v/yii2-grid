@@ -1817,8 +1817,8 @@ HTML;
             $script .= "$('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
             // integrate resizeableColumns with floatThead
             if ($this->resizableColumns) {
-                $view->registerJs("$('#{$contId}').on('column:resize:stop', function(e){"
-                . " $('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow'); });");
+                $view->registerJs("$('#{$contId}').on('column:resize', function(e){"
+                    . " $('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow'); });");
             }
         }
         if ($this->perfectScrollbar) {
