@@ -1815,6 +1815,11 @@ HTML;
             $this->floatHeaderOptions = array_replace_recursive($opts, $this->floatHeaderOptions);
             $opts = Json::encode($this->floatHeaderOptions);
             $script .= "$('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
+            // integrate resizeableColumns with floatThead
+            if ($this->resizableColumns) {
+                $view->registerJs("$('#{$contId}').on('column:resize:stop', function(e){"
+                . " $('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow'); });");
+            }
         }
         if ($this->perfectScrollbar) {
             GridPerfectScrollbarAsset::register($view);
