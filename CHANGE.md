@@ -5,7 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** 25-Feb-2017
 
-1. (enh #624): Call floatThead('reflow') after resizing columns so that the floating head is also resized.
+1. (bug #624): Call floatThead('reflow') after resizing columns so that the floating head is also resized.
 
 ## Version 3.1.4
 
