@@ -910,7 +910,7 @@ HTML;
     /**
      * Sets a default css class within `options` if not set
      *
-     * @param array $options the HTML options
+     * @param array  $options the HTML options
      * @param string $css the CSS class to test and append
      */
     protected static function initCss(&$options, $css)
@@ -1052,9 +1052,9 @@ HTML;
                 is_array($action) ? $action : [$action],
                 'post',
                 [
-                   'class' => 'kv-export-form',
-                   'style' => 'display:none',
-                   'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
+                    'class' => 'kv-export-form',
+                    'style' => 'display:none',
+                    'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
                 ]
             ) . "\n" .
             Html::hiddenInput('export_hash') . "\n" .
@@ -1748,6 +1748,7 @@ HTML;
         }
         Dialog::widget($this->krajeeDialogSettings);
         $gridId = $this->options['id'];
+        $NS = '.' . str_replace('-', '_', $gridId);
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
             $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_BLANK);
@@ -1774,18 +1775,21 @@ HTML;
                 );
                 $genOptsVar = 'kvGridExp_' . hash('crc32', $genOpts);
                 $view->registerJs("var {$genOptsVar}={$genOpts};", View::POS_HEAD);
-                $expOpts = Json::encode([
-                    'dialogLib' => ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog'),
-                    'gridOpts' => new JsExpression($gridOptsVar),
-                    'genOpts' => new JsExpression($genOptsVar),
-                    'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
-                    'config' => ArrayHelper::getValue($setting, 'config', [])
-                ]);
+                $expOpts = Json::encode(
+                    [
+                        'dialogLib' => ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog'),
+                        'gridOpts' => new JsExpression($gridOptsVar),
+                        'genOpts' => new JsExpression($genOptsVar),
+                        'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),
+                        'config' => ArrayHelper::getValue($setting, 'config', []),
+                    ]
+                );
                 $expOptsVar = 'kvGridExp_' . hash('crc32', $expOpts);
                 $view->registerJs("var {$expOptsVar}={$expOpts};", View::POS_HEAD);
                 $script .= "{$id}.gridexport({$expOptsVar});";
             }
         }
+        $container = '$("#' . $this->containerOptions['id'] . '")';
         if ($this->resizableColumns) {
             $rcDefaults = [];
             if ($this->persistResize) {
@@ -1794,11 +1798,9 @@ HTML;
                 $rcDefaults = ['store' => null];
             }
             $rcOptions = Json::encode(array_replace_recursive($rcDefaults, $this->resizableColumnsOptions));
-            $contId = $this->containerOptions['id'];
             GridResizeColumnsAsset::register($view);
-            $script .= "$('#{$contId}').resizableColumns('destroy').resizableColumns({$rcOptions});";
+            $script .= "{$container}.resizableColumns('destroy').resizableColumns({$rcOptions});";
         }
-        $container = "\$('#{$this->containerOptions['id']}')";
         if ($this->floatHeader) {
             GridFloatHeadAsset::register($view);
             // fix floating header for IE browser when using group grid functionality
@@ -1817,8 +1819,9 @@ HTML;
             $script .= "$('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
             // integrate resizeableColumns with floatThead
             if ($this->resizableColumns) {
-                $view->registerJs("$('#{$contId}').on('column:resize', function(e){"
-                    . " $('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow'); });");
+                $script .= "{$container}.off('{$NS}').on('column:resize{$NS}', function(e){" .
+                    "\$('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow');" .
+                    "});";
             }
         }
         if ($this->perfectScrollbar) {
