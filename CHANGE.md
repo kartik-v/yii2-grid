@@ -3,7 +3,7 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.4
 
-**Date:** 25-Feb-2017
+**Date:** 11-Mar-2017
 
 1. (enh #542): More correct group summation.
 2. (enh #586, #587): Fix for expanding row on init.
@@ -18,6 +18,7 @@ Change Log: `yii2-grid`
 8. Code enhancements for grid group.
 9. (enh #619): Correct nested expanded rows using `GridView::ROW_EXPANDED`.
 10. (bug #624): Call floatThead('reflow') after resizing columns so that the floating head is also resized.
+11. (enh #626): Correct expand row jquery events to start with `kvexprow:` instead of `kvexprow.`.
 
 ## Version 3.1.3
 

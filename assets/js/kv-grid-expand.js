@@ -124,14 +124,14 @@ var kvRowNum = 0, kvExpandRow;
                         reload = enableCache ? $detail.html().length === 0 : true;
                     beginLoading($cell);
                     if (detailUrl.length > 0 && reload) {
-                        $grid.trigger('kvexprow.beforeLoad' + NS, [vInd, vKey, extraData]);
+                        $grid.trigger('kvexprow:beforeLoad', [vInd, vKey, extraData]);
                         $detail.load(detailUrl, params, function () {
                             endLoading($cell);
                             if (typeof onDetailLoaded === 'function') {
                                 onDetailLoaded();
                             }
                             postProcess();
-                            $grid.trigger('kvexprow.loaded' + NS, [vInd, vKey, extraData]);
+                            $grid.trigger('kvexprow:loaded', [vInd, vKey, extraData]);
                         });
                         return;
                     } else {
@@ -201,14 +201,14 @@ var kvRowNum = 0, kvExpandRow;
                             expandRow(true);
                         });
                         if (!chk || collapsed) {
-                            $grid.trigger('kvexprow.toggle' + NS, [vInd, vKey, extraData, true]);
+                            $grid.trigger('kvexprow:toggle', [vInd, vKey, extraData, true]);
                             $icon.focus();
                         }
                         return;
                     }
                     if (isExpanded($icon)) {
                         collapseRow();
-                        $grid.trigger('kvexprow.toggle' + NS, [vInd, vKey, extraData, false]);
+                        $grid.trigger('kvexprow:toggle', [vInd, vKey, extraData, false]);
                         $icon.focus();
                     }
                 };
@@ -280,14 +280,14 @@ var kvRowNum = 0, kvExpandRow;
                 setExpanded($hdrIcon);
                 $hdrIcon.html(collapseIcon);
                 $hdrCell.attr('title', collapseAllTitle);
-                $grid.trigger('kvexprow.toggleAll' + NS, [extraData, false]);
+                $grid.trigger('kvexprow:toggleAll', [extraData, false]);
             } else {
                 if (collAll) {
                     kvRowNum = $rows.find(".kv-state-expanded").length;
                     setCollapsed($hdrIcon);
                     $hdrIcon.html(expandIcon);
                     $hdrCell.attr('title', expandAllTitle);
-                    $grid.trigger('kvexprow.toggleAll' + NS, [extraData, true]);
+                    $grid.trigger('kvexprow:toggleAll', [extraData, true]);
                 }
             }
             kvExpandRow(opt);
