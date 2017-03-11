@@ -19,6 +19,7 @@ Change Log: `yii2-grid`
 9. (enh #619): Correct nested expanded rows using `GridView::ROW_EXPANDED`.
 10. (bug #624): Call floatThead('reflow') after resizing columns so that the floating head is also resized.
 11. (enh #626): Correct expand row jquery events to start with `kvexprow:` instead of `kvexprow.`.
+12. Updates to copyright year.
 
 ## Version 3.1.3
 
