@@ -106,8 +106,8 @@ var kvRowNum = 0, kvExpandRow;
                 $cell = $el.closest('.kv-expand-icon-cell'),
                 $container = $el.find('.kv-expand-detail.' + gridId),
                 $detail = $el.find('.kv-expanded-row.' + gridId + ':first'),
-                vKey = $detail.data('key'),
-                vInd = $detail.data('index');
+                vKey = gridId + '-' + $detail.data('key'),
+                vInd = gridId + '-' + $detail.data('index');
             if (!isExpanded($icon) && !isCollapsed($icon)) {
                 return true;
             }
