@@ -299,7 +299,7 @@ class ActionColumn extends YiiActionColumn
     {
         $content = parent::renderDataCellContent($model, $key, $index);
         $options = $this->dropdownButton;
-        if ($this->_isDropdown) {
+        if ($this->_isDropdown  && !empty(trim($content))) {
             $label = ArrayHelper::remove($options, 'label', Yii::t('kvgrid', 'Actions'));
             $caret = ArrayHelper::remove($options, 'caret', ' <span class="caret"></span>');
             $options = array_replace_recursive($options, ['type' => 'button', 'data-toggle' => 'dropdown']);
