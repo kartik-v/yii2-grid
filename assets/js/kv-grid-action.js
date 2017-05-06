@@ -21,6 +21,7 @@ var kvActionDelete;
             if (!options.proceed) {
                 e.stopPropagation();
                 e.preventDefault();
+                $(document).trigger('show.bs.modal');
                 lib.confirm(opts.msg, function (result) {
                     if (!result) {
                         return;
