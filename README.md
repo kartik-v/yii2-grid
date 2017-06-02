@@ -195,6 +195,7 @@ if your `minimum-stability` is set to any other value other than `dev`, then set
 ```
 kartik-v/yii2-grid: "@dev",
 kartik-v/yii2-krajee-base: "@dev"
+kartik-v/yii2-mpdf: "@dev"
 ```
 
 Read this [web tip /wiki](http://webtips.krajee.com/setting-composer-minimum-stability-application/) on setting the `minimum-stability` settings for your application's composer.json.
