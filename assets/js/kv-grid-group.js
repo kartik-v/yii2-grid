@@ -149,7 +149,7 @@ var kvGridGroup;
                 data = getSummarySource($tr, $td, i, decPoint, thousandSep);
                 return func(data);
             }
-            return '';
+            return source;
         };
         calculate = function (data, func) {
             var i, fn, out = 0, n = data && data.length || 0;
