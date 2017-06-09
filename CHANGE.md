@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.5
+
+**Date:** 09-Jun-2017
+
+- (bug #659): Fix session issue that is not applicable for console apps.
+
 ## Version 3.1.4
 
 **Date:** 08-Jun-2017

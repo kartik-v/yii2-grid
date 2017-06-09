@@ -58,10 +58,11 @@ class Module extends \kartik\base\Module
     {
         $this->_msgCat = 'kvgrid';
         parent::init();
-        if (!isset($this->exportEncryptSalt)) {
-            $session = Yii::$app->session;
+        $app = Yii::$app;
+        if ($app->has('session') && !isset($this->exportEncryptSalt)) {
+            $session = $app->session;
             if (!$session->get(self::SALT_SESS_KEY)) {
-                $session->set(self::SALT_SESS_KEY, Yii::$app->security->generateRandomKey());
+                $session->set(self::SALT_SESS_KEY, $app->security->generateRandomKey());
             }
             $this->exportEncryptSalt = $session->get(self::SALT_SESS_KEY);
         }
