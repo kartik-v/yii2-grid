@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.6
+
+**Date:** 10-Jul-2017
+
+- (enh #664): Allow to specify Editable class in `editableOptions`.
+
 ## Version 3.1.5
 
 **Date:** 09-Jun-2017
