@@ -16,8 +16,8 @@ var kvGridGroup;
     "use strict";
     kvGridGroup = function (gridId) {
         var $grid, data, groups, $groupRows, i, n, colCount, $pageSum, $firstRow, $lastRow, isEmpty, initPageSummary,
-            formatNumber, getParentGroup, getLastGroupRow, getColValue, getSummarySource, getSummaryContent, addRowSpan,
-            adjustLastRow, createSummary, calculate;
+                formatNumber, getParentGroup, getLastGroupRow, getColValue, getSummarySource, getSummaryContent, addRowSpan,
+                adjustLastRow, createSummary, calculate;
         $grid = $('#' + gridId);
         data = {};
         groups = [];
@@ -49,7 +49,7 @@ var kvGridGroup;
          */
         formatNumber = function (n, d, c, s, x) {
             var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')', num = parseFloat(n),
-                dec = parseInt(d);
+                    dec = parseInt(d);
             if (isNaN(num)) {
                 return '';
             }
@@ -106,7 +106,7 @@ var kvGridGroup;
         };
         getSummarySource = function ($tr, $td, i, decPoint, thousandSep) {
             var j = 1, data = [], $row = $tr, isGrouped = $row.hasClass('kv-grid-group-row'),
-                rowspan = $td.attr('rowspan') || 1;
+                    rowspan = $td.attr('rowspan') || 1;
             if (isGrouped) {
                 j = false;
                 $row = $row.next(':not(.kv-grid-group-row');
@@ -200,7 +200,7 @@ var kvGridGroup;
         };
         createSummary = function ($cell, type) {
             var data = $cell.data(type), $parent, key, $tr, $td, i, j, $row, $col, $target, content, config,
-                isGroupedRow = false, css = (type === 'groupHeader') ? 'kv-group-header' : 'kv-group-footer';
+                    isGroupedRow = false, css = (type === 'groupHeader') ? 'kv-group-header' : 'kv-group-footer';
             if (!data) {
                 return;
             }
@@ -310,9 +310,12 @@ var kvGridGroup;
         });
         $.each(groups, function (i, g) {
             var gCells = data[g], rowspan = 1, gCol = 0, $gCell, $prevGroup, txtCurr = '', cellKey = '',
-                cellKeyPrev = '', cellKeyCurr = '';
+                    cellKeyPrev = '', cellKeyCurr = '';
             $.each(gCells, function (j, $cell) {
                 txtCurr = $cell.text().trim();
+                if (txtCurr.length === 0) {
+                    txtCurr = null;
+                }
                 $gCell = gCells[gCol];
                 if (i > 0) {
                     $prevGroup = getParentGroup($cell);
@@ -361,8 +364,8 @@ var kvGridGroup;
             }
             $groupRows.find('td[data-group-key]').each(function () {
                 var gkey = $(this).data('groupKey'),
-                    $head = $grid.find('.kv-grid-group-header[data-group-key]'),
-                    $filt = $grid.find('.kv-grid-group-filter[data-group-key]');
+                        $head = $grid.find('.kv-grid-group-header[data-group-key]'),
+                        $filt = $grid.find('.kv-grid-group-filter[data-group-key]');
                 $(this).closest('tr').data('groupKey', gkey);
                 if ($head.length) {
                     $grid.find('.kv-grid-group-header[data-group-key="' + gkey + '"]').remove();
