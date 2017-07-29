@@ -224,11 +224,17 @@
             }
         },
         clean: function (expType) {
-            var self = this, $table = self.$table.clone(),
-                $tHead = self.$table.closest('.kv-grid-container').find('.kv-thead-float thead'),
+            var self = this, $table = self.$table.clone(), $tHead,
+                $container = self.$table.closest('.kv-grid-container'),
                 safeRemove = function (selector) {
                     $table.find(selector + '.' + self.gridId).remove();
                 };
+    
+            if ($container.hasClass('kv-grid-wrapper')) {
+                $tHead = $container.closest('.floatThead-wrapper').find('.kv-thead-float thead');
+            } else {
+                $tHead = $container.find('.kv-thead-float thead');
+            }
             if ($tHead.length) {
                 $tHead = $tHead.clone();
                 $table.find('thead').before($tHead).remove();
