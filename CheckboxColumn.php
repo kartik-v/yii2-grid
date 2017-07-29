@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
- * @version   3.1.5
+ * @version   3.1.6
  */
 
 namespace kartik\grid;
@@ -159,10 +159,10 @@ class CheckboxColumn extends YiiCheckboxColumn
     public function init()
     {
         $id = $this->grid->options['id'];
+        $view = $this->grid->getView();
+        CheckboxColumnAsset::register($view);
         if ($this->rowHighlight) {
             Html::addCssClass($this->headerOptions, 'kv-all-select');
-            $view = $this->grid->getView();
-            CheckboxColumnAsset::register($view);
             $this->_clientScript = "kvSelectRow('{$id}', '{$this->rowSelectedClass}');";
             $view->registerJs($this->_clientScript);
         }
