@@ -37,7 +37,7 @@ class Module extends \kartik\base\Module
     /**
      * @var string a random salt that will be used to generate a hash string for export configuration.
      */
-    public $exportEncryptSalt = 'SET_A_SALT_FOR_YOUR_MODULE';
+    public $exportEncryptSalt = 'SET_A_SALT_FOR_YII2_GRID';
 
     /**
      * @var string|array the action (url) used for downloading exported file
@@ -47,9 +47,5 @@ class Module extends \kartik\base\Module
     /**
      * @inheritdoc
      */
-    public function init()
-    {
-        $this->_msgCat = 'kvgrid';
-        parent::init();
-    }
+    protected $_msgCat = 'kvgrid';
 }
