@@ -224,7 +224,7 @@ class ActionColumn extends YiiActionColumn
     {
         if (!isset($this->buttons['view'])) {
             $this->buttons['view'] = function ($url) {
-                $options = $this->viewOptions;
+                $options = ArrayHelper::merge($this->buttonOptions, $this->viewOptions);
                 $title = Yii::t('kvgrid', 'View');
                 $icon = '<span class="glyphicon glyphicon-eye-open"></span>';
                 $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
@@ -239,7 +239,7 @@ class ActionColumn extends YiiActionColumn
         }
         if (!isset($this->buttons['update'])) {
             $this->buttons['update'] = function ($url) {
-                $options = $this->updateOptions;
+                $options = ArrayHelper::merge($this->buttonOptions, $this->updateOptions);
                 $title = Yii::t('kvgrid', 'Update');
                 $icon = '<span class="glyphicon glyphicon-pencil"></span>';
                 $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
@@ -254,7 +254,7 @@ class ActionColumn extends YiiActionColumn
         }
         if (!isset($this->buttons['delete'])) {
             $this->buttons['delete'] = function ($url) {
-                $options = $this->deleteOptions;
+                $options = ArrayHelper::merge($this->buttonOptions, $this->deleteOptions);
                 $title = Yii::t('kvgrid', 'Delete');
                 $icon = '<span class="glyphicon glyphicon-trash"></span>';
                 $label = ArrayHelper::remove($options, 'label', ($this->_isDropdown ? $icon . ' ' . $title : $icon));
