@@ -3,8 +3,9 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.6
 
-**Date:** 29-Jul-2017 (_under development_)
+**Date:** 31-Aug-2017 (_under development_)
 
+- (enh #684): Enhancements to `ActionColumn` button rendering.
 - (enh #672): Simplify module code.
     - Eliminate dependency on Yii Session to generate `exportEncryptSalt`
     - Create new `Demo` class to manage grid demo message translations
@@ -17,6 +18,10 @@ Change Log: `yii2-grid`
 **Date:** 09-Jun-2017
 
 - (bug #659): Fix session issue that is not applicable for console apps.
+- (enh #654): Update Polish Translations.
+- (enh #649): Update Hebrew Translations.
+- (enh #644): Do not show the button if there are no actions.
+- (enh #635): Update Chinese Traditional Translations.
 
 ## Version 3.1.4
 

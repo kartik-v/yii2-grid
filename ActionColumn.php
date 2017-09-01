@@ -103,18 +103,22 @@ class ActionColumn extends YiiActionColumn
     public $width = '80px';
 
     /**
-     * @var array HTML attributes for the view action button. The following additional option is recognized:
+     * @var array HTML attributes for the view action button. The following additional options are recognized:
      * - `label`: _string_, the label for the view action button. This is not html encoded. Defaults to `View`.
-     * - `icon`: _null_|_array_|_string_, the icon tag options as _array_, whole icon tag as _string_ or _false_ to
-     *   disable icon un use text instead. This is not html encoded. Defaults to `null` that results in default icon.
+     * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_ 
+     * or _false_ to disable the icon and just use text label instead. When set as a string, this is not HTML
+     * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-eye-open` will be displayed 
+     * as the icon for the default button.
      */
     public $viewOptions = [];
 
     /**
-     * @var array HTML attributes for the update action button. The following additional option is recognized:
+     * @var array HTML attributes for the update action button. The following additional options are recognized:
      * - `label`: _string_, the label for the update action button. This is not html encoded. Defaults to `Update`.
-     * - `icon`: _null_|_array_|_string_, the icon tag options as _array_, whole icon tag as _string_ or _false_ to
-     *   disable icon un use text instead. This is not html encoded. Defaults to `null` that results in default icon.
+     * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_ 
+     * or _false_ to disable the icon and just use text label instead. When set as a string, this is not HTML
+     * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-pencil` will be displayed 
+     * as the icon for the default button.
      */
     public $updateOptions = [];
 
@@ -123,8 +127,10 @@ class ActionColumn extends YiiActionColumn
      * - `label`: _string_, the label for the delete action button. This is not html encoded. Defaults to `Delete`.
      * - `message`: _string_, the delete confirmation message to display when the delete button is clicked.
      *   Defaults to `Are you sure to delete this item?`.
-     * - `icon`: _null_|_array_|_string_, the icon tag options as _array_, whole icon tag as _string_ or _false_ to
-     *   disable icon un use text instead. This is not html encoded. Defaults to `null` that results in default icon.
+     * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_ 
+     * or _false_ to disable the icon and just use text label instead. When set as a string, this is not HTML
+     * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-trash` will be displayed 
+     * as the icon for the default button.
      */
     public $deleteOptions = [];
 
@@ -226,9 +232,10 @@ class ActionColumn extends YiiActionColumn
     /**
      * Renders button icon
      *
-     * @param array $options of button
-     * @param array $iconOptions The following additional options are recognized:
-     * - `tag`: _string_, the tag for the icon. Defaults to `span`.
+     * @param array $options HTML attributes for the action button element
+     * @param array $iconOptions HTML attributes for the icon element. The following additional 
+     * options are recognized:
+     * - `tag`: _string_, the HTML tag to render the icon. Defaults to `span`.
      *
      * @return string
      */
@@ -238,23 +245,21 @@ class ActionColumn extends YiiActionColumn
         if ($icon === false) {
             $icon = '';
         } elseif (!is_string($icon)) {
-            $iconOptions = ArrayHelper::merge(['tag' => 'span'], $iconOptions);
             if (is_array($icon)) {
-                $iconOptions = ArrayHelper::merge($iconOptions, $icon);
+                $iconOptions = array_replace_recursive($iconOptions, $icon);
             }
-            $tag = ArrayHelper::remove($iconOptions, 'tag');
+            $tag = ArrayHelper::remove($iconOptions, 'tag', 'span');
             $icon = Html::tag($tag, '', $iconOptions);
         }
-
         return $icon;
     }
 
     /**
      * Renders button label
      *
-     * @param array $options of button
-     * @param string $title of button
-     * @param array $iconOptions Refer to [[renderIcon]]
+     * @param array $options HTML attributes for the action button element
+     * @param string $title the action button title
+     * @param array $iconOptions HTML attributes for the icon element (see [[renderIcon]])
      *
      * @return string
      */
@@ -264,65 +269,35 @@ class ActionColumn extends YiiActionColumn
         if (is_null($label)) {
             $icon = $this->renderIcon($options, $iconOptions);
             if (strlen($icon) > 0) {
-                if ($this->_isDropdown) {
-                    $label = $icon . ' ' . $title;
-                } else {
-                    $label = $icon;
-                }
+                $label = $this->_isDropdown ? ($icon . ' ' . $title) : $icon;
             } else {
                 $label = $title;
             }
         }
-
         return $label;
     }
 
     /**
-     * @inheritdoc
+     * Sets a default button configuration based on the type
+     *
+     * @param string $type the type of the button
+     * @param string $title the title of the button
+     * @param string $icon the meaningful glyphicon suffix name for the button
      */
-    protected function initDefaultButtons()
-    {
-        if (!isset($this->buttons['view'])) {
-            $this->buttons['view'] = function ($url) {
-                $options = ArrayHelper::merge($this->buttonOptions, $this->viewOptions);
-                $title = Yii::t('kvgrid', 'View');
-                $label = $this->renderLabel($options, $title, ['class' => 'glyphicon glyphicon-eye-open']);
-                $options = array_replace_recursive(['title' => $title, 'data-pjax' => '0'], $options);
-                if ($this->_isDropdown) {
-                    $options['tabindex'] = '-1';
-                    return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
-                } else {
-                    return Html::a($label, $url, $options);
-                }
-            };
+    protected function setDefaultButton($type, $title, $icon) {
+        if (isset($this->buttons[$type])) {
+            return;
         }
-        if (!isset($this->buttons['update'])) {
-            $this->buttons['update'] = function ($url) {
-                $options = ArrayHelper::merge($this->buttonOptions, $this->updateOptions);
-                $title = Yii::t('kvgrid', 'Update');
-                $label = $this->renderLabel($options, $title, ['class' => 'glyphicon glyphicon-pencil']);
-                $options = array_replace_recursive(['title' => $title, 'data-pjax' => '0'], $options);
-                if ($this->_isDropdown) {
-                    $options['tabindex'] = '-1';
-                    return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
-                } else {
-                    return Html::a($label, $url, $options);
-                }
-            };
-        }
-        if (!isset($this->buttons['delete'])) {
-            $this->buttons['delete'] = function ($url) {
-                $options = ArrayHelper::merge($this->buttonOptions, $this->deleteOptions);
-                $title = Yii::t('kvgrid', 'Delete');
-                $label = $this->renderLabel($options, $title, ['class' => 'glyphicon glyphicon-trash']);
+        $this->buttons[$type] = function($url) use($type, $title, $icon) {
+            $opts = "{$type}Options";
+            $options = ['title' => $title, 'data-pjax' => '0'];
+            if ($type === 'delete') {
                 $msg = ArrayHelper::remove($options, 'message', Yii::t('kvgrid', 'Are you sure to delete this item?'));
-                $defaults = ['title' => $title, 'data-pjax' => 'false'];
                 $pjax = $this->grid->pjax ? true : false;
                 $pjaxContainer = $pjax ? $this->grid->pjaxSettings['options']['id'] : '';
                 if ($pjax) {
-                    $defaults['data-pjax-container'] = $pjaxContainer;
+                    $options['data-pjax-container'] = $pjaxContainer;
                 }
-                $options = array_replace_recursive($defaults, $options);
                 $css = $this->grid->options['id'] . '-action-del';
                 Html::addCssClass($options, $css);
                 $view = $this->grid->getView();
@@ -339,14 +314,27 @@ class ActionColumn extends YiiActionColumn
                 $js = "kvActionDelete({$delOpts});";
                 $view->registerJs($js);
                 $this->initPjax($js);
-                if ($this->_isDropdown) {
-                    $options['tabindex'] = '-1';
-                    return '<li>' . Html::a($label, $url, $options) . '</li>' . PHP_EOL;
-                } else {
-                    return Html::a($label, $url, $options);
-                }
-            };
-        }
+            }
+            $options = array_replace_recursive($options, $this->buttonOptions, $this->$opts);
+            $label = $this->renderLabel($options, $title, ['class' => "glyphicon glyphicon-{$icon}"]);
+            $link = Html::a($label, $url, $options);
+            if ($this->_isDropdown) {
+                $options['tabindex'] = '-1';
+                return "<li>{$link}</li>\n";
+            } else {
+                return $link;
+            }
+        };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function initDefaultButtons()
+    {
+        $this->setDefaultButton('view', Yii::t('kvgrid', 'View'), 'eye-open');
+        $this->setDefaultButton('update', Yii::t('kvgrid', 'Update'), 'pencil');
+        $this->setDefaultButton('delete', Yii::t('kvgrid', 'Delete'), 'trash');
     }
 
     /**
