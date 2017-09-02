@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.7
+
+**Date:** 14-Jul-2017
+
+- (bug #668): Fixed grouping on empty column value
+
 ## Version 3.1.6
 
 **Date:** 31-Aug-2017 (_under development_)
