@@ -109,7 +109,7 @@ var kvGridGroup;
                 rowspan = $td.attr('rowspan') || 1;
             if (isGrouped) {
                 j = false;
-                $row = $row.next(':not(.kv-grid-group-row');
+                $row = $row.next(':not(.kv-grid-group-row)');
                 while (!j && $row.length) {
                     $row.find('td[data-col-seq="' + i + '"]').each(function () {
                         data.push(getColValue($(this), decPoint, thousandSep));
