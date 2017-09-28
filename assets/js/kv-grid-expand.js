@@ -158,6 +158,19 @@ var kvRowNum = 0, kvExpandRow;
                         $detail.show();
                         setCollapsed($icon);
                     }
+                    // needed when used together with grouping
+                    var $rowsBefore = $row.prevAll();
+                    $rowsBefore.push($row);
+                    var expandRowPosition = $row.index() + 1;
+                    $.each($rowsBefore, function (i, tr) {
+                        var $rowSpanTds = $(tr).find('td[rowspan]');
+                        $.each($rowSpanTds, function(j, td) {
+                            var rowSpan = parseInt($(td).attr('rowspan'));
+                            if ($(tr).index() + rowSpan > expandRowPosition) {
+                                $(td).attr('rowspan', rowSpan + 1);
+                            }
+                        });
+                    });
                     if (detailUrl.length === 0) {
                         endLoading($cell);
                     }
@@ -172,6 +185,19 @@ var kvRowNum = 0, kvExpandRow;
                         $detail.unwrap().unwrap();
                         $detail.appendTo($container);
                         setExpanded($icons);
+                        // needed when used together with grouping
+                        var $rowsBefore = $row.prevAll();
+                        $rowsBefore.push($row);
+                        var expandRowPosition = $row.index() + 1;
+                        $.each($rowsBefore, function (i, tr) {
+                            var $rowSpanTds = $(tr).find('td[rowspan]');
+                            $.each($rowSpanTds, function(j, td) {
+                                var rowSpan = parseInt($(td).attr('rowspan'));
+                                if ($(tr).index() + rowSpan > expandRowPosition) {
+                                    $(td).attr('rowspan', rowSpan - 1);
+                                }
+                            });
+                        });
                     });
                     endLoading($cell);
                 },
