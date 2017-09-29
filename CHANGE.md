@@ -3,8 +3,11 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.6
 
-**Date:** 31-Aug-2017 (_under development_)
+**Date:** 29-Sep-2017 (_under development_)
 
+- (enh #690): Add ability to configure one's own module identifier.
+- (enh #689, #688, #609): Correct expand row column behavior when used with grid grouping (_to be tested for all grouping use cases_).
+- (enh #687): Update to the latest `floatThead` plugin version.
 - (enh #684): Enhancements to `ActionColumn` button rendering.
 - (enh #672): Simplify module code.
     - Eliminate dependency on Yii Session to generate `exportEncryptSalt`

@@ -159,9 +159,8 @@ var kvRowNum = 0, kvExpandRow;
                         setCollapsed($icon);
                     }
                     // needed when used together with grouping
-                    var $rowsBefore = $row.prevAll();
+                    var $rowsBefore = $row.prevAll(), expandRowPosition = $row.index() + 1;
                     $rowsBefore.push($row);
-                    var expandRowPosition = $row.index() + 1;
                     $.each($rowsBefore, function (i, tr) {
                         var $rowSpanTds = $(tr).find('td[rowspan]');
                         $.each($rowSpanTds, function(j, td) {

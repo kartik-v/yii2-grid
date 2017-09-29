@@ -42,7 +42,7 @@ class Module extends \kartik\base\Module
     /**
      * @var string|array the action (url) used for downloading exported file
      */
-    public $downloadAction = '/gridview/export/download';
+    public $downloadAction;
 
     /**
      * @inheritdoc

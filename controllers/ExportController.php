@@ -38,8 +38,9 @@ class ExportController extends Controller
         /**
          * @var Module $module
          */
-        $module = Config::initModule(Module::className());
         $request = Yii::$app->request;
+        $moduleId = $request->post('module_id', Module::MODULE);
+        $module = Config::getModule($moduleId, Module::className());
         $type = $request->post('export_filetype', 'html');
         $name = $request->post('export_filename', Yii::t('kvgrid', 'export'));
         $content = $request->post('export_content', Yii::t('kvgrid', 'No data found'));
@@ -48,7 +49,7 @@ class ExportController extends Controller
         $bom = $request->post('export_bom', 1);
         $config = $request->post('export_config', '{}');
         $oldHash = $request->post('export_hash');
-        $newData = $name . $mime . $encoding . $bom . $config;
+        $newData = $moduleId . $name . $mime . $encoding . $bom . $config;
         $security = Yii::$app->security;
         $salt = $module->exportEncryptSalt;
         $newHash = $security->hashData($newData, $salt);
@@ -61,7 +62,7 @@ class ExportController extends Controller
             $this->generatePDF($content, "{$name}.pdf", $config);
             /** @noinspection PhpInconsistentReturnPointsInspection */
             return;
-        }  elseif ($type == GridView::HTML) {
+        } elseif ($type == GridView::HTML) {
             $content = HtmlPurifier::process($content);
         } elseif ($type == GridView::CSV || $type == GridView::TEXT) {
             if ($encoding != 'utf-8') {
