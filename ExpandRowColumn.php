@@ -233,7 +233,7 @@ class ExpandRowColumn extends DataColumn
      * [[GridView::dataProvider]].
      * @param ExpandRowColumn $column the column object instance.
      *
-     * @return string
+     * @return mixed
      */
     protected static function parseData($data, $model, $key, $index, $column)
     {

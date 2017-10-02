@@ -9,7 +9,6 @@
 
 namespace kartik\grid;
 
-use Yii;
 use Closure;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
@@ -123,7 +122,7 @@ class EditableColumn extends DataColumn
             $this->_editableOptions['pjaxContainerId'] = $this->grid->pjaxSettings['options']['id'];
         }
         if (!isset($key)) {
-            throw new InvalidConfigException("Invalid or no primary key found for the grid data.");
+            throw new InvalidConfigException('Invalid or no primary key found for the grid data.');
         }
         $strKey = !is_string($key) && !is_numeric($key) ? (is_array($key) ? Json::encode($key) : (string) $key) : $key;
         if ($this->attribute !== null) {

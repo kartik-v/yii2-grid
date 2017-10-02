@@ -17,7 +17,7 @@ use yii\helpers\Html;
 /**
  * The DataColumn is the default column type for the [[GridView]] widget and extends the [[YiiDataColumn]] with various
  * enhancements.
- * 
+ *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since  1.0
  */
@@ -40,13 +40,13 @@ class DataColumn extends YiiDataColumn
     public $hiddenFromExport = false;
 
     /**
-     * @var string the horizontal alignment of each column. Should be one of [[GridView::ALIGN_LEFT]], 
+     * @var string the horizontal alignment of each column. Should be one of [[GridView::ALIGN_LEFT]],
      * [[GridView::ALIGN_RIGHT]], or [[GridView::ALIGN_CENTER]].
      */
     public $hAlign;
 
     /**
-     * @var string the vertical alignment of each column. Should be one of [[GridView::ALIGN_TOP]], 
+     * @var string the vertical alignment of each column. Should be one of [[GridView::ALIGN_TOP]],
      * [[GridView::ALIGN_BOTTOM]], or [[GridView::ALIGN_MIDDLE]].
      */
     public $vAlign;
@@ -99,9 +99,22 @@ class DataColumn extends YiiDataColumn
     public $pageSummary = false;
 
     /**
-     * @var string the summary function that will be used to calculate the page summary for the column.
+     * @var string|Closure the summary function that will be used to calculate the page summary for the column. If
+     * setting as `Closure`, you can set it to an anonymous function with the following signature:
+     *
+     * ```php
+     * function ($data)
+     * ```
+     *
+     *   - the `$data` variable will contain array of the selected page rows for the column.
      */
     public $pageSummaryFunc = GridView::F_SUM;
+
+    /**
+     * @var boolean whether each of the source data rows is numerical in content. This will be used to prepare the data
+     * for default summary calculations based on the Yii formatter's decimal and thousand separators.
+     */
+    public $pageSummaryNumeric = true;
 
     /**
      * @var array HTML attributes for the page summary cell. The following special attributes are available:

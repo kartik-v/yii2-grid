@@ -99,9 +99,22 @@ class SerialColumn extends YiiSerialColumn
     public $pageSummary = false;
 
     /**
-     * @var string the summary function that will be used to calculate the page summary for the column.
+     * @var string|Closure the summary function that will be used to calculate the page summary for the column. If
+     * setting as `Closure`, you can set it to an anonymous function with the following signature:
+     *
+     * ```php
+     * function ($data)
+     * ```
+     *
+     *   - the `$data` variable will contain array of the selected page rows for the column.
      */
     public $pageSummaryFunc = GridView::F_SUM;
+
+    /**
+     * @var boolean whether each of the source data rows is numerical in content. This will be used to prepare the data
+     * for default summary calculations based on the Yii formatter's decimal and thousand separators.
+     */
+    public $pageSummaryNumeric = true;
 
     /**
      * @var array HTML attributes for the page summary cell. The following special attributes are available:
