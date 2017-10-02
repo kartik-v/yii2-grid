@@ -108,17 +108,17 @@ class ExportController extends Controller
     protected function setHttpHeaders($type, $name, $mime, $encoding = 'utf-8')
     {
         Yii::$app->response->format = Response::FORMAT_RAW;
-        if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") == false) {
-            header("Cache-Control: no-cache");
-            header("Pragma: no-cache");
+        if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') == false) {
+            header('Cache-Control: no-cache');
+            header('Pragma: no-cache');
         } else {
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            header("Pragma: public");
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
         }
-        header("Expires: Sat, 26 Jul 1979 05:00:00 GMT");
+        header('Expires: Sat, 26 Jul 1979 05:00:00 GMT');
         header("Content-Encoding: {$encoding}");
         header("Content-Type: {$mime}; charset={$encoding}");
         header("Content-Disposition: attachment; filename={$name}.{$type}");
-        header("Cache-Control: max-age=0");
+        header('Cache-Control: max-age=0');
     }
 }

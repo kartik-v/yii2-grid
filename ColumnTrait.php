@@ -27,12 +27,12 @@ use yii\helpers\Json;
  * @property array           $filterOptions
  * @property array           $footerOptions
  * @property array           $contentOptions
+ * @property boolean|Closure $pageSummary
+ * @property string|Closure  $pageSummaryFunc
+ * @property boolean         $pageSummaryNumeric
  * @property array           $pageSummaryOptions
  * @property boolean         $hidePageSummary
  * @property boolean         $hiddenFromExport
- * @property boolean|Closure $pageSummary
- * @property boolean         $pageSummaryNumeric
- * @property string|Closure  $pageSummaryFunc
  * @property string          $footer
  * @property string          $hAlign
  * @property string          $vAlign
@@ -98,9 +98,9 @@ trait ColumnTrait
     /**
      * Parses Excel Cell Formats for export
      *
-     * @param array $options the HTML attributes for the cell
-     * @param Model $model the current model being rendered
-     * @param mixed $key the primary key value for the model
+     * @param array   $options the HTML attributes for the cell
+     * @param Model   $model the current model being rendered
+     * @param mixed   $key the primary key value for the model
      * @param integer $index the zero-based index of the model being rendered
      */
     public function parseExcelFormats(&$options, $model, $key, $index)
@@ -267,7 +267,7 @@ trait ColumnTrait
             if ($decSep !== '.') {
                 $value = str_replace($decSep, '.', $value);
             }
-            $data[$key] = (float) $value;
+            $data[$key] = (float)$value;
         }
         return $data;
     }
@@ -490,9 +490,9 @@ trait ColumnTrait
     /**
      * Parses grid grouping and sets data attributes
      *
-     * @param array $options
-     * @param Model $model
-     * @param mixed $key
+     * @param array   $options
+     * @param Model   $model
+     * @param mixed   $key
      * @param integer $index
      */
     protected function parseGrouping(&$options, $model, $key, $index)

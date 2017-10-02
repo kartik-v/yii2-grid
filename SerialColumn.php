@@ -10,7 +10,6 @@
 namespace kartik\grid;
 
 use Closure;
-use Yii;
 use yii\grid\SerialColumn as YiiSerialColumn;
 use yii\helpers\Html;
 
@@ -52,13 +51,13 @@ class SerialColumn extends YiiSerialColumn
     public $hiddenFromExport = false;
 
     /**
-     * @var string the horizontal alignment of each column. Should be one of [[GridView::ALIGN_LEFT]], 
+     * @var string the horizontal alignment of each column. Should be one of [[GridView::ALIGN_LEFT]],
      * [[GridView::ALIGN_RIGHT]], or [[GridView::ALIGN_CENTER]].
      */
     public $hAlign = GridView::ALIGN_CENTER;
 
     /**
-     * @var string the vertical alignment of each column. Should be one of [[GridView::ALIGN_TOP]], 
+     * @var string the vertical alignment of each column. Should be one of [[GridView::ALIGN_TOP]],
      * [[GridView::ALIGN_BOTTOM]], or [[GridView::ALIGN_MIDDLE]].
      */
     public $vAlign = GridView::ALIGN_MIDDLE;

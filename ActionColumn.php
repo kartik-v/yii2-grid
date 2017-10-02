@@ -105,9 +105,9 @@ class ActionColumn extends YiiActionColumn
     /**
      * @var array HTML attributes for the view action button. The following additional options are recognized:
      * - `label`: _string_, the label for the view action button. This is not html encoded. Defaults to `View`.
-     * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_ 
+     * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_
      * or _false_ to disable the icon and just use text label instead. When set as a string, this is not HTML
-     * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-eye-open` will be displayed 
+     * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-eye-open` will be displayed
      * as the icon for the default button.
      */
     public $viewOptions = [];
@@ -115,9 +115,9 @@ class ActionColumn extends YiiActionColumn
     /**
      * @var array HTML attributes for the update action button. The following additional options are recognized:
      * - `label`: _string_, the label for the update action button. This is not html encoded. Defaults to `Update`.
-     * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_ 
+     * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_
      * or _false_ to disable the icon and just use text label instead. When set as a string, this is not HTML
-     * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-pencil` will be displayed 
+     * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-pencil` will be displayed
      * as the icon for the default button.
      */
     public $updateOptions = [];
@@ -127,9 +127,9 @@ class ActionColumn extends YiiActionColumn
      * - `label`: _string_, the label for the delete action button. This is not html encoded. Defaults to `Delete`.
      * - `message`: _string_, the delete confirmation message to display when the delete button is clicked.
      *   Defaults to `Are you sure to delete this item?`.
-     * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_ 
+     * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_
      * or _false_ to disable the icon and just use text label instead. When set as a string, this is not HTML
-     * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-trash` will be displayed 
+     * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-trash` will be displayed
      * as the icon for the default button.
      */
     public $deleteOptions = [];
@@ -233,8 +233,7 @@ class ActionColumn extends YiiActionColumn
      * Renders button icon
      *
      * @param array $options HTML attributes for the action button element
-     * @param array $iconOptions HTML attributes for the icon element. The following additional 
-     * options are recognized:
+     * @param array $iconOptions HTML attributes for the icon element. The following additional options are recognized:
      * - `tag`: _string_, the HTML tag to render the icon. Defaults to `span`.
      *
      * @return string
@@ -284,11 +283,12 @@ class ActionColumn extends YiiActionColumn
      * @param string $title the title of the button
      * @param string $icon the meaningful glyphicon suffix name for the button
      */
-    protected function setDefaultButton($type, $title, $icon) {
+    protected function setDefaultButton($type, $title, $icon)
+    {
         if (isset($this->buttons[$type])) {
             return;
         }
-        $this->buttons[$type] = function($url) use($type, $title, $icon) {
+        $this->buttons[$type] = function ($url) use ($type, $title, $icon) {
             $opts = "{$type}Options";
             $options = ['title' => $title, 'data-pjax' => '0'];
             if ($type === 'delete') {
