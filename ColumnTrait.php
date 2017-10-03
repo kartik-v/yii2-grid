@@ -30,7 +30,6 @@ use yii\helpers\Json;
  * @property array           $contentOptions
  * @property boolean|Closure $pageSummary
  * @property string|Closure  $pageSummaryFunc
- * @property boolean         $pageSummaryNumeric
  * @property array           $pageSummaryOptions
  * @property boolean         $hidePageSummary
  * @property boolean         $hiddenFromExport
@@ -232,7 +231,7 @@ trait ColumnTrait
         if (empty($this->_rows)) {
             return '';
         }
-        $data = $this->preparePageSummaryData();
+        $data = $this->_rows;
         switch ($type) {
             case null:
             case GridView::F_SUM:
@@ -247,49 +246,6 @@ trait ColumnTrait
                 return min($data);
         }
         return '';
-    }
-
-    /**
-     * Prepares the page summary row data values if they are numeric and returns the numerical data source
-     *
-     * @return array
-     */
-    protected function preparePageSummaryData()
-    {
-        $data = $this->_rows;
-        if (!$this->pageSummaryNumeric) {
-            return $data;
-        }
-        $decSep = $this->getSeparator('decimal');
-        $thouSep = $this->getSeparator('thousand');
-        foreach ($data as $key => $value) {
-            $value = str_replace($thouSep, '', $value);
-            if ($decSep !== '.') {
-                $value = str_replace($decSep, '.', $value);
-            }
-            $data[$key] = (float)$value;
-        }
-        return $data;
-    }
-
-    /**
-     * Gets the number formatter separators
-     *
-     * @param string $type whether `decimal` or `thousand`
-     *
-     * @return string
-     */
-    protected function getSeparator($type)
-    {
-        $formatter = $this->grid->formatter;
-        $separator = "{$type}Separator";
-        if (isset($formatter->$separator)) {
-            return $formatter->$separator;
-        }
-        $intl = new NumberFormatter($formatter->locale, NumberFormatter::DECIMAL);
-        $symbol = $type === 'thousand' ? NumberFormatter::GROUPING_SEPARATOR_SYMBOL : NumberFormatter::DECIMAL_SEPARATOR_SYMBOL;
-        $separator = $intl->getSymbol($symbol);
-        return isset($separator) ? $separator : ($type === 'thousand' ? ',' : '.');
     }
 
     /**

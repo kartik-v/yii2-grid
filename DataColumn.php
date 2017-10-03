@@ -111,12 +111,6 @@ class DataColumn extends YiiDataColumn
     public $pageSummaryFunc = GridView::F_SUM;
 
     /**
-     * @var boolean whether each of the source data rows is numerical in content. This will be used to prepare the data
-     * for default summary calculations based on the Yii formatter's decimal and thousand separators.
-     */
-    public $pageSummaryNumeric = true;
-
-    /**
      * @var array HTML attributes for the page summary cell. The following special attributes are available:
      * - `prepend`: _string_, a prefix string that will be prepended before the pageSummary content
      * - `append`: _string_, a suffix string that will be appended after the pageSummary content

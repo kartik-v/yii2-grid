@@ -6,7 +6,6 @@ Change Log: `yii2-grid`
 **Date:** 02-Oct-2017 (_under development_)
 
 - (enh #690): Add ability to configure one's own module identifier.
-- (enh #688): Enhance page summary numeric calculation (new Column property `pageSummaryNumeric` to trigger this).
 - (enh #689, #688, #609): Correct expand row column behavior when used with grid grouping (_to be tested for all grouping use cases_).
 - (enh #687): Update to the latest `floatThead` plugin version.
 - (enh #684): Enhancements to `ActionColumn` button rendering.
