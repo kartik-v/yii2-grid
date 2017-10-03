@@ -10,6 +10,7 @@
 namespace kartik\grid;
 
 use Closure;
+use NumberFormatter;
 use kartik\base\Config;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -259,9 +260,8 @@ trait ColumnTrait
         if (!$this->pageSummaryNumeric) {
             return $data;
         }
-        $formatter = $this->grid->formatter;
-        $decSep = isset($formatter->decimalSeparator) ? $formatter->decimalSeparator : '.';
-        $thouSep = isset($formatter->thousandSeparator) ? $formatter->thousandSeparator : ',';
+        $decSep = $this->getSeparator('decimal');
+        $thouSep = $this->getSeparator('thousand');
         foreach ($data as $key => $value) {
             $value = str_replace($thouSep, '', $value);
             if ($decSep !== '.') {
@@ -270,6 +270,26 @@ trait ColumnTrait
             $data[$key] = (float)$value;
         }
         return $data;
+    }
+
+    /**
+     * Gets the number formatter separators
+     *
+     * @param string $type whether `decimal` or `thousand`
+     *
+     * @return string
+     */
+    protected function getSeparator($type)
+    {
+        $formatter = $this->grid->formatter;
+        $separator = "{$type}Separator";
+        if (isset($formatter->$separator)) {
+            return $formatter->$separator;
+        }
+        $intl = new NumberFormatter($formatter->locale, NumberFormatter::DECIMAL);
+        $symbol = $type === 'thousand' ? NumberFormatter::GROUPING_SEPARATOR_SYMBOL : NumberFormatter::DECIMAL_SEPARATOR_SYMBOL;
+        $separator = $intl->getSymbol($symbol);
+        return isset($separator) ? $separator : ($type === 'thousand' ? ',' : '.');
     }
 
     /**
