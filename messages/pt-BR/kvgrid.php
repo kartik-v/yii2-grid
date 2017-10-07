@@ -39,6 +39,7 @@ return [
     'Export All Data' => 'Exportar Todos os Dados',
     'Export Page Data' => 'Exportar Dados da Página',
     'ExportWorksheet' => 'Exportar Planilha',
+    'Failed to update editable data due to an unknown server error' => 'Falha ao atualizar dados editáveis devido a um erro desconhecido no servidor',
     'Generated' => 'Gerado',
     'Generating the export file. Please wait...' => 'Gerando o arquivo de exportação. Aguarde...',
     'Grid Export' => 'Exportar Tabela',
