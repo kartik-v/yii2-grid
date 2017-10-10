@@ -1852,7 +1852,7 @@ HTML;
         }
         if ($this->perfectScrollbar) {
             GridPerfectScrollbarAsset::register($view);
-            $script .= '{$container}.perfectScrollbar(' . Json::encode($this->perfectScrollbarOptions) . ');';
+            $script .= $container . '.perfectScrollbar(' . Json::encode($this->perfectScrollbarOptions) . ');';
         }
         $this->genToggleDataScript();
         $script .= $this->_toggleScript;
