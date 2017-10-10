@@ -3,8 +3,12 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.6
 
-**Date:** 02-Oct-2017 (_under development_)
+**Date:** 10-Oct-2017 (_under development_)
 
+- Simplify `kv-merged-header` CSS in `kv-grid.css`.
+- (enh #696): New properties `itemLabelSingle` and `itemLabelPlural` to be allowed for use in grid summary and action column.
+- (bug #695): Correct perfect scrollbar JS script.
+- (enh #693): Add Brazilian Portugese Translations.
 - (enh #690): Add ability to configure one's own module identifier.
 - (enh #689, #688, #609): Correct expand row column behavior when used with grid grouping (_to be tested for all grouping use cases_).
 - (enh #687): Update to the latest `floatThead` plugin version.

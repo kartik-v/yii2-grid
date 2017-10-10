@@ -292,7 +292,11 @@ class ActionColumn extends YiiActionColumn
             $opts = "{$type}Options";
             $options = ['title' => $title, 'data-pjax' => '0'];
             if ($type === 'delete') {
-                $msg = ArrayHelper::remove($options, 'message', Yii::t('kvgrid', 'Are you sure to delete this item?'));
+                $msg = ArrayHelper::remove($options, 'message', Yii::t(
+                    'kvgrid',
+                    'Are you sure to delete this {item}?',
+                    ['item' => isset($this->grid->itemLabelSingle) ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item')]
+                ));
                 $pjax = $this->grid->pjax ? true : false;
                 $pjaxContainer = $pjax ? $this->grid->pjaxSettings['options']['id'] : '';
                 if ($pjax) {

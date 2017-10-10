@@ -68,7 +68,7 @@
 }
 
 .kv-merged-header {
-    border-bottom: 2px solid #ddd !important;
+    border-bottom-width: 2px;
 }
 
 .kv-page-summary {

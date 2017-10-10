@@ -17,13 +17,17 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Are you sure to delete this {item}?' => 'Вы действительно хотите удалить данную {item}?',
     'Failed to update editable data due to an unknown server error' => '',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => '',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => '',
+    'item' => 'запись',
+    'items' => 'запись',
     'krajee, grid, export, yii2-grid, pdf' => '',
     'Actions' => 'Действия',
     'Active' => 'Вкл',
     'Add Book' => 'Добавить книгу',
     'All' => 'Все',
-    'Are you sure to delete this item?' => 'Вы действительно хотите удалить данную запись?',
     'Book Listing' => 'Содержимое книги',
     'CSV' => 'CSV',
     'Clear selection' => 'Убрать выделение',

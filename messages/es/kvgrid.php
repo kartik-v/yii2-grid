@@ -17,15 +17,19 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Are you sure to delete this {item}?' => '¿Esta seguro de eliminar este {item}?',
     'Failed to update editable data due to an unknown server error' => '',
     'Invalid editable index or model form name' => '',
     'Invalid or bad editable data' => '',
     'No valid editable model found' => '',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => '',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => '',
+    'item' => 'registro',
+    'items' => 'registro',
     'Actions' => 'Acciones',
     'Active' => 'Activo',
     'Add Book' => 'Agregar Libro',
     'All' => 'Todo',
-    'Are you sure to delete this item?' => '¿Esta seguro de eliminar este registro?',
     'Book Listing' => 'Listando libros',
     'CSV' => 'CSV',
     'Clear selection' => 'Limpiar selección',

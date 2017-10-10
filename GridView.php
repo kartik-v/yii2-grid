@@ -303,6 +303,18 @@ class GridView extends YiiGridView
     public $layout = "{summary}\n{items}\n{pager}";
 
     /**
+     * @var string the default label shown for each record in the grid (singular). This label will replace the singular
+     * word `item` within the grid summary text as well as ActionColumn default delete confirmation message.
+     */
+    public $itemLabelSingle;
+
+    /**
+     * @var string the default label shown for each record in the grid (plural). This label will replace the plural word
+     * `items` within the grid summary text as well as ActionColumn default delete confirmation message.
+     */
+    public $itemLabelPlural;
+
+    /**
      * @var string the template for rendering the grid within a bootstrap styled panel.
      * The following special tokens are recognized and will be replaced:
      * - `{prefix}`: _string_, the CSS prefix name as set in [[panelPrefix]]. Defaults to `panel panel-`.
@@ -948,6 +960,12 @@ HTML;
             $this->dataProvider->pagination = false;
         }
         $this->_toggleButtonId = $this->options['id'] . '-togdata-' . ($this->_isShowAll ? 'all' : 'page');
+        if (!isset($this->itemLabelSingle)) {
+            $this->itemLabelSingle = Yii::t('kvgrid', 'item');
+        }
+        if (!isset($this->itemLabelPlural)) {
+            $this->itemLabelPlural = Yii::t('kvgrid', 'items');
+        }
         parent::init();
     }
 
@@ -1183,6 +1201,65 @@ HTML;
         } else {
             return false;
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function renderSummary()
+    {
+        $count = $this->dataProvider->getCount();
+        if ($count <= 0) {
+            return '';
+        }
+        $summaryOptions = $this->summaryOptions;
+        $tag = ArrayHelper::remove($summaryOptions, 'tag', 'div');
+        if (($pagination = $this->dataProvider->getPagination()) !== false) {
+            $totalCount = $this->dataProvider->getTotalCount();
+            $begin = $pagination->getPage() * $pagination->pageSize + 1;
+            $end = $begin + $count - 1;
+            if ($begin > $end) {
+                $begin = $end;
+            }
+            $page = $pagination->getPage() + 1;
+            $pageCount = $pagination->pageCount;
+            if (($summaryContent = $this->summary) === null) {
+                return Html::tag($tag, Yii::t('kvgrid', 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.', [
+                    'begin' => $begin,
+                    'end' => $end,
+                    'count' => $count,
+                    'totalCount' => $totalCount,
+                    'page' => $page,
+                    'pageCount' => $pageCount,
+                    'item' => $this->itemLabelSingle,
+                    'items' => $this->itemLabelPlural,
+                ]), $summaryOptions);
+            }
+        } else {
+            $begin = $page = $pageCount = 1;
+            $end = $totalCount = $count;
+            if (($summaryContent = $this->summary) === null) {
+                return Html::tag($tag, Yii::t('kvgrid', 'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.', [
+                    'begin' => $begin,
+                    'end' => $end,
+                    'count' => $count,
+                    'totalCount' => $totalCount,
+                    'page' => $page,
+                    'pageCount' => $pageCount,
+                    'item' => $this->itemLabelSingle,
+                    'items' => $this->itemLabelPlural,
+                ]), $summaryOptions);
+            }
+        }
+
+        return Yii::$app->getI18n()->format($summaryContent, [
+            'begin' => $begin,
+            'end' => $end,
+            'count' => $count,
+            'totalCount' => $totalCount,
+            'page' => $page,
+            'pageCount' => $pageCount,
+        ], Yii::$app->language);
     }
 
     /**

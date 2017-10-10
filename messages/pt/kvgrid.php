@@ -17,12 +17,16 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Are you sure to delete this {item}?' => 'Tem certeza de que deseja excluir este {item}?',
     'Failed to update editable data due to an unknown server error' => '',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => '',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => '',
+    'item' => '',
+    'items' => '',
     'Actions' => 'Ações',
     'Active' => 'Ativo',
     'Add Book' => 'Adicionar Livro',
     'All' => 'Todos',
-    'Are you sure to delete this item?' => 'Tem certeza de que deseja excluir este item?',
     'Book Listing' => 'Listagem dos Livros',
     'CSV' => 'CSV',
     'Clear selection' => 'Limpar seleção',
