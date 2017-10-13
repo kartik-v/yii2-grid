@@ -3,8 +3,10 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.6
 
-**Date:** 10-Oct-2017 (_under development_)
+**Date:** 13-Oct-2017 (_under development_)
 
+- (enh #699): Enhance ActionColumn to consider new `pjaxDelete` flag.
+- (enh #698): Update Spanish Translations.
 - Simplify `kv-merged-header` CSS in `kv-grid.css`.
 - (enh #696): New properties `itemLabelSingle` and `itemLabelPlural` to be allowed for use in grid summary and action column.
 - (bug #695): Correct perfect scrollbar JS script.

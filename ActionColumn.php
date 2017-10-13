@@ -135,6 +135,13 @@ class ActionColumn extends YiiActionColumn
     public $deleteOptions = [];
 
     /**
+     * @var bool whether to trigger delete via PJAX request. If set to `false` the default yii2 action column delete
+     * behavior using POST method will be triggered. Setting this to `true` will trigger a pjax delete with confirmation
+     * message dialog using Krajee dialog.
+     */
+    public $pjaxDelete = true;
+
+    /**
      * @var boolean|string|Closure the page summary that is displayed above the footer. You can set it to one of the
      * following:
      * - `false`: the summary will not be displayed.
@@ -297,27 +304,32 @@ class ActionColumn extends YiiActionColumn
                     'Are you sure to delete this {item}?',
                     ['item' => isset($this->grid->itemLabelSingle) ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item')]
                 ));
-                $pjax = $this->grid->pjax ? true : false;
-                $pjaxContainer = $pjax ? $this->grid->pjaxSettings['options']['id'] : '';
-                if ($pjax) {
-                    $options['data-pjax-container'] = $pjaxContainer;
+                if ($this->pjaxDelete) {
+                    $pjax = $this->grid->pjax ? true : false;
+                    $pjaxContainer = $pjax ? $this->grid->pjaxSettings['options']['id'] : '';
+                    if ($pjax) {
+                        $options['data-pjax-container'] = $pjaxContainer;
+                    }
+                    $css = $this->grid->options['id'] . '-action-del';
+                    Html::addCssClass($options, $css);
+                    $view = $this->grid->getView();
+                    $delOpts = Json::encode(
+                        [
+                            'css' => $css,
+                            'pjax' => $pjax,
+                            'pjaxContainer' => $pjaxContainer,
+                            'lib' => ArrayHelper::getValue($this->grid->krajeeDialogSettings, 'libName', 'krajeeDialog'),
+                            'msg' => $msg,
+                        ]
+                    );
+                    ActionColumnAsset::register($view);
+                    $js = "kvActionDelete({$delOpts});";
+                    $view->registerJs($js);
+                    $this->initPjax($js);
+                } else {
+                    $options['data-method'] = 'post';
+                    $options['data-confirm'] = $msg;
                 }
-                $css = $this->grid->options['id'] . '-action-del';
-                Html::addCssClass($options, $css);
-                $view = $this->grid->getView();
-                $delOpts = Json::encode(
-                    [
-                        'css' => $css,
-                        'pjax' => $pjax,
-                        'pjaxContainer' => $pjaxContainer,
-                        'lib' => ArrayHelper::getValue($this->grid->krajeeDialogSettings, 'libName', 'krajeeDialog'),
-                        'msg' => $msg,
-                    ]
-                );
-                ActionColumnAsset::register($view);
-                $js = "kvActionDelete({$delOpts});";
-                $view->registerJs($js);
-                $this->initPjax($js);
             }
             $options = array_replace_recursive($options, $this->buttonOptions, $this->$opts);
             $label = $this->renderLabel($options, $title, ['class' => "glyphicon glyphicon-{$icon}"]);
