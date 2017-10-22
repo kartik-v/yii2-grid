@@ -3,8 +3,10 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.6
 
-**Date:** 13-Oct-2017 (_under development_)
+**Date:** 22-Oct-2017
 
+- (enh #701): Enhance and simplify `ActionColumn` delete action.
+- (enh #700): Update Russian Translations.
 - (enh #699): Enhance ActionColumn to consider new `pjaxDelete` flag.
 - (enh #698): Update Spanish Translations.
 - Simplify `kv-merged-header` CSS in `kv-grid.css`.

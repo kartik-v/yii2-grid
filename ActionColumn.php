@@ -13,7 +13,6 @@ use Yii;
 use yii\grid\ActionColumn as YiiActionColumn;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Json;
 
 /**
  * The ActionColumn is a column that displays buttons for viewing and manipulating the items and extends the
@@ -126,20 +125,14 @@ class ActionColumn extends YiiActionColumn
      * @var array HTML attributes for the delete action button. The following additional options are recognized:
      * - `label`: _string_, the label for the delete action button. This is not html encoded. Defaults to `Delete`.
      * - `message`: _string_, the delete confirmation message to display when the delete button is clicked.
-     *   Defaults to `Are you sure to delete this item?`.
+     *   Defaults to `Are you sure to delete this {item}?`, where the `{item}` token will be replaced with the
+     *   `GridView::itemSingle` property.
      * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_
      * or _false_ to disable the icon and just use text label instead. When set as a string, this is not HTML
      * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-trash` will be displayed
      * as the icon for the default button.
      */
     public $deleteOptions = [];
-
-    /**
-     * @var bool whether to trigger delete via PJAX request. If set to `false` the default yii2 action column delete
-     * behavior using POST method will be triggered. Setting this to `true` will trigger a pjax delete with confirmation
-     * message dialog using Krajee dialog.
-     */
-    public $pjaxDelete = true;
 
     /**
      * @var boolean|string|Closure the page summary that is displayed above the footer. You can set it to one of the
@@ -284,52 +277,25 @@ class ActionColumn extends YiiActionColumn
     }
 
     /**
-     * Sets a default button configuration based on the type
+     * Sets a default button configuration based on the button name (bit different than [[initDefaultButton]] method)
      *
-     * @param string $type the type of the button
+     * @param string $name button name as written in the [[template]]
      * @param string $title the title of the button
      * @param string $icon the meaningful glyphicon suffix name for the button
      */
-    protected function setDefaultButton($type, $title, $icon)
+    protected function setDefaultButton($name, $title, $icon)
     {
-        if (isset($this->buttons[$type])) {
+        if (isset($this->buttons[$name])) {
             return;
         }
-        $this->buttons[$type] = function ($url) use ($type, $title, $icon) {
-            $opts = "{$type}Options";
-            $options = ['title' => $title, 'data-pjax' => '0'];
-            if ($type === 'delete') {
-                $msg = ArrayHelper::remove($options, 'message', Yii::t(
-                    'kvgrid',
-                    'Are you sure to delete this {item}?',
-                    ['item' => isset($this->grid->itemLabelSingle) ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item')]
-                ));
-                if ($this->pjaxDelete) {
-                    $pjax = $this->grid->pjax ? true : false;
-                    $pjaxContainer = $pjax ? $this->grid->pjaxSettings['options']['id'] : '';
-                    if ($pjax) {
-                        $options['data-pjax-container'] = $pjaxContainer;
-                    }
-                    $css = $this->grid->options['id'] . '-action-del';
-                    Html::addCssClass($options, $css);
-                    $view = $this->grid->getView();
-                    $delOpts = Json::encode(
-                        [
-                            'css' => $css,
-                            'pjax' => $pjax,
-                            'pjaxContainer' => $pjaxContainer,
-                            'lib' => ArrayHelper::getValue($this->grid->krajeeDialogSettings, 'libName', 'krajeeDialog'),
-                            'msg' => $msg,
-                        ]
-                    );
-                    ActionColumnAsset::register($view);
-                    $js = "kvActionDelete({$delOpts});";
-                    $view->registerJs($js);
-                    $this->initPjax($js);
-                } else {
-                    $options['data-method'] = 'post';
-                    $options['data-confirm'] = $msg;
-                }
+        $this->buttons[$name] = function ($url) use ($name, $title, $icon) {
+            $opts = "{$name}Options";
+            $options = ['title' => $title, 'aria-label' => $title, 'data-pjax' => '0'];
+            if ($name === 'delete') {
+                $item = isset($this->grid->itemLabelSingle) ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item');
+                $msg = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
+                $options['data-method'] = 'post';
+                $options['data-confirm'] = ArrayHelper::remove($options, 'message', $msg);
             }
             $options = array_replace_recursive($options, $this->buttonOptions, $this->$opts);
             $label = $this->renderLabel($options, $title, ['class' => "glyphicon glyphicon-{$icon}"]);
