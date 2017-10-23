@@ -4,7 +4,7 @@ Change Log: `yii2-grid`
 ## Master
 
 **Date:** 23-Oct-2017 (_under development_)
-- (bug #702): Fix and improve missing translation strings for german, italian and french.
+- (enh #702): Fix and improve missing translation strings for german, italian and french.
 
 ## Version 3.1.6
 
