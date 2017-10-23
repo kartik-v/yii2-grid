@@ -1,6 +1,11 @@
 Change Log: `yii2-grid`
 =======================
 
+## Master
+
+**Date:** 23-Oct-2017 (_under development_)
+- (bug #702): Fix and improve missing translation strings for german, italian and french.
+
 ## Version 3.1.6
 
 **Date:** 22-Oct-2017
@@ -156,9 +161,9 @@ Change Log: `yii2-grid`
 - (enh #399): Correct resizableColumns initialization for PJAX.
 - (enh #397): Updated Dutch Translations.
 - Regenerate and update message translations.
-- (enh #391): Toggle data enhancement with confirmation dialog for show all and hide maxCount. 
+- (enh #391): Toggle data enhancement with confirmation dialog for show all and hide maxCount.
 - (enh #390): Perfect scroll bars plugin enhancement.
-- Various coding style enhancements, optimizations, and fixes. 
+- Various coding style enhancements, optimizations, and fixes.
 - (enh #389): Various enhancements to table float header.
 - (bug #387): Rename Czech translation message folder from `cz` to `cs`.
 - (enh #380): Allow toolbar and panel classes/layouts to be overridden.
@@ -257,7 +262,7 @@ Change Log: `yii2-grid`
 - (enh #221): Trim json exported fields by default.
 - (enh #218): Allow gridview to be used as a sub-module.
 - (bug #216): Fix resizable columns container identifier.
-- (bug #215): Add Simplified Chinese message translations. 
+- (bug #215): Add Simplified Chinese message translations.
 - Set copyright year to current.
 - (bug #214): Fix EditableColumn Closure use bug.
 - (enh #213): Default `persistResize` to false to prevent client caching of column widths.
@@ -313,7 +318,7 @@ Change Log: `yii2-grid`
 
 - (enh #145): Enhance style to enable floated header wrapper tables to autofit/expand inside panel.
 - (enh #144): Revamp templates to easily configure different parts of the grid panel layout. (_BC breaking change_).
-- (bug #143): Ability to disable / hide GridView panel footer. 
+- (bug #143): Ability to disable / hide GridView panel footer.
 - (bug #142): Fix missing headers in export, due to improper floatThead settings.
 - (bug #141): Enhance EditableColumn to have unique attribute input ids yet the same name.
 - (enh #140): French translations added.
@@ -383,7 +388,7 @@ Change Log: `yii2-grid`
     - Asynchronous export process on the separate window - and avoid any grid refresh
     - Set export mime types to be configurable
     - Add support for exporting new file types):
-        - JSON export 
+        - JSON export
         - PDF export (using `yii2-mpdf` extension)
     - Add functionality for full data export
     - Enhance icons formatting for export file types (and beautify optionally using font awesome)
@@ -420,7 +425,7 @@ Change Log: `yii2-grid`
 - (enh #73): Enhancement for EditableColumn options to be configured as callback.
 - (enh #72): Enhancement for EditableColumn `beforeInput` and `afterInput`.
 - (enh #67): Fix Chrome bug for displaying loading indicator on tbody.
-- (enh #65): Various enhancements to the widget to work with Pjax 
+- (enh #65): Various enhancements to the widget to work with Pjax
 
 ## Version 1.8.0
 
@@ -461,12 +466,12 @@ Change Log: `yii2-grid`
 
 **Date:** 04-Jul-2014
 
-- (enh #51): Enhanced GridView header and footer, to include additional headers/footers before or after default header/footer. 
+- (enh #51): Enhanced GridView header and footer, to include additional headers/footers before or after default header/footer.
    The properties below can be set as an array or string):
-    - Added `beforeHeader` property to configure additional header rows before the default grid header. 
-    - Added `afterHeader` property to configure additional header rows after the default grid header. 
-    - Added `beforeFooter` property to configure additional footer rows before the default grid footer. 
-    - Added `afterFooter` property to configure additional footer rows after the default grid footer. 
+    - Added `beforeHeader` property to configure additional header rows before the default grid header.
+    - Added `afterHeader` property to configure additional header rows after the default grid header.
+    - Added `beforeFooter` property to configure additional footer rows before the default grid footer.
+    - Added `afterFooter` property to configure additional footer rows after the default grid footer.
 - Fixes #26 to #50.
 
 ## Version 1.4.0
