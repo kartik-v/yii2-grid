@@ -14,7 +14,7 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 ![GridView Screenshot](https://lh4.googleusercontent.com/-4x-CdyyZAsY/VNxLPmaaAXI/AAAAAAAAAQ8/XYYxTiQZvJk/w868-h516-no/krajee-yii2-grid.jpg)
 
 ## Latest Release
-The latest version of the module is v3.1.6. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
+The latest version of the module is v3.1.7. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
 
 New features with release 2.7.0.
 
@@ -39,6 +39,10 @@ New features with release 2.7.0.
 > NOTE: This extension depends on other yii2 extensions based on the functionality chosen by you. It will not install such dependent packages by default, but will prompt through an exception, if accessed.
 For example, if you choose to enable PDF export, then the [yii2-mpdf](http://demos.krajee.com/mpdf) will be mandatory and exception will be raised if `yii2-mpdf` is not installed.
 Check the [composer.json](https://github.com/kartik-v/yii2-grid/blob/master/composer.json) for other extension dependencies.
+
+How to contribute via a pull request?
+-------------------------------------
+Refer this [git workflow for contributors](.github/GIT-WORKFLOW.md).
 
 ## Module
 The extension has been created as a module to enable access to advanced features like download actions (exporting as csv, text, html, or xls). You should configure the module with a name of `gridview` as shown below:
