@@ -48,7 +48,7 @@ All new features and bug fixes should have an associated issue to provide a sing
 and documentation. Take a few minutes to look through the existing issue list for one that matches the contribution you
 intend to make. If you find one already on the issue list, then please leave a comment on that issue indicating you
 intend to work on that item. If you do not find an existing issue matching what you intend to work on, please
-[open a new issue](report-an-issue.md) or create a pull request directly if it is straightforward fix. This will allow the team to
+open a new issue or create a pull request directly if it is straightforward fix. This will allow the team to
 review your suggestion, and provide appropriate feedback along the way.
 
 > For small changes or documentation issues or straightforward fixes, you don't need to create an issue, a pull request is enough in this case.
