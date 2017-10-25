@@ -18,8 +18,8 @@
  */
 return [
     'Are you sure to delete this {item}?' => 'Sei sicuro di volere eliminare questo {item}?',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Visualizzo <b>{begin, number}-{end, number}</b> di <b>{totalCount, number}</b> {totalCount, plural, one{elemento} other{elementi}}.',
-    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => '{count, plural, one{Elementi} other{Elementi}} totali <b>{count, number}</b>.',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Visualizzo <b>{begin, number}-{end, number}</b> di <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => '{count, plural, one{{item}} other{{items}}} totali <b>{count, number}</b>.',
     'item' => 'elemento',
     'items' => 'elementi',
     'Actions' => 'Opzioni',
