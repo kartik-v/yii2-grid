@@ -18,10 +18,12 @@
  */
 return [
     'Are you sure to delete this {item}?' => 'Sei sicuro di volere eliminare questo {item}?',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Visualizzo <b>{begin, number}-{end, number}</b> di <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.',
-    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => '{count, plural, one{{item}} other{{items}}} totali <b>{count, number}</b>.',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => 'Visualizzo <b>{begin, number}-{end, number}</b> di <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => '{count, plural, one{{item}} other{{items}}} totali <b>{count, number}</b>.',
     'item' => 'elemento',
     'items' => 'elementi',
+    'items-few' => 'elementi',
+    'items-manu' => 'elementi',
     'Actions' => 'Opzioni',
     'Active' => 'Attivo',
     'Add Book' => 'Aggiungi Libro',

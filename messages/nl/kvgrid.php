@@ -18,10 +18,13 @@
  */
 return [
     'Are you sure to delete this {item}?' => 'Weet u zeker dat u dit item wilt {item}?',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => '',
-    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => '',
-    'item' => 'verwijderen',
-    'items' => 'verwijderen',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => 
+    'Resultaat <b>{begin, number}-{end, number}</b> van <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => 'Totaal <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'item' => '',
+    'items' => '',
+    'items-few' => 'items',
+    'items-many' => 'items',
     'Actions' => 'Acties',
     'Active' => 'Actief',
     'Add Book' => 'Nieuw boek',

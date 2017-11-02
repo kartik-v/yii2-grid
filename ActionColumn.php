@@ -126,7 +126,7 @@ class ActionColumn extends YiiActionColumn
      * - `label`: _string_, the label for the delete action button. This is not html encoded. Defaults to `Delete`.
      * - `message`: _string_, the delete confirmation message to display when the delete button is clicked.
      *   Defaults to `Are you sure to delete this {item}?`, where the `{item}` token will be replaced with the
-     *   `GridView::itemSingle` property.
+     *   `GridView::itemLabelSingle` property.
      * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_
      * or _false_ to disable the icon and just use text label instead. When set as a string, this is not HTML
      * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-trash` will be displayed
