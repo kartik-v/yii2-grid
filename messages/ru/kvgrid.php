@@ -19,8 +19,8 @@
 return [
     'Are you sure to delete this {item}?' => 'Вы действительно хотите удалить данную {item}?',
     'Failed to update editable data due to an unknown server error' => 'Произошла ошибка, не удалось обновить редактируемую информацию',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Показаны <b>{begin, number}-{end, number}</b> из <b>{totalCount, number}</b> {count, plural, one{# записи} other{# записей}}.',
-    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Всего <b>{count, number}</b> {count, plural, one{# запись} few{# записи} many{# записей} other{# записей}}.',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Показаны <b>{begin, number}-{end, number}</b> из <b>{totalCount, number}</b> {count, plural, one{записи} other{записей}}.',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Всего <b>{count, number}</b> {count, plural, one{запись} few{записи} many{записей} other{записей}}.',
     'item' => 'запись',
     'items' => 'запись',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, grid, сетка, export, экспорт, yii2-grid, pdf',
