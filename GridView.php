@@ -1653,8 +1653,7 @@ HTML;
             $replace['{toggleData}'] = $toggleData;
         }
         $this->layout = strtr($this->layout, $replace);
-        $items = '<div class="kv-loader-overlay"><div class="kv-loader"></div></div>{items}';
-        $this->layout = str_replace('{items}', Html::tag('div', $items, $this->containerOptions), $this->layout);
+        $this->layout = str_replace('{items}', Html::tag('div', '{items}', $this->containerOptions), $this->layout);
         if (is_array($this->replaceTags) && !empty($this->replaceTags)) {
             foreach ($this->replaceTags as $key => $value) {
                 if ($value instanceof \Closure) {
@@ -1684,13 +1683,14 @@ HTML;
         }
         $loadingCss = ArrayHelper::getValue($this->pjaxSettings, 'loadingCssClass', 'kv-grid-loading');
         $postPjaxJs = "setTimeout({$this->_gridClientFunc}, 2500);";
+        $pjaxCont = '$("#' .  $this->pjaxSettings['options']['id'] . '")';
         if ($loadingCss !== false) {
             $grid = 'jQuery("#' . $this->containerOptions['id'] . '")';
             if ($loadingCss === true) {
                 $loadingCss = 'kv-grid-loading';
             }
-            $js .= ".on('pjax:send', function(){{$grid}.addClass('{$loadingCss}')})";
-            $postPjaxJs .= "{$grid}.removeClass('{$loadingCss}');";
+            $js .= ".on('pjax:send', function(){{$pjaxCont}.addClass('{$loadingCss}')})";
+            $postPjaxJs .= "{$pjaxCont}.removeClass('{$loadingCss}');";
         }
         $postPjaxJs .= "\n" . $this->_toggleScript;
         if (!empty($postPjaxJs)) {
@@ -1701,6 +1701,7 @@ HTML;
             $view->registerJs("{$js};");
         }
         Pjax::begin($this->pjaxSettings['options']);
+        echo '<div class="kv-loader-overlay"><div class="kv-loader"></div></div>';
         echo ArrayHelper::getValue($this->pjaxSettings, 'beforeGrid', '');
     }
 
