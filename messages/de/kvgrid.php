@@ -31,7 +31,7 @@ return [
     'No valid editable model found' => 'Kein gültiges bearbeitbares modell gefunden',
     'PDF' => 'PDF',
     'Portable Document Format' => 'Tragbares Dokumentenformat',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => 'Zeige <b>{begin, number}-{end, number}</b> von <b>{totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => 'Zeige <b>{begin, number}-{end, number}</b> von <b>{totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.</b>',
     'Tab Delimited Text' => 'Tabulatorgetrennter Text',
     'Text' => 'Text',
     'Total <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => 'Insgesamt <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
