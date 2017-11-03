@@ -1244,7 +1244,7 @@ HTML;
             $page = $pagination->getPage() + 1;
             $pageCount = $pagination->pageCount;
             if (($summaryContent = $this->summary) === null) {
-                return Html::tag($tag, Yii::t('kvgrid', 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.', [
+                return Html::tag($tag, Yii::t('kvgrid', 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.', [
                     'begin' => $begin,
                     'end' => $end,
                     'count' => $count,
@@ -1261,7 +1261,7 @@ HTML;
             $begin = $page = $pageCount = 1;
             $end = $totalCount = $count;
             if (($summaryContent = $this->summary) === null) {
-                return Html::tag($tag, Yii::t('kvgrid', 'Total <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.', [
+                return Html::tag($tag, Yii::t('kvgrid', 'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.', [
                     'begin' => $begin,
                     'end' => $end,
                     'count' => $count,
@@ -1653,7 +1653,8 @@ HTML;
             $replace['{toggleData}'] = $toggleData;
         }
         $this->layout = strtr($this->layout, $replace);
-        $this->layout = str_replace('{items}', Html::tag('div', '{items}', $this->containerOptions), $this->layout);
+        $items = '<div class="kv-loader-overlay"><div class="kv-loader"></div></div>{items}';
+        $this->layout = str_replace('{items}', Html::tag('div', $items, $this->containerOptions), $this->layout);
         if (is_array($this->replaceTags) && !empty($this->replaceTags)) {
             foreach ($this->replaceTags as $key => $value) {
                 if ($value instanceof \Closure) {

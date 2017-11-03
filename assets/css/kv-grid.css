@@ -95,16 +95,33 @@
 }
 
 .kv-grid-loading {
-    opacity: 0.5;
-    background: #ffffff url('../img/loading.gif') center center no-repeat !important;
+    position: relative;
 }
 
-.kv-grid-loading tr, .kv-grid-loading td {
-    background: transparent !important;
+.kv-grid-loading .kv-loader-overlay {
+    display: block;
 }
 
-.kv-grid-loading td {
-    border-color: #efefef !important;
+.kv-loader-overlay {
+    background: #fff;
+    position: absolute;
+    opacity: 0.6;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.kv-loader {
+    position: absolute;
+    background: #fff url('../img/loading.gif') center center no-repeat!important;
+    width: 100px;
+    height: 100px;
+    top: 49%;
+    left: 49%;
+    margin-left: -15px;
+    margin-top: -15px;
 }
 
 .kv-grid-hide {

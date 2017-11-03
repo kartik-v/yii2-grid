@@ -19,8 +19,8 @@
 return [
     'Are you sure to delete this {item}?' => 'Вы действительно хотите удалить данную {item}?',
     'Failed to update editable data due to an unknown server error' => 'Произошла ошибка, не удалось обновить редактируемую информацию',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => 'Показаны <b>{begin, number}-{end, number}</b> из <b>{totalCount, number}</b> {count, plural, one{{item}} few{{items-few}} other{{items}}}.',
-    'Total <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => 'Всего <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items}} other{{items}}}.',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.'  =>  'Показаны <b>{begin, number}-{end, number}</b> из <b>{totalCount, number}</b> {count, plural, one{{item}} few{{items-few}} other{{items}}}.',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Всего <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items}} other{{items}}}.',
     'item' => 'запись',
     'items' => 'записи',
     'items-few' => 'записи',

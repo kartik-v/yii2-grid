@@ -22,9 +22,9 @@ return [
     'Invalid editable index or model form name' => '',
     'Invalid or bad editable data' => '',
     'No valid editable model found' => '',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => '<b>{totalCount, number}</b>  {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}} <b>{begin, number}-{end, number} arası gösteriliyor.</b>',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.'  =>  '<b>{totalCount, number}</b>  {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}} <b>{begin, number}-{end, number} arası gösteriliyor.</b>',
     'There are {totalCount} records. Are you sure you want to display them all?' => '',
-    'Total <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => 
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 
     'Toplam <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.' => '',
     'item' => 'öğe',
     'items' => 'öğenin',

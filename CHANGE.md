@@ -3,8 +3,10 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.7 (_under development_)
 
-**Date:** 02-Nov-2017
+**Date:** 03-Nov-2017
 
+- (enh #713): Correct message translations.
+- (enh #712): Enhance Gridview loading styling.
 - (enh #711): Correct German translations.
 - (enh #710): `GridView` translation enhancements.
     - New GridView properties `itemLabelFew` &`itemLabelMany` 
