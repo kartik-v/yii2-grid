@@ -124,13 +124,14 @@ class ActionColumn extends YiiActionColumn
     /**
      * @var array HTML attributes for the delete action button. The following additional options are recognized:
      * - `label`: _string_, the label for the delete action button. This is not html encoded. Defaults to `Delete`.
-     * - `message`: _string_, the delete confirmation message to display when the delete button is clicked.
-     *   Defaults to `Are you sure to delete this {item}?`, where the `{item}` token will be replaced with the
-     *   `GridView::itemLabelSingle` property.
      * - `icon`: _null_|_array_|_string_ the icon HTML attributes as an _array_ or the raw icon markup as _string_
      * or _false_ to disable the icon and just use text label instead. When set as a string, this is not HTML
      * encoded. If null or not set, the default icon with CSS `glyphicon glyphicon-trash` will be displayed
      * as the icon for the default button.
+     * - `data-method`: _string_, the delete HTTP method. Defaults to `post`.
+     * - `data-confirm`: _string_, the delete confirmation message to display when the delete button is clicked.
+     *   Defaults to `Are you sure to delete this {item}?`, where the `{item}` token will be replaced with the
+     *   `GridView::itemLabelSingle` property.
      */
     public $deleteOptions = [];
 
@@ -293,9 +294,8 @@ class ActionColumn extends YiiActionColumn
             $options = ['title' => $title, 'aria-label' => $title, 'data-pjax' => '0'];
             if ($name === 'delete') {
                 $item = isset($this->grid->itemLabelSingle) ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item');
-                $msg = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
                 $options['data-method'] = 'post';
-                $options['data-confirm'] = ArrayHelper::remove($this->deleteOptions, 'message', $msg);
+                $options['data-confirm'] = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
             }
             $options = array_replace_recursive($options, $this->buttonOptions, $this->$opts);
             $label = $this->renderLabel($options, $title, ['class' => "glyphicon glyphicon-{$icon}"]);
