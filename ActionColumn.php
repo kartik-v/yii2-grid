@@ -293,7 +293,8 @@ class ActionColumn extends YiiActionColumn
             $options = ['title' => $title, 'aria-label' => $title, 'data-pjax' => '0'];
             if ($name === 'delete') {
                 $item = isset($this->grid->itemLabelSingle) ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item');
-                $msg = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
+                $msg = !empty($this->deleteOptions['message']) ? $this->deleteOptions['message'] :
+                    Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
                 $options['data-method'] = 'post';
                 $options['data-confirm'] = ArrayHelper::remove($options, 'message', $msg);
             }
