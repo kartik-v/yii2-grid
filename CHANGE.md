@@ -3,8 +3,9 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.7 (_under development_)
 
-**Date:** 03-Nov-2017
+**Date:** 07-Nov-2017
 
+- (bug #716): Correct init of `ActionColumn` delete confirmation message.
 - (enh #713): Correct message translations.
 - (enh #712): Enhance Gridview loading styling.
 - (enh #711): Correct German translations.

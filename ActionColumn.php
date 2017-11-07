@@ -295,7 +295,7 @@ class ActionColumn extends YiiActionColumn
                 $item = isset($this->grid->itemLabelSingle) ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item');
                 $msg = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
                 $options['data-method'] = 'post';
-                $options['data-confirm'] = ArrayHelper::remove($options, 'message', $msg);
+                $options['data-confirm'] = ArrayHelper::remove($this->deleteOptions, 'message', $msg);
             }
             $options = array_replace_recursive($options, $this->buttonOptions, $this->$opts);
             $label = $this->renderLabel($options, $title, ['class' => "glyphicon glyphicon-{$icon}"]);
