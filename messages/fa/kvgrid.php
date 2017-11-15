@@ -38,7 +38,7 @@ return [
     'Resize table columns just like a spreadsheet by dragging the column edges.' => '',
     'Show all data' => '',
     'Show first page data' => '',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.'  =>  'نمایش <b>{begin, number} تا {end, number}</b> مورد از کل <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',,
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.'  =>  'نمایش <b>{begin, number} تا {end, number}</b> مورد از کل <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
     'Tab Delimited Text' => '',
     'Text' => '',
     'The CSV export file will be generated for download.' => '',
