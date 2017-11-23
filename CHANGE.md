@@ -1,10 +1,15 @@
 Change Log: `yii2-grid`
 =======================
 
-## Version 3.1.7 (_under development_)
+## Version 3.1.7
 
-**Date:** 07-Nov-2017
+**Date:** 23-Nov-2017
 
+- (bug #726, #727): Fixed translation key for French language.
+- (enh #724): Update Farsi translations.
+- (enh #723): Update Chinese translations.
+- (enh #721): Update Turkish translations.
+- (enh #720): Update Czech translations.
 - (bug #716): Correct init of `ActionColumn` delete confirmation message. 
     Now `data-confirm` can be passed instead of `message` to set the delete confirmation message 
     within `ActionColumn::deleteOptions`.
@@ -16,7 +21,6 @@ Change Log: `yii2-grid`
     - Enhance translations for all message files
 - Update contribution templates.
 - (enh #702, #703): Update German, Italian, and French translations.
-- (bug #726): Fixed translation key for French language.
 
 ## Version 3.1.6
 
