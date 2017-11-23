@@ -16,6 +16,7 @@ Change Log: `yii2-grid`
     - Enhance translations for all message files
 - Update contribution templates.
 - (enh #702, #703): Update German, Italian, and French translations.
+- (bug #726): Fixed translation key for French language.
 
 ## Version 3.1.6
 

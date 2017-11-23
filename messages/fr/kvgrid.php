@@ -30,7 +30,7 @@ return [
     'PDF' => 'PDF',
     'Page' => 'Page',
     'Portable Document Format' => 'Portable Document Format',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{item} other{items}}.' => 'Affichage de <b>{begin, number}-{end, number}</b> sur <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Affichage de <b>{begin, number}-{end, number}</b> sur <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.',
     'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Total <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
     'Yii2 Grid Export (PDF)' => 'Yii2 Grid Export (PDF)',
     'grid-export' => 'grid-export',
