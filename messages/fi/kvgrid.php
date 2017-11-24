@@ -75,7 +75,7 @@ return [
     'The page summary displays SUM for first 3 amount columns and AVG for the last.' => '',
     'The table header sticks to the top in this demo as you scroll' => '',
     'There are {totalCount} records. Are you sure you want to display them all?' => '',
-    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Yhteensä <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',,
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Yhteensä <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
     'Update' => '',
     'View' => '',
     'Yii2 Grid Export (PDF)' => '',

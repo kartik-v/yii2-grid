@@ -1,6 +1,13 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.8 (_under development_)
+
+**Date:** _work in progress_
+
+- (bug #730): Fix comma errors in message files.
+- (enh #729): Update Polish Translations.
+
 ## Version 3.1.7
 
 **Date:** 23-Nov-2017

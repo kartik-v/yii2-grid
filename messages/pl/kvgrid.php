@@ -17,7 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Are you sure to delete this {item}?' => 'Czy na pewno {item}?',
+    'Are you sure to delete this {item}?' => 'Czy na pewno usunąć {item}?',
     'CSV' => '',
     'Collapse' => '',
     'Collapse All' => '',
