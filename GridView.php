@@ -1893,7 +1893,7 @@ HTML;
             $gridOptsVar = 'kvGridExp_' . hash('crc32', $gridOpts);
             $view->registerJs("var {$gridOptsVar}={$gridOpts};", View::POS_HEAD);
             foreach ($this->exportConfig as $format => $setting) {
-                $id = "$('#{$gridId} .export-{$format}')";
+                $id = "jQuery('#{$gridId} .export-{$format}')";
                 $genOpts = Json::encode(
                     [
                         'filename' => $setting['filename'],
@@ -1918,7 +1918,7 @@ HTML;
                 $script .= "{$id}.gridexport({$expOptsVar});";
             }
         }
-        $container = '$("#' . $this->containerOptions['id'] . '")';
+        $container = 'jQuery("#' . $this->containerOptions['id'] . '")';
         if ($this->resizableColumns) {
             $rcDefaults = [];
             if ($this->persistResize) {
@@ -1945,11 +1945,11 @@ HTML;
             }
             $this->floatHeaderOptions = array_replace_recursive($opts, $this->floatHeaderOptions);
             $opts = Json::encode($this->floatHeaderOptions);
-            $script .= "$('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
+            $script .= "jQuery('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
             // integrate resizeableColumns with floatThead
             if ($this->resizableColumns) {
                 $script .= "{$container}.off('{$NS}').on('column:resize{$NS}', function(e){" .
-                    '$("#{$gridId} .kv-grid-table:nth-child(2)").floatThead("reflow");' .
+                    'jQuery("#{$gridId} .kv-grid-table:nth-child(2)").floatThead("reflow");' .
                     '});';
             }
         }
