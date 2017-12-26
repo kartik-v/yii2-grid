@@ -402,10 +402,11 @@ HTML;
      * - `{sort}`: _string_, which will render the grid sort links.
      * - `{pager}`: _string_, which will render the grid pagination links.
      * - `{toolbar}`: _string_, which will render the [[toolbar]] property passed
+     * - `{toolbarPos}`: _string_, which will position the toolbar using the [[position]] property passed. [[position]] is a toolbar property. 
      * - `{export}`: _string_, which will render the [[export]] menu button content
      */
     public $panelBeforeTemplate = <<< HTML
-    <div class="pull-right">
+    <div class="pull-{toolbarPos}">
         <div class="btn-toolbar kv-grid-toolbar" role="toolbar">
             {toolbar}
         </div>    
@@ -521,6 +522,12 @@ HTML;
         '{toggleData}',
         '{export}',
     ];
+
+    /**
+     * @var string the toolbar position in the header. It works only with 'left' or 'right' values.
+     * The property 'position' in the $toolbar definition wins over this.
+     */
+    public $toolbarPos = 'right';
 
     /**
      * @var array tags to replace in the rendered layout. Enter this as `$key => $value` pairs, where:
@@ -1644,7 +1651,8 @@ HTML;
                 '{export}' => $export,
                 '{toggleData}' => $toggleData,
             ]
-        );
+        ); 
+        $this->layout = strtr($this->layout, ['{toolbarPos}' => (($this->toolbarPos === 'left' || $this->toolbarPos === 'right') ? $this->toolbarPos : 'right')]);
         $replace = ['{toolbar}' => $toolbar];
         if (strpos($this->layout, '{export}') > 0) {
             $replace['{export}'] = $export;
@@ -1786,16 +1794,24 @@ HTML;
             return $this->toolbar;
         }
         $toolbar = '';
-        foreach ($this->toolbar as $item) {
+        foreach ($this->toolbar as $key => $item) { 
             if (is_array($item)) {
                 $content = ArrayHelper::getValue($item, 'content', '');
                 $options = ArrayHelper::getValue($item, 'options', []);
                 static::initCss($options, 'btn-group');
                 $toolbar .= Html::tag('div', $content, $options);
-            } else {
+            } 
+            elseif ($key === 'position') {
+                if($item === 'right' || $item === 'left')
+                   {
+                    $this->toolbarPos = $item;     
+                   }
+            }
+            else {
                 $toolbar .= "\n{$item}";
             }
         }
+
         return $toolbar;
     }
 
@@ -1964,3 +1980,4 @@ HTML;
         $view->registerJs("var {$this->_gridClientFunc}=function(){\n{$script}\n};\n{$this->_gridClientFunc}();");
     }
 }
+
