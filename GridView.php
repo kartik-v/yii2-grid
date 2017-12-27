@@ -295,6 +295,7 @@ class GridView extends YiiGridView
      * - `{pager}`: the pager. See [[renderPager()]].
      * - `{export}`: the grid export button menu. See [[renderExport()]].
      * - `{toolbar}`: the grid panel toolbar. See [[renderToolbar()]].
+     * - `{toolbarContainer}`: the toolbar container. See [[renderToolbarContainer()]].
      *
      * In addition to the above tokens, refer the [[panelTemplate]] property for other tokens supported as
      * part of the bootstrap styled panel.
@@ -310,21 +311,21 @@ class GridView extends YiiGridView
 
     /**
      * @var string the default label shown for each record in the grid (plural). This label will replace the plural word
-     * `items` within the grid summary text. 
+     * `items` within the grid summary text.
      */
     public $itemLabelPlural;
 
     /**
-     * @var string the default label shown for each record in the grid (plural). Similar to [[itemLabelPlural]] but 
+     * @var string the default label shown for each record in the grid (plural). Similar to [[itemLabelPlural]] but
      * this is applicable for languages like russian, where the plural label can be different for fewer item count.
-     * This label will replace the plural word `items-few` within the grid summary text. 
+     * This label will replace the plural word `items-few` within the grid summary text.
      */
     public $itemLabelFew;
 
     /**
-     * @var string the default label shown for each record in the grid (plural). Similar to [[itemLabelPlural]] but 
+     * @var string the default label shown for each record in the grid (plural). Similar to [[itemLabelPlural]] but
      * this is applicable for languages like russian, where the plural label can be different for many item count.
-     * This label will replace the plural word `items-many` within the grid summary text. 
+     * This label will replace the plural word `items-many` within the grid summary text.
      */
     public $itemLabelMany;
 
@@ -341,6 +342,7 @@ class GridView extends YiiGridView
      * - `{summary}`: _string_, which will render the grid results summary.
      * - `{pager}`: _string_, which will render the grid pagination links.
      * - `{toolbar}`: _string_, which will render the [[toolbar]] property passed
+     * - `{toolbarContainer}`: _string_, which will render the toolbar container. See [[renderToolbarContainer()]].
      * - `{export}`: _string_, which will render the [[export]] menu button content.
      */
     public $panelTemplate = <<< HTML
@@ -362,6 +364,7 @@ HTML;
      * - `{pager}`: _string_, which will render the grid pagination links.
      * - `{sort}`: _string_, which will render the grid sort links.
      * - `{toolbar}`: _string_, which will render the [[toolbar]] property passed
+     * - `{toolbarContainer}`: _string_, which will render the toolbar container. See [[renderToolbarContainer()]].
      * - `{export}`: _string_, which will render the [[export]] menu button content.
      */
     public $panelHeadingTemplate = <<< HTML
@@ -402,14 +405,11 @@ HTML;
      * - `{sort}`: _string_, which will render the grid sort links.
      * - `{pager}`: _string_, which will render the grid pagination links.
      * - `{toolbar}`: _string_, which will render the [[toolbar]] property passed
+     * - `{toolbarContainer}`: _string_, which will render the toolbar container. See [[renderToolbarContainer()]].
      * - `{export}`: _string_, which will render the [[export]] menu button content
      */
     public $panelBeforeTemplate = <<< HTML
-    <div class="pull-right">
-        <div class="btn-toolbar kv-grid-toolbar" role="toolbar">
-            {toolbar}
-        </div>    
-    </div>
+    {toolbarContainer}
     {before}
     <div class="clearfix"></div>
 HTML;
@@ -423,6 +423,7 @@ HTML;
      * - `{sort}`: _string_, which will render the grid sort links.
      * - `{pager}`: _string_, which will render the grid pagination links.
      * - `{toolbar}`: _string_, which will render the [[toolbar]] property passed
+     * - `{toolbarContainer}`: _string_, which will render the toolbar container. See [[renderToolbarContainer()]].
      * - `{export}`: _string_, which will render the [[export]] menu button content
      */
     public $panelAfterTemplate = '{after}';
@@ -521,6 +522,13 @@ HTML;
         '{toggleData}',
         '{export}',
     ];
+
+    /**
+     * @var array the HTML attributes for the toolbar container. The following special attributes are recognized:
+     *
+     * - `tag`: _string_, the HTML tag to render the toolbar container. Defaults to `div`.
+     */
+    public $toolbarContainerOptions = ['class' => 'pull-right'];
 
     /**
      * @var array tags to replace in the rendered layout. Enter this as `$key => $value` pairs, where:
@@ -944,7 +952,7 @@ HTML;
     /**
      * Sets a default css class within `options` if not set
      *
-     * @param array  $options the HTML options
+     * @param array $options the HTML options
      * @param string $css the CSS class to test and append
      */
     protected static function initCss(&$options, $css)
@@ -1093,7 +1101,7 @@ HTML;
         if (!isset($this->_module->downloadAction)) {
             $action = ["/{$this->moduleId}/export/download"];
         } else {
-            $action = (array) $this->_module->downloadAction;
+            $action = (array)$this->_module->downloadAction;
         }
         $encoding = ArrayHelper::getValue($this->export, 'encoding', 'utf-8');
         $bom = ArrayHelper::getValue($this->export, 'bom', true);
@@ -1142,14 +1150,14 @@ HTML;
         $itemsAfter = ArrayHelper::getValue($this->export, 'itemsAfter', []);
         $items = ArrayHelper::merge($itemsBefore, $items, $itemsAfter);
         return ButtonDropdown::widget(
-            [
-                'label' => $title,
-                'dropdown' => ['items' => $items, 'encodeLabels' => false, 'options' => $menuOptions],
-                'options' => $options,
-                'containerOptions' => $this->exportContainer,
-                'encodeLabel' => false,
-            ]
-        ) . $form;
+                [
+                    'label' => $title,
+                    'dropdown' => ['items' => $items, 'encodeLabels' => false, 'options' => $menuOptions],
+                    'options' => $options,
+                    'containerOptions' => $this->exportContainer,
+                    'encodeLabel' => false,
+                ]
+            ) . $form;
     }
 
     /**
@@ -1244,35 +1252,38 @@ HTML;
             $page = $pagination->getPage() + 1;
             $pageCount = $pagination->pageCount;
             if (($summaryContent = $this->summary) === null) {
-                return Html::tag($tag, Yii::t('kvgrid', 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.', [
-                    'begin' => $begin,
-                    'end' => $end,
-                    'count' => $count,
-                    'totalCount' => $totalCount,
-                    'page' => $page,
-                    'pageCount' => $pageCount,
-                    'item' => $this->itemLabelSingle,
-                    'items' => $this->itemLabelPlural,
-                    'items-few' => $this->itemLabelFew,
-                    'items-many' => $this->itemLabelMany,
-                ]), $summaryOptions);
+                return Html::tag($tag, Yii::t('kvgrid',
+                    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.',
+                    [
+                        'begin' => $begin,
+                        'end' => $end,
+                        'count' => $count,
+                        'totalCount' => $totalCount,
+                        'page' => $page,
+                        'pageCount' => $pageCount,
+                        'item' => $this->itemLabelSingle,
+                        'items' => $this->itemLabelPlural,
+                        'items-few' => $this->itemLabelFew,
+                        'items-many' => $this->itemLabelMany,
+                    ]), $summaryOptions);
             }
         } else {
             $begin = $page = $pageCount = 1;
             $end = $totalCount = $count;
             if (($summaryContent = $this->summary) === null) {
-                return Html::tag($tag, Yii::t('kvgrid', 'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.', [
-                    'begin' => $begin,
-                    'end' => $end,
-                    'count' => $count,
-                    'totalCount' => $totalCount,
-                    'page' => $page,
-                    'pageCount' => $pageCount,
-                    'item' => $this->itemLabelSingle,
-                    'items' => $this->itemLabelPlural,
-                    'items-few' => $this->itemLabelFew,
-                    'items-many' => $this->itemLabelMany,
-                ]), $summaryOptions);
+                return Html::tag($tag,
+                    Yii::t('kvgrid', 'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.', [
+                        'begin' => $begin,
+                        'end' => $end,
+                        'count' => $count,
+                        'totalCount' => $totalCount,
+                        'page' => $page,
+                        'pageCount' => $pageCount,
+                        'item' => $this->itemLabelSingle,
+                        'items' => $this->itemLabelPlural,
+                        'items-few' => $this->itemLabelFew,
+                        'items-many' => $this->itemLabelMany,
+                    ]), $summaryOptions);
             }
         }
 
@@ -1638,14 +1649,20 @@ HTML;
         }
         $export = $this->renderExport();
         $toggleData = $this->renderToggleData();
-        $toolbar = strtr(
-            $this->renderToolbar(),
-            [
-                '{export}' => $export,
-                '{toggleData}' => $toggleData,
-            ]
-        );
-        $replace = ['{toolbar}' => $toolbar];
+        $replace = [];
+        if (strpos($this->layout, '{toolbarContainer}') > 0) {
+            $replace['{toolbarContainer}'] = $this->renderToolbarContainer();
+        }
+        if (strpos($this->layout, '{toolbar}') > 0) {
+            $toolbar = strtr(
+                $this->renderToolbar(),
+                [
+                    '{export}' => $export,
+                    '{toggleData}' => $toggleData,
+                ]
+            );
+            $replace['{toolbar}'] = $toolbar;
+        }
         if (strpos($this->layout, '{export}') > 0) {
             $replace['{export}'] = $export;
         }
@@ -1683,7 +1700,7 @@ HTML;
         }
         $loadingCss = ArrayHelper::getValue($this->pjaxSettings, 'loadingCssClass', 'kv-grid-loading');
         $postPjaxJs = "setTimeout({$this->_gridClientFunc}, 2500);";
-        $pjaxCont = '$("#' .  $this->pjaxSettings['options']['id'] . '")';
+        $pjaxCont = '$("#' . $this->pjaxSettings['options']['id'] . '")';
         if ($loadingCss !== false) {
             $grid = 'jQuery("#' . $this->containerOptions['id'] . '")';
             if ($loadingCss === true) {
@@ -1797,6 +1814,15 @@ HTML;
             }
         }
         return $toolbar;
+    }
+
+    /**
+     * Generates the toolbar container with the toolbar
+     */
+    protected function renderToolbarContainer()
+    {
+        $tag = ArrayHelper::remove($this->toolbarContainerOptions, 'div');
+        return Html::tag($tag, $this->renderToolbar(), $this->toolbarContainerOptions);
     }
 
     /**
