@@ -1651,7 +1651,14 @@ HTML;
         $toggleData = $this->renderToggleData();
         $replace = [];
         if (strpos($this->layout, '{toolbarContainer}') > 0) {
-            $replace['{toolbarContainer}'] = $this->renderToolbarContainer();
+            $toolbarContainer = strtr(
+                $this->renderToolbarContainer(),
+                [
+                    '{export}' => $export,
+                    '{toggleData}' => $toggleData,
+                ]
+            );
+            $replace['{toolbarContainer}'] = $toolbarContainer;
         }
         if (strpos($this->layout, '{toolbar}') > 0) {
             $toolbar = strtr(
@@ -1821,8 +1828,7 @@ HTML;
      */
     protected function renderToolbarContainer()
     {
-        $tag = ArrayHelper::remove($this->toolbarContainerOptions, 'div');
-        return Html::tag($tag, $this->renderToolbar(), $this->toolbarContainerOptions);
+        return Html::tag('div', $this->renderToolbar(), $this->toolbarContainerOptions);
     }
 
     /**
