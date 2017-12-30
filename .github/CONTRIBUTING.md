@@ -46,7 +46,7 @@ All of these questions will help others fix and identify any potential bugs.
 Requesting features in yii2-grid
 ------------------------------------------
 Before starting work on a major feature for yii2-grid, **read the
-[documentation](http://demos.krajee.com/dynagrid)  first** or you may risk spending a considerable amount of
+[documentation](http://demos.krajee.com/grid)  first** or you may risk spending a considerable amount of
 time on something which the project developers are not interested in bringing into the project.
 
 Licensing

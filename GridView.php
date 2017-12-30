@@ -528,7 +528,7 @@ HTML;
      *
      * - `tag`: _string_, the HTML tag to render the toolbar container. Defaults to `div`.
      */
-    public $toolbarContainerOptions = ['class' => 'pull-right'];
+    public $toolbarContainerOptions = ['class' => 'toolbar-container pull-right'];
 
     /**
      * @var array tags to replace in the rendered layout. Enter this as `$key => $value` pairs, where:
@@ -1649,28 +1649,21 @@ HTML;
         }
         $export = $this->renderExport();
         $toggleData = $this->renderToggleData();
-        $replace = [];
-        if (strpos($this->layout, '{toolbarContainer}') > 0) {
-            $replace['{toolbarContainer}'] = $this->renderToolbarContainer();
-        }
-        if (strpos($this->layout, '{toolbar}') > 0) {
-            $toolbar = strtr(
-                $this->renderToolbar(),
-                [
-                    '{export}' => $export,
-                    '{toggleData}' => $toggleData,
-                ]
-            );
-            $replace['{toolbar}'] = $toolbar;
-        }
-        if (strpos($this->layout, '{export}') > 0) {
-            $replace['{export}'] = $export;
-        }
-        if (strpos($this->layout, '{toggleData}') > 0) {
-            $replace['{toggleData}'] = $toggleData;
-        }
-        $this->layout = strtr($this->layout, $replace);
-        $this->layout = str_replace('{items}', Html::tag('div', '{items}', $this->containerOptions), $this->layout);
+        $replaceConfig = [];
+        $this->replaceLayoutTokens(
+            $replaceConfig, 
+            '{toolbarContainer}', 
+            strtr($this->renderToolbarContainer(), ['{export}' => $export, '{toggleData}' => $toggleData])
+        );
+        $this->replaceLayoutTokens(
+            $replaceConfig, 
+            '{toolbar}', 
+            strtr($this->renderToolbar(), ['{export}' => $export, '{toggleData}' => $toggleData])
+        );
+        $this->replaceLayoutTokens($replaceConfig, '{export}', $export);
+        $this->replaceLayoutTokens($replaceConfig, '{toggleData}', $toggleData);
+        $this->replaceLayoutTokens($replaceConfig, '{items}', Html::tag('div', '{items}', $this->containerOptions));
+        $this->layout = strtr($this->layout, $replaceConfig);
         if (is_array($this->replaceTags) && !empty($this->replaceTags)) {
             foreach ($this->replaceTags as $key => $value) {
                 if ($value instanceof \Closure) {
@@ -1678,6 +1671,19 @@ HTML;
                 }
                 $this->layout = str_replace($key, $value, $this->layout);
             }
+        }
+    }
+    
+    /**
+     * Replace layout tokens
+     * @param array $replaceConfig the replace configuration pairs. This will be modified based on the token passed.
+     * @param string $token the token to replace
+     * @param string $out the replaced output
+     */
+    protected function replaceLayoutTokens(&$replaceConfig, $token, $out)
+    {
+        if (strpos($this->layout, $token) > 0) {
+            $replaceConfig[$token] = $out;
         }
     }
 
@@ -1821,7 +1827,7 @@ HTML;
      */
     protected function renderToolbarContainer()
     {
-        $tag = ArrayHelper::remove($this->toolbarContainerOptions, 'div');
+        $tag = ArrayHelper::remove($this->toolbarContainerOptions, 'tag', 'div');
         return Html::tag($tag, $this->renderToolbar(), $this->toolbarContainerOptions);
     }
 

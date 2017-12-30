@@ -5,7 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _work in progress_
 
-- (bug #746): Enhance to allow configurable toolbar container.
+- (enh #746): Enhance to allow configurable toolbar container.
 - (enh #739): Update Portuguese Brazilian Translations.
 - (enh #733): More correct `jQuery` usage.
 - (bug #730): Fix comma errors in message files.
