@@ -1647,23 +1647,13 @@ HTML;
         if ($this->hideResizeMobile) {
             Html::addCssClass($this->options, 'hide-resize');
         }
-        $export = $this->renderExport();
-        $toggleData = $this->renderToggleData();
-        $replaceConfig = [];
-        $this->replaceLayoutTokens(
-            $replaceConfig, 
-            '{toolbarContainer}', 
-            strtr($this->renderToolbarContainer(), ['{export}' => $export, '{toggleData}' => $toggleData])
-        );
-        $this->replaceLayoutTokens(
-            $replaceConfig, 
-            '{toolbar}', 
-            strtr($this->renderToolbar(), ['{export}' => $export, '{toggleData}' => $toggleData])
-        );
-        $this->replaceLayoutTokens($replaceConfig, '{export}', $export);
-        $this->replaceLayoutTokens($replaceConfig, '{toggleData}', $toggleData);
-        $this->replaceLayoutTokens($replaceConfig, '{items}', Html::tag('div', '{items}', $this->containerOptions));
-        $this->layout = strtr($this->layout, $replaceConfig);
+        $this->replaceLayoutTokens([
+            '{toolbarContainer}' => $this->renderToolbarContainer(),
+            '{toolbar}' => $this->renderToolbar(),
+            '{export}' => $this->renderExport(),
+            '{toggleData}' =>  $this->renderToggleData(),
+            '{items}' => Html::tag('div', '{items}', $this->containerOptions)
+        ]);
         if (is_array($this->replaceTags) && !empty($this->replaceTags)) {
             foreach ($this->replaceTags as $key => $value) {
                 if ($value instanceof \Closure) {
@@ -1676,14 +1666,14 @@ HTML;
     
     /**
      * Replace layout tokens
-     * @param array $replaceConfig the replace configuration pairs. This will be modified based on the token passed.
-     * @param string $token the token to replace
-     * @param string $out the replaced output
+     * @param array $pairs the token to find and its replaced value as key value pairs
      */
-    protected function replaceLayoutTokens(&$replaceConfig, $token, $out)
+    protected function replaceLayoutTokens($pairs)
     {
-        if (strpos($this->layout, $token) > 0) {
-            $replaceConfig[$token] = $out;
+        foreach ($pairs as $token => $replace) {
+            if (strpos($this->layout, $token) > 0) {
+                $this->layout = str_replace($token, $replace, $this->layout);
+            }
         }
     }
 
