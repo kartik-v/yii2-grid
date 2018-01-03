@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _work in progress_
 
+- (enh #752): Correct string position validation for layout tokens.
 - (enh #747): Remove unnecessary variable declaration `$grid`.
 - (enh #746): Enhance to allow configurable toolbar container.
 - (enh #739): Update Portuguese Brazilian Translations.

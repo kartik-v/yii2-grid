@@ -1671,7 +1671,7 @@ HTML;
     protected function replaceLayoutTokens($pairs)
     {
         foreach ($pairs as $token => $replace) {
-            if (strpos($this->layout, $token) > 0) {
+            if (strpos($this->layout, $token) !== false) {
                 $this->layout = str_replace($token, $replace, $this->layout);
             }
         }
