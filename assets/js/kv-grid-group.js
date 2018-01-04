@@ -48,13 +48,25 @@ var kvGridGroup;
          * @returns string
          */
         formatNumber = function (n, d, c, s, x) {
-            var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')', num = parseFloat(n),
-                dec = parseInt(d);
+            var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')', 
+                num = parseFloat(n), dec = parseInt(d), newNum, hasDec = true;
             if (isNaN(num)) {
                 return '';
             }
-            num = num.toFixed(isNaN(dec) || dec < 0 ? 0 : dec);
-            return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+            newNum = num + '';
+            c = c || '.';
+            s = s || ',';
+            if (newNum.indexOf('.') === -1) {
+                hasDec = false;
+            } else {
+                newNum = num.toFixed(isNaN(dec) || dec < 0 ? 0 : dec);
+            }
+            newNum = newNum.replace('.', c);
+            if (hasDec) {
+                return newNum.replace(new RegExp(re, 'g'), '$&' + s);
+            } else {
+                return (newNum + c).replace(new RegExp(re, 'g'), '$&' + s).slice(0, -1);
+            }
         };
         getParentGroup = function ($cell) {
             var $tr, $td, id = $cell.attr('data-sub-group-of'), i, tag;
