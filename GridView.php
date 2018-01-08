@@ -528,7 +528,7 @@ HTML;
      *
      * - `tag`: _string_, the HTML tag to render the toolbar container. Defaults to `div`.
      */
-    public $toolbarContainerOptions = ['class' => 'toolbar-container pull-right'];
+    public $toolbarContainerOptions = ['class' => 'btn-toolbar kv-grid-toolbar toolbar-container pull-right'];
 
     /**
      * @var array tags to replace in the rendered layout. Enter this as `$key => $value` pairs, where:

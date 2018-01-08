@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _work in progress_
 
+- (enh #756): Correct default CSS class for `toolbarContainer`.
 - (enh #754): Enhance group summary number formatting for integers.
 - (bug #752): Correct string position validation for layout tokens.
 - (enh #747): Remove unnecessary variable declaration `$grid`.
