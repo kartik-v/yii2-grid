@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _work in progress_
 
+- (bug #764): Correct init of item label properties.
 - (enh #756): Correct default CSS class for `toolbarContainer`.
 - (enh #754): Enhance group summary number formatting for integers.
 - (bug #752): Correct string position validation for layout tokens.

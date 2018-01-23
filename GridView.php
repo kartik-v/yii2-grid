@@ -971,17 +971,6 @@ HTML;
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
         }
-        if (!$this->toggleData) {
-            parent::init();
-            return;
-        }
-        $this->_toggleDataKey = '_tog' . hash('crc32', $this->options['id']);
-        $this->_isShowAll = ArrayHelper::getValue($_GET, $this->_toggleDataKey, $this->defaultPagination) === 'all';
-        if ($this->_isShowAll) {
-            /** @noinspection PhpUndefinedFieldInspection */
-            $this->dataProvider->pagination = false;
-        }
-        $this->_toggleButtonId = $this->options['id'] . '-togdata-' . ($this->_isShowAll ? 'all' : 'page');
         if (!isset($this->itemLabelSingle)) {
             $this->itemLabelSingle = Yii::t('kvgrid', 'item');
         }
@@ -994,6 +983,17 @@ HTML;
         if (!isset($this->itemLabelMany)) {
             $this->itemLabelMany = Yii::t('kvgrid', 'items-many');
         }
+        if (!$this->toggleData) {
+            parent::init();
+            return;
+        }
+        $this->_toggleDataKey = '_tog' . hash('crc32', $this->options['id']);
+        $this->_isShowAll = ArrayHelper::getValue($_GET, $this->_toggleDataKey, $this->defaultPagination) === 'all';
+        if ($this->_isShowAll) {
+            /** @noinspection PhpUndefinedFieldInspection */
+            $this->dataProvider->pagination = false;
+        }
+        $this->_toggleButtonId = $this->options['id'] . '-togdata-' . ($this->_isShowAll ? 'all' : 'page');
         parent::init();
     }
 
