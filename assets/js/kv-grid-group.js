@@ -7,7 +7,7 @@
  * Grid grouping jquery library created for yii2-grid.
  *
  * Author: Kartik Visweswaran
- * Copyright: 2015, Kartik Visweswaran, Krajee.com
+ * Copyright: 2014 - 2018, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
@@ -242,6 +242,12 @@ var kvGridGroup;
                     }
                     if (data.contentOptions && data.contentOptions[i]) {
                         $col.attr(data.contentOptions[i]);
+                    }
+                    if ($td.hasClass('kv-grid-hide')) {
+                        $col.addClass('kv-grid-hide');
+                    }
+                    if ($td.hasClass('skip-export')) {
+                        $col.addClass('skip-export');
                     }
                     $col.appendTo($row);
                 }

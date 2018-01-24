@@ -7,7 +7,7 @@
  * Client actions for kartik\grid\CheckboxColumn
  * 
  * Author: Kartik Visweswaran
- * Copyright: 2015, Kartik Visweswaran, Krajee.com
+ * Copyright: 2014 - 2018, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */

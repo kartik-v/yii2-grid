@@ -3,7 +3,7 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
  * @version   3.1.8
  */
 
@@ -155,6 +155,11 @@ class EditableColumn extends DataColumn
             $this->_view->registerJs("kvRefreshEC('{$id}','{$this->_css}');");
         }
         $editableClass = ArrayHelper::remove($this->_editableOptions, 'class', Editable::className());
+        if (!isset($this->_editableOptions['inlineSettings']['options'])) {
+            $this->_editableOptions['inlineSettings']['options']['class'] = 'skip-export';
+        } else {
+            Html::addCssClass($this->_editableOptions['inlineSettings']['options'], 'skip-export');
+        }
         return $editableClass::widget($this->_editableOptions);
     }
 }
