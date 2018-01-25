@@ -287,6 +287,22 @@ class DataColumn extends YiiDataColumn
     public $xlFormat;
 
     /**
+     * @var array|Closure configuration for the `\kartik\export\ExportMenu` column cell style that will be utilized by
+     * `\PhpOffice\PhpSpreadsheet\Style\Style::applyFromArray()`. This is applicable when configuring this column
+     * in `\kartik\export\ExportMenu`. If setup as a Closure, the signature of the function should be: `function
+     * ($model, $key, $index, $column)`, where `$model`, `$key`, and `$index` refer to the model, key and index of
+     * the row currently being rendered, and `$column` is a reference to the [[DataColumn]] object.
+     */
+    public $exportMenuStyle = ['alignment'=>['vertical' => GridView::ALIGN_CENTER]];
+
+    /**
+     * @var array configuration for the `\kartik\export\ExportMenu` column header cell style that will be utilized by
+     * `\PhpOffice\PhpSpreadsheet\Style\Style::applyFromArray()`. This is applicable when configuring this column
+     * in `\kartik\export\ExportMenu`.
+     */
+    public $exportMenuHeaderStyle = ['alignment'=>['vertical' => GridView::ALIGN_CENTER]];
+
+    /**
      * @var array collection of row data for the column for the current page
      */
     protected $_rows = [];

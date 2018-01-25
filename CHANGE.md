@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _work in progress_
 
+- (enh #767): Add capability to format ExportMenu spreadsheet cells.
 - Update copyright year to current.
 - (enh #766): Correct export for EditableColumn when `asPopover = false`.
 - (enh #756): Correct default CSS class for `toolbarContainer`.
