@@ -18,6 +18,7 @@ Change Log: `yii2-grid`
 - (enh #733): More correct `jQuery` usage.
 - (bug #730): Fix comma errors in message files.
 - (enh #729): Update Polish Translations.
+- (bug #770): Switch from yii2-money to yii2-number.
 
 ## Version 3.1.7
 
