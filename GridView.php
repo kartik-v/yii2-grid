@@ -201,9 +201,9 @@ class GridView extends YiiGridView
      */
     const FILTER_SLIDER = '\kartik\slider\Slider';
     /**
-     * Grid filter input type for [[\kartik\money\MaskMoney]] widget
+     * Grid filter input type for [[\kartik\number\NumberControl]] widget
      */
-    const FILTER_MONEY = '\kartik\money\MaskMoney';
+    const FILTER_NUMBER = '\kartik\number\NumberControl';
     /**
      * Grid filter input type for [[\kartik\checkbox\CheckboxX]] widget
      */
