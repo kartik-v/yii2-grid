@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _work in progress_
 
+- (enh #787): Correct grid group summary decimal formatting for whole numbers.
 - (enh #781): Add deprecated support for `ActionColumnAsset`.
 - (enh #770, #771): Add grid filter support for the Krajee NumberControl.
 - (enh #767): Add capability to format ExportMenu spreadsheet cells.
