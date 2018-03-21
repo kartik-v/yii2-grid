@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _work in progress_
 
+- (enh #770, #771): Add grid filter support for the Krajee NumberControl.
 - (enh #767): Add capability to format ExportMenu spreadsheet cells.
 - Update copyright year to current.
 - (enh #766): Correct export for EditableColumn when `asPopover = false`.
