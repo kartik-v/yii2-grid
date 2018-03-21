@@ -21,6 +21,7 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use yii\web\Request;
 use yii\web\View;
 use yii\widgets\Pjax;
 
@@ -992,7 +993,14 @@ HTML;
             return;
         }
         $this->_toggleDataKey = '_tog' . hash('crc32', $this->options['id']);
-        $this->_isShowAll = ArrayHelper::getValue($_GET, $this->_toggleDataKey, $this->defaultPagination) === 'all';
+        /**
+         * @var Request $request
+         */
+        $request = $this->_module->get('request', false);
+        if ($request === null || !($request instanceof Request)) {
+            $request = Yii::$app->request;
+        }
+        $this->_isShowAll = $request->getQueryParam($this->_toggleDataKey, $this->defaultPagination) === 'all';
         if ($this->_isShowAll) {
             /** @noinspection PhpUndefinedFieldInspection */
             $this->dataProvider->pagination = false;

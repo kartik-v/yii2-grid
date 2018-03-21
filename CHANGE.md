@@ -9,6 +9,7 @@ Change Log: `yii2-grid`
 - (enh #767): Add capability to format ExportMenu spreadsheet cells.
 - Update copyright year to current.
 - (enh #766): Correct export for EditableColumn when `asPopover = false`.
+- (enh #760): Use request `getQueryParam` instead of `$_GET`.
 - (enh #756): Correct default CSS class for `toolbarContainer`.
 - (bug #755): Correct grid group summary row to consider `hiddenFromExport` and `hidden` properties.
 - (enh #754): Enhance group summary number formatting for integers.
