@@ -1982,7 +1982,7 @@ HTML;
             // integrate resizeableColumns with floatThead
             if ($this->resizableColumns) {
                 $script .= "{$container}.off('{$NS}').on('column:resize{$NS}', function(e){" .
-                    'jQuery("#{$gridId} .kv-grid-table:nth-child(2)").floatThead("reflow");' .
+                      "jQuery('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow');" .
                     '});';
             }
         }
