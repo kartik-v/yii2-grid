@@ -5,7 +5,9 @@ Change Log: `yii2-grid`
 
 **Date:** _work in progress_
 
+- (bug #791): Correct PHP Doc for `getDataCellValue` method in `ColumnTrait`.
 - (enh #787): Correct grid group summary decimal formatting for whole numbers.
+- (enh #786): Correct docs for grid group footer/header `customCallback`.
 - (enh #781): Add deprecated support for `ActionColumnAsset`.
 - (enh #770, #771): Add grid filter support for the Krajee NumberControl.
 - (enh #767): Add capability to format ExportMenu spreadsheet cells.

@@ -42,7 +42,7 @@ use yii\helpers\Json;
  * @property string          $_clientScript
  * @property GridView        $grid
  * @property string          $format
- * @method getDataCellValue() getDataCellValue($model, $key, $index)
+ * @method getDataCellValue($model, $key, $index)
  * @method renderCell()
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
