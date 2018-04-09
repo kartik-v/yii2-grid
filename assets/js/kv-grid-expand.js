@@ -182,7 +182,11 @@ var kvRowNum = 0, kvExpandRow;
                     $tr = $detail.closest('.kv-expand-detail-row');
                     $detail.slideUp(duration, function () {
                         $detail.unwrap().unwrap();
-                        $detail.appendTo($container);
+                        if (detailUrl.length === 0) {
+                            $detail.appendTo($container);
+                        } else {
+                            $detail.remove();
+                        }
                         setExpanded($icons);
                         // needed when used together with grouping
                         var $rowsBefore = $row.prevAll();
