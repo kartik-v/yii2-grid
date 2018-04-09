@@ -17,7 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Are you sure to delete this {item}?' => 'آیا از حذف این آیتم اطمینان دا {item}?',
+    'Are you sure to delete this {item}?' => 'آیا از حذف این آیتم اطمینان دارید {item}?',
     'ExportWorksheet' => '',
     'Failed to update editable data due to an unknown server error' => '',
     'HTML' => '',
@@ -56,8 +56,8 @@ return [
     'Yii2 Grid Export (PDF)' => '',
     'export' => '',
     'grid-export' => '',
-    'item' => 'ید؟',
-    'items' => 'ید؟',
+    'item' => 'مورد',
+    'items' => 'مورد',
     'items-few' => 'ید؟',
     'items-many' => 'ید؟',
     'krajee, grid, export, yii2-grid, pdf' => '',
