@@ -5,7 +5,10 @@ Change Log: `yii2-grid`
 
 **Date:** _work in progress_
 
+- (enh #795): Update `floatTHead` plugin to latest version.
+- (enh #793): Update Farsi Translations.
 - (bug #791): Correct PHP Doc for `getDataCellValue` method in `ColumnTrait`.
+- (enh #789): Correct `resizeableColumns` plugin init with `floatThead`.
 - (enh #787): Correct grid group summary decimal formatting for whole numbers.
 - (enh #786): Correct docs for grid group footer/header `customCallback`.
 - (enh #781): Add deprecated support for `ActionColumnAsset`.
