@@ -48,7 +48,7 @@ var kvGridGroup;
          * @returns string
          */
         formatNumber = function (n, d, c, s, x) {
-            var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')', 
+            var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (d > 0 ? '\\D' : '$') + ')',
                 num = parseFloat(n), dec = parseInt(d), newNum;
             if (isNaN(num)) {
                 return '';
