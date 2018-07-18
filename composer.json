@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "kartik\\grid\\": ""
+            "kartik\\grid\\": "src"
         }
     },
     "suggest": {

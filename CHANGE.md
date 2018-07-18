@@ -1,10 +1,14 @@
 Change Log: `yii2-grid`
 =======================
 
-## Version 3.1.8 (_under development_)
+## Version 3.1.8
 
-**Date:** _work in progress_
+**Date:** 18-Jul-2018
 
+- Reorganize source code in `src` directory as per yii2 standards.
+- (enh #805): Update Polish Translations .
+- (enh #799): Update Portugese Brazilian Translations .
+- (bug #798, #797): Correct decimal part validation.
 - (enh #795): Update `floatTHead` plugin to latest version.
 - (enh #793): Update Farsi Translations.
 - (bug #791): Correct PHP Doc for `getDataCellValue` method in `ColumnTrait`.
