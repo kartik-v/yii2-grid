@@ -88,8 +88,8 @@ class ExportController extends Controller
     {
         unset($config['contentBefore'], $config['contentAfter']);
         $config['filename'] = $filename;
-        $config['methods']['SetAuthor'] = ['Krajee Solutions'];
-        $config['methods']['SetCreator'] = ['Krajee Yii2 Grid Export Extension'];
+        $config['methods']['SetAuthor'] = [Yii::t('kvgrid', 'Krajee Solutions')];
+        $config['methods']['SetCreator'] = [Yii::t('kvgrid', 'Krajee Yii2 Grid Export Extension')];
         $config['content'] = $content;
         $pdf = new Pdf($config);
         echo $pdf->render();
