@@ -1893,7 +1893,7 @@ HTML;
             ]
         );
         $this->_toggleOptionsVar = 'kvTogOpts_' . hash('crc32', $opts);
-        $view->registerJs("{$this->_toggleOptionsVar}={$opts};", View::POS_HEAD);
+        $view->registerJs("{$this->_toggleOptionsVar}={$opts};");
         GridToggleDataAsset::register($view);
         $this->_toggleScript = "kvToggleData({$this->_toggleOptionsVar});";
     }
@@ -1924,7 +1924,7 @@ HTML;
                 ]
             );
             $gridOptsVar = 'kvGridExp_' . hash('crc32', $gridOpts);
-            $view->registerJs("var {$gridOptsVar}={$gridOpts};", View::POS_HEAD);
+            $view->registerJs("var {$gridOptsVar}={$gridOpts};");
             foreach ($this->exportConfig as $format => $setting) {
                 $id = "jQuery('#{$gridId} .export-{$format}')";
                 $genOpts = Json::encode(
@@ -1936,7 +1936,7 @@ HTML;
                     ]
                 );
                 $genOptsVar = 'kvGridExp_' . hash('crc32', $genOpts);
-                $view->registerJs("var {$genOptsVar}={$genOpts};", View::POS_HEAD);
+                $view->registerJs("var {$genOptsVar}={$genOpts};");
                 $expOpts = Json::encode(
                     [
                         'dialogLib' => ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog'),
@@ -1947,7 +1947,7 @@ HTML;
                     ]
                 );
                 $expOptsVar = 'kvGridExp_' . hash('crc32', $expOpts);
-                $view->registerJs("var {$expOptsVar}={$expOpts};", View::POS_HEAD);
+                $view->registerJs("var {$expOptsVar}={$expOpts};");
                 $script .= "{$id}.gridexport({$expOptsVar});";
             }
         }

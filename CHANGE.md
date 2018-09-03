@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.1.9
+
+**Date:** _under development_
+
+- (bug #813, #814): Correct Krajee Dialog plugin init.
+
 ## Version 3.1.8
 
 **Date:** 18-Jul-2018
