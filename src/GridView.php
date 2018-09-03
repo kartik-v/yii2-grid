@@ -1939,7 +1939,7 @@ HTML;
                 $view->registerJs("var {$genOptsVar}={$genOpts};", View::POS_HEAD);
                 $expOpts = Json::encode(
                     [
-                        'dialogLib' => ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog'),
+                        'dialogLib' => ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'KrajeeDialog'),
                         'gridOpts' => new JsExpression($gridOptsVar),
                         'genOpts' => new JsExpression($genOptsVar),
                         'alertMsg' => ArrayHelper::getValue($setting, 'alertMsg', false),

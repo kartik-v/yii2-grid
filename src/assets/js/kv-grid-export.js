@@ -186,7 +186,7 @@
                 if (isEmpty(msg)) {
                     return;
                 }
-                lib.confirm(msg, function (result) {
+                lib.prototype.confirm(msg, function (result) {
                     if (result) {
                         self.processExport(callback, arg);
                     }
@@ -386,6 +386,6 @@
         });
     };
 
-    $.fn.gridexport.defaults = {dialogLib: 'krajeeDialog'};
+    $.fn.gridexport.defaults = {dialogLib: 'KrajeeDialog'};
     $.fn.gridexport.Constructor = GridExport;
 })(window.jQuery);
