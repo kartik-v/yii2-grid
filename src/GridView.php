@@ -4,25 +4,25 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.8
+ * @version   3.1.9
  */
 
 namespace kartik\grid;
 
+use kartik\base\BootstrapTrait;
 use kartik\base\Config;
 use kartik\dialog\Dialog;
 use Yii;
 use yii\base\InvalidConfigException;
-use yii\bootstrap\ButtonDropdown;
 use yii\grid\Column;
 use yii\grid\GridView as YiiGridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Inflector;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\web\Request;
-use yii\web\View;
 use yii\widgets\Pjax;
 
 /**
@@ -57,218 +57,307 @@ use yii\widgets\Pjax;
  */
 class GridView extends YiiGridView
 {
+    use BootstrapTrait;
+
     /**
-     * The **default** bootstrap contextual color type (applicable only for panel contextual style)
+     * @var string the **default** bootstrap contextual color type (applicable only for panel contextual style)
      */
     const TYPE_DEFAULT = 'default';
+
     /**
-     * The **primary** bootstrap contextual color type
+     * @var string the **primary** bootstrap contextual color type
      */
     const TYPE_PRIMARY = 'primary';
+
     /**
-     * The **information** bootstrap contextual color type
+     * @var string the **information** bootstrap contextual color type
      */
     const TYPE_INFO = 'info';
+
     /**
-     * The **danger** bootstrap contextual color type
+     * @var string the **danger** bootstrap contextual color type
      */
     const TYPE_DANGER = 'danger';
+
     /**
-     * The **warning** bootstrap contextual color type
+     * @var string the **warning** bootstrap contextual color type
      */
     const TYPE_WARNING = 'warning';
+
     /**
-     * The **success** bootstrap contextual color type
+     * @var string the **success** bootstrap contextual color type
      */
     const TYPE_SUCCESS = 'success';
+
     /**
-     * The **active** bootstrap contextual color type (applicable only for table row contextual style)
+     * @var string the **active** bootstrap contextual color type (applicable only for table row contextual style)
      */
     const TYPE_ACTIVE = 'active';
+
     /**
-     * The **active** icon markup for [[BooleanColumn]]
+     * @var string the Bootstrap 3.x **active** icon markup for [[BooleanColumn]]
      */
     const ICON_ACTIVE = '<span class="glyphicon glyphicon-ok text-success"></span>';
+
     /**
-     * The **inactive** icon markup for [[BooleanColumn]]
+     * @var string the **inactive** icon markup for [[BooleanColumn]]
      */
     const ICON_INACTIVE = '<span class="glyphicon glyphicon-remove text-danger"></span>';
+
     /**
-     * The **expanded** icon markup for [[ExpandRowColumn]]
+     * @var string the Bootstrap 3.x **expanded** icon markup for [[ExpandRowColumn]]
      */
     const ICON_EXPAND = '<span class="glyphicon glyphicon-expand"></span>';
+
     /**
-     * The **collapsed** icon markup for [[ExpandRowColumn]]
+     * @var string the Bootstrap 3.x **collapsed** icon markup for [[ExpandRowColumn]]
      */
     const ICON_COLLAPSE = '<span class="glyphicon glyphicon-collapse-down"></span>';
+
     /**
-     * The status for a **default** row in [[ExpandRowColumn]]
+     * @var string the Bootstrap 4.x **active** icon markup for [[BooleanColumn]]
+     */
+    const ICON_ACTIVE_BS4 = '<span class="fas fa-check text-success"></span>';
+
+    /**
+     * @var string the Bootstrap 4.x **inactive** icon markup for [[BooleanColumn]]
+     */
+    const ICON_INACTIVE_BS4 = '<span class="fas fa-times text-danger"></span>';
+
+    /**
+     * @var string the Bootstrap 4.x **expanded** icon markup for [[ExpandRowColumn]]
+     */
+    const ICON_EXPAND_BS4 = '<span class="far fa-plus-square"></span>';
+
+    /**
+     * @var string the Bootstrap 4.x **collapsed** icon markup for [[ExpandRowColumn]]
+     */
+    const ICON_COLLAPSE_BS4 = '<span class="far fa-minus-square"></span>';
+
+    /**
+     * @var string the status for a **default** row in [[ExpandRowColumn]]
      */
     const ROW_NONE = -1;
+
     /**
-     * The status for an **expanded** row in [[ExpandRowColumn]]
+     * @var string the status for an **expanded** row in [[ExpandRowColumn]]
      */
     const ROW_EXPANDED = 0;
+
     /**
-     * The status for a **collapsed** row in [[ExpandRowColumn]]
+     * @var string the status for a **collapsed** row in [[ExpandRowColumn]]
      */
     const ROW_COLLAPSED = 1;
     /**
-     * Horizontal **right** alignment for grid cells
+     * @var string horizontal **right** alignment for grid cells
      */
     const ALIGN_RIGHT = 'right';
+
     /**
-     * Horizontal **center** alignment for grid cells
+     * @var string horizontal **center** alignment for grid cells
      */
     const ALIGN_CENTER = 'center';
+
     /**
-     * Horizontal **left** alignment for grid cells
+     * @var string horizontal **left** alignment for grid cells
      */
     const ALIGN_LEFT = 'left';
+
     /**
-     * Vertical **top** alignment for grid cells
+     * @var string vertical **top** alignment for grid cells
      */
     const ALIGN_TOP = 'top';
+
     /**
-     * Vertical **middle** alignment for grid cells
+     * @var string vertical **middle** alignment for grid cells
      */
     const ALIGN_MIDDLE = 'middle';
+
     /**
-     * Vertical **bottom** alignment for grid cells
+     * @var string vertical **bottom** alignment for grid cells
      */
     const ALIGN_BOTTOM = 'bottom';
+
     /**
-     * CSS to apply to prevent wrapping of grid cell data
+     * @var string CSS to apply to prevent wrapping of grid cell data
      */
     const NOWRAP = 'kv-nowrap';
+
     /**
-     * Grid filter input type for [[Html::checkbox]]
+     * @var string grid filter input type for [[Html::checkbox]]
      */
     const FILTER_CHECKBOX = 'checkbox';
+
     /**
-     * Grid filter input type for [[Html::radio]]
+     * @var string grid filter input type for [[Html::radio]]
      */
     const FILTER_RADIO = 'radio';
+
     /**
-     * Grid filter input type for [[\kartik\select2\Select2]] widget
+     * @var string grid filter input type for [[\kartik\select2\Select2]] widget
      */
     const FILTER_SELECT2 = '\kartik\select2\Select2';
+
     /**
-     * Grid filter input type for [[\kartik\typeahead\Typeahead]] widget
+     * @var string grid filter input type for [[\kartik\typeahead\Typeahead]] widget
      */
     const FILTER_TYPEAHEAD = '\kartik\typeahead\Typeahead';
+
     /**
-     * Grid filter input type for [[\kartik\switchinput\SwitchInput]] widget
+     * @var string grid filter input type for [[\kartik\switchinput\SwitchInput]] widget
      */
     const FILTER_SWITCH = '\kartik\switchinput\SwitchInput';
+
     /**
-     * Grid filter input type for [[\kartik\touchspin\TouchSpin]] widget
+     * @var string grid filter input type for [[\kartik\touchspin\TouchSpin]] widget
      */
     const FILTER_SPIN = '\kartik\touchspin\TouchSpin';
+
     /**
-     * Grid filter input type for [[\kartik\rating\StarRating]] widget
+     * @var string grid filter input type for [[\kartik\rating\StarRating]] widget
      */
     const FILTER_STAR = '\kartik\rating\StarRating';
+
     /**
-     * Grid filter input type for [[\kartik\date\DatePicker]] widget
+     * @var string grid filter input type for [[\kartik\date\DatePicker]] widget
      */
     const FILTER_DATE = '\kartik\date\DatePicker';
+
     /**
-     * Grid filter input type for [[\kartik\time\TimePicker]] widget
+     * @var string grid filter input type for [[\kartik\time\TimePicker]] widget
      */
     const FILTER_TIME = '\kartik\time\TimePicker';
+
     /**
-     * Grid filter input type for [[\kartik\datetime\DateTimePicker]] widget
+     * @var string grid filter input type for [[\kartik\datetime\DateTimePicker]] widget
      */
     const FILTER_DATETIME = '\kartik\datetime\DateTimePicker';
+
     /**
-     * Grid filter input type for [[\kartik\daterange\DateRangePicker]] widget
+     * @var string grid filter input type for [[\kartik\daterange\DateRangePicker]] widget
      */
     const FILTER_DATE_RANGE = '\kartik\daterange\DateRangePicker';
+
     /**
-     * Grid filter input type for [[\kartik\sortinput\SortableInput]] widget
+     * @var string grid filter input type for [[\kartik\sortinput\SortableInput]] widget
      */
     const FILTER_SORTABLE = '\kartik\sortinput\SortableInput';
+
     /**
-     * Grid filter input type for [[\kartik\range\RangeInput]] widget
+     * @var string grid filter input type for [[\kartik\range\RangeInput]] widget
      */
     const FILTER_RANGE = '\kartik\range\RangeInput';
+
     /**
-     * Grid filter input type for [[\kartik\color\ColorInput]] widget
+     * @var string grid filter input type for [[\kartik\color\ColorInput]] widget
      */
     const FILTER_COLOR = '\kartik\color\ColorInput';
+
     /**
-     * Grid filter input type for [[\kartik\slider\Slider]] widget
+     * @var string grid filter input type for [[\kartik\slider\Slider]] widget
      */
     const FILTER_SLIDER = '\kartik\slider\Slider';
+
     /**
-     * Grid filter input type for [[\kartik\money\MaskMoney]] widget
+     * @var string grid filter input type for [[\kartik\money\MaskMoney]] widget
      */
     const FILTER_MONEY = '\kartik\money\MaskMoney';
+
     /**
-     * Grid filter input type for [[\kartik\number\NumberControl]] widget
+     * @var string grid filter input type for [[\kartik\number\NumberControl]] widget
      */
     const FILTER_NUMBER = '\kartik\number\NumberControl';
+
     /**
-     * Grid filter input type for [[\kartik\checkbox\CheckboxX]] widget
+     * @var string grid filter input type for [[\kartik\checkbox\CheckboxX]] widget
      */
     const FILTER_CHECKBOX_X = '\kartik\checkbox\CheckboxX';
+
     /**
-     * Identifier for the `COUNT` summary function
+     * @var string identifier for the `COUNT` summary function
      */
     const F_COUNT = 'f_count';
+
     /**
-     * Identifier for the `SUM` summary function
+     * @var string identifier for the `SUM` summary function
      */
     const F_SUM = 'f_sum';
     /**
-     * Identifier for the `MAX` summary function
+     * @var string identifier for the `MAX` summary function
      */
     const F_MAX = 'f_max';
+
     /**
-     * Identifier for the `MIN` summary function
+     * @var string identifier for the `MIN` summary function
      */
     const F_MIN = 'f_min';
+
     /**
-     * Identifier for the `AVG` summary function
+     * @var string identifier for the `AVG` summary function
      */
     const F_AVG = 'f_avg';
+
     /**
-     * HTML (Hyper Text Markup Language) export format
+     * @var string HTML (Hyper Text Markup Language) export format
      */
     const HTML = 'html';
+
     /**
-     * CSV (comma separated values) export format
+     * @var string CSV (comma separated values) export format
      */
     const CSV = 'csv';
+
     /**
-     * Text export format
+     * @var string Text export format
      */
     const TEXT = 'txt';
+
     /**
-     * Microsoft Excel 95+ export format
+     * @var string Microsoft Excel 95+ export format
      */
     const EXCEL = 'xls';
+
     /**
-     * PDF (Portable Document Format) export format
+     * @var string PDF (Portable Document Format) export format
      */
     const PDF = 'pdf';
+
     /**
-     * JSON (Javascript Object Notation) export format
+     * @var string JSON (Javascript Object Notation) export format
      */
     const JSON = 'json';
+
     /**
-     * Set download target for grid export to a popup browser window
+     * @var string set download target for grid export to a popup browser window
      */
     const TARGET_POPUP = '_popup';
+
     /**
-     * Set download target for grid export to the same open document on the browser
+     * @var string set download target for grid export to the same open document on the browser
      */
     const TARGET_SELF = '_self';
+
     /**
-     * Set download target for grid export to a new window that auto closes after download
+     * @var string set download target for grid export to a new window that auto closes after download
      */
     const TARGET_BLANK = '_blank';
+
+    /**
+     * @var int|string the bootstrap library version.
+     *
+     * To use with bootstrap 3 - you can set this to any string starting with 3 (e.g. `3` or `3.3.7` or `3.x`)
+     * To use with bootstrap 4 - you can set this to any string starting with 4 (e.g. `4` or `4.1.1` or `4.x`)
+     *
+     * This property will be defaulted from `kartik\grid\Module` if not set. This can be set up globally in Yii
+     * application params in your Yii2 application config file.
+     *
+     * For example:
+     * `Yii::$app->params['bsVersion'] = '4.x'` to use with Bootstrap 4.x globally
+     *
+     * If this property is set, this setting will override the `Yii::$app->params['bsVersion']`. If this is not set, and
+     * `Yii::$app->params['bsVersion']` is also not set, this will default to `3.x` (Bootstrap 3.x version).
+     */
+    public $bsVersion;
 
     /**
      * @var string the module identifier if this widget is part of a module. If not set, the module identifier will
@@ -351,19 +440,17 @@ class GridView extends YiiGridView
      * - `{export}`: _string_, which will render the [[export]] menu button content.
      */
     public $panelTemplate = <<< HTML
-<div class="{prefix}{type}">
-    {panelHeading}
-    {panelBefore}
-    {items}
-    {panelAfter}
-    {panelFooter}
-</div>
+{panelHeading}
+{panelBefore}
+{items}
+{panelAfter}
+{panelFooter}
 HTML;
 
     /**
      * @var string the template for rendering the panel heading. The following special tokens are
      * recognized and will be replaced:
-     * - `{heading}`: _string_, which will render the panel heading content.
+     * - `{title}`: _string_, which will render the panel heading title content.
      * - `{summary}`: _string_, which will render the grid results summary.
      * - `{items}`: _string_, which will render the grid items.
      * - `{pager}`: _string_, which will render the grid pagination links.
@@ -373,18 +460,15 @@ HTML;
      * - `{export}`: _string_, which will render the [[export]] menu button content.
      */
     public $panelHeadingTemplate = <<< HTML
-    <div class="pull-right">
-        {summary}
-    </div>
-    <h3 class="panel-title">
-        {heading}
-    </h3>
+    {summary}
+    {title}
     <div class="clearfix"></div>
 HTML;
 
     /**
      * @var string the template for rendering the panel footer. The following special tokens are
      * recognized and will be replaced:
+     * - `{title}`: _string_, which will render the panel heading title content.
      * - `{footer}`: _string_, which will render the panel footer content.
      * - `{summary}`: _string_, which will render the grid results summary.
      * - `{items}`: _string_, which will render the grid items.
@@ -438,19 +522,34 @@ HTML;
      * within a bootstrap styled panel. This can be set to a different value to generate different styles for
      * other bootstrap themes. For example, this can be set to `box box-` for rendering boxes in AdminLTE theme.
      */
-    public $panelPrefix = 'panel panel-';
+    public $panelPrefix;
 
     /**
      * @var array the panel settings for displaying the grid view within a bootstrap styled panel. This property is
      * therefore applicable only if [[bootstrap]] property is `true`. The following array keys can be configured:
      * - `type`: _string_, the panel contextual type. Set it to one of the TYPE constants. If not set, will default to
      *   [[TYPE_DEFAULT]].
+     * - `options`: _array_, the HTML attributes for the panel container. If the `class` is not set, it will be auto
+     *   derived using the panel `type` and [[panelPrefix]]
      * - `heading`: `string`|`boolean`, the panel heading. If set to `false`, will not be displayed.
-     * - `headingOptions`: _array_, HTML attributes for the panel heading container. Defaults to
-     *   `['class'=>'panel-heading']`.
+     * - `headingOptions`: _array_, HTML attributes for the panel heading container. Defaults to:
+     *   - `['class'=>'panel-heading']` when [[bsVersion]] = `3.x`, and
+     *   - `['class'=>'card-heading <COLOR>']` when [[bsVersion]] = `4.x` - the color will be auto calculated based on
+     *      the `type` setting
+     * - `titleOptions`: _array_, HTML attributes for the panel title container. The following tags are specially
+     *   parsed:
+     *   - `tag`: _string_, the HTML tag to render the title. Defaults to `h3` when [[bsVersion]] = `3.x` and `span`
+     *     when [[bsVersion]] = `4.x`
+     *   The `titleOptions` defaults to:
+     *   - `['class'=>'panel-title']` when [[bsVersion]] = `3.x`, and
+     *   - `[]` when [[bsVersion]] = `4.x`
+     * - `summaryOptions`: _array_, HTML attributes for the panel summary section container. Defaults to:
+     *   - `['class'=>'pull-right']` when [[bsVersion]] = `3.x`, and
+     *   - `['class'=>'float-right']` when [[bsVersion]] = `4.x`, and
      * - `footer`: `string`|`boolean`, the panel footer. If set to `false` will not be displayed.
-     * - `footerOptions`: _array_, HTML attributes for the panel footer container. Defaults to
-     *   `['class'=>'panel-footer']`.
+     * - `footerOptions`: _array_, HTML attributes for the panel footer container. Defaults to:
+     *   - `['class'=>'panel-footer']` when [[bsVersion]] = `3.x`, and
+     *   - `['class'=>'card-footer']` when [[bsVersion]] = `4.x`
      * - 'before': `string`|`boolean`, content to be placed before/above the grid (after the header). To not display
      *   this section, set this to `false`.
      * - `beforeOptions`: _array_, HTML attributes for the `before` text. If the `class` is not set, it will default to
@@ -533,7 +632,7 @@ HTML;
      *
      * - `tag`: _string_, the HTML tag to render the toolbar container. Defaults to `div`.
      */
-    public $toolbarContainerOptions = ['class' => 'btn-toolbar kv-grid-toolbar toolbar-container pull-right'];
+    public $toolbarContainerOptions = ['class' => 'btn-toolbar kv-grid-toolbar toolbar-container'];
 
     /**
      * @var array tags to replace in the rendered layout. Enter this as `$key => $value` pairs, where:
@@ -679,7 +778,7 @@ HTML;
      * @var boolean whether pretty perfect scrollbars using perfect scrollbar plugin is to be used. Defaults to
      * `false`. If this is set to true, the `floatOverflowContainer` property will be auto set to `true`, if
      * `floatHeader` is `true`.
-     * @see https://github.com/noraesae/perfect-scrollbar
+     * @see https://github.com/utatti/perfect-scrollbar
      */
     public $perfectScrollbar = false;
 
@@ -704,7 +803,7 @@ HTML;
     /**
      * @array the HTML attributes for the summary row.
      */
-    public $pageSummaryRowOptions = ['class' => 'kv-page-summary warning'];
+    public $pageSummaryRowOptions = [];
 
     /**
      * @var string the default pagination that will be read by toggle data. Should be one of 'page' or 'all'. If not
@@ -958,7 +1057,7 @@ HTML;
      * Sets a default css class within `options` if not set
      *
      * @param array $options the HTML options
-     * @param string $css the CSS class to test and append
+     * @param string|array $css the CSS class to test and append
      */
     protected static function initCss(&$options, $css)
     {
@@ -969,10 +1068,12 @@ HTML;
 
     /**
      * @inheritdoc
+     * @throws InvalidConfigException
      */
     public function init()
     {
         $this->initModule();
+        Html::addCssClass($this->options, 'is-bs' . ($this->isBs4() ? '4' : '3'));
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
         }
@@ -988,11 +1089,21 @@ HTML;
         if (!isset($this->itemLabelMany)) {
             $this->itemLabelMany = Yii::t('kvgrid', 'items-many');
         }
+        if (!isset($this->panelPrefix)) {
+            $this->panelPrefix = $this->isBs4() ? 'card' : 'panel panel-';
+        }
         if (!$this->toggleData) {
             parent::init();
             return;
         }
+        $isBs4 = $this->isBs4();
         $this->_toggleDataKey = '_tog' . hash('crc32', $this->options['id']);
+        if ($isBs4) {
+            Html::addCssClass($this->options, 'kv-grid-bs4');
+            $this->setPagerOptionClass('linkContainerOptions', 'page-item');
+            $this->setPagerOptionClass('linkOptions', 'page-link');
+            $this->setPagerOptionClass('disabledListItemSubTagOptions', 'page-link');
+        }
         /**
          * @var Request $request
          */
@@ -1010,8 +1121,21 @@ HTML;
     }
 
     /**
+     * Adds CSS class to the pager parameter
+     * @param string $param the pager param
+     * @param string $css the CSS class
+     */
+    protected function setPagerOptionClass($param, $css)
+    {
+        $opts = ArrayHelper::getValue($this->pager, $param, []);
+        Html::addCssClass($opts, $css);
+        $this->pager[$param] = $opts;
+    }
+
+    /**
      * @inheritdoc
      * @throws InvalidConfigException
+     * @throws \Exception
      */
     public function run()
     {
@@ -1042,11 +1166,15 @@ HTML;
      * Renders the table page summary.
      *
      * @return string the rendering result.
+     * @throws InvalidConfigException
      */
     public function renderPageSummary()
     {
         if (!$this->showPageSummary) {
             return null;
+        }
+        if (!isset($this->pageSummaryRowOptions['class'])) {
+            $this->pageSummaryRowOptions['class'] = ($this->isBs4() ? 'table-' : '') . 'warning kv-page-summary';
         }
         $cells = [];
         /** @var DataColumn $column */
@@ -1060,6 +1188,7 @@ HTML;
 
     /**
      * @inheritdoc
+     * @throws InvalidConfigException
      */
     public function renderTableBody()
     {
@@ -1096,6 +1225,8 @@ HTML;
      * Renders the export menu.
      *
      * @return string
+     * @throws InvalidConfigException
+     * @throws \Exception
      */
     public function renderExport()
     {
@@ -1104,12 +1235,13 @@ HTML;
         ) {
             return '';
         }
+        $isBs4 = $this->isBs4();
         $title = $this->export['label'];
         $icon = $this->export['icon'];
         $options = $this->export['options'];
+        static::initCss($options, ['btn', $this->_defaultBtnCss]);
         $menuOptions = $this->export['menuOptions'];
-        $iconPrefix = $this->export['fontAwesome'] ? 'fa fa-' : 'glyphicon glyphicon-';
-        $title = ($icon == '') ? $title : "<i class='{$iconPrefix}{$icon}'></i> {$title}";
+        $title = ($icon == '') ? $title : "<i class='{$icon}'></i> {$title}";
         if (!isset($this->_module->downloadAction)) {
             $action = ["/{$this->moduleId}/export/download"];
         } else {
@@ -1137,7 +1269,7 @@ HTML;
         $items = empty($this->export['header']) ? [] : [$this->export['header']];
         foreach ($this->exportConfig as $format => $setting) {
             $iconOptions = ArrayHelper::getValue($setting, 'iconOptions', []);
-            Html::addCssClass($iconOptions, $iconPrefix . $setting['icon']);
+            Html::addCssClass($iconOptions, $setting['icon']);
             $label = (empty($setting['icon']) || $setting['icon'] == '') ? $setting['label'] :
                 Html::tag('i', '', $iconOptions) . ' ' . $setting['label'];
             $mime = ArrayHelper::getValue($setting, 'mime', 'text/plain');
@@ -1161,15 +1293,24 @@ HTML;
         $itemsBefore = ArrayHelper::getValue($this->export, 'itemsBefore', []);
         $itemsAfter = ArrayHelper::getValue($this->export, 'itemsAfter', []);
         $items = ArrayHelper::merge($itemsBefore, $items, $itemsAfter);
-        return ButtonDropdown::widget(
-                [
-                    'label' => $title,
-                    'dropdown' => ['items' => $items, 'encodeLabels' => false, 'options' => $menuOptions],
-                    'options' => $options,
-                    'containerOptions' => $this->exportContainer,
-                    'encodeLabel' => false,
-                ]
-            ) . $form;
+        $opts = [
+            'label' => $title,
+            'dropdown' => ['items' => $items, 'encodeLabels' => false, 'options' => $menuOptions],
+            'encodeLabel' => false,
+        ];
+        Html::addCssClass($this->exportContainer, 'btn-group');
+        if ($isBs4) {
+            $opts['buttonOptions'] = $options;
+            $opts['renderContainer'] = false;
+            /** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+            $out = Html::tag('div', \kartik\bs4dropdown\ButtonDropdown::widget($opts), $this->exportContainer);
+        } else {
+            $opts['options'] = $options;
+            $opts['containerOptions'] = $this->exportContainer;
+            /** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
+            $out = \yii\bootstrap\ButtonDropdown::widget($opts);
+        }
+        return $out . $form;
     }
 
     /**
@@ -1311,6 +1452,7 @@ HTML;
 
     /**
      * Initialize the module based on module identifier
+     * @throws InvalidConfigException
      */
     protected function initModule()
     {
@@ -1322,11 +1464,19 @@ HTML;
             }
             $this->moduleId = Module::MODULE;
         }
-        $this->_module = Config::getModule($this->moduleId, Module::className());
+        $this->_module = Config::getModule($this->moduleId, Module::class);
+        if (isset($this->bsVersion)) {
+            return;
+        }
+        if (isset($this->_module->bsVersion)) {
+            $this->bsVersion = $this->_module->bsVersion;
+        }
+        $this->initBsVersion();
     }
 
     /**
      * Initialize grid export.
+     * @throws InvalidConfigException
      */
     protected function initExport()
     {
@@ -1344,10 +1494,11 @@ HTML;
             $this->export['fontAwesome'] = false;
         }
         $isFa = $this->export['fontAwesome'];
+        $isBs4 = $this->isBs4();
         $this->export = array_replace_recursive(
             [
                 'label' => '',
-                'icon' => $isFa ? 'share-square-o' : 'export',
+                'icon' => $isFa ? 'fa fa-share-square-o' : ($this->isBs4() ? 'fas fa-external-link-alt' : 'glyphicon glyphicon-export'),
                 'messages' => [
                     'allowPopups' => Yii::t(
                         'kvgrid',
@@ -1360,7 +1511,7 @@ HTML;
                         'Request submitted! You may safely close this dialog after saving your downloaded file.'
                     ),
                 ],
-                'options' => ['class' => 'btn btn-default', 'title' => Yii::t('kvgrid', 'Export')],
+                'options' => ['class' => 'btn ' . $this->_defaultBtnCss, 'title' => Yii::t('kvgrid', 'Export')],
                 'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-right '],
             ],
             $this->export
@@ -1410,7 +1561,7 @@ HTML;
         $defaultExportConfig = [
             self::HTML => [
                 'label' => Yii::t('kvgrid', 'HTML'),
-                'icon' => $isFa ? 'file-text' : 'floppy-saved',
+                'icon' => $isBs4 ? 'fas fa-file-alt' : ($isFa ? 'fa fa-file-text' : 'glyphicon glyphicon-save'),
                 'iconOptions' => ['class' => 'text-info'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1426,7 +1577,7 @@ HTML;
             ],
             self::CSV => [
                 'label' => Yii::t('kvgrid', 'CSV'),
-                'icon' => $isFa ? 'file-code-o' : 'floppy-open',
+                'icon' => $isBs4 ? 'fas fa-file-code' : ($isFa ? 'fa fa-file-code-o' : 'glyphicon glyphicon-floppy-open'),
                 'iconOptions' => ['class' => 'text-primary'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1443,7 +1594,7 @@ HTML;
             ],
             self::TEXT => [
                 'label' => Yii::t('kvgrid', 'Text'),
-                'icon' => $isFa ? 'file-text-o' : 'floppy-save',
+                'icon' => $isBs4 ? 'far fa-file-alt' : ($isFa ? 'fa fa-file-text-o' : 'glyphicon glyphicon-floppy-save'),
                 'iconOptions' => ['class' => 'text-muted'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1460,7 +1611,7 @@ HTML;
             ],
             self::EXCEL => [
                 'label' => Yii::t('kvgrid', 'Excel'),
-                'icon' => $isFa ? 'file-excel-o' : 'floppy-remove',
+                'icon' => $isBs4 ? 'far fa-file-excel' : ($isFa ? 'fa fa-file-excel-o' : 'glyphicon glyphicon-floppy-remove'),
                 'iconOptions' => ['class' => 'text-success'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1477,7 +1628,7 @@ HTML;
             ],
             self::PDF => [
                 'label' => Yii::t('kvgrid', 'PDF'),
-                'icon' => $isFa ? 'file-pdf-o' : 'floppy-disk',
+                'icon' => $isBs4 ? 'far fa-file-pdf' : ($isFa ? 'fa fa-file-pdf-o' : 'glyphicon glyphicon-floppy-disk'),
                 'iconOptions' => ['class' => 'text-danger'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1522,7 +1673,7 @@ HTML;
             ],
             self::JSON => [
                 'label' => Yii::t('kvgrid', 'JSON'),
-                'icon' => $isFa ? 'file-code-o' : 'floppy-open',
+                'icon' => $isBs4 ? 'far fa-file-code' : ($isFa ? 'fa fa-file-code-o' : 'glyphicon glyphicon-floppy-open'),
                 'iconOptions' => ['class' => 'text-warning'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1551,12 +1702,15 @@ HTML;
 
     /**
      * Initialize toggle data button options.
+     * @throws InvalidConfigException
      */
     protected function initToggleData()
     {
         if (!$this->toggleData) {
             return;
         }
+        $isBs4 = $this->isBs4();
+        $defBtnCss = 'btn ' . $this->_defaultBtnCss;
         $defaultOptions = [
             'maxCount' => 10000,
             'minCount' => 500,
@@ -1566,15 +1720,15 @@ HTML;
                 ['totalCount' => number_format($this->dataProvider->getTotalCount())]
             ),
             'all' => [
-                'icon' => 'resize-full',
+                'icon' => $isBs4 ? 'fas fa-expand' : 'glyphicon glyphicon-resize-full',
                 'label' => Yii::t('kvgrid', 'All'),
-                'class' => 'btn btn-default',
+                'class' => $defBtnCss,
                 'title' => Yii::t('kvgrid', 'Show all data'),
             ],
             'page' => [
-                'icon' => 'resize-small',
+                'icon' => $isBs4 ? 'fas fa-compress' : 'glyphicon glyphicon-resize-small',
                 'label' => Yii::t('kvgrid', 'Page'),
-                'class' => 'btn btn-default',
+                'class' => $defBtnCss,
                 'title' => Yii::t('kvgrid', 'Show first page data'),
             ],
         ];
@@ -1585,7 +1739,7 @@ HTML;
         $icon = ArrayHelper::remove($this->toggleDataOptions[$tag], 'icon', '');
         $label = !isset($options['label']) ? $defaultOptions[$tag]['label'] : $options['label'];
         if (!empty($icon)) {
-            $label = "<i class='glyphicon glyphicon-{$icon}'></i> " . $label;
+            $label = "<i class='{$icon}'></i> " . $label;
         }
         $this->toggleDataOptions[$tag]['label'] = $label;
         if (!isset($this->toggleDataOptions[$tag]['title'])) {
@@ -1596,6 +1750,7 @@ HTML;
 
     /**
      * Initialize bootstrap specific styling.
+     * @throws InvalidConfigException
      */
     protected function initBootstrapStyle()
     {
@@ -1614,7 +1769,7 @@ HTML;
             Html::addCssClass($this->tableOptions, 'table-striped');
         }
         if ($this->condensed) {
-            Html::addCssClass($this->tableOptions, 'table-condensed');
+            Html::addCssClass($this->tableOptions, ($this->isBs4() ? 'table-sm' : 'table-condensed'));
         }
         if ($this->floatHeader) {
             if ($this->perfectScrollbar) {
@@ -1647,6 +1802,7 @@ HTML;
 
     /**
      * Initialize the grid layout.
+     * @throws InvalidConfigException
      */
     protected function initLayout()
     {
@@ -1663,8 +1819,8 @@ HTML;
             '{toolbarContainer}' => $this->renderToolbarContainer(),
             '{toolbar}' => $this->renderToolbar(),
             '{export}' => $this->renderExport(),
-            '{toggleData}' =>  $this->renderToggleData(),
-            '{items}' => Html::tag('div', '{items}', $this->containerOptions)
+            '{toggleData}' => $this->renderToggleData(),
+            '{items}' => Html::tag('div', '{items}', $this->containerOptions),
         ]);
         if (is_array($this->replaceTags) && !empty($this->replaceTags)) {
             foreach ($this->replaceTags as $key => $value) {
@@ -1675,7 +1831,7 @@ HTML;
             }
         }
     }
-    
+
     /**
      * Replace layout tokens
      * @param array $pairs the token to find and its replaced value as key value pairs
@@ -1743,33 +1899,43 @@ HTML;
 
     /**
      * Sets the grid panel layout based on the [[template]] and [[panel]] settings.
+     * @throws InvalidConfigException
      */
     protected function renderPanel()
     {
         if (!$this->bootstrap || !is_array($this->panel) || empty($this->panel)) {
             return;
         }
+        $options = ArrayHelper::getValue($this->panel, 'options', []);
         $type = ArrayHelper::getValue($this->panel, 'type', 'default');
         $heading = ArrayHelper::getValue($this->panel, 'heading', '');
         $footer = ArrayHelper::getValue($this->panel, 'footer', '');
         $before = ArrayHelper::getValue($this->panel, 'before', '');
         $after = ArrayHelper::getValue($this->panel, 'after', '');
         $headingOptions = ArrayHelper::getValue($this->panel, 'headingOptions', []);
+        $titleOptions = ArrayHelper::getValue($this->panel, 'titleOptions', []);
         $footerOptions = ArrayHelper::getValue($this->panel, 'footerOptions', []);
         $beforeOptions = ArrayHelper::getValue($this->panel, 'beforeOptions', []);
         $afterOptions = ArrayHelper::getValue($this->panel, 'afterOptions', []);
+        $summaryOptions = ArrayHelper::getValue($this->panel, 'summaryOptions', []);
         $panelHeading = '';
         $panelBefore = '';
         $panelAfter = '';
         $panelFooter = '';
-
+        $isBs4 = $this->isBs4();
+        static::initCss($options, $isBs4 ? 'card border-' . $type : $this->panelPrefix . $type);
+        static::initCss($summaryOptions, $isBs4 ? 'float-right' : 'pull-right');
+        $titleTag = ArrayHelper::remove($titleOptions, 'tag', ($isBs4 ? 'span' : 'h3'));
+        if (!$isBs4) {
+            static::initCss($titleOptions, 'panel-title');
+        }
         if ($heading !== false) {
-            static::initCss($headingOptions, 'panel-heading');
-            $content = strtr($this->panelHeadingTemplate, ['{heading}' => $heading]);
-            $panelHeading = Html::tag('div', $content, $headingOptions);
+            $color = $type === 'default' ? 'bg-light' : 'text-white bg-' . $type;
+            static::initCss($headingOptions, $isBs4 ? 'card-header ' . $color : 'panel-heading');
+            $panelHeading = Html::tag('div', $this->panelHeadingTemplate, $headingOptions);
         }
         if ($footer !== false) {
-            static::initCss($footerOptions, 'panel-footer');
+            static::initCss($footerOptions, $isBs4 ? 'card-footer' : 'panel-footer');
             $content = strtr($this->panelFooterTemplate, ['{footer}' => $footer]);
             $panelFooter = Html::tag('div', $content, $footerOptions);
         }
@@ -1783,17 +1949,18 @@ HTML;
             $content = strtr($this->panelAfterTemplate, ['{after}' => $after]);
             $panelAfter = Html::tag('div', $content, $afterOptions);
         }
-        $this->layout = strtr(
-            $this->panelTemplate,
-            [
-                '{panelHeading}' => $panelHeading,
-                '{prefix}' => $this->panelPrefix,
-                '{type}' => $type,
-                '{panelFooter}' => $panelFooter,
-                '{panelBefore}' => $panelBefore,
-                '{panelAfter}' => $panelAfter,
-            ]
-        );
+        $out = strtr($this->panelTemplate, [
+            '{panelHeading}' => $panelHeading,
+            '{type}' => $type,
+            '{panelFooter}' => $panelFooter,
+            '{panelBefore}' => $panelBefore,
+            '{panelAfter}' => $panelAfter,
+        ]);
+
+        $this->layout = Html::tag('div', strtr($out, [
+            '{title}' => Html::tag($titleTag, $heading, $titleOptions),
+            '{summary}' => Html::tag('div', '{summary}', $summaryOptions),
+        ]), $options);
     }
 
     /**
@@ -1825,10 +1992,13 @@ HTML;
 
     /**
      * Generates the toolbar container with the toolbar
+     * @throws InvalidConfigException
      */
     protected function renderToolbarContainer()
     {
         $tag = ArrayHelper::remove($this->toolbarContainerOptions, 'tag', 'div');
+        $css = $this->isBs4() ? 'float-right' : 'pull-right';
+        Html::addCssClass($this->toolbarContainerOptions, $css);
         return Html::tag($tag, $this->renderToolbar(), $this->toolbarContainerOptions);
     }
 
@@ -1900,6 +2070,7 @@ HTML;
 
     /**
      * Registers client assets for the [[GridView]] widget.
+     * @throws \Exception
      */
     protected function registerAssets()
     {
@@ -1951,7 +2122,8 @@ HTML;
                 $script .= "{$id}.gridexport({$expOptsVar});";
             }
         }
-        $container = 'jQuery("#' . $this->containerOptions['id'] . '")';
+        $contId = '#' . $this->containerOptions['id'];
+        $container = "jQuery('{$contId}')";
         if ($this->resizableColumns) {
             $rcDefaults = [];
             if ($this->persistResize) {
@@ -1982,18 +2154,21 @@ HTML;
             // integrate resizeableColumns with floatThead
             if ($this->resizableColumns) {
                 $script .= "{$container}.off('{$NS}').on('column:resize{$NS}', function(e){" .
-                      "jQuery('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow');" .
+                    "jQuery('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow');" .
                     '});';
             }
         }
+        $psVar = 'ps_' . Inflector::slug($this->containerOptions['id'], '_');
         if ($this->perfectScrollbar) {
             GridPerfectScrollbarAsset::register($view);
-            $script .= $container . '.perfectScrollbar(' . Json::encode($this->perfectScrollbarOptions) . ');';
+            $script .= "var {$psVar} = new PerfectScrollbar('{$contId}', " .
+                Json::encode($this->perfectScrollbarOptions) . ');';
         }
         $this->genToggleDataScript();
         $script .= $this->_toggleScript;
         $this->_gridClientFunc = 'kvGridInit_' . hash('crc32', $script);
         $this->options['data-krajee-grid'] = $this->_gridClientFunc;
+        $this->options['data-krajee-ps'] = $psVar;
         $view->registerJs("var {$this->_gridClientFunc}=function(){\n{$script}\n};\n{$this->_gridClientFunc}();");
     }
 }

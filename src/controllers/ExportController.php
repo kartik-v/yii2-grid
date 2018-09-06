@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.8
+ * @version   3.1.9
  */
 
 namespace kartik\grid\controllers;
@@ -32,6 +32,7 @@ class ExportController extends Controller
      * Download the exported file
      *
      * @return mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionDownload()
     {
@@ -40,7 +41,7 @@ class ExportController extends Controller
          */
         $request = Yii::$app->request;
         $moduleId = $request->post('module_id', Module::MODULE);
-        $module = Config::getModule($moduleId, Module::className());
+        $module = Config::getModule($moduleId, Module::class);
         $type = $request->post('export_filetype', 'html');
         $name = $request->post('export_filename', Yii::t('kvgrid', 'export'));
         $content = $request->post('export_content', Yii::t('kvgrid', 'No data found'));
@@ -80,7 +81,7 @@ class ExportController extends Controller
      *
      * @param string $content the file content
      * @param string $filename the file name
-     * @param array  $config the configuration for yii2-mpdf component
+     * @param array $config the configuration for yii2-mpdf component
      *
      * @return void
      */

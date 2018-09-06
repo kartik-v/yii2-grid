@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.8
+ * @version   3.1.9
  */
 
 namespace kartik\grid;
@@ -76,8 +76,9 @@ class ExpandRowColumn extends DataColumn
     /**
      * @var string icon for the expand indicator. If this is not set, it will derive values automatically using the
      * following rules:
-     * - If GridView `bootstrap` property is set to `true`, it will default to [[GridView::ICON_EXPAND]]
-     *   or `<span class="glyphicon glyphicon-expand"></span>`
+     * - If GridView `bootstrap` property is set to `true`, it will default to:
+     *   - [[GridView::ICON_EXPAND]] for Bootstrap 3.x
+     *   - [[GridView::ICON_EXPAND_BS4]] for Bootstrap 4.x
      * - If GridView `bootstrap` property is set to `false`, then it will default to `+`.
      */
     public $expandIcon;
@@ -85,8 +86,9 @@ class ExpandRowColumn extends DataColumn
     /**
      * @var string icon for the collapse indicator. If this is not set, it will derive values automatically using the
      * following rules:
-     * - If GridView `bootstrap` property is set to `true`, it will default to [[GridView::ICON_COLLAPSE]]
-     *   or `<span class="glyphicon glyphicon-collapse-down"></span>`
+     * - If GridView `bootstrap` property is set to `true`, it will default to:
+     *   - [[GridView::ICON_COLLAPSE]] for Bootstrap 3.x
+     *   - [[GridView::ICON_COLLAPSE_BS4]] for Bootstrap 4.x
      * - If GridView `bootstrap` property is set to `false`, then it will default to `-`.
      */
     public $collapseIcon;
@@ -199,26 +201,6 @@ class ExpandRowColumn extends DataColumn
     public $detailAnimationDuration = 'slow';
 
     /**
-     * @inheritdoc
-     */
-    public $hiddenFromExport = true;
-
-    /**
-     * @inheritdoc
-     */
-    public $hAlign = GridView::ALIGN_CENTER;
-
-    /**
-     * @inheritdoc
-     */
-    public $width = '50px';
-
-    /**
-     * @inheritdoc
-     */
-    public $mergeHeader = true;
-
-    /**
      * @var string hashed javascript variable to store grid expand row options
      */
     protected $_hashVar;
@@ -245,9 +227,17 @@ class ExpandRowColumn extends DataColumn
 
     /**
      * @inheritdoc
+     * @throws InvalidConfigException
      */
     public function init()
     {
+        $this->initColumnSettings([
+            'hiddenFromExport' => true,
+            'mergeHeader' => true,
+            'hAlign' => GridView::ALIGN_CENTER,
+            'vAlign' => GridView::ALIGN_MIDDLE,
+            'width' => '50px'
+        ]);
         parent::init();
         if (empty($this->detail) && empty($this->detailUrl)) {
             throw new InvalidConfigException("Either the 'detail' or 'detailUrl' must be entered");
@@ -366,6 +356,7 @@ HTML;
      * @param string $type one of `expand` or `collapse`
      *
      * @return string the icon indicator markup
+     * @throws InvalidConfigException
      */
     protected function getIcon($type)
     {
@@ -374,11 +365,12 @@ HTML;
             return $this->$setting;
         }
         $bs = $this->grid->bootstrap;
+        $isBs4 = $this->grid->isBs4();
         if ($type === 'expand') {
-            return $bs ? GridView::ICON_EXPAND : '+';
+            return $bs ? ($isBs4 ? GridView::ICON_EXPAND_BS4 : GridView::ICON_EXPAND) : '+';
         }
         if ($type === 'collapse') {
-            return $bs ? GridView::ICON_COLLAPSE : '-';
+            return $bs ? ($isBs4 ? GridView::ICON_COLLAPSE_BS4 : GridView::ICON_COLLAPSE) : '-';
         }
         return null;
     }

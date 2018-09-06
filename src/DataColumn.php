@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.8
+ * @version   3.1.9
  */
 
 namespace kartik\grid;
@@ -26,44 +26,6 @@ class DataColumn extends YiiDataColumn
     use ColumnTrait;
 
     /**
-     * @var boolean whether the column is hidden from display. This is different than the `visible` property, in the
-     * sense, that the column is rendered, but hidden from display. This will allow you to still export the column
-     * using the export function.
-     */
-    public $hidden;
-
-    /**
-     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, it will hide the
-     * column for all export formats. If set as an array, it will accept the list of GridView export `formats` and
-     * hide output only for them.
-     */
-    public $hiddenFromExport = false;
-
-    /**
-     * @var string the horizontal alignment of each column. Should be one of [[GridView::ALIGN_LEFT]],
-     * [[GridView::ALIGN_RIGHT]], or [[GridView::ALIGN_CENTER]].
-     */
-    public $hAlign;
-
-    /**
-     * @var string the vertical alignment of each column. Should be one of [[GridView::ALIGN_TOP]],
-     * [[GridView::ALIGN_BOTTOM]], or [[GridView::ALIGN_MIDDLE]].
-     */
-    public $vAlign;
-
-    /**
-     * @var boolean whether to force no wrapping on all table cells in the column
-     * @see http://www.w3schools.com/cssref/pr_text_white-space.asp
-     */
-    public $noWrap = false;
-
-    /**
-     * @var string the width of each column (matches the CSS width property).
-     * @see http://www.w3schools.com/cssref/pr_dim_width.asp
-     */
-    public $width;
-
-    /**
      * @var string the filter input type for each filter input. You can use one of the `GridView::FILTER_` constants or
      * pass any widget classname (extending the Yii Input Widget).
      */
@@ -74,61 +36,6 @@ class DataColumn extends YiiDataColumn
      * classname that exists.
      */
     public $filterWidgetOptions = [];
-
-    /**
-     * @var boolean|string|Closure the page summary that is displayed above the footer. You can set it to one of the
-     * following:
-     * - `false`: the summary will not be displayed.
-     * - `true`: the page summary for the column will be calculated and displayed using the
-     *   [[pageSummaryFunc]] setting.
-     * - `string`: will be displayed as is.
-     * - `Closure`: you can set it to an anonymous function with the following signature:
-     *
-     *   ```php
-     *   // example 1
-     *   function ($summary, $data, $widget) { return 'Count is ' . $summary; }
-     *   // example 2
-     *   function ($summary, $data, $widget) { return 'Range ' . min($data) . ' to ' . max($data); }
-     *   ```
-     *
-     *   where:
-     *
-     *   - the `$summary` variable will be replaced with the calculated summary using the [[pageSummaryFunc]] setting.
-     *   - the `$data` variable will contain array of the selected page rows for the column.
-     */
-    public $pageSummary = false;
-
-    /**
-     * @var string|Closure the summary function that will be used to calculate the page summary for the column. If
-     * setting as `Closure`, you can set it to an anonymous function with the following signature:
-     *
-     * ```php
-     * function ($data)
-     * ```
-     *
-     *   - the `$data` variable will contain array of the selected page rows for the column.
-     */
-    public $pageSummaryFunc = GridView::F_SUM;
-
-    /**
-     * @var array HTML attributes for the page summary cell. The following special attributes are available:
-     * - `prepend`: _string_, a prefix string that will be prepended before the pageSummary content
-     * - `append`: _string_, a suffix string that will be appended after the pageSummary content
-     */
-    public $pageSummaryOptions = [];
-
-    /**
-     * @var boolean whether to just hide the page summary display but still calculate the summary based on
-     * [[pageSummary]] settings
-     */
-    public $hidePageSummary = false;
-
-    /**
-     * @var boolean whether to merge the header title row and the filter row. This will not render the filter for the
-     * column and can be used when `filter` is set to `false`. Defaults to `false`. This is only applicable when
-     * [[GridView::filterPosition]] for the grid is set to [[GridView::FILTER_POS_BODY]].
-     */
-    public $mergeHeader = false;
 
     /**
      * @var boolean whether to group grid data by this column. Defaults to `false`. Note that your query must sort the
@@ -293,41 +200,22 @@ class DataColumn extends YiiDataColumn
      * ($model, $key, $index, $column)`, where `$model`, `$key`, and `$index` refer to the model, key and index of
      * the row currently being rendered, and `$column` is a reference to the [[DataColumn]] object.
      */
-    public $exportMenuStyle = ['alignment'=>['vertical' => GridView::ALIGN_CENTER]];
+    public $exportMenuStyle = ['alignment' => ['vertical' => GridView::ALIGN_CENTER]];
 
     /**
      * @var array configuration for the `\kartik\export\ExportMenu` column header cell style that will be utilized by
      * `\PhpOffice\PhpSpreadsheet\Style\Style::applyFromArray()`. This is applicable when configuring this column
      * in `\kartik\export\ExportMenu`.
      */
-    public $exportMenuHeaderStyle = ['alignment'=>['vertical' => GridView::ALIGN_CENTER]];
-
-    /**
-     * @var array collection of row data for the column for the current page
-     */
-    protected $_rows = [];
-
-    /**
-     * @var \yii\web\View the view instance
-     */
-    protected $_view;
-
-    /**
-     * @var string the internally generated client script to initialize
-     */
-    protected $_clientScript = '';
-
-    /**
-     * @var string the internally generated column key
-     */
-    protected $_columnKey = '';
+    public $exportMenuHeaderStyle = ['alignment' => ['vertical' => GridView::ALIGN_CENTER]];
 
     /**
      * @inheritdoc
+     * @throws \yii\base\InvalidConfigException
      */
     public function init()
     {
-        $this->_view = $this->grid->getView();
+        $this->initColumnSettings();
         if ($this->mergeHeader && !isset($this->vAlign)) {
             $this->vAlign = GridView::ALIGN_MIDDLE;
         }
@@ -358,6 +246,7 @@ class DataColumn extends YiiDataColumn
      * Renders filter inputs based on the `filterType`
      *
      * @return string
+     * @throws \Exception
      */
     protected function renderFilterCellContent()
     {

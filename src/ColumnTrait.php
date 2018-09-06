@@ -4,13 +4,12 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.8
+ * @version   3.1.9
  */
 
 namespace kartik\grid;
 
 use Closure;
-use NumberFormatter;
 use kartik\base\Config;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -20,28 +19,14 @@ use yii\helpers\Json;
 /**
  * ColumnTrait maintains generic methods used by all column widgets in [[GridView]].
  *
- * @property boolean         $mergeHeader
- * @property boolean         $hidden
- * @property boolean         $noWrap
- * @property array           $options
- * @property array           $headerOptions
- * @property array           $filterOptions
- * @property array           $footerOptions
- * @property array           $contentOptions
- * @property boolean|Closure $pageSummary
- * @property string|Closure  $pageSummaryFunc
- * @property array           $pageSummaryOptions
- * @property boolean         $hidePageSummary
- * @property boolean         $hiddenFromExport
- * @property string          $footer
- * @property string          $hAlign
- * @property string          $vAlign
- * @property string          $width
- * @property array           $_rows
- * @property string          $_columnKey
- * @property string          $_clientScript
- * @property GridView        $grid
- * @property string          $format
+ * @property array $options
+ * @property array $headerOptions
+ * @property array $filterOptions
+ * @property array $footerOptions
+ * @property array $contentOptions
+ * @property string $footer
+ * @property GridView $grid
+ * @property string $format
  * @method getDataCellValue($model, $key, $index)
  * @method renderCell()
  *
@@ -50,6 +35,143 @@ use yii\helpers\Json;
  */
 trait ColumnTrait
 {
+    /**
+     * @var boolean whether the column is hidden from display. This is different than the `visible` property, in the
+     * sense, that the column is rendered, but hidden from display. This will allow you to still export the column
+     * using the export function.
+     */
+    public $hidden;
+
+    /**
+     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, it will hide the
+     * column for all export formats. If set as an array, it will accept the list of GridView export `formats` and
+     * hide output only for them.
+     */
+    public $hiddenFromExport;
+
+    /**
+     * @var boolean whether to force no wrapping on all table cells in the column
+     * @see http://www.w3schools.com/cssref/pr_text_white-space.asp
+     */
+    public $noWrap;
+
+    /**
+     * @var boolean whether to merge the header title row and the filter row. This will not render the filter for the
+     * column and can be used when `filter` is set to `false`. Defaults to `false`. This is only applicable when
+     * [[GridView::filterPosition]] for the grid is set to [[GridView::FILTER_POS_BODY]].
+     */
+    public $mergeHeader;
+
+    /**
+     * @var boolean|string|Closure the page summary that is displayed above the footer. You can set it to one of the
+     * following:
+     * - `false`: the summary will not be displayed.
+     * - `true`: the page summary for the column will be calculated and displayed using the
+     *   [[pageSummaryFunc]] setting.
+     * - `string`: will be displayed as is.
+     * - `Closure`: you can set it to an anonymous function with the following signature:
+     *
+     *   ```php
+     *   // example 1
+     *   function ($summary, $data, $widget) { return 'Count is ' . $summary; }
+     *   // example 2
+     *   function ($summary, $data, $widget) { return 'Range ' . min($data) . ' to ' . max($data); }
+     *   ```
+     *
+     *   where:
+     *
+     *   - the `$summary` variable will be replaced with the calculated summary using the [[pageSummaryFunc]] setting.
+     *   - the `$data` variable will contain array of the selected page rows for the column.
+     */
+    public $pageSummary;
+
+    /**
+     * @var boolean whether to just hide the page summary display but still calculate the summary based on
+     * [[pageSummary]] settings
+     */
+    public $hidePageSummary;
+
+    /**
+     * @var string|Closure the summary function that will be used to calculate the page summary for the column. If
+     * setting as `Closure`, you can set it to an anonymous function with the following signature:
+     *
+     * ```php
+     * function ($data)
+     * ```
+     *
+     *   - the `$data` variable will contain array of the selected page rows for the column.
+     */
+    public $pageSummaryFunc;
+
+    /**
+     * @var array HTML attributes for the page summary cell. The following special attributes are available:
+     * - `prepend`: _string_, a prefix string that will be prepended before the pageSummary content
+     * - `append`: _string_, a suffix string that will be appended after the pageSummary content
+     */
+    public $pageSummaryOptions;
+
+    /**
+     * @var string the horizontal alignment of each column. Should be one of [[GridView::ALIGN_LEFT]],
+     * [[GridView::ALIGN_RIGHT]], or [[GridView::ALIGN_CENTER]].
+     */
+    public $hAlign;
+
+    /**
+     * @var string the vertical alignment of each column. Should be one of [[GridView::ALIGN_TOP]],
+     * [[GridView::ALIGN_BOTTOM]], or [[GridView::ALIGN_MIDDLE]].
+     */
+    public $vAlign;
+
+    /**
+     * @var string the width of each column (matches the CSS width property).
+     * @see http://www.w3schools.com/cssref/pr_dim_width.asp
+     */
+    public $width;
+
+    /**
+     * @var array collection of row data for the column for the current page
+     */
+    protected $_rows = [];
+
+    /**
+     * @var \yii\web\View the view instance
+     */
+    protected $_view;
+
+    /**
+     * @var string the internally generated client script to initialize
+     */
+    protected $_clientScript = '';
+
+    /**
+     * @var string the internally generated column key
+     */
+    protected $_columnKey = '';
+
+    /**
+     * Initialize column settings
+     * @param array $settings
+     */
+    public function initColumnSettings($settings = [])
+    {
+        $this->_view = $this->grid->getView();
+        $settings += [
+            'hidden' => false,
+            'hiddenFromExport' => false,
+            'noWrap' => false,
+            'mergeHeader' => false,
+            'pageSummary' => false,
+            'hidePageSummary' => false,
+            'pageSummaryFunc' => GridView::F_SUM,
+            'pageSummaryOptions' => [],
+        ];
+        foreach ($settings as $key => $val) {
+            if (!isset($this->$key)) {
+                $this->$key = $val;
+            }
+        }
+    }
+
     /**
      * Renders the header cell.
      *
@@ -98,9 +220,9 @@ trait ColumnTrait
     /**
      * Parses Excel Cell Formats for export
      *
-     * @param array   $options the HTML attributes for the cell
-     * @param Model   $model the current model being rendered
-     * @param mixed   $key the primary key value for the model
+     * @param array $options the HTML attributes for the cell
+     * @param Model $model the current model being rendered
+     * @param mixed $key the primary key value for the model
      * @param integer $index the zero-based index of the model being rendered
      */
     public function parseExcelFormats(&$options, $model, $key, $index)
@@ -250,6 +372,7 @@ trait ColumnTrait
 
     /**
      * Checks if the filter input types are valid
+     * @throws \yii\base\InvalidConfigException
      */
     protected function checkValidFilters()
     {
@@ -292,6 +415,13 @@ trait ColumnTrait
      */
     protected function parseFormat()
     {
+        $format = isset($this->format) ? (array)$this->format : [];
+        if (!empty($format)) {
+            $fmt = $format[0];
+            if (in_array($fmt, ['integer', 'decimal', 'percent', 'scientific', 'currency', 'length', 'weight'])) {
+                Html::addCssClass($this->headerOptions, ['sort-numerical']);
+            }
+        }
         if ($this->isValidAlignment()) {
             $class = "kv-align-{$this->hAlign}";
             Html::addCssClass($this->headerOptions, $class);
@@ -344,8 +474,8 @@ trait ColumnTrait
     /**
      * Parses and fetches updated content options for grid visibility and format
      *
-     * @param mixed   $model the data model being rendered
-     * @param mixed   $key the key associated with the data model
+     * @param mixed $model the data model being rendered
+     * @param mixed $key the key associated with the data model
      * @param integer $index the zero-based index of the data item among the item array returned by
      * [[GridView::dataProvider]].
      *
@@ -433,9 +563,9 @@ trait ColumnTrait
      * Parses a value if Closure and returns the right value
      *
      * @param string|int|Closure $var the variable to parse
-     * @param Model              $model the model instance
-     * @param string|object      $key the current model key value
-     * @param integer            $index the index of the current record in the data provider
+     * @param Model $model the model instance
+     * @param string|object $key the current model key value
+     * @param integer $index the index of the current record in the data provider
      *
      * @return mixed
      */
@@ -466,9 +596,9 @@ trait ColumnTrait
     /**
      * Parses grid grouping and sets data attributes
      *
-     * @param array   $options
-     * @param Model   $model
-     * @param mixed   $key
+     * @param array $options
+     * @param Model $model
+     * @param mixed $key
      * @param integer $index
      */
     protected function parseGrouping(&$options, $model, $key, $index)

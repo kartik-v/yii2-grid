@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.8
+ * @version   3.1.9
  */
 
 namespace kartik\grid;
@@ -32,16 +32,6 @@ use Yii;
  */
 class BooleanColumn extends DataColumn
 {
-    /**
-     * @inheritdoc
-     */
-    public $hAlign = GridView::ALIGN_CENTER;
-
-    /**
-     * @inheritdoc
-     */
-    public $width = '90px';
-
     /**
      * @inheritdoc
      */
@@ -76,9 +66,14 @@ class BooleanColumn extends DataColumn
 
     /**
      * @inheritdoc
+     * @throws \yii\base\InvalidConfigException
      */
     public function init()
     {
+        $this->initColumnSettings([
+            'hAlign' => GridView::ALIGN_CENTER,
+            'width' => '90px'
+        ]);
         if (empty($this->trueLabel)) {
             $this->trueLabel = Yii::t('kvgrid', 'Active');
         }
@@ -86,15 +81,15 @@ class BooleanColumn extends DataColumn
             $this->falseLabel = Yii::t('kvgrid', 'Inactive');
         }
         $this->filter = [true => $this->trueLabel, false => $this->falseLabel];
+        $bs = $this->grid->bootstrap;
+        $isBs4 = $this->grid->isBs4();
 
         if (empty($this->trueIcon)) {
-            /** @noinspection PhpUndefinedFieldInspection */
-            $this->trueIcon = ($this->grid->bootstrap) ? GridView::ICON_ACTIVE : $this->trueLabel;
+            $this->trueIcon = $bs ? ($isBs4 ? GridView::ICON_ACTIVE_BS4 : GridView::ICON_ACTIVE) : $this->trueLabel;
         }
 
         if (empty($this->falseIcon)) {
-            /** @noinspection PhpUndefinedFieldInspection */
-            $this->falseIcon = ($this->grid->bootstrap) ? GridView::ICON_INACTIVE : $this->falseLabel;
+            $this->falseIcon = $bs ? ($isBs4 ? GridView::ICON_INACTIVE_BS4 : GridView::ICON_INACTIVE) : $this->falseLabel;
         }
 
         parent::init();

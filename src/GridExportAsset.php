@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.8
+ * @version   3.1.9
  */
 
 namespace kartik\grid;
@@ -24,6 +24,7 @@ class GridExportAsset extends AssetBundle
      */
     public function init()
     {
+        $this->depends = array_merge(['kartik\dialog\DialogAsset'], $this->depends);
         $this->setSourcePath(__DIR__ . '/assets');
         $this->setupAssets('js', ['js/kv-grid-export']);
         parent::init();

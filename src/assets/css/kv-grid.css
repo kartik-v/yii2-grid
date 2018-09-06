@@ -4,13 +4,39 @@
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
  * @version   3.1.8
  *
- * Gridview widget styling and enhancements for Bootstrap.
- * Built for Yii Framework 2.0
- * Author: Kartik Visweswaran
- * Year: 2015
- * For more Yii related demos visit http://demos.krajee.com
+ * Yii2 Gridview widget styling and enhancements for Bootstrap.
+ *
  */
- 
+.kv-grid-container {
+    position: relative;
+}
+
+/**
+ * Table column heading sort styles for BS4
+ */
+.kv-grid-bs4 a.asc:after,
+.kv-grid-bs4 a.desc:after {
+    /*noinspection CssNoGenericFontName*/
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+.kv-grid-bs4 a.asc:after {
+    content: "\f15e";
+}
+
+.kv-grid-bs4 a.desc:after {
+    content: "\f15d";
+}
+
+.kv-grid-bs4 .sort-numerical a.asc:after {
+    content: "\f163";
+}
+
+.kv-grid-bs4 .sort-numerical a.desc:after {
+    content: "\f162";
+}
+
 /**
  * Panel Styles
  */
@@ -116,7 +142,7 @@
 
 .kv-loader {
     position: absolute;
-    background: #fff url('../img/loading.gif') center center no-repeat!important;
+    background: #fff url('../img/loading.gif') center center no-repeat !important;
     width: 100px;
     height: 100px;
     top: 50%;
@@ -131,6 +157,9 @@
     z-index: 1025;
 }
 
+/**
+ * Panel and Float Table Header BS3
+ */
 .panel > .floatThead-wrapper > .table,
 .panel .table-responsive > .floatThead-wrapper > .table,
 .panel > .panel-collapse > .table {
@@ -291,11 +320,12 @@
  */
 @media screen and (max-width: 480px) {
     .kv-table-wrap th, .kv-table-wrap td {
-		display: block;
-        width: 100%!important;
+        display: block;
+        width: 100% !important;
         text-align: center;
         font-size: 1.2em;
-	}
+    }
+
     .kv-table-wrap tr > td:first-child {
         border-top: 3px double #ccc;
         margin-top: 10px;
@@ -307,37 +337,37 @@
  * RadioColumn styles
  */
 .kv-clear-radio {
-    float:none;
+    float: none;
 }
 
 /**
  * Grid Grouping Styles
  */
 td.kv-group-even {
-    background-color: #f0f1ff!important;
+    background-color: #f0f1ff !important;
 }
 
 .table-hover td.kv-group-even:hover {
-    background-color: #d7d9ff!important;
+    background-color: #d7d9ff !important;
 }
 
 td.kv-group-odd {
-    background-color: #f9fcff!important;
+    background-color: #f9fcff !important;
 }
 
 .table-hover td.kv-group-odd:hover {
-    background-color: #d7ecff!important;
+    background-color: #d7ecff !important;
 }
 
 .kv-grouped-row {
-    background-color: #FFF0F5!important;
+    background-color: #FFF0F5 !important;
     font-size: 1.3em;
-    padding-top: 10px!important;
-    padding-bottom: 10px!important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
 }
 
 .table-hover .kv-grouped-row:hover {
-    background-color: #FFE4E1!important;
+    background-color: #FFE4E1 !important;
 }
 
 /**
@@ -352,7 +382,7 @@ td.kv-group-odd {
 /**
  * Fix overflow and make layout responsive for mobile/small devices
  */
-@media (max-width:768px) {
+@media (max-width: 768px) {
     .hide-resize .rc-handle-container {
         overflow: hidden;
     }

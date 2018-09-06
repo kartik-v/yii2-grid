@@ -5,10 +5,7 @@
  * @version   3.1.8
  *
  * Gridview ExpandRowColumn styling and enhancements
- * Built for Yii Framework 2.0
- * Author: Kartik Visweswaran
- * Year: 2015
- * For more Yii related demos visit http://demos.krajee.com
+ *
  */
 .kv-expand-header-cell,
 .kv-expand-icon-cell {
@@ -16,6 +13,7 @@
     padding-bottom: 0;
     font-size: 1.35em;
 }
+
 .kv-expand-header-cell.kv-batch-toggle,
 .kv-expand-icon-cell {
     cursor: pointer;

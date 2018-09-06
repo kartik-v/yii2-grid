@@ -3,9 +3,14 @@ Change Log: `yii2-grid`
 
 ## Version 3.1.9
 
-**Date:** _under development_
+**Date:** 07-Sep-2018
 
+- Refactor code and consolidate / optimize properties within traits.
+- Enhancements to grid sort (include numerical indicators).
+- Enhancements to support bootstrap v4.x.
+- Enhancements for updated perfect scrollbar plugin. 
 - (bug #813, #814): Correct Krajee Dialog plugin init.
+- (enh #805): Configure translated properties for MPDF .
 
 ## Version 3.1.8
 

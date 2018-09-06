@@ -13,8 +13,8 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 
 ![GridView Screenshot](https://lh4.googleusercontent.com/-4x-CdyyZAsY/VNxLPmaaAXI/AAAAAAAAAQ8/XYYxTiQZvJk/w868-h516-no/krajee-yii2-grid.jpg)
 
-## Latest Release
-The latest version of the module is v3.1.8 (_under development_). Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details. 
+## Release Changes
+> NOTE: Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-grid/blob/master/CHANGE.md) for details on changes to various releases.
 
 New features with release 2.7.0.
 

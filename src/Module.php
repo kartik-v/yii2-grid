@@ -4,12 +4,10 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.8
+ * @version   3.1.9
  */
 
 namespace kartik\grid;
-
-use Yii;
 
 /**
  * This module allows global level configurations for the enhanced Krajee [[GridView]]. One can configure the module

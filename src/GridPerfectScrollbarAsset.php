@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.8
+ * @version   3.1.9
  */
 
 namespace kartik\grid;
@@ -25,8 +25,8 @@ class GridPerfectScrollbarAsset extends AssetBundle
     public function init()
     {
         $this->setSourcePath(__DIR__ . '/assets');
-        $this->setupAssets('css', ['css/perfect-scrollbar', 'css/perfect-scrollbar-kv']);
-        $this->setupAssets('js', ['js/perfect-scrollbar.jquery']);
+        $this->setupAssets('css', ['css/perfect-scrollbar']);
+        $this->setupAssets('js', ['js/perfect-scrollbar']);
         parent::init();
     }
 }

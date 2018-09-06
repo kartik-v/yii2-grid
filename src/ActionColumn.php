@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
  * @package yii2-grid
- * @version 3.1.8
+ * @version 3.1.9
  */
 
 namespace kartik\grid;
@@ -13,6 +13,7 @@ use Yii;
 use yii\grid\ActionColumn as YiiActionColumn;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\base\InvalidConfigException;
 
 /**
  * The ActionColumn is a column that displays buttons for viewing and manipulating the items and extends the
@@ -38,32 +39,20 @@ class ActionColumn extends YiiActionColumn
     use ColumnTrait;
 
     /**
-     * @var boolean whether the column is hidden from display. This is different than the `visible` property, in the
-     * sense, that the column is rendered, but hidden from display. This will allow you to still export the column
-     * using the export function.
-     */
-    public $hidden;
-
-    /**
-     * @var boolean|array whether the column is hidden in export output. If set to boolean `true`, it will hide the
-     * column for all export formats. If set as an array, it will accept the list of GridView export `formats` and
-     * hide output only for them.
-     */
-    public $hiddenFromExport = true;
-
-    /**
      * @var boolean whether the action buttons are to be displayed as a dropdown
      */
     public $dropdown = false;
 
     /**
      * @var array the HTML attributes for the Dropdown container. The class `dropdown` will be added. To align a
-     * dropdown at the right edge of the page container, you set the class to `pull-right`.
+     * dropdown at the right edge of the page container, you set the class to `pull-right` for Bootstrap v3.x and
+     * for Bootstrap v4.x add `dropdown-menu-right` class in [[dropdownMenu]].
      */
     public $dropdownOptions = [];
 
     /**
-     * @var array the HTML attributes for the Dropdown menu. Applicable if `dropdown` is `true`.
+     * @var array the HTML attributes for the Dropdown menu. Applicable if `dropdown` is `true`. To align a
+     * dropdown at the right edge of the page container, you set the class to `dropdown-menu-right` for Bootstrap v4.x.
      */
     public $dropdownMenu = ['class' => 'text-left'];
 
@@ -75,31 +64,7 @@ class ActionColumn extends YiiActionColumn
      * - `caret`: _string_', the caret symbol to be appended to the dropdown button.
      *   Defaults to ` <span class="caret"></span>`.
      */
-    public $dropdownButton = ['class' => 'btn btn-default'];
-
-    /**
-     * @var string the horizontal alignment of each column. Should be one of [[GridView::ALIGN_LEFT]],
-     * [[GridView::ALIGN_RIGHT]], or [[GridView::ALIGN_CENTER]].
-     */
-    public $hAlign = GridView::ALIGN_CENTER;
-
-    /**
-     * @var string the vertical alignment of each column. Should be one of [[GridView::ALIGN_TOP]],
-     * [[GridView::ALIGN_BOTTOM]], or [[GridView::ALIGN_MIDDLE]].
-     */
-    public $vAlign = GridView::ALIGN_MIDDLE;
-
-    /**
-     * @var boolean whether to force no wrapping on all table cells in the column
-     * @see http://www.w3schools.com/cssref/pr_text_white-space.asp
-     */
-    public $noWrap = false;
-
-    /**
-     * @var string the width of each column (matches the CSS width property).
-     * @see http://www.w3schools.com/cssref/pr_dim_width.asp
-     */
-    public $width = '80px';
+    public $dropdownButton = [];
 
     /**
      * @var array HTML attributes for the view action button. The following additional options are recognized:
@@ -136,54 +101,6 @@ class ActionColumn extends YiiActionColumn
     public $deleteOptions = [];
 
     /**
-     * @var boolean|string|Closure the page summary that is displayed above the footer. You can set it to one of the
-     * following:
-     * - `false`: the summary will not be displayed.
-     * - `true`: the page summary for the column will be calculated and displayed using the
-     *   [[pageSummaryFunc]] setting.
-     * - `string`: will be displayed as is.
-     * - `Closure`: you can set it to an anonymous function with the following signature:
-     *
-     *   ```php
-     *   // example 1
-     *   function ($summary, $data, $widget) { return 'Count is ' . $summary; }
-     *   // example 2
-     *   function ($summary, $data, $widget) { return 'Range ' . min($data) . ' to ' . max($data); }
-     *   ```
-     *
-     *   where:
-     *
-     *   - the `$summary` variable will be replaced with the calculated summary using the [[pageSummaryFunc]] setting.
-     *   - the `$data` variable will contain array of the selected page rows for the column.
-     */
-    public $pageSummary = false;
-
-    /**
-     * @var string the summary function that will be used to calculate the page summary for the column.
-     */
-    public $pageSummaryFunc = GridView::F_SUM;
-
-    /**
-     * @var array HTML attributes for the page summary cell. The following special attributes are available:
-     * - `prepend`: _string_, a prefix string that will be prepended before the pageSummary content
-     * - `append`: _string_, a suffix string that will be appended after the pageSummary content
-     */
-    public $pageSummaryOptions = [];
-
-    /**
-     * @var boolean whether to just hide the page summary display but still calculate the summary based on
-     * [[pageSummary]] settings
-     */
-    public $hidePageSummary = false;
-
-    /**
-     * @var boolean whether to merge the header title row and the filter row This will not render the filter for the
-     * column and can be used when `filter` is set to `false`. Defaults to `false`. This is only applicable when
-     * [[GridView::filterPosition]] for the grid is set to [[GridView::FILTER_POS_BODY]].
-     */
-    public $mergeHeader = true;
-
-    /**
      * @var array the HTML attributes for the header cell tag.
      * @see Html::renderTagAttributes() for details on how attributes are being rendered.
      */
@@ -206,9 +123,17 @@ class ActionColumn extends YiiActionColumn
 
     /**
      * @inheritdoc
+     * @throws \yii\base\InvalidConfigException
      */
     public function init()
     {
+        $this->initColumnSettings([
+            'hiddenFromExport' => true,
+            'mergeHeader' => true,
+            'hAlign' => GridView::ALIGN_CENTER,
+            'vAlign' => GridView::ALIGN_MIDDLE,
+            'width' => '50px',
+        ]);
         /** @noinspection PhpUndefinedFieldInspection */
         $this->_isDropdown = ($this->grid->bootstrap && $this->dropdown);
         if (!isset($this->header)) {
@@ -216,6 +141,9 @@ class ActionColumn extends YiiActionColumn
         }
         $this->parseFormat();
         $this->parseVisibility();
+        if (!isset($this->dropdownButton['class'])) {
+            $this->dropdownButton['class'] = 'btn ' . $this->grid->getDefaultBtnCss();
+        }
         parent::init();
         $this->initDefaultButtons();
         $this->setPageRows();
@@ -223,6 +151,7 @@ class ActionColumn extends YiiActionColumn
 
     /**
      * @inheritdoc
+     * @throws InvalidConfigException
      */
     public function renderDataCell($model, $key, $index)
     {
@@ -283,13 +212,15 @@ class ActionColumn extends YiiActionColumn
      * @param string $name button name as written in the [[template]]
      * @param string $title the title of the button
      * @param string $icon the meaningful glyphicon suffix name for the button
+     * @throws InvalidConfigException
      */
     protected function setDefaultButton($name, $title, $icon)
     {
+        $isBs4 = $this->grid->isBs4();
         if (isset($this->buttons[$name])) {
             return;
         }
-        $this->buttons[$name] = function ($url) use ($name, $title, $icon) {
+        $this->buttons[$name] = function ($url) use ($name, $title, $icon, $isBs4) {
             $opts = "{$name}Options";
             $options = ['title' => $title, 'aria-label' => $title, 'data-pjax' => '0'];
             if ($name === 'delete') {
@@ -298,11 +229,11 @@ class ActionColumn extends YiiActionColumn
                 $options['data-confirm'] = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
             }
             $options = array_replace_recursive($options, $this->buttonOptions, $this->$opts);
-            $label = $this->renderLabel($options, $title, ['class' => "glyphicon glyphicon-{$icon}"]);
+            $label = $this->renderLabel($options, $title, ['class' => $this->grid->getDefaultIconPrefix() . $icon]);
             $link = Html::a($label, $url, $options);
             if ($this->_isDropdown) {
                 $options['tabindex'] = '-1';
-                return "<li>{$link}</li>\n";
+                return $isBs4 ? $link : "<li>{$link}</li>\n";
             } else {
                 return $link;
             }
@@ -311,31 +242,38 @@ class ActionColumn extends YiiActionColumn
 
     /**
      * @inheritdoc
+     * @throws InvalidConfigException
      */
     protected function initDefaultButtons()
     {
-        $this->setDefaultButton('view', Yii::t('kvgrid', 'View'), 'eye-open');
-        $this->setDefaultButton('update', Yii::t('kvgrid', 'Update'), 'pencil');
-        $this->setDefaultButton('delete', Yii::t('kvgrid', 'Delete'), 'trash');
+        $isBs4 = $this->grid->isBs4();
+        $this->setDefaultButton('view', Yii::t('kvgrid', 'View'), $isBs4 ? 'eye' : 'eye-open');
+        $this->setDefaultButton('update', Yii::t('kvgrid', 'Update'), $isBs4 ? 'pencil-alt' : 'pencil');
+        $this->setDefaultButton('delete', Yii::t('kvgrid', 'Delete'), $isBs4 ? 'trash-alt' : 'trash');
     }
 
     /**
      * @inheritdoc
+     * @throws InvalidConfigException
      */
     protected function renderDataCellContent($model, $key, $index)
     {
+        $isBs4 = $this->grid->isBs4();
+        if ($isBs4 && $this->_isDropdown) {
+            Html::addCssClass($this->buttonOptions, 'dropdown-item');
+        }
         $content = parent::renderDataCellContent($model, $key, $index);
         $options = $this->dropdownButton;
         $trimmed = trim($content);
-        if ($this->_isDropdown  && !empty($trimmed)) {
+        if ($this->_isDropdown && !empty($trimmed)) {
             $label = ArrayHelper::remove($options, 'label', Yii::t('kvgrid', 'Actions'));
-            $caret = ArrayHelper::remove($options, 'caret', ' <span class="caret"></span>');
+            $caret = $isBs4 ? '' : ArrayHelper::remove($options, 'caret', ' <span class="caret"></span>');
             $options = array_replace_recursive($options, ['type' => 'button', 'data-toggle' => 'dropdown']);
             Html::addCssClass($options, 'dropdown-toggle');
             $button = Html::button($label . $caret, $options);
             Html::addCssClass($this->dropdownMenu, 'dropdown-menu');
-            $dropdown = $button . PHP_EOL . Html::tag('ul', $content, $this->dropdownMenu);
-            Html::addCssClass($this->dropdownOptions, 'dropdown');
+            $dropdown = $button . PHP_EOL . Html::tag($isBs4 ? 'div' : 'ul', $content, $this->dropdownMenu);
+            Html::addCssClass($this->dropdownOptions, $isBs4 ? 'btn-group' : 'dropdown');
             return Html::tag('div', $dropdown, $this->dropdownOptions);
         }
         return $content;

@@ -54,7 +54,7 @@ var kvSelectRow, kvSelectColumn;
             $grid.find(inputs + ":enabled").prop('checked', this.checked);
         });
         $(document).off('click.yiiGridView', inputsEnabled).on('click.yiiGridView', inputsEnabled, function () {
-            var all = $grid.find(inputs).length == $grid.find(inputs + ":checked").length;
+            var all = $grid.find(inputs).length === $grid.find(inputs + ":checked").length;
             $grid.find("input[name='" + options.checkAll + "']").prop('checked', all);
         });
     };
