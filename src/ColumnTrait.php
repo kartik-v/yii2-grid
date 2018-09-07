@@ -228,7 +228,7 @@ trait ColumnTrait
     public function parseExcelFormats(&$options, $model, $key, $index)
     {
         $autoFormat = $this->grid->autoXlFormat;
-        if (!isset($this->xlsFormat) && !$autoFormat) {
+        if (!isset($this->xlFormat) && !$autoFormat) {
             return;
         }
         $fmt = '';
