@@ -1,6 +1,14 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.2.0
+
+**Date:** _under development_
+
+- (enh #819): Enhance grid export generation for PJAX grids (correct timestamp).
+- (enh #818): Correct PDF Export Generation response.
+- (enh #816): Fix typo in check if has `xlFormat`.
+
 ## Version 3.1.9
 
 **Date:** 07-Sep-2018

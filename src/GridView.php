@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.9
+ * @version   3.2.0
  */
 
 namespace kartik\grid;
@@ -1537,7 +1537,7 @@ HTML;
                 'color' => '#333333',
             ],
             'R' => [
-                'content' => Yii::t('kvgrid', 'Generated') . ': ' . date('D, d-M-Y g:i a T'),
+                'content' => Yii::t('kvgrid', 'Generated') . ': ' . date('D, d-M-Y'),
                 'font-size' => 8,
                 'color' => '#333333',
             ],
@@ -1572,7 +1572,9 @@ HTML;
                 'options' => ['title' => Yii::t('kvgrid', 'Hyper Text Markup Language')],
                 'mime' => 'text/html',
                 'config' => [
-                    'cssFile' => 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css',
+                    'cssFile' => $this->isBs4() ?
+                        'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' :
+                        'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
                 ],
             ],
             self::CSV => [

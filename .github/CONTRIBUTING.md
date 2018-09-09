@@ -9,7 +9,7 @@ When [reporting bugs][reporting-bugs] or
 [issue tracker on GitHub][issue-tracker] is the recommended channel to use.
 
 The issue tracker **is not** a place for support requests. Refer the 
-[extension documentation and demos](http://demos.krajee.com/dynagrid) and/or refer to the
+[extension documentation and demos](http://demos.krajee.com/grid) and/or refer to the
 [webtips Q & A forum](http://webtips.krajee.com/questions) which are the better places to get help.
 
 How to contribute via a pull request?

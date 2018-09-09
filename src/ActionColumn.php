@@ -3,12 +3,11 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
  * @package yii2-grid
- * @version 3.1.9
+ * @version 3.2.0
  */
 
 namespace kartik\grid;
 
-use Closure;
 use Yii;
 use yii\grid\ActionColumn as YiiActionColumn;
 use yii\helpers\ArrayHelper;

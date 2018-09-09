@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.1.9
+ * @version   3.2.0
  */
 
 namespace kartik\grid\controllers;
@@ -60,9 +60,7 @@ class ExportController extends Controller
         }
         if ($type == GridView::PDF) {
             $config = Json::decode($config);
-            $this->generatePDF($content, "{$name}.pdf", $config);
-            /** @noinspection PhpInconsistentReturnPointsInspection */
-            return;
+            return $this->generatePDF($content, "{$name}.pdf", $config);
         } elseif ($type == GridView::HTML) {
             $content = HtmlPurifier::process($content);
         } elseif ($type == GridView::CSV || $type == GridView::TEXT) {
@@ -83,7 +81,7 @@ class ExportController extends Controller
      * @param string $filename the file name
      * @param array $config the configuration for yii2-mpdf component
      *
-     * @return void
+     * @return Response
      */
     protected function generatePDF($content, $filename, $config = [])
     {
@@ -93,7 +91,8 @@ class ExportController extends Controller
         $config['methods']['SetCreator'] = [Yii::t('kvgrid', 'Krajee Yii2 Grid Export Extension')];
         $config['content'] = $content;
         $pdf = new Pdf($config);
-        echo $pdf->render();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        return $pdf->render();
     }
 
     /**
