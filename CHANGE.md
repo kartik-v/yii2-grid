@@ -3,8 +3,9 @@ Change Log: `yii2-grid`
 
 ## Version 3.2.0
 
-**Date:** _under development_
+**Date:** 09-Sep-2018
 
+- (enh #820): Ability to strip HTML tags for columns from export.
 - (enh #819): Enhance grid export generation for PJAX grids (correct timestamp).
 - (enh #818): Correct PDF Export Generation response.
 - (enh #816): Fix typo in check if has `xlFormat`.

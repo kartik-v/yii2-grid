@@ -50,6 +50,12 @@ trait ColumnTrait
     public $hiddenFromExport;
 
     /**
+     * @var boolean whether to strip HTML tags from the column during export. This can be useful for column data that
+     * is mainly a hyperlink or contains HTML markup that are not needed for display at export. Defaults to `false`.
+     */
+    public $stripTagsFromExport = false;
+
+    /**
      * @var boolean whether to force no wrapping on all table cells in the column
      * @see http://www.w3schools.com/cssref/pr_text_white-space.asp
      */
@@ -386,6 +392,9 @@ trait ColumnTrait
      */
     protected function parseVisibility()
     {
+        if ($this->stripTagsFromExport) {
+            Html::addCssClass($this->options, 'strip-tags-export');
+        }
         if ($this->hidden === true) {
             Html::addCssClass($this->filterOptions, 'kv-grid-hide');
             Html::addCssClass($this->headerOptions, 'kv-grid-hide');

@@ -1,8 +1,8 @@
 /*!
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
- * @version   3.1.8
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
+ * @version   3.2.0
  *
  * Grid Export Validation Module for Yii's Gridview. Supports export of
  * grid data as CSV, HTML, or Excel.
@@ -114,8 +114,6 @@
         constructor: GridExport,
         getArray: function (expType) {
             var self = this, $table = self.clean(expType), head = [], data = {};
-            /** @namespace self.config.colHeads */
-            /** @namespace self.config.slugColHeads */
             if (self.config.colHeads !== undefined && self.config.colHeads.length > 0) {
                 head = self.config.colHeads;
             } else {
@@ -229,7 +227,7 @@
                 safeRemove = function (selector) {
                     $table.find(selector + '.' + self.gridId).remove();
                 };
-    
+
             if ($container.hasClass('kv-grid-wrapper')) {
                 $tHead = $container.closest('.floatThead-wrapper').find('.kv-thead-float thead');
             } else {
@@ -261,6 +259,10 @@
             }
             $table.find('.skip-export').remove();
             $table.find('.skip-export-' + expType).remove();
+            $table.find('.strip-tags-export').each(function () {
+                var $el = $(this), rawText = $el.text();
+                $el.html(rawText);
+            });
             var htmlContent = $table.html();
             htmlContent = self.preProcess(htmlContent);
             $table.html(htmlContent);
@@ -299,7 +301,6 @@
             self.$form.submit();
         },
         exportHTML: function () {
-            /** @namespace self.config.cssFile */
             var self = this, $table = self.clean('html'), cfg = self.config,
                 css = (self.config.cssFile && cfg.cssFile.length) ? '<link href="' + self.config.cssFile + '" rel="stylesheet">' : '',
                 html = templates.html.replace('{encoding}', self.encoding).replace('{css}', css).replace('{data}',
@@ -308,8 +309,6 @@
         },
         exportPDF: function () {
             var self = this, $table = self.clean('pdf');
-            /** @namespace self.config.contentAfter */
-            /** @namespace self.config.contentBefore */
             var before = isEmpty(self.config.contentBefore) ? '' : self.config.contentBefore,
                 after = isEmpty(self.config.contentAfter) ? '' : self.config.contentAfter,
                 css = self.config.css,
@@ -327,25 +326,21 @@
             var tmpColDelim = String.fromCharCode(11), // vertical tab character
                 tmpRowDelim = String.fromCharCode(0); // null character
             // actual delimiter characters for CSV format
-            /** @namespace self.config.rowDelimiter */
-            /** @namespace self.config.colDelimiter */
             var colD = '"' + self.config.colDelimiter + '"', rowD = '"' + self.config.rowDelimiter + '"';
             // grab text from table into CSV formatted string
             var txt = '"' + $rows.map(function (i, row) {
-                    var $row = $(row), $cols = $row.find(self.columns);
-                    return $cols.map(function (j, col) {
-                        var $col = $(col), text = $col.text().trim();
-                        return text.replace(/"/g, '""'); // escape double quotes
-                    }).get().join(tmpColDelim);
-                }).get().join(tmpRowDelim)
-                    .split(tmpRowDelim).join(rowD)
-                    .split(tmpColDelim).join(colD) + '"';
+                var $row = $(row), $cols = $row.find(self.columns);
+                return $cols.map(function (j, col) {
+                    var $col = $(col), text = $col.text().trim();
+                    return text.replace(/"/g, '""'); // escape double quotes
+                }).get().join(tmpColDelim);
+            }).get().join(tmpRowDelim)
+                .split(tmpRowDelim).join(rowD)
+                .split(tmpColDelim).join(colD) + '"';
             self.download(expType, txt);
         },
         exportJSON: function () {
             var self = this, out = self.getArray('json');
-            /** @namespace self.config.indentSpace */
-            /** @namespace self.config.jsonReplacer */
             out = JSON.stringify(out, self.config.jsonReplacer, self.config.indentSpace);
             self.download('json', out);
         },
@@ -355,11 +350,10 @@
             $table.find('td[data-raw-value]').each(function () {
                 $td = $(this);
                 if ($td.css('mso-number-format') || $td.css('mso-number-format') === 0 || $td.css(
-                        'mso-number-format') === '0') {
+                    'mso-number-format') === '0') {
                     $td.html($td.attr('data-raw-value')).removeAttr('data-raw-value');
                 }
             });
-            /** @namespace self.config.worksheet */
             xls = templates.excel.replace('{encoding}', self.encoding).replace('{css}', css).replace('{worksheet}',
                 self.config.worksheet).replace('{data}', $('<div />').html($table).html()).replace(/"/g, '\'');
             self.download('xls', xls);
