@@ -123,6 +123,7 @@
 .kv-grid-loading {
     position: relative;
     overflow: hidden;
+    max-height: 100%;
 }
 
 .kv-grid-loading .kv-loader-overlay {
@@ -130,7 +131,7 @@
 }
 
 .kv-loader-overlay {
-    background: #fff;
+    background: transparent;
     position: absolute;
     opacity: 0.6;
     top: 0;
@@ -138,6 +139,12 @@
     width: 100%;
     height: 100%;
     display: none;
+}
+
+.kv-grid-loading .card,
+.kv-grid-loading .table {
+    background: transparent;
+    opacity: 0.6;
 }
 
 .kv-loader {
