@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.2.1
+
+**Date:** 12-Sep-2018
+
+- (bug #817): Correct properties for BootstrapTrait use.
+
 ## Version 3.2.0
 
 **Date:** 10-Sep-2018

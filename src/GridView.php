@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.0
+ * @version   3.2.1
  */
 
 namespace kartik\grid;
@@ -341,23 +341,6 @@ class GridView extends YiiGridView
      * @var string set download target for grid export to a new window that auto closes after download
      */
     const TARGET_BLANK = '_blank';
-
-    /**
-     * @var int|string the bootstrap library version.
-     *
-     * To use with bootstrap 3 - you can set this to any string starting with 3 (e.g. `3` or `3.3.7` or `3.x`)
-     * To use with bootstrap 4 - you can set this to any string starting with 4 (e.g. `4` or `4.1.1` or `4.x`)
-     *
-     * This property will be defaulted from `kartik\grid\Module` if not set. This can be set up globally in Yii
-     * application params in your Yii2 application config file.
-     *
-     * For example:
-     * `Yii::$app->params['bsVersion'] = '4.x'` to use with Bootstrap 4.x globally
-     *
-     * If this property is set, this setting will override the `Yii::$app->params['bsVersion']`. If this is not set, and
-     * `Yii::$app->params['bsVersion']` is also not set, this will default to `3.x` (Bootstrap 3.x version).
-     */
-    public $bsVersion;
 
     /**
      * @var string the module identifier if this widget is part of a module. If not set, the module identifier will
