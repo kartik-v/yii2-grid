@@ -83,7 +83,7 @@ return [
     'View' => 'Перегляд',
     'Yii2 Grid Export (PDF)' => 'PDF експорт таблиці Yii2',
     'export' => 'експорт',
-    'grid-export' => 'Експорт таблицы',
+    'grid-export' => 'Експорт таблиці',
     'item' => 'запису',
     'items' => 'записи',
     'items-few' => 'записи',
