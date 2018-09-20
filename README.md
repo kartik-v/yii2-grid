@@ -301,4 +301,4 @@ echo GridView::widget([
 
 ## License
 
-**yii2-grid** is released under the BSD 3-Clause License. See the bundled `LICENSE.md` for details.
+**yii2-grid** is released under the BSD-3-Clause License. See the bundled `LICENSE.md` for details.

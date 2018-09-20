@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.1
+ * @version   3.2.2
  *
  * Yii2 Gridview widget styling and enhancements for Bootstrap.
  *
@@ -14,6 +14,10 @@
 /**
  * Table column heading sort styles for BS4
  */
+.kv-grid-bs4 .card .kv-grid-table {
+    margin: 0
+}
+
 .kv-grid-bs4 a.asc:after,
 .kv-grid-bs4 a.desc:after {
     /*noinspection CssNoGenericFontName*/

@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.1
+ * @version   3.2.2
  */
 
 namespace kartik\grid;
@@ -1075,18 +1075,18 @@ HTML;
         if (!isset($this->panelPrefix)) {
             $this->panelPrefix = $this->isBs4() ? 'card' : 'panel panel-';
         }
-        if (!$this->toggleData) {
-            parent::init();
-            return;
-        }
         $isBs4 = $this->isBs4();
-        $this->_toggleDataKey = '_tog' . hash('crc32', $this->options['id']);
         if ($isBs4) {
             Html::addCssClass($this->options, 'kv-grid-bs4');
             $this->setPagerOptionClass('linkContainerOptions', 'page-item');
             $this->setPagerOptionClass('linkOptions', 'page-link');
             $this->setPagerOptionClass('disabledListItemSubTagOptions', 'page-link');
         }
+        if (!$this->toggleData) {
+            parent::init();
+            return;
+        }
+        $this->_toggleDataKey = '_tog' . hash('crc32', $this->options['id']);
         /**
          * @var Request $request
          */

@@ -1,6 +1,14 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.2.2
+
+**Date:** 20-Sep-2018
+
+- Enhance ExpandRowColumn default row css for Bootstrap 4.x.
+- Enhance styling and behavior for Bootstrap 4.x.
+- (bug #826): Update Ukrainian Translations.
+
 ## Version 3.2.1
 
 **Date:** 12-Sep-2018
