@@ -4,11 +4,12 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.2
+ * @version   3.2.3
  */
 
 namespace kartik\grid;
 
+use kartik\base\BootstrapInterface;
 use kartik\base\BootstrapTrait;
 use kartik\base\Config;
 use kartik\dialog\Dialog;
@@ -55,7 +56,7 @@ use yii\widgets\Pjax;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since  1.0
  */
-class GridView extends YiiGridView
+class GridView extends YiiGridView implements BootstrapInterface
 {
     use BootstrapTrait;
 

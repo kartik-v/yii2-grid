@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.2.3
+
+**Date:** 22-Sep-2018
+
+- Implement `kartik\base\BootstrapInterface`.
+
 ## Version 3.2.2
 
 **Date:** 20-Sep-2018
