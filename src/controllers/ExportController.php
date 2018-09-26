@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.3
+ * @version   3.2.4
  */
 
 namespace kartik\grid\controllers;
@@ -91,7 +91,7 @@ class ExportController extends Controller
         $config['methods']['SetCreator'] = [Yii::t('kvgrid', 'Krajee Yii2 Grid Export Extension')];
         $config['content'] = $content;
         $pdf = new Pdf($config);
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->format = Response::FORMAT_RAW;
         return $pdf->render();
     }
 

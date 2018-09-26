@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.3
+ * @version   3.2.4
  */
 
 namespace kartik\grid;
@@ -69,7 +69,7 @@ class CheckboxColumn extends YiiCheckboxColumn
             'width' => '50px'
         ]);
         if (!isset($this->rowSelectedClass)) {
-            $this->rowSelectedClass = ($this->grid->isBs4() ? 'table-' : '') . GridView::TYPE_DANGER;
+            $this->rowSelectedClass = $this->grid->getCssClass(GridView::BS_TABLE_DANGER);
         }
         $id = $this->grid->options['id'];
         $view = $this->grid->getView();

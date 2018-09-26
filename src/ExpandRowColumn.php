@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.3
+ * @version   3.2.4
  */
 
 namespace kartik\grid;
@@ -232,7 +232,7 @@ class ExpandRowColumn extends DataColumn
     public function init()
     {
         if (!isset($this->detailRowCssClass)) {
-            $this->detailRowCssClass = $this->grid->isBs4() ? 'table-' . GridView::TYPE_INFO : GridView::TYPE_INFO;
+            $this->detailRowCssClass = $this->grid->getCssClass(GridView::BS_TABLE_INFO);
         }
         $this->initColumnSettings([
             'hiddenFromExport' => true,

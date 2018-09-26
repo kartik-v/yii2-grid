@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.3
+ * @version   3.2.4
  */
 
 namespace kartik\grid;
@@ -108,7 +108,7 @@ class RadioColumn extends Column
             throw new InvalidConfigException('The "name" property must be set.');
         }
         if (!isset($this->rowSelectedClass)) {
-            $this->rowSelectedClass = ($this->grid->isBs4() ? 'table-' : '') . GridView::TYPE_SUCCESS;
+            $this->rowSelectedClass = $this->grid->getCssClass(GridView::BS_TABLE_SUCCESS);
         }
         $css = $this->rowHighlight ? $this->rowSelectedClass : '';
         $this->_view = $this->grid->getView();

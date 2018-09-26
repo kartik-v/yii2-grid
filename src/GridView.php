@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.3
+ * @version   3.2.4
  */
 
 namespace kartik\grid;
@@ -834,13 +834,13 @@ HTML;
      *          'all' => [
      *              'icon' => 'resize-full',
      *              'label' => 'All',
-     *              'class' => 'btn btn-default',
+     *              'class' => 'btn btn-default', // 'btn btn-secondary' for BS4.x
      *              'title' => 'Show all data'
      *          ],
      *          'page' => [
      *              'icon' => 'resize-small',
      *              'label' => 'Page',
-     *              'class' => 'btn btn-default',
+     *              'class' => 'btn btn-default', // 'btn btn-secondary' for BS4.x
      *              'title' => 'Show first page data'
      *          ],
      *      ]
@@ -894,7 +894,8 @@ HTML;
      *   This should be similar to the `items` property as supported by `\yii\bootstrap\ButtonDropdown` widget. Note
      *   the page export items will be automatically generated based on settings in the `exportConfig` property.
      * - `options`: _array_, HTML attributes for the export menu button. Defaults to
-     *   `['class' => 'btn btn-default', 'title'=>'Export']`.
+     *    - `['class' => 'btn btn-default']` for [[bsVersion]] = '3.x' or .
+     *    - `['class' => 'btn btn-secondary']` for [[bsVersion]] = '4.x'
      * - `encoding`: _string_, the export output file encoding. If not set, defaults to `utf-8`.
      * - `bom`: `boolean`, whether a BOM is to be embedded for text or CSV files with utf-8 encoding. Defaults to
      *   `true`.
@@ -1072,9 +1073,6 @@ HTML;
         }
         if (!isset($this->itemLabelMany)) {
             $this->itemLabelMany = Yii::t('kvgrid', 'items-many');
-        }
-        if (!isset($this->panelPrefix)) {
-            $this->panelPrefix = $this->isBs4() ? 'card' : 'panel panel-';
         }
         $isBs4 = $this->isBs4();
         if ($isBs4) {
@@ -1755,7 +1753,7 @@ HTML;
             Html::addCssClass($this->tableOptions, 'table-striped');
         }
         if ($this->condensed) {
-            Html::addCssClass($this->tableOptions, ($this->isBs4() ? 'table-sm' : 'table-condensed'));
+            $this->addCssClass($this->tableOptions, self::BS_TABLE_CONDENSED);
         }
         if ($this->floatHeader) {
             if ($this->perfectScrollbar) {
@@ -1909,19 +1907,22 @@ HTML;
         $panelAfter = '';
         $panelFooter = '';
         $isBs4 = $this->isBs4();
-        static::initCss($options, $isBs4 ? 'card border-' . $type : $this->panelPrefix . $type);
-        static::initCss($summaryOptions, $isBs4 ? 'float-right' : 'pull-right');
-        $titleTag = ArrayHelper::remove($titleOptions, 'tag', ($isBs4 ? 'span' : 'h3'));
-        if (!$isBs4) {
-            static::initCss($titleOptions, 'panel-title');
+        if (isset($this->panelPrefix)) {
+            static::initCss($options, $this->panelPrefix . $type);
+        } else {
+            $this->addCssClass($options, self::BS_PANEL);
+            Html::addCssClass($options, $isBs4 ? "border-{$type}" : "panel-{$type}");
         }
+        static::initCss($summaryOptions, $this->getCssClass(self::BS_PULL_RIGHT));
+        $titleTag = ArrayHelper::remove($titleOptions, 'tag', ($isBs4 ? 'h5' : 'h3'));
+        static::initCss($titleOptions, $isBs4 ? 'm-0' : $this->getCssClass(self::BS_PANEL_TITLE));
         if ($heading !== false) {
-            $color = $type === 'default' ? 'bg-light' : 'text-white bg-' . $type;
-            static::initCss($headingOptions, $isBs4 ? 'card-header ' . $color : 'panel-heading');
+            $color = $isBs4 ? ($type === 'default' ? ' bg-light' : " text-white bg-{$type}") : '';
+            static::initCss($headingOptions, $this->getCssClass(self::BS_PANEL_HEADING) . $color);
             $panelHeading = Html::tag('div', $this->panelHeadingTemplate, $headingOptions);
         }
         if ($footer !== false) {
-            static::initCss($footerOptions, $isBs4 ? 'card-footer' : 'panel-footer');
+            static::initCss($footerOptions, $this->getCssClass(self::BS_PANEL_FOOTER));
             $content = strtr($this->panelFooterTemplate, ['{footer}' => $footer]);
             $panelFooter = Html::tag('div', $content, $footerOptions);
         }
@@ -1983,8 +1984,7 @@ HTML;
     protected function renderToolbarContainer()
     {
         $tag = ArrayHelper::remove($this->toolbarContainerOptions, 'tag', 'div');
-        $css = $this->isBs4() ? 'float-right' : 'pull-right';
-        Html::addCssClass($this->toolbarContainerOptions, $css);
+        $this->addCssClass($this->toolbarContainerOptions, self::BS_PULL_RIGHT);
         return Html::tag($tag, $this->renderToolbar(), $this->toolbarContainerOptions);
     }
 

@@ -3,11 +3,12 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
  * @package yii2-grid
- * @version 3.2.3
+ * @version 3.2.4
  */
 
 namespace kartik\grid;
 
+use Closure;
 use Yii;
 use yii\grid\ActionColumn as YiiActionColumn;
 use yii\helpers\ArrayHelper;
@@ -56,12 +57,20 @@ class ActionColumn extends YiiActionColumn
     public $dropdownMenu = ['class' => 'text-left'];
 
     /**
-     * @var array the dropdown button options. This configuration will be applicable only if [[dropdown]] is `true`.
-     * The following special options are recognized:
+     * @var array|Closure the dropdown button options. This configuration will be applicable only if [[dropdown]] is
+     * `true`. When set as an array, the following special options are recognized:
      *
      * - `label`: _string_', the button label to be displayed. Defaults to `Actions`.
-     * - `caret`: _string_', the caret symbol to be appended to the dropdown button.
-     *   Defaults to ` <span class="caret"></span>`.
+     * - `caret`: _string_', the caret symbol to be appended to the dropdown button. Applicable only for Bootstrap 3.x
+     *   versions when `GridView::bsVersion = 3.x`. Defaults to ` <span class="caret"></span>`.
+     *
+     * This can also be setup as a `Closure` callback function of the following signature that returns the above array:
+     *
+     * `function ($model, $key, $index) {}`, where:
+     *
+     * - `$model`: _\yii\db\ActiveRecordInterface_ is the data model of current row
+     * - `$key`: _mixed_, is the key associated with the data model
+     * - `$index`: _int_, is the current row index
      */
     public $dropdownButton = [];
 
@@ -140,9 +149,6 @@ class ActionColumn extends YiiActionColumn
         }
         $this->parseFormat();
         $this->parseVisibility();
-        if (!isset($this->dropdownButton['class'])) {
-            $this->dropdownButton['class'] = 'btn ' . $this->grid->getDefaultBtnCss();
-        }
         parent::init();
         $this->initDefaultButtons();
         $this->setPageRows();
@@ -263,6 +269,12 @@ class ActionColumn extends YiiActionColumn
         }
         $content = parent::renderDataCellContent($model, $key, $index);
         $options = $this->dropdownButton;
+        if (is_callable($options)) {
+            $options = $options($model, $key, $index);
+        }
+        if (!isset($options['class'])) {
+            $options['class'] = 'btn ' . $this->grid->getDefaultBtnCss();
+        }
         $trimmed = trim($content);
         if ($this->_isDropdown && !empty($trimmed)) {
             $label = ArrayHelper::remove($options, 'label', Yii::t('kvgrid', 'Actions'));

@@ -1,6 +1,13 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.2.4
+
+**Date:** 22-Sep-2018
+
+- (enh #829): Enhancements in parsing Bootstrap CSS classes (ref: kartik-v/yii2-krajee-base#100).
+- (enh #828): Enhance `ActionColumn::dropdownButton` to be setup as a callback.
+ 
 ## Version 3.2.3
 
 **Date:** 22-Sep-2018
