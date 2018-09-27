@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "kartik-v/yii2-krajee-base": ">=1.9",
+        "kartik-v/yii2-krajee-base": ">=1.9.8",
         "kartik-v/yii2-dialog": "~1.0"
     },
     "autoload": {
