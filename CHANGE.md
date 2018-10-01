@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.2.6
+
+**Date:** 29-Sep-2018
+
+- (bug #835): Correct rendering error due to code change in core `GridView` in `yiisoft/yii2`.
+
 ## Version 3.2.5
 
 **Date:** 27-Sep-2018

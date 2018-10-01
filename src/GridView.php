@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.5
+ * @version   3.2.6
  */
 
 namespace kartik\grid;
@@ -1062,6 +1062,9 @@ HTML;
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
         }
+        if (empty($this->pjaxSettings['options']['id'])) {
+            $this->pjaxSettings['options']['id'] = $this->options['id'] . '-pjax';
+        }
         if (!isset($this->itemLabelSingle)) {
             $this->itemLabelSingle = Yii::t('kvgrid', 'item');
         }
@@ -1136,12 +1139,16 @@ HTML;
         $this->initBootstrapStyle();
         $this->containerOptions['id'] = $this->options['id'] . '-container';
         Html::addCssClass($this->containerOptions, 'kv-grid-container');
-        $this->registerAssets();
-        $this->renderPanel();
+        $this->initPanel();
         $this->initLayout();
-        $this->beginPjax();
-        parent::run();
-        $this->endPjax();
+        $this->registerAssets();
+        if ($this->pjax) {
+            $this->beginPjax();
+            parent::run();
+            $this->endPjax();
+        } else {
+            parent::run();
+        }
     }
 
     /**
@@ -1232,22 +1239,17 @@ HTML;
         $encoding = ArrayHelper::getValue($this->export, 'encoding', 'utf-8');
         $bom = ArrayHelper::getValue($this->export, 'bom', true);
         $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
-        $formOptions = [
-            'class' => 'kv-export-form',
-            'style' => 'display:none',
-            'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
-        ];
-        $form = Html::beginForm($action, 'post', $formOptions) . "\n" .
-            Html::hiddenInput('module_id', $this->moduleId) . "\n" .
-            Html::hiddenInput('export_hash') . "\n" .
-            Html::hiddenInput('export_filetype') . "\n" .
-            Html::hiddenInput('export_filename') . "\n" .
-            Html::hiddenInput('export_mime') . "\n" .
-            Html::hiddenInput('export_config') . "\n" .
-            Html::hiddenInput('export_encoding', $encoding) . "\n" .
-            Html::hiddenInput('export_bom', $bom) . "\n" .
-            Html::textarea('export_content') . "\n" .
-            Html::endForm();
+        $form = $this->render('_export', [
+            'action' => $action,
+            'formOptions' => [
+                'class' => 'kv-export-form',
+                'style' => 'display:none',
+                'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
+            ],
+            'module' => $this->moduleId,
+            'encoding' => $encoding,
+            'bom' => $bom,
+        ]);
         $items = empty($this->export['header']) ? [] : [$this->export['header']];
         foreach ($this->exportConfig as $format => $setting) {
             $iconOptions = ArrayHelper::getValue($setting, 'iconOptions', []);
@@ -1377,7 +1379,14 @@ HTML;
         }
         $summaryOptions = $this->summaryOptions;
         $tag = ArrayHelper::remove($summaryOptions, 'tag', 'div');
-        if (($pagination = $this->dataProvider->getPagination()) !== false) {
+        $configItems = [
+            'item' => $this->itemLabelSingle,
+            'items' => $this->itemLabelPlural,
+            'items-few' => $this->itemLabelFew,
+            'items-many' => $this->itemLabelMany,
+        ];
+        $pagination = $this->dataProvider->getPagination();
+        if ($pagination !== false) {
             $totalCount = $this->dataProvider->getTotalCount();
             $begin = $pagination->getPage() * $pagination->pageSize + 1;
             $end = $begin + $count - 1;
@@ -1386,50 +1395,40 @@ HTML;
             }
             $page = $pagination->getPage() + 1;
             $pageCount = $pagination->pageCount;
+            $configSummary = [
+                'begin' => $begin,
+                'end' => $end,
+                'count' => $count,
+                'totalCount' => $totalCount,
+                'page' => $page,
+                'pageCount' => $pageCount,
+            ];
             if (($summaryContent = $this->summary) === null) {
                 return Html::tag($tag, Yii::t('kvgrid',
                     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.',
-                    [
-                        'begin' => $begin,
-                        'end' => $end,
-                        'count' => $count,
-                        'totalCount' => $totalCount,
-                        'page' => $page,
-                        'pageCount' => $pageCount,
-                        'item' => $this->itemLabelSingle,
-                        'items' => $this->itemLabelPlural,
-                        'items-few' => $this->itemLabelFew,
-                        'items-many' => $this->itemLabelMany,
-                    ]), $summaryOptions);
+                    $configSummary + $configItems
+                ), $summaryOptions);
             }
         } else {
             $begin = $page = $pageCount = 1;
             $end = $totalCount = $count;
+            $configSummary = [
+                'begin' => $begin,
+                'end' => $end,
+                'count' => $count,
+                'totalCount' => $totalCount,
+                'page' => $page,
+                'pageCount' => $pageCount,
+            ];
             if (($summaryContent = $this->summary) === null) {
                 return Html::tag($tag,
-                    Yii::t('kvgrid', 'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.', [
-                        'begin' => $begin,
-                        'end' => $end,
-                        'count' => $count,
-                        'totalCount' => $totalCount,
-                        'page' => $page,
-                        'pageCount' => $pageCount,
-                        'item' => $this->itemLabelSingle,
-                        'items' => $this->itemLabelPlural,
-                        'items-few' => $this->itemLabelFew,
-                        'items-many' => $this->itemLabelMany,
-                    ]), $summaryOptions);
+                    Yii::t('kvgrid', 'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.',
+                        $configSummary + $configItems
+                    ), $summaryOptions);
             }
         }
 
-        return Yii::$app->getI18n()->format($summaryContent, [
-            'begin' => $begin,
-            'end' => $end,
-            'count' => $count,
-            'totalCount' => $totalCount,
-            'page' => $page,
-            'pageCount' => $pageCount,
-        ], Yii::$app->language);
+        return Yii::$app->getI18n()->format($summaryContent, $configSummary, Yii::$app->language);
     }
 
     /**
@@ -1830,17 +1829,11 @@ HTML;
     }
 
     /**
-     * Begins the markup for the [[Pjax]] container.
+     * Begins the pjax widget rendering
      */
     protected function beginPjax()
     {
-        if (!$this->pjax) {
-            return;
-        }
         $view = $this->getView();
-        if (empty($this->pjaxSettings['options']['id'])) {
-            $this->pjaxSettings['options']['id'] = $this->options['id'] . '-pjax';
-        }
         $container = 'jQuery("#' . $this->pjaxSettings['options']['id'] . '")';
         $js = $container;
         if (ArrayHelper::getValue($this->pjaxSettings, 'neverTimeout', true)) {
@@ -1870,22 +1863,19 @@ HTML;
     }
 
     /**
-     * Ends the markup for the [[Pjax]] container.
+     * Completes the pjax widget rendering
      */
     protected function endPjax()
     {
-        if (!$this->pjax) {
-            return;
-        }
         echo ArrayHelper::getValue($this->pjaxSettings, 'afterGrid', '');
         Pjax::end();
     }
 
     /**
-     * Sets the grid panel layout based on the [[template]] and [[panel]] settings.
+     * Initializes and sets the grid panel layout based on the [[template]] and [[panel]] settings.
      * @throws InvalidConfigException
      */
-    protected function renderPanel()
+    protected function initPanel()
     {
         if (!$this->bootstrap || !is_array($this->panel) || empty($this->panel)) {
             return;
