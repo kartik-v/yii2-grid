@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** 29-Sep-2018
 
+- (enh #837): Various enhancements to grid export styling.
 - (bug #835): Correct rendering error due to code change in core `GridView` in `yiisoft/yii2`.
 
 ## Version 3.2.5

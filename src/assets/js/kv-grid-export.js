@@ -37,18 +37,7 @@
         '<meta http-equiv="Content-Type" content="text/html;charset={encoding}"/>' +
         '<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>' +
         '{css}' +
-        '<style>' +
-        '.kv-wrap{padding:20px;}' +
-        '.kv-align-center{text-align:center;}' +
-        '.kv-align-left{text-align:left;}' +
-        '.kv-align-right{text-align:right;}' +
-        '.kv-align-top{vertical-align:top!important;}' +
-        '.kv-align-bottom{vertical-align:bottom!important;}' +
-        '.kv-align-middle{vertical-align:middle!important;}' +
-        '.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' +
-        '.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' +
-        '.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}' +
-        '</style>' +
+        '<style>.kv-wrap{padding:20px}</style>' +
         '<body class="kv-wrap">' +
         '{data}' +
         '</body>',
@@ -222,7 +211,7 @@
             }
         },
         clean: function (expType) {
-            var self = this, $table = self.$table.clone(), $tHead,
+            var self = this, $table = self.$table.clone(), $tHead, cssStyles = self.$element.data('cssStyles') || {},
                 $container = self.$table.closest('.kv-grid-container'),
                 safeRemove = function (selector) {
                     $table.find(selector + '.' + self.gridId).remove();
@@ -244,7 +233,9 @@
             $table.find('th').find('a').each(function () {
                 $(this).contents().unwrap();
             });
-            $table.find('input').remove(); // remove any form inputs
+            $table.find('form,input,textarea,select,script').remove(); // remove form, inputs, scripts
+            $table.find('[onclick]').removeAttr('onclick');
+            $table.find('a[href*="javascript"]').attr('href', '#');
             if (!self.showHeader) {
                 $table.children('thead').remove();
             }
@@ -266,6 +257,9 @@
             var htmlContent = $table.html();
             htmlContent = self.preProcess(htmlContent);
             $table.html(htmlContent);
+            $.each(cssStyles, function (key, value) {
+                $table.find(key).css(value);
+            });
             return $table;
         },
         preProcess: function (content) {
@@ -301,10 +295,13 @@
             self.$form.submit();
         },
         exportHTML: function () {
-            var self = this, $table = self.clean('html'), cfg = self.config,
-                css = (self.config.cssFile && cfg.cssFile.length) ? '<link href="' + self.config.cssFile + '" rel="stylesheet">' : '',
-                html = templates.html.replace('{encoding}', self.encoding).replace('{css}', css).replace('{data}',
-                    $('<div />').html($table).html());
+            var self = this, $table = self.clean('html'), cfg = self.config, css = cfg.cssFile ? cfg.cssFile : [], html,
+                cssString = '';
+            html = templates.html.replace('{encoding}', self.encoding);
+            $.each(css, function (key, value) {
+                cssString += '<link href="' + value + '" rel="stylesheet" crossorigin="anonymous">\n';
+            });
+            html = html.replace('{css}', cssString).replace('{data}', $('<div />').html($table).html());
             self.download('html', html);
         },
         exportPDF: function () {

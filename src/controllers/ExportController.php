@@ -11,7 +11,6 @@ namespace kartik\grid\controllers;
 
 use Yii;
 use yii\base\InvalidCallException;
-use yii\helpers\HtmlPurifier;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
@@ -61,8 +60,6 @@ class ExportController extends Controller
         if ($type == GridView::PDF) {
             $config = Json::decode($config);
             return $this->generatePDF($content, "{$name}.pdf", $config);
-        } elseif ($type == GridView::HTML) {
-            $content = HtmlPurifier::process($content);
         } elseif ($type == GridView::CSV || $type == GridView::TEXT) {
             if ($encoding != 'utf-8') {
                 $content = mb_convert_encoding($content, $encoding, 'utf-8');

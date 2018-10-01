@@ -1258,6 +1258,7 @@ HTML;
                 Html::tag('i', '', $iconOptions) . ' ' . $setting['label'];
             $mime = ArrayHelper::getValue($setting, 'mime', 'text/plain');
             $config = ArrayHelper::getValue($setting, 'config', []);
+            $cssStyles = ArrayHelper::getValue($setting, 'cssStyles', []);
             if ($format === self::JSON) {
                 unset($config['jsonReplacer']);
             }
@@ -1270,6 +1271,7 @@ HTML;
                     'class' => 'export-' . $format,
                     'data-mime' => $mime,
                     'data-hash' => $hash,
+                    'data-css-styles' => $cssStyles,
                 ],
                 'options' => $setting['options'],
             ];
@@ -1539,6 +1541,38 @@ HTML;
             ],
             'line' => true,
         ];
+        $cssStyles = [
+            '.kv-group-even' => ['background-color' => '#f0f1ff'],
+            '.kv-group-odd' => ['background-color' => '#f9fcff'],
+            '.kv-grouped-row' => ['background-color' => '#fff0f5', 'font-size' => '1.3em', 'padding' => '10px'],
+            '.kv-table-caption' => [
+                'border' => '1px solid #ddd',
+                'border-bottom' => 'none',
+                'font-size' => '1.5em',
+                'padding' => '8px',
+            ],
+            '.kv-table-footer' => ['border-top' => '4px double #ddd', 'font-weight' => 'bold'],
+            '.kv-page-summary td' => [
+                'background-color' => '#ffeeba',
+                'border-top' => '4px double #ddd',
+                'font-weight' => 'bold',
+            ],
+            '.kv-align-center' => ['text-align' => 'center'],
+            '.kv-align-left' => ['text-align' => 'left'],
+            '.kv-align-right' => ['text-align' => 'right'],
+            '.kv-align-top' => ['vertical-align' => 'top'],
+            '.kv-align-bottom' => ['vertical-align' => 'bottom'],
+            '.kv-align-middle' => ['vertical-align' => 'middle'],
+            '.kv-editable-link' => [
+                'color' => '#428bca',
+                'text-decoration' => 'none',
+                'background' => 'none',
+                'border' => 'none',
+                'border-bottom' => '1px dashed',
+                'margin' => '0',
+                'padding' => '2px 1px',
+            ],
+        ];
         $defaultExportConfig = [
             self::HTML => [
                 'label' => Yii::t('kvgrid', 'HTML'),
@@ -1551,11 +1585,15 @@ HTML;
                 'filename' => Yii::t('kvgrid', 'grid-export'),
                 'alertMsg' => Yii::t('kvgrid', 'The HTML export file will be generated for download.'),
                 'options' => ['title' => Yii::t('kvgrid', 'Hyper Text Markup Language')],
-                'mime' => 'text/html',
+                'mime' => 'text/plain',
+                'cssStyles' => $cssStyles,
                 'config' => [
                     'cssFile' => $this->isBs4() ?
-                        'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css' :
-                        'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+                        [
+                            'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
+                            'https://use.fontawesome.com/releases/v5.3.1/css/all.css'
+                        ] :
+                        ['https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'],
                 ],
             ],
             self::CSV => [
@@ -1604,6 +1642,7 @@ HTML;
                 'alertMsg' => Yii::t('kvgrid', 'The EXCEL export file will be generated for download.'),
                 'options' => ['title' => Yii::t('kvgrid', 'Microsoft Excel 95+')],
                 'mime' => 'application/vnd.ms-excel',
+                'cssStyles' => $cssStyles,
                 'config' => [
                     'worksheet' => Yii::t('kvgrid', 'ExportWorksheet'),
                     'cssFile' => '',
@@ -1621,22 +1660,14 @@ HTML;
                 'alertMsg' => Yii::t('kvgrid', 'The PDF export file will be generated for download.'),
                 'options' => ['title' => Yii::t('kvgrid', 'Portable Document Format')],
                 'mime' => 'application/pdf',
+                'cssStyles' => $cssStyles,
                 'config' => [
                     'mode' => 'UTF-8',
                     'format' => 'A4-L',
                     'destination' => 'D',
                     'marginTop' => 20,
                     'marginBottom' => 20,
-                    'cssInline' => '.kv-wrap{padding:20px;}' .
-                        '.kv-align-center{text-align:center;}' .
-                        '.kv-align-left{text-align:left;}' .
-                        '.kv-align-right{text-align:right;}' .
-                        '.kv-align-top{vertical-align:top!important;}' .
-                        '.kv-align-bottom{vertical-align:bottom!important;}' .
-                        '.kv-align-middle{vertical-align:middle!important;}' .
-                        '.kv-page-summary{border-top:4px double #ddd;font-weight: bold;}' .
-                        '.kv-table-footer{border-top:4px double #ddd;font-weight: bold;}' .
-                        '.kv-table-caption{font-size:1.5em;padding:8px;border:1px solid #ddd;border-bottom:none;}',
+                    'cssInline' => '.kv-wrap{padding:20px}',
                     'methods' => [
                         'SetHeader' => [
                             ['odd' => $pdfHeader, 'even' => $pdfHeader],
