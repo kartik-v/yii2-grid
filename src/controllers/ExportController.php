@@ -11,6 +11,7 @@ namespace kartik\grid\controllers;
 
 use Yii;
 use yii\base\InvalidCallException;
+use yii\base\InvalidConfigException;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\Response;
@@ -79,6 +80,7 @@ class ExportController extends Controller
      * @param array $config the configuration for yii2-mpdf component
      *
      * @return Response
+     * @throws InvalidConfigException
      */
     protected function generatePDF($content, $filename, $config = [])
     {
@@ -88,7 +90,6 @@ class ExportController extends Controller
         $config['methods']['SetCreator'] = [Yii::t('kvgrid', 'Krajee Yii2 Grid Export Extension')];
         $config['content'] = $content;
         $pdf = new Pdf($config);
-        Yii::$app->response->format = Response::FORMAT_RAW;
         return $pdf->render();
     }
 
@@ -99,23 +100,18 @@ class ExportController extends Controller
      * @param string $name the file name
      * @param string $mime the mime time for the file
      * @param string $encoding the encoding for the file content
-     *
-     * @return void
      */
     protected function setHttpHeaders($type, $name, $mime, $encoding = 'utf-8')
     {
-        Yii::$app->response->format = Response::FORMAT_RAW;
-        if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') == false) {
-            header('Cache-Control: no-cache');
-            header('Pragma: no-cache');
-        } else {
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: public');
-        }
-        header('Expires: Sat, 26 Jul 1979 05:00:00 GMT');
-        header("Content-Encoding: {$encoding}");
-        header("Content-Type: {$mime}; charset={$encoding}");
-        header("Content-Disposition: attachment; filename={$name}.{$type}");
-        header('Cache-Control: max-age=0');
+        $response = Yii::$app->response;
+        $response->format = Response::FORMAT_RAW;
+        $headers = $response->getHeaders();
+        $headers->set('Content-Type', "{$mime}; charset={$encoding}");
+        $headers->set('Content-Transfer-Encoding', $encoding);
+        $headers->set('Cache-Control', 'public, must-revalidate, max-age=0');
+        $headers->set('Pragma', 'public');
+        $headers->set('Expires', 'Sat, 26 Jul 1997 05:00:00 GMT');
+        $headers->set('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT');
+        $headers->set('Content-Disposition', "attachment; filename={$name}.{$type}");
     }
 }

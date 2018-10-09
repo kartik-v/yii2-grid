@@ -1058,6 +1058,10 @@ HTML;
     public function init()
     {
         $this->initModule();
+        if (isset($this->_module->bsVersion)) {
+            $this->bsVersion = $this->_module->bsVersion;
+        }
+        $this->initBsVersion();
         Html::addCssClass($this->options, 'is-bs' . ($this->isBs4() ? '4' : '3'));
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
@@ -1451,10 +1455,6 @@ HTML;
         if (isset($this->bsVersion)) {
             return;
         }
-        if (isset($this->_module->bsVersion)) {
-            $this->bsVersion = $this->_module->bsVersion;
-        }
-        $this->initBsVersion();
     }
 
     /**

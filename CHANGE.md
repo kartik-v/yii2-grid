@@ -3,8 +3,9 @@ Change Log: `yii2-grid`
 
 ## Version 3.2.6
 
-**Date:** 29-Sep-2018
+**Date:** 09-Oct-2018
 
+- Enhance `ExportController` HTTP headers.
 - (enh #837): Various enhancements to grid export styling.
 - (bug #835): Correct rendering error due to code change in core `GridView` in `yiisoft/yii2`.
 
