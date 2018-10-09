@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** 09-Oct-2018
 
+- Update composer dependencies.
 - Enhance `ExportController` HTTP headers.
 - (enh #837): Various enhancements to grid export styling.
 - (bug #835): Correct rendering error due to code change in core `GridView` in `yiisoft/yii2`.
