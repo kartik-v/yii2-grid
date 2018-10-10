@@ -1235,25 +1235,8 @@ HTML;
         static::initCss($options, ['btn', $this->_defaultBtnCss]);
         $menuOptions = $this->export['menuOptions'];
         $title = ($icon == '') ? $title : "<i class='{$icon}'></i> {$title}";
-        if (!isset($this->_module->downloadAction)) {
-            $action = ["/{$this->moduleId}/export/download"];
-        } else {
-            $action = (array)$this->_module->downloadAction;
-        }
         $encoding = ArrayHelper::getValue($this->export, 'encoding', 'utf-8');
-        $bom = ArrayHelper::getValue($this->export, 'bom', true);
-        $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_POPUP);
-        $form = $this->render('_export', [
-            'action' => $action,
-            'formOptions' => [
-                'class' => 'kv-export-form',
-                'style' => 'display:none',
-                'target' => ($target == self::TARGET_POPUP) ? 'kvDownloadDialog' : $target,
-            ],
-            'module' => $this->moduleId,
-            'encoding' => $encoding,
-            'bom' => $bom,
-        ]);
+        $bom = (int)ArrayHelper::getValue($this->export, 'bom', 1);
         $items = empty($this->export['header']) ? [] : [$this->export['header']];
         foreach ($this->exportConfig as $format => $setting) {
             $iconOptions = ArrayHelper::getValue($setting, 'iconOptions', []);
@@ -1300,7 +1283,7 @@ HTML;
             /** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
             $out = \yii\bootstrap\ButtonDropdown::widget($opts);
         }
-        return $out . $form;
+        return $out;
     }
 
     /**
@@ -1591,7 +1574,7 @@ HTML;
                     'cssFile' => $this->isBs4() ?
                         [
                             'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
-                            'https://use.fontawesome.com/releases/v5.3.1/css/all.css'
+                            'https://use.fontawesome.com/releases/v5.3.1/css/all.css',
                         ] :
                         ['https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'],
                 ],
@@ -2091,11 +2074,19 @@ HTML;
         $NS = '.' . str_replace('-', '_', $gridId);
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
-            $target = ArrayHelper::getValue($this->export, 'target', self::TARGET_BLANK);
+            if (!isset($this->_module->downloadAction)) {
+                $action = ["/{$this->moduleId}/export/download"];
+            } else {
+                $action = (array)$this->_module->downloadAction;
+            }
             $gridOpts = Json::encode(
                 [
                     'gridId' => $gridId,
-                    'target' => $target,
+                    'action' => Url::to($action),
+                    'module' => $this->moduleId,
+                    'encoding' => ArrayHelper::getValue($this->export, 'encoding', 'utf-8'),
+                    'bom' => (int)ArrayHelper::getValue($this->export, 'bom', 1),
+                    'target' => ArrayHelper::getValue($this->export, 'target', self::TARGET_BLANK),
                     'messages' => $this->export['messages'],
                     'exportConversions' => $this->exportConversions,
                     'showConfirmAlert' => ArrayHelper::getValue($this->export, 'showConfirmAlert', true),

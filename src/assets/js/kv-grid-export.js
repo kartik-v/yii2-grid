@@ -84,14 +84,16 @@
         self.target = gridOpts.target;
         self.exportConversions = gridOpts.exportConversions;
         self.showConfirmAlert = gridOpts.showConfirmAlert;
+        self.action = gridOpts.action;
+        self.bom = gridOpts.bom;
+        self.encoding = gridOpts.encoding;
+        self.module = gridOpts.module;
         self.filename = genOpts.filename;
         self.expHash = genOpts.expHash;
         self.showHeader = genOpts.showHeader;
         self.showFooter = genOpts.showFooter;
         self.showPageSummary = genOpts.showPageSummary;
         self.$table = self.$grid.find('.kv-grid-table:first');
-        self.$form = self.$grid.find('form.kv-export-form');
-        self.encoding = self.$form.find('[name="export_encoding"]').val();
         self.columns = self.showHeader ? 'td,th' : 'td';
         self.alertMsg = options.alertMsg;
         self.config = options.config;
@@ -130,7 +132,7 @@
                 var el = self.popup.document.getElementsByTagName('body');
                 setTimeout(function () {
                     el[0].innerHTML = msg;
-                }, 4000);
+                }, 1200);
             } else {
                 var newmsg = templates.popup.replace('{msg}', msg);
                 self.popup.document.write(newmsg);
@@ -184,13 +186,6 @@
         },
         listen: function () {
             var self = this;
-            if (self.target === '_popup') {
-                self.$form.on('submit.gridexport', function () {
-                    setTimeout(function () {
-                        self.setPopupAlert(self.messages.downloadComplete, true);
-                    }, 1000);
-                });
-            }
             if (self.$element.hasClass('export-csv')) {
                 self.listenClick('exportTEXT', 'csv');
             }
@@ -273,26 +268,35 @@
             return processed;
         },
         download: function (type, content) {
-            var self = this, $el = self.$element, mime = $el.attr('data-mime') || 'text/plain',
-                hashData = $el.attr('data-hash') || '', config = isEmpty(self.config) ? {} : self.config,
-                setValue = function (f, v) {
-                    self.$form.find('[name="export_' + f + '"]').val(v);
+            var self = this, $el = self.$element, mime = $el.attr('data-mime') || 'text/plain', yiiLib = window.yii,
+                hashData = $el.attr('data-hash') || '', config = isEmpty(self.config) ? {} : self.config, $form,
+                $csrf, isPopup, target = self.target, getInput = function (name, value) {
+                    return $('<input/>', {'name': name, 'value': value, 'type': 'hidden'});
                 };
+
             if (type === 'json' && config.jsonReplacer) {
                 delete config.jsonReplacer;
             }
-            setValue('filetype', type);
-            setValue('filename', self.filename);
-            setValue('content', content);
-            setValue('mime', mime);
-            setValue('hash', hashData);
-            setValue('config', JSON.stringify(config));
-            if (self.target === '_popup') {
-                self.popup = popupDialog('', 'kvDownloadDialog', 350, 120);
+            $csrf = yiiLib ? getInput(yiiLib.getCsrfParam() || '_csrf', yiiLib.getCsrfToken() || null) : null;
+            isPopup = target === '_popup';
+            if (isPopup) {
+                target = 'kvDownloadDialog';
+                self.popup = popupDialog('', target, 350, 120);
                 self.popup.focus();
                 self.setPopupAlert(self.messages.downloadProgress);
             }
-            self.$form.submit();
+            $('<form/>', {'action': self.action, 'target': target, 'method': 'post', css: {'display': 'none'}})
+                .append(getInput('export_filetype', type), getInput('export_filename', self.filename))
+                .append(getInput('export_encoding', self.encoding), getInput('export_bom', self.bom ? 1 : 0))
+                .append(getInput('export_content', content), getInput('module_id', self.module), $csrf)
+                .append(getInput('export_mime', mime), getInput('export_hash', hashData))
+                .append(getInput('export_config', JSON.stringify(config)))
+                .appendTo('body')
+                .submit()
+                .remove();
+            if (isPopup) {
+                self.setPopupAlert(self.messages.downloadComplete, true);
+            }
         },
         exportHTML: function () {
             var self = this, $table = self.clean('html'), cfg = self.config, css = cfg.cssFile ? cfg.cssFile : [], html,

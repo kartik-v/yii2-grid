@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.2.7
+
+**Date:** _under development_
+
+- (enh #839): Enhancements to export form functionality.
+
 ## Version 3.2.6
 
 **Date:** 09-Oct-2018
