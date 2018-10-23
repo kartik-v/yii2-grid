@@ -253,19 +253,19 @@
                 $el.html(rawText);
             });
             var htmlContent = $table.html();
-            htmlContent = self.preProcess(htmlContent);
+            htmlContent = self.preProcess(htmlContent, expType);
             $table.html(htmlContent);
             $.each(cssStyles, function (key, value) {
                 $table.find(key).css(value);
             });
             return $table;
         },
-        preProcess: function (content) {
+        preProcess: function (content, expType) {
             var self = this, conv = self.exportConversions, l = conv.length, processed = content, c;
             if (l > 0) {
                 for (var i = 0; i < l; i++) {
                     c = conv[i];
-                    processed = $h.replaceAll(processed, c.from, c.to);
+                    processed = $h.replaceAll(processed, c.from, (expType === 'pdf' && c.toPdf) ? c.toPdf : c.to);
                 }
             }
             return processed;
