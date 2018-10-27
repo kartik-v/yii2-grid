@@ -5,6 +5,8 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (enh #846): Enhance Grid Grouping to better parse multi level group footers.
+- (enh #840): Update Persian Translations.
 - (enh #839): Enhancements to export form functionality.
 
 ## Version 3.2.6
@@ -41,7 +43,7 @@ Change Log: `yii2-grid`
 
 - Enhance ExpandRowColumn default row css for Bootstrap 4.x.
 - Enhance styling and behavior for Bootstrap 4.x.
-- (bug #826): Update Ukrainian Translations.
+- (enh #826): Update Ukrainian Translations.
 
 ## Version 3.2.1
 
