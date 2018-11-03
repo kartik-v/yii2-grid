@@ -3,9 +3,12 @@ Change Log: `yii2-grid`
 
 ## Version 3.2.7
 
-**Date:** _under development_
+**Date:** 03-Nov-2018
 
 - (enh #846): Enhance Grid Grouping to better parse multi level group footers.
+- (enh #843, #844): Add ability to have different exportConversions for specific export type.
+    - For example `from_pdf` and `to_pdf` will be used instead of `from` and `to`. If 
+     only `to_pdf` is set then `from` and `to_pdf` will be used.
 - (enh #840): Update Persian Translations.
 - (enh #839): Enhancements to export form functionality.
 
