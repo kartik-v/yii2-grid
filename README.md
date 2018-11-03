@@ -144,6 +144,10 @@ This extension (with v2.3.0) adds ability to toggle between viewing **all grid d
 ### \kartik\grid\DataColumn
 The default Yii data column has been enhanced with various additional parameters. Refer [documentation](http://demos.krajee.com/grid#data-column) for details.
 
+## Enum Column (New)
+### \kartik\grid\EnumColumn
+This is a new grid column class available from release v3.2.7 that extends the `\kartik\grid\DataColumn` class. It  allows you to configure and display a dynamic content / markup for each of the cell attribute  values based on enumerated `$value => $content` pairs. 
+
 ## Expand Row Column (New)
 ### \kartik\grid\ExpandRowColumn
 An enhanced data column that allows one to expand a grid row and display additional/detail content in a new row below it either directly or via ajax. Refer [documentation](http://demos.krajee.com/grid#expand-row-column) for details.
@@ -154,13 +158,15 @@ An enhanced data column that allows you to edit the cell content using [kartik\e
 
 ## Formula Column (New)
 ### \kartik\grid\FormulaColumn
-This is a new grid column class that extends the \kartik\grid\DataColumn class. It allows calculating formulae just like in spreadsheets - based on
+This is a new grid column class that extends the `\kartik\grid\DataColumn` class. It allows calculating formulae just like in spreadsheets - based on
 values of other columns in the grid. The formula calculation is done at grid rendering runtime and does not need to query the database. Hence you can use formula columns
 within another formula column. Refer [documentation](http://demos.krajee.com/grid#formula-column) for details.
 
+Refer [documentation](http://demos.krajee.com/grid#enum-column) for details.
+
 ## Boolean Column (New)
 ### \kartik\grid\BooleanColumn
-This is a new grid column class that extends the \kartik\grid\DataColumn class. It automatically converts boolean data (true/false) values to user friendly indicators or labels (that are configurable). 
+This is a new grid column class that extends the `\kartik\grid\DataColumn` class. It automatically converts boolean data (true/false) values to user friendly indicators or labels (that are configurable). 
 Refer [documentation](http://demos.krajee.com/grid#boolean-column) for details. The following are new features added since release v1.6.0:
 
 - `BooleanColumn` icons have been setup as `ICON_ACTIVE` and `ICON_INACTIVE` constants in GridView.

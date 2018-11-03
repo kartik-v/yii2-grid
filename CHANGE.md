@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** 03-Nov-2018
 
+- (enh #847): Add new grid column `EnumColumn`.
 - (enh #846): Enhance Grid Grouping to better parse multi level group footers.
 - (enh #843, #844): Add ability to have different exportConversions for specific export type.
     - For example `from_pdf` and `to_pdf` will be used instead of `from` and `to`. If 
