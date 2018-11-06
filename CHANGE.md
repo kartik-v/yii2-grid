@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.2.8
+
+**Date:** _under development_
+
+- (enh #852): Correct grid grouping for grids without grid footer.
+
 ## Version 3.2.7
 
 **Date:** 03-Nov-2018

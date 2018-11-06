@@ -16,8 +16,8 @@ var kvGridGroup;
     "use strict";
     kvGridGroup = function (gridId) {
         var $grid, data, groups, $groupRows, i, n, colCount, $pageSum, $firstRow, $lastRow, isEmpty, initPageSummary,
-            formatNumber, getParentGroup, getLastGroupRow, getCellValue, getSummarySource, getSummaryContent, addRowSpan,
-            adjustLastRow, adjustFooterGroups, createSummary, calculateSummaryContent, calculate;
+            formatNumber, getParentGroup, getLastGroupRow, getCellValue, getSummarySource, getSummaryContent,
+            addRowSpan, adjustLastRow, adjustFooterGroups, createSummary, calculateSummaryContent, calculate;
         $grid = $('#' + gridId);
         data = {};
         groups = [];
@@ -395,12 +395,9 @@ var kvGridGroup;
                 } else {
                     cellKeyCurr = txtCurr;
                 }
-                $cell.attr('data-cell-key', cellKeyCurr);
                 if (cellKeyCurr === cellKeyPrev) {
                     rowspan++;
-                    if (groups.length < 3) {
-                        $gCell.attr('rowspan', rowspan);
-                    }
+                    $gCell.attr('rowspan', rowspan);
                     $cell.addClass('kv-temp-cells').hide();
                 } else {
                     gCol = j;
