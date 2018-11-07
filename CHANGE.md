@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (enh #853): Correct grid grouping for child groups with repeating values.
 - (enh #852): Correct grid grouping for grids without grid footer.
 
 ## Version 3.2.7

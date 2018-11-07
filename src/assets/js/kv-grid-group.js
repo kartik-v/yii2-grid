@@ -15,9 +15,9 @@ var kvGridGroup;
 (function ($) {
     "use strict";
     kvGridGroup = function (gridId) {
-        var $grid, data, groups, $groupRows, i, n, colCount, $pageSum, $firstRow, $lastRow, isEmpty, initPageSummary,
-            formatNumber, getParentGroup, getLastGroupRow, getCellValue, getSummarySource, getSummaryContent,
-            addRowSpan, adjustLastRow, adjustFooterGroups, createSummary, calculateSummaryContent, calculate;
+        var $grid, data, groups, $groupRows, i, n, colCount, $pageSum, $firstRow, $lastRow, isEmpty, formatNumber,
+            calculate, getParentGroup, getLastGroupRow, getCellKey, getCellValue, getSummarySource, getSummaryContent,
+            initPageSummary, addRowSpan, adjustLastRow, adjustFooterGroups, createSummary, calculateSummaryContent;
         $grid = $('#' + gridId);
         data = {};
         groups = [];
@@ -27,16 +27,6 @@ var kvGridGroup;
         $lastRow = $grid.find('tr[data-key]:last');
         isEmpty = function (v) {
             return v === undefined || v === null || v.length === 0;
-        };
-        initPageSummary = function () {
-            var i = 0;
-            if (!$pageSum.length) {
-                return;
-            }
-            $pageSum.find('td').each(function () {
-                $(this).attr('data-col-seq', i);
-                i++;
-            });
         };
         /**
          * Format a number
@@ -62,6 +52,28 @@ var kvGridGroup;
             newNum = num.toFixed(isNaN(dec) || dec < 0 ? 0 : dec);
             newNum = newNum.replace('.', c);
             return newNum.replace(new RegExp(re, 'g'), '$&' + s);
+        };
+        calculate = function (data, func) {
+            var i, fn, out = 0, n = data && data.length || 0;
+            if (!n) {
+                return '';
+            }
+            switch (func) {
+                case 'f_count':
+                    return n;
+                case 'f_sum':
+                case 'f_avg':
+                    for (i = 0; i < n; i++) {
+                        out += data[i];
+                    }
+                    return func === 'f_sum' ? out : out / n;
+                case 'f_max':
+                case 'f_min':
+                    fn = func === 'f_max' ? 'max' : 'min';
+                    return Math[fn].apply(null, data);
+                default:
+                    return '';
+            }
         };
         getParentGroup = function ($cell) {
             var $tr, $td, id = $cell.attr('data-sub-group-of'), i, tag;
@@ -94,8 +106,16 @@ var kvGridGroup;
             }
             return $endRow.length ? $endRow : $lastRow;
         };
+        getCellKey = function ($cell) {
+            var $currCell = $cell, key = '';
+            while ($currCell && $currCell.length) {
+                key += $currCell.text().trim();
+                $currCell = getParentGroup($currCell);
+            }
+            return key;
+        };
         getCellValue = function ($cell, decPoint, thousandSep) {
-            var flag, out;
+            var out;
             if (!$cell || !$cell.length) {
                 return 0;
             }
@@ -142,6 +162,16 @@ var kvGridGroup;
                     source;
             return calculateSummaryContent(source, data, config);
         };
+        initPageSummary = function () {
+            var i = 0;
+            if (!$pageSum.length) {
+                return;
+            }
+            $pageSum.find('td').each(function () {
+                $(this).attr('data-col-seq', i);
+                i++;
+            });
+        };
         calculateSummaryContent = function (source, data, config) {
             // noinspection JSUnresolvedVariable
             var decimals = config.decimals || 0, decPoint = config.decPoint || '.',
@@ -155,28 +185,6 @@ var kvGridGroup;
                 return func(data);
             }
             return source;
-        };
-        calculate = function (data, func) {
-            var i, fn, out = 0, n = data && data.length || 0;
-            if (!n) {
-                return '';
-            }
-            switch (func) {
-                case 'f_count':
-                    return n;
-                case 'f_sum':
-                case 'f_avg':
-                    for (i = 0; i < n; i++) {
-                        out += data[i];
-                    }
-                    return func === 'f_sum' ? out : out / n;
-                case 'f_max':
-                case 'f_min':
-                    fn = func === 'f_max' ? 'max' : 'min';
-                    return Math[fn].apply(null, data);
-                default:
-                    return '';
-            }
         };
         addRowSpan = function ($el, n) {
             n = n || 1;
@@ -251,6 +259,7 @@ var kvGridGroup;
                     if (!proceed) {
                         return;
                     }
+                    // noinspection JSUnresolvedVariable
                     content = getCellValue($row.find('td[data-col-seq=' + seq + ']'), config.decPoint, config.thousandSep);
                     data.push(content);
                     if (i === grpSeq) {
@@ -381,20 +390,10 @@ var kvGridGroup;
             }
         });
         $.each(groups, function (i, g) {
-            var gCells = data[g], rowspan = 1, gCol = 0, $gCell, $prevGroup, txtCurr = '', cellKey = '',
-                cellKeyPrev = '', cellKeyCurr = '';
+            var gCells = data[g], rowspan = 1, gCol = 0, $gCell, cellKeyPrev = '', cellKeyCurr = '';
             $.each(gCells, function (j, $cell) {
-                txtCurr = $cell.text().trim();
                 $gCell = gCells[gCol];
-                if (i > 0) {
-                    $prevGroup = getParentGroup($cell);
-                    if ($prevGroup && $prevGroup.length) {
-                        cellKey = $prevGroup.attr('data-cell-key');
-                    }
-                    cellKeyCurr = cellKey ? cellKey + '-' + txtCurr : txtCurr;
-                } else {
-                    cellKeyCurr = txtCurr;
-                }
+                cellKeyCurr = i > 0 ? getCellKey($cell) : $cell.text().trim();
                 if (cellKeyCurr === cellKeyPrev) {
                     rowspan++;
                     $gCell.attr('rowspan', rowspan);
