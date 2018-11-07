@@ -279,7 +279,7 @@
             var self = this, $el = self.$element, mime = $el.attr('data-mime') || 'text/plain', yiiLib = window.yii,
                 hashData = $el.attr('data-hash') || '', config = $h.isEmpty(self.config) ? {} : self.config,
                 $csrf, isPopup, target = self.target, getInput = function (name, value) {
-                    return $('<input/>', {'name': name, 'value': value, 'type': 'hidden'});
+                    return $('<textarea/>', {'name': name}).val(value).hide();
                 };
             if (type === 'json' && config.jsonReplacer) {
                 delete config.jsonReplacer;

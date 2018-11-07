@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (bug #854): Correct grid export to allow parsing new lines in content (for CSV/TEXT).
 - (enh #853): Correct grid grouping for child groups with repeating values.
 - (enh #852): Correct grid grouping for grids without grid footer.
 
