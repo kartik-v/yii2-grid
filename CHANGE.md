@@ -1,6 +1,9 @@
 Change Log: `yii2-grid`
 =======================
 
+**Date:** 19-Nov-2018
+- (enh #859): harmonized asset namespaces
+
 ## Version 3.2.8
 
 **Date:** 09-Nov-2018
