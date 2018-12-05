@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.8
+ * @version   3.2.9
  *
  * jQuery methods library for yii2-grid expand row column
  * 
@@ -11,12 +11,13 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
-var kvRowNum = 0, kvExpandRow;
+var kvExpandRow;
 (function ($) {
     "use strict";
-    kvExpandRow = function (options) {
+    kvExpandRow = function (options, id) {
         //noinspection JSUnresolvedVariable
         var NS = '.kvExpandRowColumn',
+            kvRowNumVar = 'kvRowNum_' + id,
             gridId = options.gridId,
             hiddenFromExport = options.hiddenFromExport,
             detailUrl = options.detailUrl,
@@ -35,21 +36,21 @@ var kvRowNum = 0, kvExpandRow;
             rowCssClass = hiddenFromExport ? options.rowCssClass + ' skip-export' : options.rowCssClass,
             duration = options.animationDuration,
             $grid = $('#' + gridId),
-            $hdrCell = $grid.find('.kv-expand-header-cell.kv-batch-toggle'),
+            idCss = '.' + id,
+            $hdrCell = $grid.find('.kv-expand-header-cell.kv-batch-toggle' + idCss),
             $hdrIcon = $hdrCell.find('.kv-expand-header-icon'),
             collapseAll = options.collapseAll === undefined ? false : options.collapseAll,
             expandAll = options.expandAll === undefined ? false : options.expandAll,
-            $rows = $grid.find("td .kv-expand-row." + gridId + ":not(.kv-state-disabled)"),
+            $rows = $grid.find('td.kv-expand-icon-cell' + idCss + ' .kv-expand-row:not(.kv-state-disabled)'),
             numRows = $rows.length, progress = 'kv-expand-detail-loading',
             getCols = function () {
-                var $row = $grid.find('.kv-expand-icon:first').closest('tr'), cols = 0;
-                if (!$row.length) {
+                var $col = $grid.find('td.kv-expand-icon-cell' + idCss + ':first'),
+                    $row = $col && $col.length ? $col.closest('tr') : '', cols = 0;
+                if (!$row || !$row.length) {
                     return 0;
                 }
-                $row = $row.clone();
-                $row.find('.kv-expand-row').remove();
-                $row.find('td').each(function () {
-                    if ($(this).css("display") !== "none") {
+                $row.find('> td').each(function () {
+                    if ($(this).css('display') !== 'none') {
                         cols++;
                     }
                 });
@@ -85,12 +86,27 @@ var kvRowNum = 0, kvExpandRow;
                     $c.removeClass(progress);
                 }, delay);
             },
+            getRowNum = function() {
+                var num = $grid.data(kvRowNumVar);
+                num = num ? parseInt(num) : 0;
+                return isNaN(num) ? 0 : num;
+            },
+            setRowNum = function(value) {
+                $grid.data(kvRowNumVar, value);
+            },
+            incrementRowNum = function() {
+                var num = getRowNum();
+                $grid.data(kvRowNumVar, num + 1);
+            },
             handler = function ($el, event, callback, skipNS) {
                 var ev = skipNS ? event : event.split(' ').join(NS + ' ') + NS;
                 if ($el.length) {
                     $el.off(ev).on(ev, callback);
                 }
             };
+        if (!$grid.data(kvRowNumVar)) {
+            setRowNum(0);
+        }
         if (extraData.length === 0) {
             extraData = {};
         }
@@ -99,15 +115,11 @@ var kvRowNum = 0, kvExpandRow;
             return;
         }
         $rows.each(function () {
-            var $el = $(this), $newRow, $tr,
-                $icon = $el.find('.kv-expand-icon.' + gridId),
-                $icons = $el.find('.kv-expand-icon'),
-                $row = $el.closest('tr'),
-                $cell = $el.closest('.kv-expand-icon-cell'),
-                $container = $el.find('.kv-expand-detail.' + gridId),
-                $detail = $el.find('.kv-expanded-row.' + gridId + ':first'),
-                vKey = $detail.data('key'),
-                vInd = $detail.data('index');
+            var $el = $(this), $newRow, $tr, $icon = $el.find('.kv-expand-icon'),
+                $cell = $icon.closest('.kv-expand-icon-cell'),
+                $row = $el.closest('tr'), $container = $cell.find('.kv-expand-detail'),
+                $detail = $el.find('.kv-expanded-row' + idCss + ':first'),
+                vKey = $detail.data('key'), vInd = $detail.data('index');
             if (!isExpanded($icon) && !isCollapsed($icon)) {
                 return true;
             }
@@ -177,13 +189,13 @@ var kvRowNum = 0, kvExpandRow;
                 collapseRow = function () {
                     beginLoading($cell);
                     $container.html('');
-                    $icons.html(expandIcon);
+                    $icon.html(expandIcon);
                     $cell.attr('title', expandTitle);
                     $tr = $detail.closest('.kv-expand-detail-row');
                     $detail.slideUp(duration, function () {
                         $detail.unwrap().unwrap();
                         $detail.appendTo($container);
-                        setExpanded($icons);
+                        setExpanded($icon);
                         // needed when used together with grouping
                         var $rowsBefore = $row.prevAll();
                         $rowsBefore.push($row);
@@ -241,14 +253,14 @@ var kvRowNum = 0, kvExpandRow;
                 if (isCollapsed($icon)) {
                     loadDetail(function () {
                         expandRow(true);
-                        kvRowNum++;
-                        if (kvRowNum >= numRows) {
+                        incrementRowNum();
+                        if (getRowNum() >= numRows) {
                             endLoading($hdrCell);
                             $hdrIcon.focus();
                         }
                     });
                 }
-                if (kvRowNum >= numRows) {
+                if (getRowNum() >= numRows) {
                     endLoading($hdrCell);
                     $hdrIcon.focus();
                 }
@@ -257,13 +269,13 @@ var kvRowNum = 0, kvExpandRow;
             if (collapseAll) {
                 if (isExpanded($icon)) {
                     collapseRow();
-                    kvRowNum++;
-                    if (kvRowNum >= numRows) {
+                    incrementRowNum();
+                    if (getRowNum() >= numRows) {
                         endLoading($hdrCell);
                         $hdrIcon.focus();
                     }
                 }
-                if (kvRowNum >= numRows) {
+                if (getRowNum() >= numRows) {
                     endLoading($hdrCell);
                     $hdrIcon.focus();
                 }
@@ -301,21 +313,21 @@ var kvRowNum = 0, kvExpandRow;
                 opt = $.extend({}, options, {expandAll: expAll, collapseAll: collAll});
             beginLoading($hdrCell);
             if (expAll) {
-                kvRowNum = $rows.find(".kv-state-collapsed").length;
+                setRowNum($rows.find(".kv-state-collapsed").length);
                 setExpanded($hdrIcon);
                 $hdrIcon.html(collapseIcon);
                 $hdrCell.attr('title', collapseAllTitle);
                 $grid.trigger('kvexprow:toggleAll', [extraData, false]);
             } else {
                 if (collAll) {
-                    kvRowNum = $rows.find(".kv-state-expanded").length;
+                    setRowNum($rows.find(".kv-state-expanded").length);
                     setCollapsed($hdrIcon);
                     $hdrIcon.html(expandIcon);
                     $hdrCell.attr('title', expandAllTitle);
                     $grid.trigger('kvexprow:toggleAll', [extraData, true]);
                 }
             }
-            kvExpandRow(opt);
+            kvExpandRow(opt, id);
         });
     };
 })(window.jQuery);

@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.8
+ * @version   3.2.9
  */
 
 namespace kartik\grid;
@@ -35,6 +35,11 @@ use yii\helpers\Json;
  */
 trait ColumnTrait
 {
+    /**
+     * @var string an unique identifier for the Column. If not set, it will be automatically generated.
+     */
+    public $columnKey;
+
     /**
      * @var boolean whether the column is hidden from display. This is different than the `visible` property, in the
      * sense, that the column is rendered, but hidden from display. This will allow you to still export the column
@@ -150,11 +155,6 @@ trait ColumnTrait
     protected $_clientScript = '';
 
     /**
-     * @var string the internally generated column key
-     */
-    protected $_columnKey = '';
-
-    /**
      * Initialize column settings
      * @param array $settings
      */
@@ -176,6 +176,7 @@ trait ColumnTrait
                 $this->$key = $val;
             }
         }
+        $this->initColumnKey();
     }
 
     /**
@@ -592,10 +593,9 @@ trait ColumnTrait
             return;
         }
         $view = $this->grid->getView();
-        $this->_columnKey = $this->getColumnKey();
         Html::addCssClass($this->headerOptions, 'kv-grid-group-header');
         Html::addCssClass($this->filterOptions, 'kv-grid-group-filter');
-        $this->headerOptions['data-group-key'] = $this->filterOptions['data-group-key'] = $this->_columnKey;
+        $this->headerOptions['data-group-key'] = $this->filterOptions['data-group-key'] = $this->columnKey;
         GridGroupAsset::register($view);
         $id = $this->grid->options['id'];
         $this->_clientScript = "kvGridGroup('{$id}');";
@@ -616,7 +616,7 @@ trait ColumnTrait
             return;
         }
         Html::addCssClass($options, 'kv-grid-group');
-        $options['data-group-key'] = $this->_columnKey;
+        $options['data-group-key'] = $this->columnKey;
         if (!empty($this->groupOddCssClass)) {
             $options['data-odd-css'] = $this->parseVal($this->groupOddCssClass, $model, $key, $index);
         }
@@ -638,21 +638,12 @@ trait ColumnTrait
     }
 
     /**
-     * Generate an unique column key
-     *
-     * @return mixed
+     * Initializes the column key
      */
-    protected function getColumnKey()
+    protected function initColumnKey()
     {
-        if (!empty($this->attribute)) {
-            $key = $this->attribute;
-        } elseif (!empty($this->label)) {
-            $key = $this->label;
-        } elseif (!empty($this->header)) {
-            $key = $this->header;
-        } else {
-            $key = get_class($this);
+        if (!isset($this->columnKey)) {
+            $this->columnKey = hash('crc32', spl_object_hash($this));
         }
-        return hash('crc32', $key);
     }
 }

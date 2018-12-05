@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
- * @version   3.2.8
+ * @version   3.2.9
  */
 
 namespace kartik\grid;
@@ -206,6 +206,11 @@ class ExpandRowColumn extends DataColumn
     protected $_hashVar;
 
     /**
+     * @var int the current expand row column identifier
+     */
+    protected $_colId;
+
+    /**
      * Parses data for Closure and returns accordingly
      *
      * @param string|Closure $data the data to parse.
@@ -291,8 +296,11 @@ class ExpandRowColumn extends DataColumn
             ]
         );
         $this->_hashVar = 'kvExpandRow_' . hash('crc32', $clientOptions);
+        $this->_colId = $this->grid->options['id'] . '_' . $this->columnKey;
+        Html::addCssClass($this->contentOptions, $this->_colId);
+        Html::addCssClass($this->headerOptions, $this->_colId);
         $view->registerJs("var {$this->_hashVar} = {$clientOptions};\n", View::POS_HEAD);
-        $view->registerJs("kvExpandRow({$this->_hashVar});");
+        $view->registerJs("kvExpandRow({$this->_hashVar}, '{$this->_colId}');");
     }
 
     /**
@@ -321,13 +329,12 @@ class ExpandRowColumn extends DataColumn
         $detailOptions['data-index'] = $index;
         $detailOptions['data-key'] = !is_string($key) && !is_numeric($key) ?
             (is_array($key) ? Json::encode($key) : (string)$key) : $key;
-        $id = $this->grid->options['id'];
-        Html::addCssClass($detailOptions, ['kv-expanded-row', $id]);
+        Html::addCssClass($detailOptions, ['kv-expanded-row', $this->_colId]);
         $content = Html::tag('div', $detail, $detailOptions);
         return <<< HTML
-        <div class="kv-expand-row {$id}{$disabled}">
-            <div class="kv-expand-icon kv-state-{$type}{$disabled} {$id}">{$icon}</div>
-            <div class="kv-expand-detail skip-export {$id}" style="display:none;">
+        <div class="kv-expand-row {$disabled}">
+            <div class="kv-expand-icon kv-state-{$type}{$disabled}">{$icon}</div>
+            <div class="kv-expand-detail skip-export" style="display:none;">
                 {$content}
             </div>
         </div>
@@ -349,7 +356,7 @@ HTML;
             $css .= ' kv-state-disabled';
         }
         Html::addCssClass($options, $css);
-        $this->initPjax("kvExpandRow({$this->_hashVar});");
+        $this->initPjax("kvExpandRow({$this->_hashVar}, '{$this->_colId}');");
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
 
