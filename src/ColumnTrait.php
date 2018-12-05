@@ -304,7 +304,7 @@ trait ColumnTrait
         } elseif ($format === 'integer' || $format === 'decimal' || $format === 'percent' || $format === 'scientific') {
             $options['data-raw-value'] = $this->getDataCellValue($model, $key, $index);
         }
-        Html::addCssStyle($options, ['mso-number-format' => '"' . $fmt . '"']);
+        Html::addCssStyle($options, ['mso-number-format' => $fmt]);
     }
 
     /**

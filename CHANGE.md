@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _under development
 
+- (enh #865): Correct and optimize export formats and styles.
 - (enh #864): Unique `columnKey` property in grid columns.
 - (enh #862): Enhance `ExpandRowColumn` behavior to support multiple expand row columns per grid.
 - (enh #859): Harmonized asset namespaces.
