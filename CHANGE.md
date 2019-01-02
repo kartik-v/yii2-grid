@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.3.0
+
+**Date:** _under development_
+
+- (enh #870): Correct grid grouping rowspan for grouped rows.
+
 ## Version 3.2.9
 
 **Date:** 07-Dec-2018

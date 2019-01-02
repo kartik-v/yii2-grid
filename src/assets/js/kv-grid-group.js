@@ -187,6 +187,9 @@ var kvGridGroup;
             return source;
         };
         addRowSpan = function ($el, n) {
+            if ($el[0].hasAttribute('data-grouped-row')) {
+                return;
+            }
             n = n || 1;
             var rowspan = $el.attr('rowspan') || 1;
             rowspan = parseInt(rowspan) + n;
@@ -230,7 +233,9 @@ var kvGridGroup;
                             proceed = false;
                         }
                     });
-                    $td.attr('rowspan', rowspan);
+                    if (!$td[0].hasAttribute('data-grouped-row')) {
+                        $td.attr('rowspan', rowspan);
+                    }
                 });
             });
             $tbody.find(' > tr.kv-group-footer').each(function () {
@@ -396,7 +401,9 @@ var kvGridGroup;
                 cellKeyCurr = i > 0 ? getCellKey($cell) : $cell.text().trim();
                 if (cellKeyCurr === cellKeyPrev) {
                     rowspan++;
-                    $gCell.attr('rowspan', rowspan);
+                    if (!$gCell[0].hasAttribute('data-grouped-row')) {
+                        $gCell.attr('rowspan', rowspan);
+                    }
                     $cell.addClass('kv-temp-cells').hide();
                 } else {
                     gCol = j;
