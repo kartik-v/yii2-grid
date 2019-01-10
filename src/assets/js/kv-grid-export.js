@@ -285,7 +285,7 @@
         },
         download: function (type, content) {
             var self = this, $el = self.$element, mime = $el.attr('data-mime') || 'text/plain', yiiLib = window.yii,
-                hashData = $el.attr('data-hash') || '', config = $h.isEmpty(self.config) ? {} : self.config,
+                hashData = $el.attr('data-hash') || '', hashConfig = $el.attr('data-hash-export-config'), config = $h.isEmpty(self.config) ? {} : self.config,
                 $csrf, isPopup, target = self.target, getInput = function (name, value) {
                     return $('<textarea/>', {'name': name}).val(value).hide();
                 };
@@ -304,7 +304,7 @@
                 .append(getInput('export_filetype', type), getInput('export_filename', self.filename))
                 .append(getInput('export_encoding', self.encoding), getInput('export_bom', self.bom ? 1 : 0))
                 .append(getInput('export_content', content), getInput('module_id', self.module), $csrf)
-                .append(getInput('export_mime', mime), getInput('export_hash', hashData))
+                .append(getInput('export_mime', mime), getInput('export_hash', hashData), getInput('hash_export_config', hashConfig))
                 .append(getInput('export_config', JSON.stringify(config)))
                 .appendTo('body')
                 .submit()

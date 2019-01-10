@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (enh #874): Allow control of export config hashing via new boolean property `GridView::hashExportConfig`.
 - (enh #870): Correct grid grouping rowspan for grouped rows.
 
 ## Version 3.2.9

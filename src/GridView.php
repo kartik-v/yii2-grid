@@ -981,6 +981,14 @@ HTML;
      * container with the configured HTML attributes. The ID for the container will be auto generated.
      */
     public $containerOptions = [];
+    
+    /**
+     * Whether to hash export config and prevent data tampering of the export config when transmitting this between 
+     * client and server during grid data export. Defaults to `true`. You may set this to `false` if your config
+     * contains dynamic data (like current date time). However, note that when `false` it adds the possibility of
+     * your client data being tampered during grid export when read by server.
+     */
+    public $hashExportConfig = true;
 
     /**
      * @var string the generated client script for the grid
@@ -1249,7 +1257,9 @@ HTML;
             if ($format === self::JSON) {
                 unset($config['jsonReplacer']);
             }
-            $dataToHash = $this->moduleId . $setting['filename'] . $mime . $encoding . $bom . Json::encode($config);
+            $cfg = $this->hashExportConfig ? Json::encode($config) : '';
+            $intCfg = empty($this->hashExportConfig) ? 0 : 1;
+            $dataToHash = $this->moduleId . $setting['filename'] . $mime . $encoding . $bom . $intCfg . $cfg;
             $hash = Yii::$app->security->hashData($dataToHash, $this->_module->exportEncryptSalt);
             $items[] = [
                 'label' => $label,
@@ -1258,6 +1268,7 @@ HTML;
                     'class' => 'export-' . $format,
                     'data-mime' => $mime,
                     'data-hash' => $hash,
+                    'data-hash-export-config' => $intCfg,
                     'data-css-styles' => $cssStyles,
                 ],
                 'options' => $setting['options'],
