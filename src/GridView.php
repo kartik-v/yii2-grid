@@ -2159,7 +2159,7 @@ HTML;
             }
             $this->floatHeaderOptions = array_replace_recursive($opts, $this->floatHeaderOptions);
             $opts = Json::encode($this->floatHeaderOptions);
-            $script .= "jQuery('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
+            $script .= "jQuery('#{$gridId} .kv-grid-table').floatThead({$opts});";
             // integrate resizeableColumns with floatThead
             if ($this->resizableColumns) {
                 $script .= "{$container}.off('{$NS}').on('column:resize{$NS}', function(e){" .
