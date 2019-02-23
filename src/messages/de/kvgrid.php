@@ -65,7 +65,7 @@ return [
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Ändern Sie die Größe von Tabellenspalten genau wie in einer Tabellenkalkulation, indem Sie die Spaltenränder verschieben.',
     'Show all data' => 'Alle Daten anzeigen',
     'Show first page data' => 'Daten der ersten Seite anzeigen',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Zeige <b>{begin, number}-{end, number}</b> von <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Zeige <b>{begin, number}-{end, number}</b> von <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{Einträgen} many{Einträgen} other{Einträgen}}.',
     'Tab Delimited Text' => 'Tabulatorgetrennter Text',
     'Text' => 'Text',
     'The CSV export file will be generated for download.' => 'Die CSV-Export-Datei wird für den Download erstellt.',
