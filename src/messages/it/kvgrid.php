@@ -17,10 +17,6 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Krajee Solutions' => '',
-    'Krajee Yii2 Grid Export Extension' => '',
-    'items-many' => '',
-    'items-manu' => '@@elementi@@',
     'Actions' => 'Opzioni',
     'Active' => 'Attivo',
     'Add Book' => 'Aggiungi Libro',
@@ -90,4 +86,9 @@ return [
     'items-few' => 'elementi',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, grid, export, yii2-grid, pdf',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Extensions',
+    'Krajee Solutions' => '',
+    'Krajee Yii2 Grid Export Extension' => '',
+    'items-acc' => '',
+    'items-many' => '',
+    'items-manu' => '@@elementi@@',
 ];

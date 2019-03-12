@@ -17,14 +17,6 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Failed to update editable data due to an unknown server error' => '',
-    'Invalid editable index or model form name' => '',
-    'Invalid or bad editable data' => '',
-    'Krajee Solutions' => '',
-    'Krajee Yii2 Grid Export Extension' => '',
-    'No valid editable model found' => '',
-    'There are {totalCount} records. Are you sure you want to display them all?' => '',
-    'krajee, grid, export, yii2-grid, pdf' => '',
     'Actions' => 'Дії',
     'Active' => 'Вкл',
     'Add Book' => 'Додати книгу',
@@ -89,4 +81,13 @@ return [
     'items-few' => 'записи',
     'items-many' => 'записів',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Розширення',
+    'Failed to update editable data due to an unknown server error' => '',
+    'Invalid editable index or model form name' => '',
+    'Invalid or bad editable data' => '',
+    'Krajee Solutions' => '',
+    'Krajee Yii2 Grid Export Extension' => '',
+    'No valid editable model found' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => '',
+    'items-acc' => '',
+    'krajee, grid, export, yii2-grid, pdf' => '',
 ];

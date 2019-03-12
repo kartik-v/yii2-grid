@@ -3,7 +3,7 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
  * @version   3.3.0
  */
 
@@ -59,6 +59,16 @@ use yii\widgets\Pjax;
 class GridView extends YiiGridView implements BootstrapInterface
 {
     use BootstrapTrait;
+
+    /**
+     * @var string the top part of the table after the header (used for location of the page summary row)
+     */
+    const POS_TOP = 'top';
+
+    /**
+     * @var string the bottom part of the table before the footer (used for location of the page summary row)
+     */
+    const POS_BOTTOM = 'bottom';
 
     /**
      * @var string the **default** bootstrap contextual color type (applicable only for panel contextual style)
@@ -406,6 +416,12 @@ class GridView extends YiiGridView implements BootstrapInterface
      * This label will replace the plural word `items-many` within the grid summary text.
      */
     public $itemLabelMany;
+
+    /**
+     * @var string the default label shown for each record in the grid (accusative case). This is applicable for few
+     * languages like German.
+     */
+    public $itemLabelAccusative;
 
     /**
      * @var string the template for rendering the grid within a bootstrap styled panel.
@@ -778,6 +794,11 @@ HTML;
     public $showPageSummary = false;
 
     /**
+     * @var string location of the page summary row (whether [[POS_TOP]] or [[POS_BOTTOM]])
+     */
+    public $pageSummaryPosition = self::POS_BOTTOM;
+
+    /**
      * @array the HTML attributes for the page summary container. The following special options are recognized:
      *
      * - `tag`: _string_, the tag used to render the page summary. Defaults to `tbody`.
@@ -981,9 +1002,9 @@ HTML;
      * container with the configured HTML attributes. The ID for the container will be auto generated.
      */
     public $containerOptions = [];
-    
+
     /**
-     * Whether to hash export config and prevent data tampering of the export config when transmitting this between 
+     * Whether to hash export config and prevent data tampering of the export config when transmitting this between
      * client and server during grid data export. Defaults to `true`. You may set this to `false` if your config
      * contains dynamic data (like current date time). However, note that when `false` it adds the possibility of
      * your client data being tampered during grid export when read by server.
@@ -1088,6 +1109,9 @@ HTML;
         }
         if (!isset($this->itemLabelMany)) {
             $this->itemLabelMany = Yii::t('kvgrid', 'items-many');
+        }
+        if (!isset($this->itemLabelAccusative)) {
+            $this->itemLabelAccusative = Yii::t('kvgrid', 'items-acc');
         }
         $isBs4 = $this->isBs4();
         if ($isBs4) {
@@ -1195,7 +1219,8 @@ HTML;
     {
         $content = parent::renderTableBody();
         if ($this->showPageSummary) {
-            return $content . $this->renderPageSummary();
+            $summary = $this->renderPageSummary();
+            return $this->pageSummaryPosition === self::POS_TOP ? ($summary . $content) : ($content . $summary);
         }
         return $content;
     }
@@ -1384,6 +1409,7 @@ HTML;
             'items' => $this->itemLabelPlural,
             'items-few' => $this->itemLabelFew,
             'items-many' => $this->itemLabelMany,
+            'items-acc' => $this->itemLabelAccusative,
         ];
         $pagination = $this->dataProvider->getPagination();
         if ($pagination !== false) {

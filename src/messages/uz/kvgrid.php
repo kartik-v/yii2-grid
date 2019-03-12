@@ -17,6 +17,12 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Namoyish etilayabdi <b>{begin, number}-{end, number}</b> ta yozuv <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Jami <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'item' => 'қайд',
+    'items' => 'yozuv',
+    'items-few' => 'yozuv',
+    'items-many' => 'yozuv',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',
@@ -81,12 +87,7 @@ return [
     'Yii2 Grid Export (PDF)' => '',
     'export' => '',
     'grid-export' => '',
+    'items-acc' => '',
     'krajee, grid, export, yii2-grid, pdf' => '',
     '© Krajee Yii2 Extensions' => '',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Namoyish etilayabdi <b>{begin, number}-{end, number}</b> ta yozuv <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
-    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Jami <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
-    'item' => 'қайд',
-    'items' => 'yozuv',
-    'items-few' => 'yozuv',
-    'items-many' => 'yozuv',
 ];

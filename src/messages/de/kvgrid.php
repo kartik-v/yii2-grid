@@ -17,8 +17,6 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Krajee Solutions' => '',
-    'Krajee Yii2 Grid Export Extension' => '',
     'Actions' => 'Aktionen',
     'Active' => 'Aktiv',
     'Add Book' => 'Neues Buch',
@@ -65,7 +63,7 @@ return [
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Ändern Sie die Größe von Tabellenspalten genau wie in einer Tabellenkalkulation, indem Sie die Spaltenränder verschieben.',
     'Show all data' => 'Alle Daten anzeigen',
     'Show first page data' => 'Daten der ersten Seite anzeigen',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Zeige <b>{begin, number}-{end, number}</b> von <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Zeige <b>{begin, number}-{end, number}</b> von <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-acc}} many{{items-acc}} other{{items-acc}}}.',
     'Tab Delimited Text' => 'Tabulatorgetrennter Text',
     'Text' => 'Text',
     'The CSV export file will be generated for download.' => 'Die CSV-Export-Datei wird für den Download erstellt.',
@@ -87,6 +85,9 @@ return [
     'items' => 'Einträge',
     'items-few' => 'Einträge',
     'items-many' => 'Einträge',
+    'items-acc' => 'Einträgen',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, gitter, export, yii2-grid, pdf',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Erweiterungen',
+    'Krajee Solutions' => '',
+    'Krajee Yii2 Grid Export Extension' => '',
 ];

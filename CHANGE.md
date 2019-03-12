@@ -3,8 +3,11 @@ Change Log: `yii2-grid`
 
 ## Version 3.3.0
 
-**Date:** _under development_
+**Date:** 12-Mar-2019
 
+- (enh #881): Allow page summary to be positioned via `pageSummaryPosition` (`GridView::POS_TOP` or `GridView::POS_BOTTOM`). 
+- (enh #879): Implement `itemsLabelAccusative` and message token `items-acc`.
+- (enh #878): Update German Translations.
 - (enh #874): Allow control of export config hashing via new boolean property `GridView::hashExportConfig`.
 - (enh #870): Correct grid grouping rowspan for grouped rows.
 

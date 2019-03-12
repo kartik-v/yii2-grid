@@ -17,6 +17,12 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Näytetään <b>{begin, number}-{end, number}</b> kaikkiaan <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Yhteensä <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'item' => 'tulos',
+    'items' => 'tulosta',
+    'items-few' => 'tulosta',
+    'items-many' => 'tulosta',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',
@@ -81,12 +87,7 @@ return [
     'Yii2 Grid Export (PDF)' => '',
     'export' => '',
     'grid-export' => '',
+    'items-acc' => '',
     'krajee, grid, export, yii2-grid, pdf' => '',
     '© Krajee Yii2 Extensions' => '',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Näytetään <b>{begin, number}-{end, number}</b> kaikkiaan <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
-    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Yhteensä <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
-    'item' => 'tulos',
-    'items' => 'tulosta',
-    'items-few' => 'tulosta',
-    'items-many' => 'tulosta',
 ];

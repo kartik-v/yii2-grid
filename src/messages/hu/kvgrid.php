@@ -17,15 +17,6 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Hyper Text Markup Language' => '',
-    'JSON' => '',
-    'JavaScript Object Notation' => '',
-    'Krajee Solutions' => '',
-    'Krajee Yii2 Grid Export Extension' => '',
-    'Microsoft Excel 95+' => '',
-    'PDF' => '',
-    'Portable Document Format' => '',
-    'krajee, grid, export, yii2-grid, pdf' => '',
     'Actions' => 'Műveletek',
     'Active' => 'Aktív',
     'Add Book' => 'Könyv hozzáadása',
@@ -89,4 +80,14 @@ return [
     'items-few' => 'elemből',
     'items-many' => 'elemből',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Kiegészítők',
+    'Hyper Text Markup Language' => '',
+    'JSON' => '',
+    'JavaScript Object Notation' => '',
+    'Krajee Solutions' => '',
+    'Krajee Yii2 Grid Export Extension' => '',
+    'Microsoft Excel 95+' => '',
+    'PDF' => '',
+    'Portable Document Format' => '',
+    'items-acc' => '',
+    'krajee, grid, export, yii2-grid, pdf' => '',
 ];

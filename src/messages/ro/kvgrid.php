@@ -17,6 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Sunt afișați itemii <b>{begin, number}-{end, number}</b> din <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Total <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
+    'items-few' => 'items',
+    'items-many' => 'items',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',
@@ -83,10 +87,7 @@ return [
     'grid-export' => '',
     'item' => '',
     'items' => '',
+    'items-acc' => '',
     'krajee, grid, export, yii2-grid, pdf' => '',
     '© Krajee Yii2 Extensions' => '',
-    'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Sunt afișați itemii <b>{begin, number}-{end, number}</b> din <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
-    'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Total <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
-    'items-few' => 'items',
-    'items-many' => 'items',
 ];
