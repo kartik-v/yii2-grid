@@ -87,7 +87,7 @@ return [
     'Krajee Solutions' => '',
     'Krajee Yii2 Grid Export Extension' => '',
     'No valid editable model found' => '',
-    'There are {totalCount} records. Are you sure you want to display them all?' => '',
+    'There are {totalCount} records. Are you sure you want to display them all?' => 'Всього вибрано {totalCount} записів. Ви дійсно хочете показати їх всі?',
     'items-acc' => '',
     'krajee, grid, export, yii2-grid, pdf' => '',
 ];
