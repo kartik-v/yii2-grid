@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
- * @version   3.3.0
+ * @version   3.3.1
  *
  * jQuery methods library for yii2-grid expand row column
  * 
@@ -115,7 +115,7 @@ var kvExpandRow;
             return;
         }
         $rows.each(function () {
-            var $el = $(this), $newRow, $tr, $icon = $el.find('.kv-expand-icon'),
+            var $el = $(this), $newRow, $tr, $icon = $el.find('>.kv-expand-icon'),
                 $cell = $icon.closest('.kv-expand-icon-cell'),
                 $row = $el.closest('tr'), $container = $cell.find('.kv-expand-detail'),
                 $detail = $el.find('.kv-expanded-row' + idCss + ':first'),
@@ -134,16 +134,29 @@ var kvExpandRow;
                             expandRowInd: vInd
                         }, extraData),
                         reload = enableCache ? $detail.html().length === 0 : true;
-                    beginLoading($cell);
                     if (detailUrl.length > 0 && reload) {
-                        $grid.trigger('kvexprow:beforeLoad', [vInd, vKey, extraData]);
-                        $detail.load(detailUrl, params, function () {
-                            endLoading($cell);
-                            if (typeof onDetailLoaded === 'function') {
-                                onDetailLoaded();
+                        $.ajax({
+                            type: 'POST',
+                            data: params,
+                            url: detailUrl,
+                            beforeSend: function() {
+                                beginLoading($cell);
+                                $grid.trigger('kvexprow:beforeLoad', [vInd, vKey, extraData]);
+                            },
+                            success: function(out) {
+                                $detail.html(out);
+                                endLoading($cell);
+                                if (typeof onDetailLoaded === 'function') {
+                                    onDetailLoaded();
+                                }
+                                postProcess();
+                                $grid.trigger('kvexprow:loaded', [vInd, vKey, extraData]);
+                            },
+                            error: function() {
+                                $detail.html('<div class="alert alert-danger">Error fetching data. Please try again later.</div>');
+                                $grid.trigger('kvexprow:error', [vInd, vKey, extraData]);
+                                endLoading($cell);
                             }
-                            postProcess();
-                            $grid.trigger('kvexprow:loaded', [vInd, vKey, extraData]);
                         });
                         return;
                     } else {

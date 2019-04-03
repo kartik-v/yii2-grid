@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
- * @version   3.3.0
+ * @version   3.3.1
  */
 
 namespace kartik\grid;
@@ -105,7 +105,9 @@ class CheckboxColumn extends YiiCheckboxColumn
         $this->initPjax($this->_clientScript);
         if ($this->attribute !== null) {
             $this->name = Html::getInputName($model, "[{$index}]{$this->attribute}");
-            $this->checkboxOptions['value'] = Html::getAttributeValue($model, $this->attribute);
+             if (!$this->checkboxOptions instanceof Closure) {
+                $this->checkboxOptions['value'] = Html::getAttributeValue($model, $this->attribute);
+             }
         }
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }

@@ -1,6 +1,15 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.3.1
+
+**Date:** _under development_
+
+- (bug #889): Correct nested expand row validation.
+- (bug #885, #886): Fix for `CheckboxColumn::checkboxOptions` to be set as Closure.
+- (enh #884): Fix for jQuery 3.x - replace `jQuery.load` with `jQuery.ajax`.
+- (enh #882): Update Ukranian Translations.
+
 ## Version 3.3.0
 
 **Date:** 12-Mar-2019
