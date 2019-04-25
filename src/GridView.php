@@ -1960,7 +1960,8 @@ HTML;
         if ($heading !== false) {
             $color = $isBs4 ? ($type === 'default' ? ' bg-light' : " text-white bg-{$type}") : '';
             static::initCss($headingOptions, $this->getCssClass(self::BS_PANEL_HEADING) . $color);
-            $panelHeading = Html::tag('div', $this->panelHeadingTemplate, $headingOptions);
+            $content = strtr($this->panelHeadingTemplate, ['{heading}' => $heading]);
+            $panelHeading = Html::tag('div', $content, $headingOptions);
         }
         if ($footer !== false) {
             static::initCss($footerOptions, $this->getCssClass(self::BS_PANEL_FOOTER));
