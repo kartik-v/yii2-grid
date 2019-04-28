@@ -11,6 +11,10 @@
     position: relative;
 }
 
+.kv-grid-boolean {
+    display: none;
+}
+
 /**
  * Table column heading sort styles for BS4
  */

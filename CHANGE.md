@@ -6,6 +6,7 @@ Change Log: `yii2-grid`
 **Date:** _under development_
 
 - (bug #889): Correct nested expand row validation.
+- (enh #888): Enhance `BooleanColumn` data rendering for grid export.
 - (bug #885, #886): Fix for `CheckboxColumn::checkboxOptions` to be set as Closure.
 - (enh #884): Fix for jQuery 3.x - replace `jQuery.load` with `jQuery.ajax`.
 - (enh #882): Update Ukranian Translations.

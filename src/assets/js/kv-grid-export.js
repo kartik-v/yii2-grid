@@ -214,7 +214,9 @@
                 safeRemove = function (selector) {
                     $table.find(selector + '.' + self.gridId).remove();
                 };
-
+            if (expType === 'html') {
+                $table.find('.kv-grid-boolean').remove();
+            }
             if ($container.hasClass('kv-grid-wrapper')) {
                 $tHead = $container.closest('.floatThead-wrapper').find('.kv-thead-float thead');
             } else {
