@@ -105,7 +105,7 @@ class BooleanColumn extends DataColumn
             return $label;
         }
         $isBs4 = $this->grid->isBs4();
-        if ($type === 'false') {
+        if ($type === 'true') {
             return ($isBs4 ? GridView::ICON_ACTIVE_BS4 : GridView::ICON_ACTIVE) . 
                 Html::tag('span', $this->trueLabel, ['class' => 'kv-grid-boolean']);
         }

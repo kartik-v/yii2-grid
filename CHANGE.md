@@ -3,8 +3,9 @@ Change Log: `yii2-grid`
 
 ## Version 3.3.1
 
-**Date:** _under development_
+**Date:** 15-May-2019
 
+- (enh #901): Update Latvian Translations.
 - (bug #889): Correct nested expand row validation.
 - (enh #888): Enhance `BooleanColumn` data rendering for grid export.
 - (bug #885, #886): Fix for `CheckboxColumn::checkboxOptions` to be set as Closure.
