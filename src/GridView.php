@@ -190,6 +190,16 @@ class GridView extends YiiGridView implements BootstrapInterface
     const ALIGN_BOTTOM = 'bottom';
 
     /**
+     * @var int horizontal right position for merge of colspan at page summary
+     */
+    const SPAN_RIGHT = 0;
+
+    /**
+     * @var int horizontal left position for merge of colspan at page summary
+     */
+    const SPAN_LEFT = 1;
+
+    /**
      * @var string CSS to apply to prevent wrapping of grid cell data
      */
     const NOWRAP = 'kv-nowrap';
@@ -1233,11 +1243,17 @@ HTML;
             if (!empty($column->pageSummaryOptions['colspan'])) {
                 $span = (int) $column->pageSummaryOptions['colspan'];
                 if ($span > 0) {
-                    $skipCols = range($i + 1, $i + $span - 1);
-                    $skipped = array_merge($skipCols, $skipped);
+                    if(empty($column->pageSummaryOptions['colSpanDir'])){
+                        $skipCols = range($i + 1, $i + $span - 1);
+                        $skipped = array_merge($skipCols, $skipped);
+                    }else{
+                        $skipCols = range($i - $span + 1, $i - 1);
+                        $skipped = array_merge($skipCols, $skipped);
+                    }
                 }
             }
         }
+
         if (!empty($skipped )) {
             for ($i = 0; $i < $cols; $i++) {
                 if (in_array($i, $skipped )) {
