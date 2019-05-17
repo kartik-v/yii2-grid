@@ -264,7 +264,7 @@ class DataColumn extends YiiDataColumn
         ];
         if (is_array($this->filter)) {
             if (Config::isInputWidget($this->filterType) && $this->grid->pjax) {
-                $options['pjaxContainerId'] = $this->grid->pjaxSettings['options']['id'];
+                $options['pjaxContainerId'] = $this->grid->getPjaxContainerId();
             }
             if ($this->filterType === GridView::FILTER_SELECT2 || $this->filterType === GridView::FILTER_TYPEAHEAD) {
                 $options['data'] = $this->filter;

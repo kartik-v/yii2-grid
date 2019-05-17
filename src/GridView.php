@@ -1092,12 +1092,7 @@ HTML;
         }
         $this->initBsVersion();
         Html::addCssClass($this->options, 'is-bs' . ($this->isBs4() ? '4' : '3'));
-        if (empty($this->options['id'])) {
-            $this->options['id'] = $this->getId();
-        }
-        if (empty($this->pjaxSettings['options']['id'])) {
-            $this->pjaxSettings['options']['id'] = $this->options['id'] . '-pjax';
-        }
+        $this->initPjaxContainerId();
         if (!isset($this->itemLabelSingle)) {
             $this->itemLabelSingle = Yii::t('kvgrid', 'item');
         }
@@ -1139,6 +1134,29 @@ HTML;
         }
         $this->_toggleButtonId = $this->options['id'] . '-togdata-' . ($this->_isShowAll ? 'all' : 'page');
         parent::init();
+    }
+
+    /**
+     * Get pjax container identifier
+     * @return string
+     */
+    public function getPjaxContainerId()
+    {
+        $this->initPjaxContainerId();
+        return $this->pjaxSettings['options']['id'];
+    }
+
+    /**
+     * Initializes pjax container identifier
+     */
+    public function initPjaxContainerId()
+    {
+        if (empty($this->options['id'])) {
+            $this->options['id'] = $this->getId();
+        }
+        if (empty($this->pjaxSettings['options']['id'])) {
+            $this->pjaxSettings['options']['id'] = $this->options['id'] . '-pjax';
+        }
     }
 
     /**
@@ -1202,9 +1220,30 @@ HTML;
             $this->pageSummaryRowOptions['class'] = ($this->isBs4() ? 'table-' : '') . 'warning kv-page-summary';
         }
         $cells = [];
-        /** @var DataColumn $column */
-        foreach ($this->columns as $column) {
+        $skipped = [];
+        $cols = count($this->columns);
+        for ($i = 0; $i < $cols; $i++) {
+            /** @var DataColumn $column */
+            $column = $this->columns[$i];
+            if (!method_exists($column, 'renderPageSummaryCell')) {
+                $cells[] = Html::tag('td');
+                continue;
+            }
             $cells[] = $column->renderPageSummaryCell();
+            if (!empty($column->pageSummaryOptions['colspan'])) {
+                $span = (int) $column->pageSummaryOptions['colspan'];
+                if ($span > 0) {
+                    $skipCols = range($i + 1, $i + $span - 1);
+                    $skipped = array_merge($skipCols, $skipped);
+                }
+            }
+        }
+        if (!empty($skipped )) {
+            for ($i = 0; $i < $cols; $i++) {
+                if (in_array($i, $skipped )) {
+                    $cells[$i] = '';
+                }
+            }
         }
         $tag = ArrayHelper::remove($this->pageSummaryContainer, 'tag', 'tbody');
         $content = Html::tag('tr', implode('', $cells), $this->pageSummaryRowOptions);

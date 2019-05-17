@@ -563,7 +563,7 @@ trait ColumnTrait
         if (!$this->grid->pjax || empty($script)) {
             return;
         }
-        $cont = 'jQuery("#' . $this->grid->pjaxSettings['options']['id'] . '")';
+        $cont = 'jQuery("#' . $this->grid->getPjaxContainerId() . '")';
         $view = $this->grid->getView();
         $ev = 'pjax:complete.' . hash('crc32', $script);
         $view->registerJs("{$cont}.off('{$ev}').on('{$ev}', function(){ {$script} });");

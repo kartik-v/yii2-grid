@@ -119,7 +119,7 @@ class EditableColumn extends DataColumn
         Html::addCssClass($options, $this->_css);
         $this->_editableOptions['containerOptions'] = $options;
         if ($this->grid->pjax && empty($this->_editableOptions['pjaxContainerId'])) {
-            $this->_editableOptions['pjaxContainerId'] = $this->grid->pjaxSettings['options']['id'];
+            $this->_editableOptions['pjaxContainerId'] = $this->grid->getPjaxContainerId();
         }
         if (!isset($key)) {
             throw new InvalidConfigException('Invalid or no primary key found for the grid data.');
