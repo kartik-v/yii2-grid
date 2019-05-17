@@ -5,6 +5,8 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (enh #906): Allow setting page summary colspan direction (`ltr` or `rtl`)
+    - set via column's `pageSummaryOptions['data-colspan-dir']` property
 
 ## Version 3.3.1
 

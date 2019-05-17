@@ -1219,9 +1219,27 @@ HTML;
         if (!isset($this->pageSummaryRowOptions['class'])) {
             $this->pageSummaryRowOptions['class'] = ($this->isBs4() ? 'table-' : '') . 'warning kv-page-summary';
         }
+        $row = $this->getPageSummaryRow();
+        if ($row === null) {
+            return '';
+        }
+        $tag = ArrayHelper::remove($this->pageSummaryContainer, 'tag', 'tbody');
+        $content = Html::tag('tr', $row, $this->pageSummaryRowOptions);
+        return Html::tag($tag, $content, $this->pageSummaryContainer);
+    }
+
+    /**
+     * Get the page summary row markup
+     * @return string
+     */
+    protected function getPageSummaryRow()
+    {
+        $cols = count($this->columns);
+        if ($cols === 0) {
+            return null;
+        }
         $cells = [];
         $skipped = [];
-        $cols = count($this->columns);
         for ($i = 0; $i < $cols; $i++) {
             /** @var DataColumn $column */
             $column = $this->columns[$i];
@@ -1232,24 +1250,25 @@ HTML;
             $cells[] = $column->renderPageSummaryCell();
             if (!empty($column->pageSummaryOptions['colspan'])) {
                 $span = (int) $column->pageSummaryOptions['colspan'];
+                $dir = ArrayHelper::getValue($column->pageSummaryOptions, 'data-colspan-dir', 'ltr');
                 if ($span > 0) {
-                    $skipCols = range($i + 1, $i + $span - 1);
-                    $skipped = array_merge($skipCols, $skipped);
+                    $fm = ($dir === 'ltr') ? ($i + 1) : ($i - $span + 1);
+                    $to = ($dir === 'ltr') ? ($i + $span - 1) : ($i - 1);
+                    for ($j = $fm; $j <= $to; $j++) {
+                        $skipped[$j] = true;
+                    }
                 }
             }
         }
         if (!empty($skipped )) {
             for ($i = 0; $i < $cols; $i++) {
-                if (in_array($i, $skipped )) {
+                if (isset($skipped[$i])) {
                     $cells[$i] = '';
                 }
             }
         }
-        $tag = ArrayHelper::remove($this->pageSummaryContainer, 'tag', 'tbody');
-        $content = Html::tag('tr', implode('', $cells), $this->pageSummaryRowOptions);
-        return Html::tag($tag, $content, $this->pageSummaryContainer);
+        return implode('', $cells);
     }
-
     /**
      * @inheritdoc
      * @throws InvalidConfigException

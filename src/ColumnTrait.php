@@ -118,6 +118,10 @@ trait ColumnTrait
      * @var array HTML attributes for the page summary cell. The following special attributes are available:
      * - `prepend`: _string_, a prefix string that will be prepended before the pageSummary content
      * - `append`: _string_, a suffix string that will be appended after the pageSummary content
+     * - `colspan`: _int_, the column count that will be merged.
+     * - `data-colspan-dir`: _string_, whether `ltr` or `rtl`. Defaults to `ltr`. If this is set to `ltr` the columns
+     *    will be merged starting from this column to the right (i.e. left to right). If this is set to `rtl`, the columns
+     *    will be merged starting from this column to the left (i.e. right to left).
      */
     public $pageSummaryOptions;
 
