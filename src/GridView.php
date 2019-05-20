@@ -1234,7 +1234,8 @@ HTML;
      */
     protected function getPageSummaryRow()
     {
-        $cols = count($this->columns);
+        $columns = array_values($this->columns);
+        $cols = count($columns);
         if ($cols === 0) {
             return null;
         }
@@ -1242,7 +1243,7 @@ HTML;
         $skipped = [];
         for ($i = 0; $i < $cols; $i++) {
             /** @var DataColumn $column */
-            $column = $this->columns[$i];
+            $column = $columns[$i];
             if (!method_exists($column, 'renderPageSummaryCell')) {
                 $cells[] = Html::tag('td');
                 continue;
