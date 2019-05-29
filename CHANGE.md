@@ -5,9 +5,10 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (bug #910): Float THead minified plugin asset error.
+- (bug #907): Fixed bug with undefined offset inside rendering summary row when using string columns keys (Yuriy Mamaev)
 - (enh #906): Allow setting page summary colspan direction (`ltr` or `rtl`)
     - set via column's `pageSummaryOptions['data-colspan-dir']` property
-- (bug #907): Fixed bug with undefined offset inside rendering summary row when using string columns keys (Yuriy Mamaev)
 
 ## Version 3.3.1
 
