@@ -3,8 +3,9 @@ Change Log: `yii2-grid`
 
 ## Version 3.3.2
 
-**Date:** _under development_
+**Date:** 18-Jun-2019
 
+- (enh #913): Enhance column to set own `pageSummaryFormat`.
 - (bug #910): Float THead minified plugin asset error.
 - (bug #907): Fixed bug with undefined offset inside rendering summary row when using string columns keys (Yuriy Mamaev)
 - (enh #906): Allow setting page summary colspan direction (`ltr` or `rtl`)

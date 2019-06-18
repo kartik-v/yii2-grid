@@ -126,6 +126,18 @@ trait ColumnTrait
     public $pageSummaryOptions;
 
     /**
+     * @var string|array|Closure in which format should the value of each data model be displayed as (e.g. `"raw"`, `"text"`, `"html"`,
+     * `['date', 'php:Y-m-d']`). Supported formats are determined by the [[GridView::formatter|formatter]] used by
+     * the [[GridView]]. Default format is "text" which will format the value as an HTML-encoded plain text when
+     * [[\yii\i18n\Formatter]] is used as the [[GridView::$formatter|formatter]] of the GridView.
+     *
+     * If this is not set - it will default to the `format` setting for the Column.
+     *
+     * @see \yii\i18n\Formatter::format()
+     */
+    public $pageSummaryFormat;
+
+    /**
      * @var string the horizontal alignment of each column. Should be one of [[GridView::ALIGN_LEFT]],
      * [[GridView::ALIGN_RIGHT]], or [[GridView::ALIGN_CENTER]].
      */
@@ -323,7 +335,8 @@ trait ColumnTrait
         }
         $content = $this->getPageSummaryCellContent();
         if ($this->pageSummary === true) {
-            return $this->grid->formatter->format($content, $this->format);
+            $format = isset($this->pageSummaryFormat) ? $this->pageSummaryFormat : $this->format;
+            return $this->grid->formatter->format($content, $format);
         }
         return ($content === null) ? $this->grid->emptyCell : $content;
     }
