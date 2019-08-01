@@ -1,13 +1,21 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.3.3
+
+**Date:** _under development_
+
+- Update GridView Asset Bundle Dependencies.
+- (enh #917): Correct checkbox column highlight behavior to accomodate changes in yiisoft/yii2#17332.
+- (enh #916): Set ActionColumn button label aria-hidden as true for screen reader.
+
 ## Version 3.3.2
 
 **Date:** 18-Jun-2019
 
 - (enh #913): Enhance column to set own `pageSummaryFormat`.
 - (bug #910): Float THead minified plugin asset error.
-- (bug #907): Fixed bug with undefined offset inside rendering summary row when using string columns keys (Yuriy Mamaev)
+- (bug #907): Fixed bug with undefined offset inside rendering summary row when using string columns keys (Yuriy Mamaev).
 - (enh #906): Allow setting page summary colspan direction (`ltr` or `rtl`)
     - set via column's `pageSummaryOptions['data-colspan-dir']` property
 

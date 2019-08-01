@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
- * @version   3.3.2
+ * @version   3.3.3
  */
 
 namespace kartik\grid;
@@ -24,6 +24,7 @@ class ExpandRowColumnAsset extends AssetBundle
      */
     public function init()
     {
+        $this->depends = array_merge(["kartik\\grid\\GridViewAsset"], $this->depends);
         $this->setSourcePath(__DIR__ . '/assets');
         $this->setupAssets('js', ['js/kv-grid-expand']);
         $this->setupAssets('css', ['css/kv-grid-expand']);
