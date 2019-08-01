@@ -24,7 +24,6 @@ var kvSelectRow, kvSelectColumn;
                 } else {
                     $row.removeClass(css);
                 }
-                console.log(!!$cbx.is(':checked'), !!$el.attr('disabled'));
             }, 
             toggleAll = function() {
                 $cbxs.each(function () {
