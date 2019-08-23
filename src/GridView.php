@@ -2084,7 +2084,18 @@ HTML;
     protected function renderToolbarContainer()
     {
         $tag = ArrayHelper::remove($this->toolbarContainerOptions, 'tag', 'div');
-        $this->addCssClass($this->toolbarContainerOptions, self::BS_PULL_RIGHT);
+
+        /**
+         * allow to override the float declaration:
+         * forcing float-right only if no float is defined in toolbarContainerOptions
+         */
+        if (
+            !strpos($this->toolbarContainerOptions['class'],$this->getCssClass(self::BS_PULL_RIGHT))
+            && !strpos($this->toolbarContainerOptions['class'],$this->getCssClass(self::BS_PULL_LEFT))
+        ) {
+            $this->addCssClass($this->toolbarContainerOptions, self::BS_PULL_RIGHT);
+        }
+
         return Html::tag($tag, $this->renderToolbar(), $this->toolbarContainerOptions);
     }
 
