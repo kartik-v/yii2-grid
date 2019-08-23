@@ -539,6 +539,7 @@ trait ColumnTrait
             Html::addCssStyle($options, "width:{$this->width};");
         }
         $options['data-col-seq'] = array_search($this, $this->grid->columns);
+        Html::addCssClass($options, $this->grid->options['id']);
         return $options;
     }
 
@@ -609,9 +610,9 @@ trait ColumnTrait
         if (empty($this->group)) {
             return;
         }
+        Html::addCssClass($this->headerOptions, ['kv-grid-group-header', $this->grid->options['id']]);
+        Html::addCssClass($this->filterOptions, ['kv-grid-group-filter', $this->grid->options['id']]);
         $view = $this->grid->getView();
-        Html::addCssClass($this->headerOptions, 'kv-grid-group-header');
-        Html::addCssClass($this->filterOptions, 'kv-grid-group-filter');
         $this->headerOptions['data-group-key'] = $this->filterOptions['data-group-key'] = $this->columnKey;
         GridGroupAsset::register($view);
         $id = $this->grid->options['id'];
@@ -632,7 +633,7 @@ trait ColumnTrait
         if (empty($this->group)) {
             return;
         }
-        Html::addCssClass($options, 'kv-grid-group');
+        Html::addCssClass($options, ['kv-grid-group', $this->grid->options['id']]);
         $options['data-group-key'] = $this->columnKey;
         if (!empty($this->groupOddCssClass)) {
             $options['data-odd-css'] = $this->parseVal($this->groupOddCssClass, $model, $key, $index);

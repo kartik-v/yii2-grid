@@ -303,8 +303,9 @@ var kvExpandRow;
                     expandRow(false);
                 }
             }
-            handler($cell, 'click', function () {
+            handler($cell, 'click', function (event) {
                 toggleRow($cell);
+                event.stopPropagation();
             });
             handler($row, 'click', function (event) {
                 var target = event.target, clickDisabled = $(target).length &&

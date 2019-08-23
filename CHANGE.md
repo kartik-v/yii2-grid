@@ -3,11 +3,15 @@ Change Log: `yii2-grid`
 
 ## Version 3.3.3
 
-**Date:** _under development_
+**Date:** 23-Aug-2019
 
+- (enh #922): Correct documentation for `floatHeaderOptions['top']`.
+- (enh #918): Allow specific elements to be skipped from export via `export['skipExportElements']`.
 - Update GridView Asset Bundle Dependencies.
+- (enh #919, #909): Enhance expand row cell click.
 - (enh #917): Correct checkbox column highlight behavior to accomodate changes in yiisoft/yii2#17332.
-- (enh #916): Set ActionColumn button label aria-hidden as true for screen reader.
+- (enh #916): Set ActionColumn button label `aria-hidden` as true for screen reader.
+- (enh #773): Enhance grid grouping for more correct summary calculations for nested `GridView`.
 
 ## Version 3.3.2
 

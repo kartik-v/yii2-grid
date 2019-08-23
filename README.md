@@ -136,7 +136,7 @@ echo GridView::widget([
     'responsive' => true,
     'hover' => true,
     'floatHeader' => true,
-    'floatHeaderOptions' => ['scrollingTop' => $scrollingTop],
+    'floatHeaderOptions' => ['top' => $scrollingTop],
     'showPageSummary' => true,
     'panel' => [
         'type' => GridView::TYPE_PRIMARY

@@ -86,6 +86,7 @@
         self.messages = gridOpts.messages;
         self.target = gridOpts.target;
         self.exportConversions = gridOpts.exportConversions;
+        self.skipExportElements = gridOpts.skipExportElements;
         self.showConfirmAlert = gridOpts.showConfirmAlert;
         self.action = gridOpts.action;
         self.bom = gridOpts.bom;
@@ -210,10 +211,15 @@
         },
         clean: function (expType) {
             var self = this, $table = self.$table.clone(), $tHead, cssStyles = self.$element.data('cssStyles') || {},
-                $container = self.$table.closest('.kv-grid-container'),
+                $container = self.$table.closest('.kv-grid-container'), skipElements = self.skipExportElements,
                 safeRemove = function (selector) {
                     $table.find(selector + '.' + self.gridId).remove();
                 };
+            if (skipElements.length) {
+                $.each(skipElements, function(key, selector) {
+                    $table.find(selector).remove();
+                });
+            }
             if (expType === 'html') {
                 $table.find('.kv-grid-boolean').remove();
             }

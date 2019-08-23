@@ -9,6 +9,7 @@
 
 namespace kartik\grid;
 
+use Closure;
 use kartik\base\BootstrapInterface;
 use kartik\base\BootstrapTrait;
 use kartik\base\Config;
@@ -923,6 +924,8 @@ HTML;
      * - `menuOptions`: _array_, HTML attributes for the export dropdown menu. Defaults to `['class' => 'dropdown-menu
      *   dropdown-menu-right']`. This property is to be setup exactly as the `options` property required by the
      *   [[\yii\bootstrap\Dropdown]] widget.
+     * - `skipExportElements`: _array_, the list of jQuery element selectors that will be skipped and removed from
+     *   export. Defaults to `['.sr-only', '.hide']`.
      */
     public $export = [];
 
@@ -1219,6 +1222,7 @@ HTML;
         if (!isset($this->pageSummaryRowOptions['class'])) {
             $this->pageSummaryRowOptions['class'] = ($this->isBs4() ? 'table-' : '') . 'warning kv-page-summary';
         }
+        Html::addCssClass($this->pageSummaryRowOptions, $this->options['id']);
         $row = $this->getPageSummaryRow();
         if ($row === null) {
             return '';
@@ -1282,6 +1286,31 @@ HTML;
             return $this->pageSummaryPosition === self::POS_TOP ? ($summary . $content) : ($content . $summary);
         }
         return $content;
+    }
+
+    /**
+     * Renders a table row with the given data model and key.
+     * @param mixed $model the data model to be rendered
+     * @param mixed $key the key associated with the data model
+     * @param int $index the zero-based index of the data model among the model array returned by [[dataProvider]].
+     * @return string the rendering result
+     */
+    public function renderTableRow($model, $key, $index)
+    {
+        $cells = [];
+        /* @var $column Column */
+        foreach ($this->columns as $column) {
+            $cells[] = $column->renderDataCell($model, $key, $index);
+        }
+        if ($this->rowOptions instanceof Closure) {
+            $options = call_user_func($this->rowOptions, $model, $key, $index, $this);
+        } else {
+            $options = $this->rowOptions;
+        }
+        $options['data-key'] = is_array($key) ? json_encode($key) : (string) $key;
+        Html::addCssClass($options, $this->options['id']);
+        $this->rowOptions = $options;
+        return Html::tag('tr', implode('', $cells), $options);
     }
 
     /**
@@ -1575,6 +1604,7 @@ HTML;
                 ],
                 'options' => ['class' => 'btn ' . $this->_defaultBtnCss, 'title' => Yii::t('kvgrid', 'Export')],
                 'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-right '],
+                'skipExportElements' => ['.sr-only', '.hide'],
             ],
             $this->export
         );
@@ -2196,6 +2226,7 @@ HTML;
                     'target' => ArrayHelper::getValue($this->export, 'target', self::TARGET_BLANK),
                     'messages' => $this->export['messages'],
                     'exportConversions' => $this->exportConversions,
+                    'skipExportElements' => $this->export['skipExportElements'],
                     'showConfirmAlert' => ArrayHelper::getValue($this->export, 'showConfirmAlert', true),
                 ]
             );
