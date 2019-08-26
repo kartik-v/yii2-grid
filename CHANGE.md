@@ -6,6 +6,7 @@ Change Log: `yii2-grid`
 **Date:** _under development_
 
 - (bug #924): Correct `rowOptions` init.
+- (bug #407): Enhance `data-key` generation.
 
 ## Version 3.3.3
 

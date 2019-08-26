@@ -1254,7 +1254,7 @@ HTML;
             }
             $cells[] = $column->renderPageSummaryCell();
             if (!empty($column->pageSummaryOptions['colspan'])) {
-                $span = (int) $column->pageSummaryOptions['colspan'];
+                $span = (int)$column->pageSummaryOptions['colspan'];
                 $dir = ArrayHelper::getValue($column->pageSummaryOptions, 'data-colspan-dir', 'ltr');
                 if ($span > 0) {
                     $fm = ($dir === 'ltr') ? ($i + 1) : ($i - $span + 1);
@@ -1265,7 +1265,7 @@ HTML;
                 }
             }
         }
-        if (!empty($skipped )) {
+        if (!empty($skipped)) {
             for ($i = 0; $i < $cols; $i++) {
                 if (isset($skipped[$i])) {
                     $cells[$i] = '';
@@ -1274,6 +1274,7 @@ HTML;
         }
         return implode('', $cells);
     }
+
     /**
      * @inheritdoc
      * @throws InvalidConfigException
@@ -1307,9 +1308,19 @@ HTML;
         } else {
             $options = $this->rowOptions;
         }
-        $options['data-key'] = is_array($key) ? json_encode($key) : (string) $key;
+        $options['data-key'] = static::parseKey($key);
         Html::addCssClass($options, $this->options['id']);
         return Html::tag('tr', implode('', $cells), $options);
+    }
+
+    /**
+     * Parses the key and returns parsed key value as string based on the data type
+     * @param mixed $key
+     * @return string
+     */
+    public static function parseKey($key)
+    {
+        return is_array($key) ? Json::encode($key) : (is_object($key) ? serialize($key) : (string)$key);
     }
 
     /**
@@ -2119,8 +2130,8 @@ HTML;
          * forcing float-right only if no float is defined in toolbarContainerOptions
          */
         if (
-            !strpos($this->toolbarContainerOptions['class'],$this->getCssClass(self::BS_PULL_RIGHT))
-            && !strpos($this->toolbarContainerOptions['class'],$this->getCssClass(self::BS_PULL_LEFT))
+            !strpos($this->toolbarContainerOptions['class'], $this->getCssClass(self::BS_PULL_RIGHT))
+            && !strpos($this->toolbarContainerOptions['class'], $this->getCssClass(self::BS_PULL_LEFT))
         ) {
             $this->addCssClass($this->toolbarContainerOptions, self::BS_PULL_RIGHT);
         }

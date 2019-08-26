@@ -327,8 +327,7 @@ class ExpandRowColumn extends DataColumn
             Html::addCssClass($detailOptions, 'skip-export');
         }
         $detailOptions['data-index'] = $index;
-        $detailOptions['data-key'] = !is_string($key) && !is_numeric($key) ?
-            (is_array($key) ? Json::encode($key) : (string)$key) : $key;
+        $detailOptions['data-key'] = GridView::parseKey($key);
         Html::addCssClass($detailOptions, ['kv-expanded-row', $this->_colId]);
         $content = Html::tag('div', $detail, $detailOptions);
         return <<< HTML
