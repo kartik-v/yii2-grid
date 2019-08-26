@@ -1309,7 +1309,6 @@ HTML;
         }
         $options['data-key'] = is_array($key) ? json_encode($key) : (string) $key;
         Html::addCssClass($options, $this->options['id']);
-        $this->rowOptions = $options;
         return Html::tag('tr', implode('', $cells), $options);
     }
 

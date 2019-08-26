@@ -5,6 +5,8 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (bug #924): Correct `rowOptions` init.
+
 ## Version 3.3.3
 
 **Date:** 23-Aug-2019
