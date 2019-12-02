@@ -288,7 +288,7 @@ trait ColumnTrait
                     break;
                 case 'currency':
                     $curr = is_array($this->format) && isset($this->format[1]) ? $this->format[1] :
-                        isset($formatter->currencyCode) ? $formatter->currencyCode . ' ' : '';
+                        (isset($formatter->currencyCode) ? $formatter->currencyCode . ' ' : '');
                     $fmt = "{$curr}\\#\\{$tSep}\\#\\#0{$dSep}00";
                     break;
                 case 'date':
