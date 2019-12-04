@@ -1,6 +1,14 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.3.5
+
+**Date:** _under development_
+
+- (enh #934, #938): Correct ternary operator for PHP 7.4 support.
+- (enh #932): Correct Expand Row container parsing for nested expand row columns.
+- (enh #929): Enhance Expand Row Column plugin and correct expand one only.
+
 ## Version 3.3.4
 
 **Date:** 26-Aug-2019

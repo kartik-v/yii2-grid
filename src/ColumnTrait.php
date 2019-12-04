@@ -4,17 +4,19 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
- * @version   3.3.4
+ * @version   3.3.5
  */
 
 namespace kartik\grid;
 
 use Closure;
 use kartik\base\Config;
+use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\View;
 
 /**
  * ColumnTrait maintains generic methods used by all column widgets in [[GridView]].
@@ -161,7 +163,7 @@ trait ColumnTrait
     protected $_rows = [];
 
     /**
-     * @var \yii\web\View the view instance
+     * @var View the view instance
      */
     protected $_view;
 
@@ -348,7 +350,7 @@ trait ColumnTrait
      */
     protected function getPageSummaryCellContent()
     {
-        if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
+        if ($this->pageSummary === true || $this->pageSummary instanceof Closure) {
             $summary = $this->calculateSummary();
             return ($this->pageSummary === true) ? $summary : call_user_func(
                 $this->pageSummary,
@@ -396,7 +398,7 @@ trait ColumnTrait
 
     /**
      * Checks if the filter input types are valid
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     protected function checkValidFilters()
     {
@@ -510,7 +512,7 @@ trait ColumnTrait
      */
     protected function fetchContentOptions($model, $key, $index)
     {
-        if ($this->contentOptions instanceof \Closure) {
+        if ($this->contentOptions instanceof Closure) {
             $options = call_user_func($this->contentOptions, $model, $key, $index, $this);
         } else {
             $options = $this->contentOptions;
