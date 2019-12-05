@@ -4,17 +4,19 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
- * @version   3.3.2
+ * @version   3.3.5
  */
 
 namespace kartik\grid;
 
 use Closure;
 use kartik\base\Config;
+use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\View;
 
 /**
  * ColumnTrait maintains generic methods used by all column widgets in [[GridView]].
@@ -126,6 +128,18 @@ trait ColumnTrait
     public $pageSummaryOptions;
 
     /**
+     * @var string|array|Closure in which format should the value of each data model be displayed as (e.g. `"raw"`, `"text"`, `"html"`,
+     * `['date', 'php:Y-m-d']`). Supported formats are determined by the [[GridView::formatter|formatter]] used by
+     * the [[GridView]]. Default format is "text" which will format the value as an HTML-encoded plain text when
+     * [[\yii\i18n\Formatter]] is used as the [[GridView::$formatter|formatter]] of the GridView.
+     *
+     * If this is not set - it will default to the `format` setting for the Column.
+     *
+     * @see \yii\i18n\Formatter::format()
+     */
+    public $pageSummaryFormat;
+
+    /**
      * @var string the horizontal alignment of each column. Should be one of [[GridView::ALIGN_LEFT]],
      * [[GridView::ALIGN_RIGHT]], or [[GridView::ALIGN_CENTER]].
      */
@@ -149,7 +163,7 @@ trait ColumnTrait
     protected $_rows = [];
 
     /**
-     * @var \yii\web\View the view instance
+     * @var View the view instance
      */
     protected $_view;
 
@@ -276,7 +290,7 @@ trait ColumnTrait
                     break;
                 case 'currency':
                     $curr = is_array($this->format) && isset($this->format[1]) ? $this->format[1] :
-                        isset($formatter->currencyCode) ? $formatter->currencyCode . ' ' : '';
+                        (isset($formatter->currencyCode) ? $formatter->currencyCode . ' ' : '');
                     $fmt = "{$curr}\\#\\{$tSep}\\#\\#0{$dSep}00";
                     break;
                 case 'date':
@@ -323,7 +337,8 @@ trait ColumnTrait
         }
         $content = $this->getPageSummaryCellContent();
         if ($this->pageSummary === true) {
-            return $this->grid->formatter->format($content, $this->format);
+            $format = isset($this->pageSummaryFormat) ? $this->pageSummaryFormat : $this->format;
+            return $this->grid->formatter->format($content, $format);
         }
         return ($content === null) ? $this->grid->emptyCell : $content;
     }
@@ -335,7 +350,7 @@ trait ColumnTrait
      */
     protected function getPageSummaryCellContent()
     {
-        if ($this->pageSummary === true || $this->pageSummary instanceof \Closure) {
+        if ($this->pageSummary === true || $this->pageSummary instanceof Closure) {
             $summary = $this->calculateSummary();
             return ($this->pageSummary === true) ? $summary : call_user_func(
                 $this->pageSummary,
@@ -383,7 +398,7 @@ trait ColumnTrait
 
     /**
      * Checks if the filter input types are valid
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     protected function checkValidFilters()
     {
@@ -497,7 +512,7 @@ trait ColumnTrait
      */
     protected function fetchContentOptions($model, $key, $index)
     {
-        if ($this->contentOptions instanceof \Closure) {
+        if ($this->contentOptions instanceof Closure) {
             $options = call_user_func($this->contentOptions, $model, $key, $index, $this);
         } else {
             $options = $this->contentOptions;
@@ -526,6 +541,7 @@ trait ColumnTrait
             Html::addCssStyle($options, "width:{$this->width};");
         }
         $options['data-col-seq'] = array_search($this, $this->grid->columns);
+        Html::addCssClass($options, $this->grid->options['id']);
         return $options;
     }
 
@@ -596,9 +612,9 @@ trait ColumnTrait
         if (empty($this->group)) {
             return;
         }
+        Html::addCssClass($this->headerOptions, ['kv-grid-group-header', $this->grid->options['id']]);
+        Html::addCssClass($this->filterOptions, ['kv-grid-group-filter', $this->grid->options['id']]);
         $view = $this->grid->getView();
-        Html::addCssClass($this->headerOptions, 'kv-grid-group-header');
-        Html::addCssClass($this->filterOptions, 'kv-grid-group-filter');
         $this->headerOptions['data-group-key'] = $this->filterOptions['data-group-key'] = $this->columnKey;
         GridGroupAsset::register($view);
         $id = $this->grid->options['id'];
@@ -619,7 +635,7 @@ trait ColumnTrait
         if (empty($this->group)) {
             return;
         }
-        Html::addCssClass($options, 'kv-grid-group');
+        Html::addCssClass($options, ['kv-grid-group', $this->grid->options['id']]);
         $options['data-group-key'] = $this->columnKey;
         if (!empty($this->groupOddCssClass)) {
             $options['data-odd-css'] = $this->parseVal($this->groupOddCssClass, $model, $key, $index);

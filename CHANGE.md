@@ -1,13 +1,42 @@
 Change Log: `yii2-grid`
 =======================
 
-## Version 3.3.2
+## Version 3.3.5
 
 **Date:** _under development_
 
+- (enh #934, #938): Correct ternary operator for PHP 7.4 support.
+- (enh #932): Correct Expand Row container parsing for nested expand row columns.
+- (enh #929): Enhance Expand Row Column plugin and correct expand one only.
+
+## Version 3.3.4
+
+**Date:** 26-Aug-2019
+
+- (bug #924): Correct `rowOptions` init.
+- (enh #407): Enhance `data-key` generation.
+
+## Version 3.3.3
+
+**Date:** 23-Aug-2019
+
+- (enh #922): Correct documentation for `floatHeaderOptions['top']`.
+- (enh #918): Allow specific elements to be skipped from export via `export['skipExportElements']`.
+- Update GridView Asset Bundle Dependencies.
+- (enh #919, #909): Enhance expand row cell click.
+- (enh #917): Correct checkbox column highlight behavior to accomodate changes in yiisoft/yii2#17332.
+- (enh #916): Set ActionColumn button label `aria-hidden` as true for screen reader.
+- (enh #773): Enhance grid grouping for more correct summary calculations for nested `GridView`.
+
+## Version 3.3.2
+
+**Date:** 18-Jun-2019
+
+- (enh #913): Enhance column to set own `pageSummaryFormat`.
+- (bug #910): Float THead minified plugin asset error.
+- (bug #907): Fixed bug with undefined offset inside rendering summary row when using string columns keys (Yuriy Mamaev).
 - (enh #906): Allow setting page summary colspan direction (`ltr` or `rtl`)
-    - set via column's `pageSummaryOptions['data-colspan-dir']` property
-- (bug #907): Fixed bug with undefined offset inside rendering summary row when using string columns keys (Yuriy Mamaev)
+- set via column's `pageSummaryOptions['data-colspan-dir']` property
 - Fixed deprecated short if construction for PHP 7.4
 
 ## Version 3.3.1

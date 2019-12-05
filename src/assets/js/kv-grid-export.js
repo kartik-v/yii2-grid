@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
- * @version   3.3.2
+ * @version   3.3.5
  *
  * Grid Export Validation Module for Yii's Gridview. Supports export of
  * grid data as CSV, HTML, or Excel.
@@ -86,6 +86,7 @@
         self.messages = gridOpts.messages;
         self.target = gridOpts.target;
         self.exportConversions = gridOpts.exportConversions;
+        self.skipExportElements = gridOpts.skipExportElements;
         self.showConfirmAlert = gridOpts.showConfirmAlert;
         self.action = gridOpts.action;
         self.bom = gridOpts.bom;
@@ -210,10 +211,15 @@
         },
         clean: function (expType) {
             var self = this, $table = self.$table.clone(), $tHead, cssStyles = self.$element.data('cssStyles') || {},
-                $container = self.$table.closest('.kv-grid-container'),
+                $container = self.$table.closest('.kv-grid-container'), skipElements = self.skipExportElements,
                 safeRemove = function (selector) {
                     $table.find(selector + '.' + self.gridId).remove();
                 };
+            if (skipElements.length) {
+                $.each(skipElements, function(key, selector) {
+                    $table.find(selector).remove();
+                });
+            }
             if (expType === 'html') {
                 $table.find('.kv-grid-boolean').remove();
             }

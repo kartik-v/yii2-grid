@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
- * @version   3.3.2
+ * @version   3.3.5
  */
 
 namespace kartik\grid;
@@ -244,7 +244,7 @@ class ExpandRowColumn extends DataColumn
             'mergeHeader' => true,
             'hAlign' => GridView::ALIGN_CENTER,
             'vAlign' => GridView::ALIGN_MIDDLE,
-            'width' => '50px'
+            'width' => '50px',
         ]);
         parent::init();
         if (empty($this->detail) && empty($this->detailUrl)) {
@@ -327,8 +327,7 @@ class ExpandRowColumn extends DataColumn
             Html::addCssClass($detailOptions, 'skip-export');
         }
         $detailOptions['data-index'] = $index;
-        $detailOptions['data-key'] = !is_string($key) && !is_numeric($key) ?
-            (is_array($key) ? Json::encode($key) : (string)$key) : $key;
+        $detailOptions['data-key'] = GridView::parseKey($key);
         Html::addCssClass($detailOptions, ['kv-expanded-row', $this->_colId]);
         $content = Html::tag('div', $detail, $detailOptions);
         return <<< HTML

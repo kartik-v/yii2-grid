@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
- * @version   3.3.2
+ * @version   3.3.5
  *
  * Client actions for kartik\grid\CheckboxColumn
  * 
@@ -15,7 +15,8 @@ var kvSelectRow, kvSelectColumn;
 (function ($) {
     "use strict";
     kvSelectRow = function (id, css) {
-        var $grid = $('#' + id),
+        var KRAJEE_NS = 'krajeeGrid', CHANGE = 'change.' + KRAJEE_NS, 
+            $grid = $('#' + id), $cbxs = $grid.find(".kv-row-select input"),
             kvHighlight = function ($el, $parent) {
                 var $row = $el.closest('tr'), $cbx = $parent || $el;
                 if ($cbx.is(':checked') && !$el.attr('disabled')) {
@@ -23,24 +24,23 @@ var kvSelectRow, kvSelectColumn;
                 } else {
                     $row.removeClass(css);
                 }
-            },
-            toggle = function ($cbx, all) {
-                if (all === true) {
-                    $grid.find(".kv-row-select input").each(function () {
-                        kvHighlight($(this), $cbx);
-                    });
-                    return;
-                }
-                kvHighlight($cbx);
+            }, 
+            toggleAll = function() {
+                $cbxs.each(function () {
+                    kvHighlight($(this));
+                });
             };
-        $grid.find(".kv-row-select input").on('change', function () {
-            toggle($(this));
-        }).each(function () {
-            toggle($(this));
+        $cbxs.off(CHANGE).on(CHANGE, function () {
+            kvHighlight($(this));
         });
-        $grid.find(".kv-all-select input").on('change', function () {
-            toggle($(this), true);
+        $grid.find(".kv-all-select input").off(CHANGE).on(CHANGE, function (event) {
+            if (event.namespace === undefined && event.handleObj.namespace === KRAJEE_NS) {
+                setTimeout(function() {
+                    toggleAll();
+                }, 100);
+            }
         });
+        toggleAll();
     };
     kvSelectColumn = function (id, options) {
         var gridId = '#' + id, $grid = $(gridId), checkAll, inputs, inputsEnabled;

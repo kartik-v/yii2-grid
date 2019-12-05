@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
  * @package yii2-grid
- * @version 3.3.2
+ * @version 3.3.5
  */
 
 namespace kartik\grid;
@@ -234,7 +234,7 @@ class ActionColumn extends YiiActionColumn
                 $options['data-confirm'] = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
             }
             $options = array_replace_recursive($options, $this->buttonOptions, $this->$opts);
-            $label = $this->renderLabel($options, $title, ['class' => $this->grid->getDefaultIconPrefix() . $icon]);
+            $label = $this->renderLabel($options, $title, ['class' => $this->grid->getDefaultIconPrefix() . $icon, 'aria-hidden' => 'true']);
             $link = Html::a($label, $url, $options);
             if ($this->_isDropdown) {
                 $options['tabindex'] = '-1';

@@ -4,11 +4,12 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
- * @version   3.3.2
+ * @version   3.3.5
  */
 
 namespace kartik\grid;
 
+use Closure;
 use kartik\base\BootstrapInterface;
 use kartik\base\BootstrapTrait;
 use kartik\base\Config;
@@ -923,6 +924,8 @@ HTML;
      * - `menuOptions`: _array_, HTML attributes for the export dropdown menu. Defaults to `['class' => 'dropdown-menu
      *   dropdown-menu-right']`. This property is to be setup exactly as the `options` property required by the
      *   [[\yii\bootstrap\Dropdown]] widget.
+     * - `skipExportElements`: _array_, the list of jQuery element selectors that will be skipped and removed from
+     *   export. Defaults to `['.sr-only', '.hide']`.
      */
     public $export = [];
 
@@ -1219,6 +1222,7 @@ HTML;
         if (!isset($this->pageSummaryRowOptions['class'])) {
             $this->pageSummaryRowOptions['class'] = ($this->isBs4() ? 'table-' : '') . 'warning kv-page-summary';
         }
+        Html::addCssClass($this->pageSummaryRowOptions, $this->options['id']);
         $row = $this->getPageSummaryRow();
         if ($row === null) {
             return '';
@@ -1250,7 +1254,7 @@ HTML;
             }
             $cells[] = $column->renderPageSummaryCell();
             if (!empty($column->pageSummaryOptions['colspan'])) {
-                $span = (int) $column->pageSummaryOptions['colspan'];
+                $span = (int)$column->pageSummaryOptions['colspan'];
                 $dir = ArrayHelper::getValue($column->pageSummaryOptions, 'data-colspan-dir', 'ltr');
                 if ($span > 0) {
                     $fm = ($dir === 'ltr') ? ($i + 1) : ($i - $span + 1);
@@ -1261,7 +1265,7 @@ HTML;
                 }
             }
         }
-        if (!empty($skipped )) {
+        if (!empty($skipped)) {
             for ($i = 0; $i < $cols; $i++) {
                 if (isset($skipped[$i])) {
                     $cells[$i] = '';
@@ -1270,6 +1274,7 @@ HTML;
         }
         return implode('', $cells);
     }
+
     /**
      * @inheritdoc
      * @throws InvalidConfigException
@@ -1282,6 +1287,40 @@ HTML;
             return $this->pageSummaryPosition === self::POS_TOP ? ($summary . $content) : ($content . $summary);
         }
         return $content;
+    }
+
+    /**
+     * Renders a table row with the given data model and key.
+     * @param mixed $model the data model to be rendered
+     * @param mixed $key the key associated with the data model
+     * @param int $index the zero-based index of the data model among the model array returned by [[dataProvider]].
+     * @return string the rendering result
+     */
+    public function renderTableRow($model, $key, $index)
+    {
+        $cells = [];
+        /* @var $column Column */
+        foreach ($this->columns as $column) {
+            $cells[] = $column->renderDataCell($model, $key, $index);
+        }
+        if ($this->rowOptions instanceof Closure) {
+            $options = call_user_func($this->rowOptions, $model, $key, $index, $this);
+        } else {
+            $options = $this->rowOptions;
+        }
+        $options['data-key'] = static::parseKey($key);
+        Html::addCssClass($options, $this->options['id']);
+        return Html::tag('tr', implode('', $cells), $options);
+    }
+
+    /**
+     * Parses the key and returns parsed key value as string based on the data type
+     * @param mixed $key
+     * @return string
+     */
+    public static function parseKey($key)
+    {
+        return is_array($key) ? Json::encode($key) : (is_object($key) ? serialize($key) : (string)$key);
     }
 
     /**
@@ -1575,6 +1614,7 @@ HTML;
                 ],
                 'options' => ['class' => 'btn ' . $this->_defaultBtnCss, 'title' => Yii::t('kvgrid', 'Export')],
                 'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-right '],
+                'skipExportElements' => ['.sr-only', '.hide'],
             ],
             $this->export
         );
@@ -2084,7 +2124,18 @@ HTML;
     protected function renderToolbarContainer()
     {
         $tag = ArrayHelper::remove($this->toolbarContainerOptions, 'tag', 'div');
-        $this->addCssClass($this->toolbarContainerOptions, self::BS_PULL_RIGHT);
+
+        /**
+         * allow to override the float declaration:
+         * forcing float-right only if no float is defined in toolbarContainerOptions
+         */
+        if (
+            !strpos($this->toolbarContainerOptions['class'], $this->getCssClass(self::BS_PULL_RIGHT))
+            && !strpos($this->toolbarContainerOptions['class'], $this->getCssClass(self::BS_PULL_LEFT))
+        ) {
+            $this->addCssClass($this->toolbarContainerOptions, self::BS_PULL_RIGHT);
+        }
+
         return Html::tag($tag, $this->renderToolbar(), $this->toolbarContainerOptions);
     }
 
@@ -2185,6 +2236,7 @@ HTML;
                     'target' => ArrayHelper::getValue($this->export, 'target', self::TARGET_BLANK),
                     'messages' => $this->export['messages'],
                     'exportConversions' => $this->exportConversions,
+                    'skipExportElements' => $this->export['skipExportElements'],
                     'showConfirmAlert' => ArrayHelper::getValue($this->export, 'showConfirmAlert', true),
                 ]
             );
