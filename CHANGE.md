@@ -8,6 +8,7 @@ Change Log: `yii2-grid`
 - (enh #906): Allow setting page summary colspan direction (`ltr` or `rtl`)
     - set via column's `pageSummaryOptions['data-colspan-dir']` property
 - (bug #907): Fixed bug with undefined offset inside rendering summary row when using string columns keys (Yuriy Mamaev)
+- Fixed deprecated short if construction for PHP 7.4
 
 ## Version 3.3.1
 
