@@ -8,6 +8,7 @@ Change Log: `yii2-grid`
 - (enh #934, #938): Correct ternary operator for PHP 7.4 support.
 - (enh #932): Correct Expand Row container parsing for nested expand row columns.
 - (enh #929): Enhance Expand Row Column plugin and correct expand one only.
+- Fixed deprecated short if construction for PHP 7.4
 
 ## Version 3.3.4
 
@@ -37,7 +38,6 @@ Change Log: `yii2-grid`
 - (bug #907): Fixed bug with undefined offset inside rendering summary row when using string columns keys (Yuriy Mamaev).
 - (enh #906): Allow setting page summary colspan direction (`ltr` or `rtl`)
 - set via column's `pageSummaryOptions['data-colspan-dir']` property
-- Fixed deprecated short if construction for PHP 7.4
 
 ## Version 3.3.1
 
