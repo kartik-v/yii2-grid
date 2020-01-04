@@ -8,6 +8,7 @@ Change Log: `yii2-grid`
 - (enh #934, #938): Correct ternary operator for PHP 7.4 support.
 - (enh #932): Correct Expand Row container parsing for nested expand row columns.
 - (enh #929): Enhance Expand Row Column plugin and correct expand one only.
+- (bug #911): Correct `slugColHeads` usage in JSON export script.
 
 ## Version 3.3.4
 
