@@ -82,6 +82,7 @@ return [
     'items-many' => 'öğenin',
     'krajee, grid, export, yii2-grid, pdf' => 'Krajee, ızgara, ihracat, yii2-ızgara, pdf',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Uzantıları',
+    '<small>Loading &hellip;</small>' => '',
     'Failed to update editable data due to an unknown server error' => '',
     'Invalid editable index or model form name' => '',
     'Invalid or bad editable data' => '',

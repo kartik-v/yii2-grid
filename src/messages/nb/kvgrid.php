@@ -23,6 +23,7 @@ return [
     'items' => 'elementer',
     'items-few' => 'elementer',
     'items-many' => 'elementer',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

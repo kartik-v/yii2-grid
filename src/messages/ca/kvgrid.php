@@ -22,6 +22,7 @@ return [
     'items' => 'elements',
     'items-few' => 'elements',
     'items-many' => 'elements',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

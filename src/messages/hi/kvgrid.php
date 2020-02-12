@@ -77,6 +77,7 @@ return [
     'item' => 'आइटम',
     'items' => 'आइटमो',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, ग्रिड, निर्यात, yii2-grid, pdf',
+    '<small>Loading &hellip;</small>' => '',
     'CSV' => '',
     'Excel' => '',
     'HTML' => '',

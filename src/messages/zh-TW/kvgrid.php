@@ -81,6 +81,7 @@ return [
     'items-many' => 'items',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, grid, export, yii2-grid, pdf',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Extensions',
+    '<small>Loading &hellip;</small>' => '',
     'Failed to update editable data due to an unknown server error' => '',
     'Invalid editable index or model form name' => '',
     'Invalid or bad editable data' => '',

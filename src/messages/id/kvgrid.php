@@ -42,6 +42,7 @@ return [
     'View' => 'Lihat',
     'items-few' => 'items',
     'items-many' => 'items',
+    '<small>Loading &hellip;</small>' => '',
     'CSV' => '',
     'Collapse' => '',
     'Collapse All' => '',

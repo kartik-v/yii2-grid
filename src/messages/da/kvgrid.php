@@ -52,6 +52,7 @@ return [
     'items' => 'elementer',
     'items-few' => 'elementer',
     'items-many' => 'elementer',
+    '<small>Loading &hellip;</small>' => '',
     'All' => '',
     'Clear selection' => '',
     'Collapse' => '',

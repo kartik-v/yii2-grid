@@ -5,6 +5,8 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (enh #948): New property `ExpandRowColumn::msgDetailLoading`.
+- (enh #947): Enhance behavior for initial rows expanded set via GridView::ROW_EXPANDED.
 - (enh #934, #938): Correct ternary operator for PHP 7.4 support.
 - (enh #932): Correct Expand Row container parsing for nested expand row columns.
 - (enh #929): Enhance Expand Row Column plugin and correct expand one only.

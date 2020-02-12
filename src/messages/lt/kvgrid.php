@@ -67,6 +67,7 @@ return [
     'items-few' => 'elementai',
     'items-many' => 'elementų',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Valdikliai',
+    '<small>Loading &hellip;</small>' => '',
     'CSV' => '',
     'Excel' => '',
     'ExportWorksheet' => '',

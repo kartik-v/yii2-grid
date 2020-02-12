@@ -77,6 +77,7 @@ return [
     'items' => 'مورد',
     'items-few' => 'موارد کم',
     'items-many' => 'موارد زیاد',
+    '<small>Loading &hellip;</small>' => '',
     'HTML' => '',
     'JSON' => '',
     'Krajee Solutions' => '',

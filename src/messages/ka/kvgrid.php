@@ -23,6 +23,7 @@ return [
     'items' => 'ჩანაწერი',
     'items-few' => 'ჩანაწერი',
     'items-many' => 'ჩანაწერი',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

@@ -61,6 +61,7 @@ return [
     'items' => 'üksust',
     'items-few' => 'üksust',
     'items-many' => 'üksust',
+    '<small>Loading &hellip;</small>' => '',
     'Book Listing' => '',
     'CSV' => '',
     'Collapse' => '',

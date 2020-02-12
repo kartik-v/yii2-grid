@@ -21,6 +21,7 @@ return [
     'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => 'Total <b>{count, number}</b> {count, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',
     'items-few' => 'items',
     'items-many' => 'items',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

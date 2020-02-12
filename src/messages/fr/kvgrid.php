@@ -86,6 +86,7 @@ return [
     'items-few' => 'éléments',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, grille, exportation, yii2-grid, pdf',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Extensions',
+    '<small>Loading &hellip;</small>' => '',
     'Krajee Solutions' => '',
     'Krajee Yii2 Grid Export Extension' => '',
     'items-acc' => '',

@@ -23,6 +23,7 @@ return [
     'items' => 'مُدخلات',
     'items-few' => 'مُدخلات',
     'items-many' => 'مُدخل',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

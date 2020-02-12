@@ -23,6 +23,7 @@ return [
     'items' => 'ставки',
     'items-few' => 'ставке',
     'items-many' => 'ставки',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

@@ -77,6 +77,7 @@ return [
     'item' => 'રેકોર્ડ',
     'items' => 'રેકોર્ડ',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, ગ્રીડ, એક્સપૉર્ટ, yii2-grid, pdf',
+    '<small>Loading &hellip;</small>' => '',
     'CSV' => '',
     'Excel' => '',
     'HTML' => '',

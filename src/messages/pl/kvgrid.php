@@ -66,6 +66,7 @@ return [
     'items' => 'rekordu',
     'items-few' => 'rekordów',
     'items-many' => 'rekordów',
+    '<small>Loading &hellip;</small>' => '',
     'CSV' => '',
     'Collapse' => '',
     'Collapse All' => '',

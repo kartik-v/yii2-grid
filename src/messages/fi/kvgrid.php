@@ -23,6 +23,7 @@ return [
     'items' => 'tulosta',
     'items-few' => 'tulosta',
     'items-many' => 'tulosta',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

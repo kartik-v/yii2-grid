@@ -89,5 +89,6 @@ return [
     'items-many' => 'muitos itens',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, grid, export, yii2-grid, pdf',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Extensões',
+    '<small>Loading &hellip;</small>' => '',
     'items-acc' => '',
 ];

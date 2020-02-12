@@ -3,7 +3,7 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
  * @version   3.3.5
  */
 

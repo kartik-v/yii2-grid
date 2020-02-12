@@ -3,7 +3,7 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
  * @version   3.3.5
  */
 
@@ -201,6 +201,12 @@ class ExpandRowColumn extends DataColumn
     public $detailAnimationDuration = 'slow';
 
     /**
+     * @var string the message to be shown while the detail content is loading or being rendered. Defaults to
+     * `<small>Loading &hellip;</small>`
+     */
+    public $msgDetailLoading;
+
+    /**
      * @var string hashed javascript variable to store grid expand row options
      */
     protected $_hashVar;
@@ -238,6 +244,9 @@ class ExpandRowColumn extends DataColumn
     {
         if (!isset($this->detailRowCssClass)) {
             $this->detailRowCssClass = $this->grid->getCssClass(GridView::BS_TABLE_INFO);
+        }
+        if (!isset($this->msgDetailLoading)) {
+            $this->msgDetailLoading = Yii::t('kvgrid', '<small>Loading &hellip;</small>');
         }
         $this->initColumnSettings([
             'hiddenFromExport' => true,
@@ -293,6 +302,7 @@ class ExpandRowColumn extends DataColumn
                 'collapseAll' => false,
                 'expandAll' => false,
                 'extraData' => $this->extraData,
+                'msgDetailLoading' => $this->msgDetailLoading
             ]
         );
         $this->_hashVar = 'kvExpandRow_' . hash('crc32', $clientOptions);

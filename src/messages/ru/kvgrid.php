@@ -87,6 +87,7 @@ return [
     'items-many' => 'записей',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, grid, сетка, export, экспорт, yii2-grid, pdf',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Расширения',
+    '<small>Loading &hellip;</small>' => '',
     'Krajee Solutions' => '',
     'Krajee Yii2 Grid Export Extension' => '',
     'items-acc' => '',

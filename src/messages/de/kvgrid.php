@@ -83,11 +83,12 @@ return [
     'grid-export' => 'grid-export',
     'item' => 'Eintrag',
     'items' => 'Einträge',
+    'items-acc' => 'Einträgen',
     'items-few' => 'Einträge',
     'items-many' => 'Einträge',
-    'items-acc' => 'Einträgen',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, gitter, export, yii2-grid, pdf',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Erweiterungen',
+    '<small>Loading &hellip;</small>' => '',
     'Krajee Solutions' => '',
     'Krajee Yii2 Grid Export Extension' => '',
 ];

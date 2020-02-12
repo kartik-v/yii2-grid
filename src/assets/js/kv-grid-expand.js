@@ -1,13 +1,13 @@
 /*!
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
  * @version   3.3.5
  *
  * jQuery methods library for yii2-grid expand row column
  *
  * Author: Kartik Visweswaran
- * Copyright: 2014 - 2019, Kartik Visweswaran, Krajee.com
+ * Copyright: 2014 - 2020, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
@@ -33,6 +33,7 @@ var kvExpandRow;
             rowClickExcludedTags = options.rowClickExcludedTags,
             enableCache = options.enableCache,
             extraData = options.extraData,
+            msgDetailLoading = options.msgDetailLoading,
             rowCssClass = hiddenFromExport ? options.rowCssClass + ' skip-export' : options.rowCssClass,
             duration = options.animationDuration,
             $grid = $('#' + gridId),
@@ -197,6 +198,7 @@ var kvExpandRow;
                         beforeSend: function () {
                             beginLoading($cell);
                             $grid.trigger('kvexprow:beforeLoad', [vInd, vKey, extraData]);
+                            $detail.html(msgDetailLoading);
                         },
                         success: function (out) {
                             $detail.html(out);
@@ -330,6 +332,14 @@ var kvExpandRow;
                 }
             }
         };
+        // initialize expanded cells content
+        $cells.each(function () {
+            var $cell = $(this), manager = new ToggleManager($cell), $icon = $cell.find('>.kv-expand-icon');
+            if (isExpanded($icon)) {
+                manager.collapse(false);
+                manager.expand(false);
+            }
+        });
         if (!$grid.data(kvRowNumVar)) {
             setRowNum(0);
         }
@@ -347,6 +357,7 @@ var kvExpandRow;
         if (!$hdrCell.length) {
             return;
         }
+
         handler($hdrCell, 'click', function () {
             if ($hdrCell.hasClass(progress) || $cells.length === 0) {
                 return;

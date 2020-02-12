@@ -71,6 +71,7 @@ return [
     'items' => 'αντικείμενα',
     'items-few' => 'αντικείμενα',
     'items-many' => 'αντικείμενα',
+    '<small>Loading &hellip;</small>' => '',
     'Failed to update editable data due to an unknown server error' => '',
     'Invalid editable index or model form name' => '',
     'Invalid or bad editable data' => '',

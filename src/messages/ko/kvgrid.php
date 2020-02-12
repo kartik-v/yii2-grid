@@ -21,6 +21,7 @@ return [
     'Total <b>{count, number}</b> {count, plural, one{{item}} other{{items}}}.' => '모두 {count} 개',
     'items-few' => 'items',
     'items-many' => 'items',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

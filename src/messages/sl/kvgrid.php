@@ -23,6 +23,7 @@ return [
     'items' => 'elementov',
     'items-few' => 'elementi',
     'items-many' => 'elementov',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

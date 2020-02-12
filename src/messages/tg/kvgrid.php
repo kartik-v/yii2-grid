@@ -23,6 +23,7 @@ return [
     'items' => 'қайд',
     'items-few' => 'қайд',
     'items-many' => 'қайдҳо',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

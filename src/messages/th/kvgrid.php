@@ -43,6 +43,7 @@ return [
     'export' => 'ส่งออก',
     'items-few' => 'items',
     'items-many' => 'items',
+    '<small>Loading &hellip;</small>' => '',
     'Active' => '',
     'Add Book' => '',
     'Book Listing' => '',

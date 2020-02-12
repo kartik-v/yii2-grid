@@ -80,6 +80,7 @@ return [
     'items-few' => 'elemből',
     'items-many' => 'elemből',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Kiegészítők',
+    '<small>Loading &hellip;</small>' => '',
     'Hyper Text Markup Language' => '',
     'JSON' => '',
     'JavaScript Object Notation' => '',

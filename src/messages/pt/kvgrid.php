@@ -86,6 +86,7 @@ return [
     'items-many' => 'itens',
     'krajee, grid, export, yii2-grid, pdf' => 'krajee, grid, export, yii2-grid, pdf',
     '© Krajee Yii2 Extensions' => '© Krajee Yii2 Extensions',
+    '<small>Loading &hellip;</small>' => '',
     'Failed to update editable data due to an unknown server error' => '',
     'Krajee Solutions' => '',
     'Krajee Yii2 Grid Export Extension' => '',

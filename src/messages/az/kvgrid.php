@@ -23,6 +23,7 @@ return [
     'items' => 'elementdən',
     'items-few' => 'elementdən',
     'items-many' => 'elementdən',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

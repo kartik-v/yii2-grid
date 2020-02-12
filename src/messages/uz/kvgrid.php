@@ -23,6 +23,7 @@ return [
     'items' => 'yozuv',
     'items-few' => 'yozuv',
     'items-many' => 'yozuv',
+    '<small>Loading &hellip;</small>' => '',
     'Actions' => '',
     'Active' => '',
     'Add Book' => '',

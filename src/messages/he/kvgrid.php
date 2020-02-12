@@ -48,6 +48,7 @@ return [
     'items' => 'רשומה',
     'items-few' => 'רשומה',
     'items-many' => 'רשומה',
+    '<small>Loading &hellip;</small>' => '',
     'Add Book' => '',
     'Book Listing' => '',
     'CSV' => '',

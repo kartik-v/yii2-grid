@@ -1,13 +1,13 @@
 /*!
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2019
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
  * @version   3.2.7
  *
  * Grid grouping jquery library created for yii2-grid.
  *
  * Author: Kartik Visweswaran
- * Copyright: 2014 - 2019, Kartik Visweswaran, Krajee.com
+ * Copyright: 2014 - 2020, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */

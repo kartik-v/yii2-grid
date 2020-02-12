@@ -72,6 +72,7 @@ return [
     'items' => 'mục',
     'items-few' => 'mục',
     'items-many' => 'mục',
+    '<small>Loading &hellip;</small>' => '',
     'CSV' => '',
     'Excel' => '',
     'HTML' => '',
