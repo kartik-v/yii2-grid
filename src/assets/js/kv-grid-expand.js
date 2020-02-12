@@ -334,11 +334,7 @@ var kvExpandRow;
         };
         // initialize expanded cells content
         $cells.each(function () {
-            var $cell = $(this), manager = new ToggleManager($cell), $icon = $cell.find('>.kv-expand-icon');
-            if (isExpanded($icon)) {
-                manager.collapse(false);
-                manager.expand(false);
-            }
+
         });
         if (!$grid.data(kvRowNumVar)) {
             setRowNum(0);
@@ -351,8 +347,12 @@ var kvExpandRow;
             return;
         }
         $cells.each(function () {
-            var expandRow = new ToggleManager($(this));
-            expandRow.run();
+            var $cell = $(this), manager = new ToggleManager($cell), $icon = $cell.find('>.kv-expand-icon');
+            if (isExpanded($icon)) {
+                manager.collapse(false);
+                manager.expand(false);
+            }
+            manager.run();
         });
         if (!$hdrCell.length) {
             return;
