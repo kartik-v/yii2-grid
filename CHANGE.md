@@ -7,6 +7,7 @@ Change Log: `yii2-grid`
 
 - (enh #948): New property `ExpandRowColumn::msgDetailLoading`.
 - (enh #947): Enhance behavior for initial rows expanded set via GridView::ROW_EXPANDED.
+- (enh #940): Set dependency on `kartik-v/yii2-bootstrap4-dropdown`.
 - (enh #934, #938): Correct ternary operator for PHP 7.4 support.
 - (enh #932): Correct Expand Row container parsing for nested expand row columns.
 - (enh #929): Enhance Expand Row Column plugin and correct expand one only.
