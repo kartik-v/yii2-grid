@@ -3,7 +3,7 @@ Change Log: `yii2-grid`
 
 ## Version 3.3.5
 
-**Date:** _under development_
+**Date:** 27-Mar-2020
 
 - (enh #948): New property `ExpandRowColumn::msgDetailLoading`.
 - (enh #947): Enhance behavior for initial rows expanded set via GridView::ROW_EXPANDED.
