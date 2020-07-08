@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
- * @version   3.3.5
+ * @version   3.3.6
  */
 
 namespace kartik\grid;
@@ -322,10 +322,10 @@ class ExpandRowColumn extends DataColumn
         /** @noinspection PhpUnusedLocalVariableInspection */
         $icon = '';
         if ($value === GridView::ROW_EXPANDED) {
-            $type = 'collapsed';
+            $type = 'expanded';
             $icon = $this->collapseIcon;
         } elseif ($value === GridView::ROW_COLLAPSED) {
-            $type = 'expanded';
+            $type = 'collapsed';
             $icon = $this->expandIcon;
         } else {
             return $value;
@@ -416,10 +416,10 @@ HTML;
             return parent::renderHeaderCellContent();
         }
         $icon = $this->expandIcon;
-        $css = 'kv-expand-header-icon kv-state-collapsed';
+        $css = 'kv-expand-header-icon kv-state-expanded';
         if ($this->defaultHeaderState === GridView::ROW_EXPANDED) {
             $icon = $this->collapseIcon;
-            $css = 'kv-expand-header-icon kv-state-expanded';
+            $css = 'kv-expand-header-icon kv-state-collapsed';
         }
         return "<div class='{$css}'>{$icon}</div>";
     }

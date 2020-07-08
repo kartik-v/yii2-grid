@@ -1,6 +1,14 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.3.6
+
+**Date:** _under development_
+
+- (bug #959): Correct `filterOptions` column seq setting in ColumnTrait.
+- (bug #958): Correct ExpandRowColumn expand all & collapse all.
+- (enh #956): Update Portugese Brazilian Translations.
+
 ## Version 3.3.5
 
 **Date:** 27-Mar-2020

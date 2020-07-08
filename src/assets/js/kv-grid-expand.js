@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
- * @version   3.3.5
+ * @version   3.3.6
  *
  * jQuery methods library for yii2-grid expand row column
  *
@@ -59,10 +59,10 @@ var kvExpandRow;
             },
             cols = getCols(),
             isExpanded = function ($i) {
-                return $i.hasClass('kv-state-collapsed') && !$i.hasClass('kv-state-disabled');
+                return $i.hasClass('kv-state-expanded') && !$i.hasClass('kv-state-disabled');
             },
             isCollapsed = function ($i) {
-                return $i.hasClass('kv-state-expanded') && !$i.hasClass('kv-state-disabled');
+                return $i.hasClass('kv-state-collapsed') && !$i.hasClass('kv-state-disabled');
             },
             setCss = function ($el, css) {
                 if ($el.length) {
@@ -70,10 +70,10 @@ var kvExpandRow;
                 }
             },
             setExpanded = function ($i) {
-                $i.removeClass('kv-state-collapsed').addClass('kv-state-expanded');
+                $i.removeClass('kv-state-expanded').addClass('kv-state-collapsed');
             },
             setCollapsed = function ($i) {
-                $i.removeClass('kv-state-expanded').addClass('kv-state-collapsed');
+                $i.removeClass('kv-state-collapsed').addClass('kv-state-expanded');
             },
             beginLoading = function ($c) {
                 setCss($c, progress);
@@ -280,7 +280,10 @@ var kvExpandRow;
                 $icon.html(expandIcon);
                 $cell.attr('title', expandTitle);
                 $detail.slideUp(duration, function () {
-                    $detail.unwrap().unwrap();
+                    var $detailRow = $detail.closest('tr.kv-expand-detail-row');
+                    if ($detailRow.length) {
+                        $detailRow.before($detail).remove();
+                    }
                     $detail.appendTo($container);
                     setExpanded($icon);
                     // needed when used together with grouping
@@ -366,14 +369,14 @@ var kvExpandRow;
                 opt = $.extend(true, {}, options, {expandAll: expAll, collapseAll: collAll});
             beginLoading($hdrCell);
             if (expAll) {
-                setRowNum($cells.find('.kv-state-collapsed').length);
+                setRowNum($cells.find('.kv-state-expanded').length);
                 setExpanded($hdrIcon);
                 $hdrIcon.html(collapseIcon);
                 $hdrCell.attr('title', collapseAllTitle);
                 $grid.trigger('kvexprow:toggleAll', [extraData, false]);
             } else {
                 if (collAll) {
-                    setRowNum($cells.find('.kv-state-expanded').length);
+                    setRowNum($cells.find('.kv-state-collapsed').length);
                     setCollapsed($hdrIcon);
                     $hdrIcon.html(expandIcon);
                     $hdrCell.attr('title', expandAllTitle);
