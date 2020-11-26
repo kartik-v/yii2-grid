@@ -5,6 +5,9 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (enh #971): Correct `kv-grid-group.js` version.
+- (enh #969): Update Fontawesome CDN version.
+- (enh #968): Update Ukraine Translations.
 - (bug #959): Correct `filterOptions` column seq setting in ColumnTrait.
 - (bug #958): Correct ExpandRowColumn expand all & collapse all.
 - (enh #956): Update Portugese Brazilian Translations.
