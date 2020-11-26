@@ -1710,7 +1710,9 @@ HTML;
                     'cssFile' => $this->isBs4() ?
                         [
                             'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
-                            'https://use.fontawesome.com/releases/v5.3.1/css/all.css',
+                            //'https://use.fontawesome.com/releases/v5.3.1/css/all.css',
+                            // Use CDN version to avoid impact China site.  It also work for worldwide
+                            'https://cdn.bootcss.com/font-awesome/5.3.1/css/all.css',
                         ] :
                         ['https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'],
                 ],
