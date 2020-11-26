@@ -77,7 +77,7 @@ return [
     'Yii2 Grid Export (PDF)' => 'PDF експорт таблиці Yii2',
     'export' => 'експорт',
     'grid-export' => 'Експорт таблиці',
-    'item' => 'запису',
+    'item' => 'запис',
     'items' => 'записи',
     'items-few' => 'записи',
     'items-many' => 'записів',
