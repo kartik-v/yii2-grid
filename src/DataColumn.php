@@ -250,6 +250,8 @@ class DataColumn extends YiiDataColumn
      */
     protected function renderFilterCellContent()
     {
+        $content='';
+        if($this->filterType=="")
         $content = parent::renderFilterCellContent();
         $chkType = !empty($this->filterType) && $this->filterType !== GridView::FILTER_CHECKBOX &&
             $this->filterType !== GridView::FILTER_RADIO && !class_exists($this->filterType);
