@@ -88,6 +88,7 @@ $gridColumns = [
         'vAlign'=>'middle',
         'format'=>'raw',
         'width'=>'150px',
+        'style' => ['overflow' => 'hidden','text-overflow' => 'ellipsis'],
         'noWrap'=>true
     ],
     [

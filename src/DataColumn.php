@@ -194,6 +194,11 @@ class DataColumn extends YiiDataColumn
     public $xlFormat;
 
     /**
+     * @var array the css style for ceil
+     */
+    public $style=[];
+
+    /**
      * @var array|Closure configuration for the `\kartik\export\ExportMenu` column cell style that will be utilized by
      * `\PhpOffice\PhpSpreadsheet\Style\Style::applyFromArray()`. This is applicable when configuring this column
      * in `\kartik\export\ExportMenu`. If setup as a Closure, the signature of the function should be: `function
@@ -239,6 +244,9 @@ class DataColumn extends YiiDataColumn
         $this->parseGrouping($options, $model, $key, $index);
         $this->parseExcelFormats($options, $model, $key, $index);
         $this->initPjax($this->_clientScript);
+        if (!empty($this->style) && is_array($this->style)) {
+            $options = array_merge($options, ['style' => $this->style]);
+        }
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
 
