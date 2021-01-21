@@ -14,6 +14,10 @@
     font-size: 1.35em;
 }
 
+.kv-expand-title-cell{
+    font-size: 1em;
+}
+
 .kv-expand-header-cell.kv-batch-toggle,
 .kv-expand-icon-cell {
     cursor: pointer;

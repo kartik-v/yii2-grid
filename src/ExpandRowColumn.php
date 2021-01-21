@@ -207,6 +207,11 @@ class ExpandRowColumn extends DataColumn
     public $msgDetailLoading;
 
     /**
+     * @var string label to be displayed in the [[header|header cell]]
+     */
+    public $label;
+
+    /**
      * @var string hashed javascript variable to store grid expand row options
      */
     protected $_hashVar;
@@ -421,6 +426,9 @@ HTML;
             $icon = $this->collapseIcon;
             $css = 'kv-expand-header-icon kv-state-collapsed';
         }
-        return "<div class='{$css}'>{$icon}</div>";
+        $titleHtml="";
+        if(!empty($this->label))
+            $titleHtml="<span class='kv-expand-title-cell'>{$this->label}</span>";
+        return "<div class='{$css}'>{$icon}{$labelHtml}</div>";
     }
 }
