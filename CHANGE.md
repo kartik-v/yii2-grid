@@ -3,8 +3,12 @@ Change Log: `yii2-grid`
 
 ## Version 3.3.6
 
-**Date:** _under development_
+**Date:** 02-Sep-2021
 
+- (enh #993): Enhancements to support Bootstrap v5.x.
+- (enh #971): Correct `kv-grid-group.js` version.
+- (enh #969): Update Fontawesome CDN version.
+- (enh #968): Update Ukraine Translations.
 - (bug #959): Correct `filterOptions` column seq setting in ColumnTrait.
 - (bug #958): Correct ExpandRowColumn expand all & collapse all.
 - (enh #956): Update Portugese Brazilian Translations.

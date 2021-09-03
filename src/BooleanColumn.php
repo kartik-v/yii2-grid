@@ -3,13 +3,15 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
  * @version   3.3.6
  */
 
 namespace kartik\grid;
 
+use Exception;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 
 /**
@@ -67,7 +69,7 @@ class BooleanColumn extends DataColumn
 
     /**
      * @inheritdoc
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function init()
     {
@@ -83,7 +85,7 @@ class BooleanColumn extends DataColumn
         }
         $this->filter = [true => $this->trueLabel, false => $this->falseLabel];
         if (empty($this->trueIcon)) {
-            $this->trueIcon = $this->getIconMarkup('true');
+            $this->trueIcon = $this->getIconMarkup();
         }
 
         if (empty($this->falseIcon)) {
@@ -96,7 +98,7 @@ class BooleanColumn extends DataColumn
      * Get icon HTML markup
      * @param string $type the type of markup `true` or `false`
      * @return string
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     protected function getIconMarkup($type = 'true')
     {
@@ -104,12 +106,12 @@ class BooleanColumn extends DataColumn
         if (!$this->grid->bootstrap) {
             return $label;
         }
-        $isBs4 = $this->grid->isBs4();
+        $notBs3 = !$this->grid->isBs(3);
         if ($type === 'true') {
-            return ($isBs4 ? GridView::ICON_ACTIVE_BS4 : GridView::ICON_ACTIVE) . 
+            return ($notBs3 ? GridView::ICON_ACTIVE_BS4 : GridView::ICON_ACTIVE) . 
                 Html::tag('span', $this->trueLabel, ['class' => 'kv-grid-boolean']);
         }
-        return ($isBs4 ? GridView::ICON_INACTIVE_BS4 : GridView::ICON_INACTIVE) . 
+        return ($notBs3 ? GridView::ICON_INACTIVE_BS4 : GridView::ICON_INACTIVE) . 
                 Html::tag('span', $this->falseLabel, ['class' => 'kv-grid-boolean']);
     }
 

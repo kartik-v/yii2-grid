@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
  * @package yii2-grid
  * @version 3.3.6
  */
@@ -9,6 +9,7 @@
 namespace kartik\grid;
 
 use Closure;
+use Exception;
 use Yii;
 use yii\grid\ActionColumn as YiiActionColumn;
 use yii\helpers\ArrayHelper;
@@ -115,7 +116,7 @@ class ActionColumn extends YiiActionColumn
     public $headerOptions = [];
 
     /**
-     * @var array|\Closure the HTML attributes for the data cell tag. This can either be an array of attributes or an
+     * @var array|Closure the HTML attributes for the data cell tag. This can either be an array of attributes or an
      * anonymous function ([[Closure]]) that returns such an array. The signature of the function should be the
      * following: `function ($model, $key, $index, $column)`. A function may be used to assign different attributes
      * to different rows based on the data in that row.
@@ -131,7 +132,7 @@ class ActionColumn extends YiiActionColumn
 
     /**
      * @inheritdoc
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function init()
     {
@@ -140,9 +141,8 @@ class ActionColumn extends YiiActionColumn
             'mergeHeader' => true,
             'hAlign' => GridView::ALIGN_CENTER,
             'vAlign' => GridView::ALIGN_MIDDLE,
-            'width' => '50px',
+            'width' => '100px',
         ]);
-        /** @noinspection PhpUndefinedFieldInspection */
         $this->_isDropdown = ($this->grid->bootstrap && $this->dropdown);
         if (!isset($this->header)) {
             $this->header = Yii::t('kvgrid', 'Actions');
@@ -217,19 +217,19 @@ class ActionColumn extends YiiActionColumn
      * @param string $name button name as written in the [[template]]
      * @param string $title the title of the button
      * @param string $icon the meaningful glyphicon suffix name for the button
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     protected function setDefaultButton($name, $title, $icon)
     {
-        $isBs4 = $this->grid->isBs4();
+        $notBs3 = !$this->grid->isBs(3);
         if (isset($this->buttons[$name])) {
             return;
         }
-        $this->buttons[$name] = function ($url) use ($name, $title, $icon, $isBs4) {
+        $this->buttons[$name] = function ($url) use ($name, $title, $icon, $notBs3) {
             $opts = "{$name}Options";
             $options = ['title' => $title, 'aria-label' => $title, 'data-pjax' => '0'];
             if ($name === 'delete') {
-                $item = isset($this->grid->itemLabelSingle) ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item');
+                $item = $this->grid->itemLabelSingle ?? Yii::t('kvgrid', 'item');
                 $options['data-method'] = 'post';
                 $options['data-confirm'] = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
             }
@@ -238,7 +238,7 @@ class ActionColumn extends YiiActionColumn
             $link = Html::a($label, $url, $options);
             if ($this->_isDropdown) {
                 $options['tabindex'] = '-1';
-                return $isBs4 ? $link : "<li>{$link}</li>\n";
+                return $notBs3 ? $link : "<li>{$link}</li>\n";
             } else {
                 return $link;
             }
@@ -251,10 +251,10 @@ class ActionColumn extends YiiActionColumn
      */
     protected function initDefaultButtons()
     {
-        $isBs4 = $this->grid->isBs4();
-        $this->setDefaultButton('view', Yii::t('kvgrid', 'View'), $isBs4 ? 'eye' : 'eye-open');
-        $this->setDefaultButton('update', Yii::t('kvgrid', 'Update'), $isBs4 ? 'pencil-alt' : 'pencil');
-        $this->setDefaultButton('delete', Yii::t('kvgrid', 'Delete'), $isBs4 ? 'trash-alt' : 'trash');
+        $notBs3 = !$this->grid->isBs(3);
+        $this->setDefaultButton('view', Yii::t('kvgrid', 'View'), $notBs3 ? 'eye' : 'eye-open');
+        $this->setDefaultButton('update', Yii::t('kvgrid', 'Update'), $notBs3 ? 'pencil-alt' : 'pencil');
+        $this->setDefaultButton('delete', Yii::t('kvgrid', 'Delete'), $notBs3 ? 'trash-alt' : 'trash');
     }
 
     /**
@@ -263,8 +263,8 @@ class ActionColumn extends YiiActionColumn
      */
     protected function renderDataCellContent($model, $key, $index)
     {
-        $isBs4 = $this->grid->isBs4();
-        if ($isBs4 && $this->_isDropdown) {
+        $notBs3 = !$this->grid->isBs(3);
+        if ($notBs3 && $this->_isDropdown) {
             Html::addCssClass($this->buttonOptions, 'dropdown-item');
         }
         $content = parent::renderDataCellContent($model, $key, $index);
@@ -278,13 +278,13 @@ class ActionColumn extends YiiActionColumn
         $trimmed = trim($content);
         if ($this->_isDropdown && !empty($trimmed)) {
             $label = ArrayHelper::remove($options, 'label', Yii::t('kvgrid', 'Actions'));
-            $caret = $isBs4 ? '' : ArrayHelper::remove($options, 'caret', ' <span class="caret"></span>');
+            $caret = $notBs3 ? '' : ArrayHelper::remove($options, 'caret', ' <span class="caret"></span>');
             $options = array_replace_recursive($options, ['type' => 'button', 'data-toggle' => 'dropdown']);
             Html::addCssClass($options, 'dropdown-toggle');
             $button = Html::button($label . $caret, $options);
             Html::addCssClass($this->dropdownMenu, 'dropdown-menu');
-            $dropdown = $button . PHP_EOL . Html::tag($isBs4 ? 'div' : 'ul', $content, $this->dropdownMenu);
-            Html::addCssClass($this->dropdownOptions, $isBs4 ? 'btn-group' : 'dropdown');
+            $dropdown = $button . PHP_EOL . Html::tag($notBs3 ? 'div' : 'ul', $content, $this->dropdownMenu);
+            Html::addCssClass($this->dropdownOptions, $notBs3 ? 'btn-group' : 'dropdown');
             return Html::tag('div', $dropdown, $this->dropdownOptions);
         }
         return $content;

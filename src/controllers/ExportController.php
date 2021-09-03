@@ -3,7 +3,7 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
  * @version   3.3.6
  */
 
@@ -32,7 +32,7 @@ class ExportController extends Controller
      * Download the exported file
      *
      * @return mixed
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function actionDownload()
     {
@@ -83,7 +83,6 @@ class ExportController extends Controller
      * @param array $config the configuration for yii2-mpdf component
      *
      * @return Response
-     * @throws InvalidConfigException
      */
     protected function generatePDF($content, $filename, $config = [])
     {

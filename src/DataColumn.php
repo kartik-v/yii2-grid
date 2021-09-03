@@ -3,13 +3,16 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
  * @version   3.3.6
  */
 
 namespace kartik\grid;
 
 use Closure;
+use Exception;
+use kartik\base\Widget;
+use yii\base\InvalidConfigException;
 use yii\grid\DataColumn as YiiDataColumn;
 use kartik\base\Config;
 use yii\helpers\Html;
@@ -211,7 +214,7 @@ class DataColumn extends YiiDataColumn
 
     /**
      * @inheritdoc
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function init()
     {
@@ -246,7 +249,7 @@ class DataColumn extends YiiDataColumn
      * Renders filter inputs based on the `filterType`
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function renderFilterCellContent()
     {
@@ -282,7 +285,7 @@ class DataColumn extends YiiDataColumn
             return Html::activeCheckbox($this->grid->filterModel, $this->attribute, $this->filterInputOptions);
         }
         $options = array_replace_recursive($this->filterWidgetOptions, $options);
-        /** @var \kartik\base\Widget $widgetClass */
+        /** @var Widget $widgetClass */
         return $widgetClass::widget($options);
     }
 }

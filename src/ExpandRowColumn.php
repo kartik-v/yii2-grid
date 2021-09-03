@@ -3,13 +3,14 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
  * @version   3.3.6
  */
 
 namespace kartik\grid;
 
 use Closure;
+use Exception;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
@@ -78,7 +79,7 @@ class ExpandRowColumn extends DataColumn
      * following rules:
      * - If GridView `bootstrap` property is set to `true`, it will default to:
      *   - [[GridView::ICON_EXPAND]] for Bootstrap 3.x
-     *   - [[GridView::ICON_EXPAND_BS4]] for Bootstrap 4.x
+     *   - [[GridView::ICON_EXPAND_BS4]] for Bootstrap 4.x / 5.x
      * - If GridView `bootstrap` property is set to `false`, then it will default to `+`.
      */
     public $expandIcon;
@@ -88,7 +89,7 @@ class ExpandRowColumn extends DataColumn
      * following rules:
      * - If GridView `bootstrap` property is set to `true`, it will default to:
      *   - [[GridView::ICON_COLLAPSE]] for Bootstrap 3.x
-     *   - [[GridView::ICON_COLLAPSE_BS4]] for Bootstrap 4.x
+     *   - [[GridView::ICON_COLLAPSE_BS4]] for Bootstrap 4.x / 5.x
      * - If GridView `bootstrap` property is set to `false`, then it will default to `-`.
      */
     public $collapseIcon;
@@ -375,7 +376,7 @@ HTML;
      * @param string $type one of `expand` or `collapse`
      *
      * @return string the icon indicator markup
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     protected function getIcon($type)
     {
@@ -384,12 +385,12 @@ HTML;
             return $this->$setting;
         }
         $bs = $this->grid->bootstrap;
-        $isBs4 = $this->grid->isBs4();
+        $notBs3 = !$this->grid->isBs(3);
         if ($type === 'expand') {
-            return $bs ? ($isBs4 ? GridView::ICON_EXPAND_BS4 : GridView::ICON_EXPAND) : '+';
+            return $bs ? ($notBs3 ? GridView::ICON_EXPAND_BS4 : GridView::ICON_EXPAND) : '+';
         }
         if ($type === 'collapse') {
-            return $bs ? ($isBs4 ? GridView::ICON_COLLAPSE_BS4 : GridView::ICON_COLLAPSE) : '-';
+            return $bs ? ($notBs3 ? GridView::ICON_COLLAPSE_BS4 : GridView::ICON_COLLAPSE) : '-';
         }
         return null;
     }

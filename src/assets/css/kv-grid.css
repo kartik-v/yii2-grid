@@ -1,7 +1,7 @@
 /*!
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
  * @version   3.3.6
  *
  * Yii2 Gridview widget styling and enhancements for Bootstrap.
@@ -352,7 +352,16 @@
  * RadioColumn styles
  */
 .kv-clear-radio {
-    float: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.35em;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.kv-clear-radio:focus,
+.kv-clear-radio:hover {
+    color: #245269;
+    text-decoration: none;
 }
 
 /**

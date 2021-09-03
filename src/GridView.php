@@ -3,13 +3,14 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
  * @version   3.3.6
  */
 
 namespace kartik\grid;
 
 use Closure;
+use Exception;
 use kartik\base\BootstrapInterface;
 use kartik\base\BootstrapTrait;
 use kartik\base\Config;
@@ -77,6 +78,11 @@ class GridView extends YiiGridView implements BootstrapInterface
     const TYPE_DEFAULT = 'default';
 
     /**
+     * @var string the **dark** bootstrap contextual color type (applicable only for panel contextual style)
+     */
+    const TYPE_DARK = 'dark';
+
+    /**
      * @var string the **primary** bootstrap contextual color type
      */
     const TYPE_PRIMARY = 'primary';
@@ -127,22 +133,22 @@ class GridView extends YiiGridView implements BootstrapInterface
     const ICON_COLLAPSE = '<span class="glyphicon glyphicon-collapse-down"></span>';
 
     /**
-     * @var string the Bootstrap 4.x **active** icon markup for [[BooleanColumn]]
+     * @var string the Bootstrap 4.x / 5.x **active** icon markup for [[BooleanColumn]]
      */
     const ICON_ACTIVE_BS4 = '<span class="fas fa-check text-success"></span>';
 
     /**
-     * @var string the Bootstrap 4.x **inactive** icon markup for [[BooleanColumn]]
+     * @var string the Bootstrap 4.x / 5.x **inactive** icon markup for [[BooleanColumn]]
      */
     const ICON_INACTIVE_BS4 = '<span class="fas fa-times text-danger"></span>';
 
     /**
-     * @var string the Bootstrap 4.x **expanded** icon markup for [[ExpandRowColumn]]
+     * @var string the Bootstrap 4.x / 5.x **expanded** icon markup for [[ExpandRowColumn]]
      */
     const ICON_EXPAND_BS4 = '<span class="far fa-plus-square"></span>';
 
     /**
-     * @var string the Bootstrap 4.x **collapsed** icon markup for [[ExpandRowColumn]]
+     * @var string the Bootstrap 4.x / 5.x **collapsed** icon markup for [[ExpandRowColumn]]
      */
     const ICON_COLLAPSE_BS4 = '<span class="far fa-minus-square"></span>';
 
@@ -856,13 +862,13 @@ HTML;
      *          'all' => [
      *              'icon' => 'resize-full',
      *              'label' => 'All',
-     *              'class' => 'btn btn-default', // 'btn btn-secondary' for BS4.x
+     *              'class' => 'btn btn-default', // 'btn btn-secondary' for BS4.x / BS5.x
      *              'title' => 'Show all data'
      *          ],
      *          'page' => [
      *              'icon' => 'resize-small',
      *              'label' => 'Page',
-     *              'class' => 'btn btn-default', // 'btn btn-secondary' for BS4.x
+     *              'class' => 'btn btn-default', // 'btn btn-secondary' for BS4.x / BS5.x
      *              'title' => 'Show first page data'
      *          ],
      *      ]
@@ -917,7 +923,7 @@ HTML;
      *   the page export items will be automatically generated based on settings in the `exportConfig` property.
      * - `options`: _array_, HTML attributes for the export menu button. Defaults to
      *    - `['class' => 'btn btn-default']` for [[bsVersion]] = '3.x' or .
-     *    - `['class' => 'btn btn-secondary']` for [[bsVersion]] = '4.x'
+     *    - `['class' => 'btn btn-secondary']` for [[bsVersion]] = '4.x' / '5.x'
      * - `encoding`: _string_, the export output file encoding. If not set, defaults to `utf-8`.
      * - `bom`: `boolean`, whether a BOM is to be embedded for text or CSV files with utf-8 encoding. Defaults to
      *   `true`.
@@ -1061,7 +1067,7 @@ HTML;
     {
         if (is_array($exportConfig) && !empty($exportConfig)) {
             foreach ($exportConfig as $format => $setting) {
-                $setup = is_array($exportConfig[$format]) ? $exportConfig[$format] : [];
+                $setup = is_array($setting) ? $setting : [];
                 $exportConfig[$format] = empty($setup) ? $defaultExportConfig[$format] :
                     array_replace_recursive($defaultExportConfig[$format], $setup);
             }
@@ -1094,7 +1100,9 @@ HTML;
             $this->bsVersion = $this->_module->bsVersion;
         }
         $this->initBsVersion();
-        Html::addCssClass($this->options, 'is-bs' . ($this->isBs4() ? '4' : '3'));
+        $bsVer = $this->getBsVer();
+        $notBs3 = $bsVer > 3;
+        Html::addCssClass($this->options, 'is-bs' . ($notBs3 ? '4' : '3'));
         $this->initPjaxContainerId();
         if (!isset($this->itemLabelSingle)) {
             $this->itemLabelSingle = Yii::t('kvgrid', 'item');
@@ -1111,8 +1119,7 @@ HTML;
         if (!isset($this->itemLabelAccusative)) {
             $this->itemLabelAccusative = Yii::t('kvgrid', 'items-acc');
         }
-        $isBs4 = $this->isBs4();
-        if ($isBs4) {
+        if ($notBs3) {
             Html::addCssClass($this->options, 'kv-grid-bs4');
             $this->setPagerOptionClass('linkContainerOptions', 'page-item');
             $this->setPagerOptionClass('linkOptions', 'page-link');
@@ -1132,7 +1139,6 @@ HTML;
         }
         $this->_isShowAll = $request->getQueryParam($this->_toggleDataKey, $this->defaultPagination) === 'all';
         if ($this->_isShowAll) {
-            /** @noinspection PhpUndefinedFieldInspection */
             $this->dataProvider->pagination = false;
         }
         $this->_toggleButtonId = $this->options['id'] . '-togdata-' . ($this->_isShowAll ? 'all' : 'page');
@@ -1164,8 +1170,9 @@ HTML;
 
     /**
      * Adds CSS class to the pager parameter
-     * @param string $param the pager param
-     * @param string $css the CSS class
+     * @param  string  $param  the pager param
+     * @param  string  $css  the CSS class
+     * @throws Exception
      */
     protected function setPagerOptionClass($param, $css)
     {
@@ -1177,7 +1184,7 @@ HTML;
     /**
      * @inheritdoc
      * @throws InvalidConfigException
-     * @throws \Exception
+     * @throws Exception
      */
     public function run()
     {
@@ -1212,15 +1219,16 @@ HTML;
      * Renders the table page summary.
      *
      * @return string the rendering result.
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     public function renderPageSummary()
     {
         if (!$this->showPageSummary) {
             return null;
         }
+        $notBs3 = !$this->isBs(3);
         if (!isset($this->pageSummaryRowOptions['class'])) {
-            $this->pageSummaryRowOptions['class'] = ($this->isBs4() ? 'table-' : '') . 'warning kv-page-summary';
+            $this->pageSummaryRowOptions['class'] = ($notBs3 ? 'table-' : '') . 'warning kv-page-summary';
         }
         Html::addCssClass($this->pageSummaryRowOptions, $this->options['id']);
         $row = $this->getPageSummaryRow();
@@ -1235,6 +1243,7 @@ HTML;
     /**
      * Get the page summary row markup
      * @return string
+     * @throws Exception
      */
     protected function getPageSummaryRow()
     {
@@ -1327,6 +1336,7 @@ HTML;
      * Renders the toggle data button.
      *
      * @return string
+     * @throws Exception
      */
     public function renderToggleData()
     {
@@ -1350,7 +1360,7 @@ HTML;
      *
      * @return string
      * @throws InvalidConfigException
-     * @throws \Exception
+     * @throws Exception
      */
     public function renderExport()
     {
@@ -1359,7 +1369,8 @@ HTML;
         ) {
             return '';
         }
-        $isBs4 = $this->isBs4();
+        $bsVer = $this->getBsVer();
+        $notBs3 = $bsVer > 3;
         $title = $this->export['label'];
         $icon = $this->export['icon'];
         $options = $this->export['options'];
@@ -1406,16 +1417,17 @@ HTML;
             'encodeLabel' => false,
         ];
         Html::addCssClass($this->exportContainer, 'btn-group');
-        if ($isBs4) {
+        $dropdown = $this->getDropdownClass(true);
+        if ($notBs3) {
             $opts['buttonOptions'] = $options;
             $opts['renderContainer'] = false;
-            /** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
-            $out = Html::tag('div', \kartik\bs4dropdown\ButtonDropdown::widget($opts), $this->exportContainer);
+            /** @noinspection PhpUndefinedMethodInspection */
+            $out = Html::tag('div', $dropdown::widget($opts), $this->exportContainer);
         } else {
             $opts['options'] = $options;
             $opts['containerOptions'] = $this->exportContainer;
-            /** @noinspection PhpUnnecessaryFullyQualifiedNameInspection */
-            $out = \yii\bootstrap\ButtonDropdown::widget($opts);
+            /** @noinspection PhpUndefinedMethodInspection */
+            $out = $dropdown::widget($opts);
         }
         return $out;
     }
@@ -1478,7 +1490,6 @@ HTML;
             $cols = [];
             foreach ($this->columns as $column) {
                 //Skip column with groupedRow
-                /** @noinspection PhpUndefinedFieldInspection */
                 if (property_exists($column, 'groupedRow') && $column->groupedRow) {
                     continue;
                 }
@@ -1570,14 +1581,11 @@ HTML;
             $this->moduleId = Module::MODULE;
         }
         $this->_module = Config::getModule($this->moduleId, Module::class);
-        if (isset($this->bsVersion)) {
-            return;
-        }
     }
 
     /**
      * Initialize grid export.
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     protected function initExport()
     {
@@ -1595,11 +1603,12 @@ HTML;
             $this->export['fontAwesome'] = false;
         }
         $isFa = $this->export['fontAwesome'];
-        $isBs4 = $this->isBs4();
+        $bsVer = $this->getBsVer();
+        $notBs3 = $bsVer > 3;
         $this->export = array_replace_recursive(
             [
                 'label' => '',
-                'icon' => $isFa ? 'fa fa-share-square-o' : ($this->isBs4() ? 'fas fa-external-link-alt' : 'glyphicon glyphicon-export'),
+                'icon' => $isFa ? 'fa fa-share-square-o' : ($notBs3 ? 'fas fa-external-link-alt' : 'glyphicon glyphicon-export'),
                 'messages' => [
                     'allowPopups' => Yii::t(
                         'kvgrid',
@@ -1692,10 +1701,16 @@ HTML;
                 'padding' => '2px 1px',
             ],
         ];
+
+        $ver = $bsVer === 5 ? '5.1.0' : ($bsVer === 4 ? '4.6.0' : '3.4.1');
+        $cssFile = ["https://cdn.jsdelivr.net/npm/bootstrap@{$ver}/dist/css/bootstrap.min.css"];
+        if ($notBs3) {
+            $cssFile[] = 'https://use.fontawesome.com/releases/v5.3.1/css/all.css';
+        }
         $defaultExportConfig = [
             self::HTML => [
                 'label' => Yii::t('kvgrid', 'HTML'),
-                'icon' => $isBs4 ? 'fas fa-file-alt' : ($isFa ? 'fa fa-file-text' : 'glyphicon glyphicon-save'),
+                'icon' => $notBs3 ? 'fas fa-file-alt' : ($isFa ? 'fa fa-file-text' : 'glyphicon glyphicon-save'),
                 'iconOptions' => ['class' => 'text-info'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1707,19 +1722,12 @@ HTML;
                 'mime' => 'text/plain',
                 'cssStyles' => $cssStyles,
                 'config' => [
-                    'cssFile' => $this->isBs4() ?
-                        [
-                            'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
-                            //'https://use.fontawesome.com/releases/v5.3.1/css/all.css',
-                            // Use CDN version to avoid impact China site.  It also work for worldwide
-                            'https://cdn.bootcss.com/font-awesome/5.3.1/css/all.css',
-                        ] :
-                        ['https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'],
+                    'cssFile' => $cssFile,
                 ],
             ],
             self::CSV => [
                 'label' => Yii::t('kvgrid', 'CSV'),
-                'icon' => $isBs4 ? 'fas fa-file-code' : ($isFa ? 'fa fa-file-code-o' : 'glyphicon glyphicon-floppy-open'),
+                'icon' => $notBs3 ? 'fas fa-file-code' : ($isFa ? 'fa fa-file-code-o' : 'glyphicon glyphicon-floppy-open'),
                 'iconOptions' => ['class' => 'text-primary'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1736,7 +1744,7 @@ HTML;
             ],
             self::TEXT => [
                 'label' => Yii::t('kvgrid', 'Text'),
-                'icon' => $isBs4 ? 'far fa-file-alt' : ($isFa ? 'fa fa-file-text-o' : 'glyphicon glyphicon-floppy-save'),
+                'icon' => $notBs3 ? 'far fa-file-alt' : ($isFa ? 'fa fa-file-text-o' : 'glyphicon glyphicon-floppy-save'),
                 'iconOptions' => ['class' => 'text-muted'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1753,7 +1761,7 @@ HTML;
             ],
             self::EXCEL => [
                 'label' => Yii::t('kvgrid', 'Excel'),
-                'icon' => $isBs4 ? 'far fa-file-excel' : ($isFa ? 'fa fa-file-excel-o' : 'glyphicon glyphicon-floppy-remove'),
+                'icon' => $notBs3 ? 'far fa-file-excel' : ($isFa ? 'fa fa-file-excel-o' : 'glyphicon glyphicon-floppy-remove'),
                 'iconOptions' => ['class' => 'text-success'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1771,7 +1779,7 @@ HTML;
             ],
             self::PDF => [
                 'label' => Yii::t('kvgrid', 'PDF'),
-                'icon' => $isBs4 ? 'far fa-file-pdf' : ($isFa ? 'fa fa-file-pdf-o' : 'glyphicon glyphicon-floppy-disk'),
+                'icon' => $notBs3 ? 'far fa-file-pdf' : ($isFa ? 'fa fa-file-pdf-o' : 'glyphicon glyphicon-floppy-disk'),
                 'iconOptions' => ['class' => 'text-danger'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1808,7 +1816,7 @@ HTML;
             ],
             self::JSON => [
                 'label' => Yii::t('kvgrid', 'JSON'),
-                'icon' => $isBs4 ? 'far fa-file-code' : ($isFa ? 'fa fa-file-code-o' : 'glyphicon glyphicon-floppy-open'),
+                'icon' => $notBs3 ? 'far fa-file-code' : ($isFa ? 'fa fa-file-code-o' : 'glyphicon glyphicon-floppy-open'),
                 'iconOptions' => ['class' => 'text-warning'],
                 'showHeader' => true,
                 'showPageSummary' => true,
@@ -1837,14 +1845,14 @@ HTML;
 
     /**
      * Initialize toggle data button options.
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     protected function initToggleData()
     {
         if (!$this->toggleData) {
             return;
         }
-        $isBs4 = $this->isBs4();
+        $notBs3 = !$this->isBs(3);
         $defBtnCss = 'btn ' . $this->_defaultBtnCss;
         $defaultOptions = [
             'maxCount' => 10000,
@@ -1855,13 +1863,13 @@ HTML;
                 ['totalCount' => number_format($this->dataProvider->getTotalCount())]
             ),
             'all' => [
-                'icon' => $isBs4 ? 'fas fa-expand' : 'glyphicon glyphicon-resize-full',
+                'icon' => $notBs3 ? 'fas fa-expand' : 'glyphicon glyphicon-resize-full',
                 'label' => Yii::t('kvgrid', 'All'),
                 'class' => $defBtnCss,
                 'title' => Yii::t('kvgrid', 'Show all data'),
             ],
             'page' => [
-                'icon' => $isBs4 ? 'fas fa-compress' : 'glyphicon glyphicon-resize-small',
+                'icon' => $notBs3 ? 'fas fa-compress' : 'glyphicon glyphicon-resize-small',
                 'label' => Yii::t('kvgrid', 'Page'),
                 'class' => $defBtnCss,
                 'title' => Yii::t('kvgrid', 'Show first page data'),
@@ -1885,7 +1893,7 @@ HTML;
 
     /**
      * Initialize bootstrap specific styling.
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     protected function initBootstrapStyle()
     {
@@ -1959,7 +1967,7 @@ HTML;
         ]);
         if (is_array($this->replaceTags) && !empty($this->replaceTags)) {
             foreach ($this->replaceTags as $key => $value) {
-                if ($value instanceof \Closure) {
+                if ($value instanceof Closure) {
                     $value = call_user_func($value, $this);
                 }
                 $this->layout = str_replace($key, $value, $this->layout);
@@ -2025,7 +2033,7 @@ HTML;
 
     /**
      * Initializes and sets the grid panel layout based on the [[template]] and [[panel]] settings.
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     protected function initPanel()
     {
@@ -2048,18 +2056,18 @@ HTML;
         $panelBefore = '';
         $panelAfter = '';
         $panelFooter = '';
-        $isBs4 = $this->isBs4();
+        $notBs3 = !$this->isBs(3);
         if (isset($this->panelPrefix)) {
             static::initCss($options, $this->panelPrefix . $type);
         } else {
             $this->addCssClass($options, self::BS_PANEL);
-            Html::addCssClass($options, $isBs4 ? "border-{$type}" : "panel-{$type}");
+            Html::addCssClass($options, $notBs3 ? "border-{$type}" : "panel-{$type}");
         }
         static::initCss($summaryOptions, $this->getCssClass(self::BS_PULL_RIGHT));
-        $titleTag = ArrayHelper::remove($titleOptions, 'tag', ($isBs4 ? 'h5' : 'h3'));
-        static::initCss($titleOptions, $isBs4 ? 'm-0' : $this->getCssClass(self::BS_PANEL_TITLE));
+        $titleTag = ArrayHelper::remove($titleOptions, 'tag', ($notBs3 ? 'h5' : 'h3'));
+        static::initCss($titleOptions, $notBs3 ? 'm-0' : $this->getCssClass(self::BS_PANEL_TITLE));
         if ($heading !== false) {
-            $color = $isBs4 ? ($type === 'default' ? ' bg-light' : " text-white bg-{$type}") : '';
+            $color = ' ' . $this->getCssClass('panel-' . $type);
             static::initCss($headingOptions, $this->getCssClass(self::BS_PANEL_HEADING) . $color);
             $panelHeading = Html::tag('div', $this->panelHeadingTemplate, $headingOptions);
         }
@@ -2096,6 +2104,7 @@ HTML;
      * Generates the toolbar.
      *
      * @return string
+     * @throws Exception
      */
     protected function renderToolbar()
     {
@@ -2121,7 +2130,7 @@ HTML;
 
     /**
      * Generates the toolbar container with the toolbar
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     protected function renderToolbarContainer()
     {
@@ -2144,9 +2153,10 @@ HTML;
     /**
      * Generate HTML markup for additional table rows for header and/or footer.
      *
-     * @param array|string $data the table rows configuration
+     * @param  array|string  $data  the table rows configuration
      *
      * @return string
+     * @throws Exception
      */
     protected function generateRows($data)
     {
@@ -2209,7 +2219,7 @@ HTML;
 
     /**
      * Registers client assets for the [[GridView]] widget.
-     * @throws \Exception
+     * @throws Exception
      */
     protected function registerAssets()
     {

@@ -3,7 +3,7 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2020
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
  * @version   3.3.6
  */
 
@@ -209,8 +209,6 @@ trait ColumnTrait
             Html::addCssClass($this->headerOptions, 'kv-merged-header');
         }
         $this->headerOptions['data-col-seq'] = array_search($this, $this->grid->columns);
-        /** @noinspection PhpUndefinedClassInspection */
-        /** @noinspection PhpUndefinedMethodInspection */
         return parent::renderHeaderCell();
     }
 
@@ -225,8 +223,6 @@ trait ColumnTrait
             return null;
         }
         $this->filterOptions['data-col-seq'] = array_search($this, $this->grid->columns);
-        /** @noinspection PhpUndefinedClassInspection */
-        /** @noinspection PhpUndefinedMethodInspection */
         return parent::renderFilterCell();
     }
 
@@ -262,8 +258,8 @@ trait ColumnTrait
         if (isset($this->xlFormat)) {
             $fmt = $this->xlFormat;
         } elseif ($autoFormat && isset($this->format)) {
-            $tSep = isset($formatter->thousandSeparator) ? $formatter->thousandSeparator : ',';
-            $dSep = isset($formatter->decimalSeparator) ? $formatter->decimalSeparator : '.';
+            $tSep = $formatter->thousandSeparator ?? ',';
+            $dSep = $formatter->decimalSeparator ?? '.';
             switch ($format) {
                 case 'text':
                 case 'html':
@@ -337,7 +333,7 @@ trait ColumnTrait
         }
         $content = $this->getPageSummaryCellContent();
         if ($this->pageSummary === true) {
-            $format = isset($this->pageSummaryFormat) ? $this->pageSummaryFormat : $this->format;
+            $format = $this->pageSummaryFormat ?? $this->format;
             return $this->grid->formatter->format($content, $format);
         }
         return ($content === null) ? $this->grid->emptyCell : $content;
@@ -490,7 +486,7 @@ trait ColumnTrait
                 $this->hAlign === GridView::ALIGN_RIGHT ||
                 $this->hAlign === GridView::ALIGN_CENTER
             );
-        } elseif ($type = 'vAlign') {
+        } elseif ($type === 'vAlign') {
             return (
                 $this->vAlign === GridView::ALIGN_TOP ||
                 $this->vAlign === GridView::ALIGN_MIDDLE ||

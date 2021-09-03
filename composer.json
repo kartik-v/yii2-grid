@@ -19,7 +19,8 @@
     ],
     "require": {
         "kartik-v/yii2-dialog": "~1.0",
-        "kartik-v/yii2-bootstrap4-dropdown": "~1.0"
+        "kartik-v/yii2-bootstrap4-dropdown": "~1.0",
+        "kartik-v/yii2-bootstrap5-dropdown": "~1.0"
     },
     "autoload": {
         "psr-4": {
