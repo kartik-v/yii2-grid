@@ -19,7 +19,16 @@
  * Table column heading sort styles for BS4
  */
 .kv-grid-bs4 .card .kv-grid-table {
-    margin: 0
+    margin: 0;
+}
+
+.kv-grid-bs4 .card .kv-grid-table fthfoot,
+.kv-grid-bs4 .card .kv-grid-table fthfoot * {
+    font-size: 0;
+    line-height: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
 }
 
 .kv-grid-bs4 a.asc:after,
@@ -49,12 +58,16 @@
  * Panel Styles
  */
 .kv-panel-pager {
-    min-height: 34px;
+    height: 34px;
 }
 
 .kv-panel-pager .pagination {
-    margin: 0 0 -5px 0;
+    margin: 0 -5px;
     padding: 0;
+}
+
+.kv-grid-bs4 .kv-panel-pager .pagination {
+    margin: -3px -9px;
 }
 
 .kv-panel-before {

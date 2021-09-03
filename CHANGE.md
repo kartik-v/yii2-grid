@@ -3,7 +3,7 @@ Change Log: `yii2-grid`
 
 ## Version 3.3.6
 
-**Date:** 02-Sep-2021
+**Date:** 03-Sep-2021
 
 - (enh #993): Enhancements to support Bootstrap v5.x.
 - (enh #971): Correct `kv-grid-group.js` version.

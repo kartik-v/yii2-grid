@@ -78,9 +78,19 @@ class GridView extends YiiGridView implements BootstrapInterface
     const TYPE_DEFAULT = 'default';
 
     /**
+     * @var string the **light** bootstrap contextual color type (applicable only for panel contextual style)
+     */
+    const TYPE_LIGHT = 'light';
+
+    /**
      * @var string the **dark** bootstrap contextual color type (applicable only for panel contextual style)
      */
     const TYPE_DARK = 'dark';
+
+    /**
+     * @var string the **secondary** bootstrap contextual color type
+     */
+    const TYPE_SECONDARY = 'secondary';
 
     /**
      * @var string the **primary** bootstrap contextual color type
@@ -2061,7 +2071,8 @@ HTML;
             static::initCss($options, $this->panelPrefix . $type);
         } else {
             $this->addCssClass($options, self::BS_PANEL);
-            Html::addCssClass($options, $notBs3 ? "border-{$type}" : "panel-{$type}");
+            $border = $type === self::TYPE_LIGHT ? 'border' : "border-{$type}";
+            Html::addCssClass($options, $notBs3 ? $border : "panel-{$type}");
         }
         static::initCss($summaryOptions, $this->getCssClass(self::BS_PULL_RIGHT));
         $titleTag = ArrayHelper::remove($titleOptions, 'tag', ($notBs3 ? 'h5' : 'h3'));
