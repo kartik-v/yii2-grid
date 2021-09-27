@@ -258,8 +258,8 @@ trait ColumnTrait
         if (isset($this->xlFormat)) {
             $fmt = $this->xlFormat;
         } elseif ($autoFormat && isset($this->format)) {
-            $tSep = $formatter->thousandSeparator ?? ',';
-            $dSep = $formatter->decimalSeparator ?? '.';
+            $tSep = $formatter->thousandSeparator ? $formatter->thousandSeparator : ',';
+            $dSep = $formatter->decimalSeparator ? $formatter->decimalSeparator : '.';
             switch ($format) {
                 case 'text':
                 case 'html':
@@ -333,7 +333,7 @@ trait ColumnTrait
         }
         $content = $this->getPageSummaryCellContent();
         if ($this->pageSummary === true) {
-            $format = $this->pageSummaryFormat ?? $this->format;
+            $format = $this->pageSummaryFormat ? $this->pageSummaryFormat : $this->format;
             return $this->grid->formatter->format($content, $format);
         }
         return ($content === null) ? $this->grid->emptyCell : $content;
