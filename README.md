@@ -35,22 +35,25 @@ You can see detailed [documentation](http://demos.krajee.com/grid) and [demonstr
 ## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+Read this [web tip /wiki](http://webtips.krajee.com/setting-composer-minimum-stability-application/) on setting the `minimum-stability` settings for your application's composer.json.
 
 ### Pre-requisites
-> Note: Check the [composer.json](https://github.com/kartik-v/yii2-dropdown-x/blob/master/composer.json) for this extension's requirements and dependencies. 
-You must set the `minimum-stability` to `dev` in the **composer.json** file in your application root folder before installation of this extension OR
-if your `minimum-stability` is set to any other value other than `dev`, then set the following in the require section of your composer.json file
+
+Install the necessary pre-requisite (Krajee Dropdown Extension) based on your bootstrap version:
+
+- For Bootstrap v5.x install the extension `kartik-v/yii2-bootstrap5-dropdown`
+- For Bootstrap v4.x install the extension `kartik-v/yii2-bootstrap4-dropdown`
+- For Bootstrap v3.x install the extension `kartik-v/yii2-dropdown-x`
+
+For example if you are using the Bootstrap v5.x add the following to the `require` section of your `composer.json` file:
 
 ```
-kartik-v/yii2-grid: "@dev",
-kartik-v/yii2-krajee-base: "@dev"
+"kartik-v/yii2-bootstrap5-dropdown": "@dev"
 ```
-
-Read this [web tip /wiki](http://webtips.krajee.com/setting-composer-minimum-stability-application/) on setting the `minimum-stability` settings for your application's composer.json.
 
 ### Install
 
-Either run
+Either run:
 
 ```
 $ php composer.phar require kartik-v/yii2-grid "@dev"
