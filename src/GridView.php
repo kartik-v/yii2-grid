@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
- * @version   3.3.6
+ * @version   3.3.7
  */
 
 namespace kartik\grid;
@@ -967,7 +967,7 @@ HTML;
      *   configuration options are read specific to each file type:
      *     - `HTML`: The following properties can be set as array key-value pairs:
      *          - `cssFile`: _string_, the css file that will be used in the exported HTML file. Defaults to:
-     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css`.
+     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css`.
      *     - `CSV` and `TEXT`: The following properties can be set as array key-value pairs:
      *          - `colDelimiter`: _string_, the column delimiter string for TEXT and CSV downloads.
      *          - `rowDelimiter`: _string_, the row delimiter string for TEXT and CSV downloads.
