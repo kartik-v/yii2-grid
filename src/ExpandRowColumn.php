@@ -28,7 +28,7 @@ use yii\web\View;
  * 'columns' => [
  *     // ...
  *     [
- *         'class' => ExpandRowColumn::className(),
+ *         'class' => ExpandRowColumn::class,
  *         // you may configure additional properties here
  *     ],
  * ]

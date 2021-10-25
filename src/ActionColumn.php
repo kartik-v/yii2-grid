@@ -26,7 +26,7 @@ use yii\base\InvalidConfigException;
  * 'columns' => [
  *     // ...
  *     [
- *         'class' => ActionColumn::className(),
+ *         'class' => ActionColumn::class,
  *         // you may configure additional properties here
  *     ],
  * ]
@@ -228,8 +228,11 @@ class ActionColumn extends YiiActionColumn
         $this->buttons[$name] = function ($url) use ($name, $title, $icon, $notBs3) {
             $opts = "{$name}Options";
             $options = ['title' => $title, 'aria-label' => $title, 'data-pjax' => '0'];
+            if ($this->grid->enableEditedRow  && $name != 'delete') {
+                Html::addCssClass($options, 'enable-edited-row');
+            }
             if ($name === 'delete') {
-                $item = $this->grid->itemLabelSingle ?? Yii::t('kvgrid', 'item');
+                $item = $this->grid->itemLabelSingle ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item');
                 $options['data-method'] = 'post';
                 $options['data-confirm'] = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
             }

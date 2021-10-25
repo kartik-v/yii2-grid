@@ -1,0 +1,16 @@
+/*!
+ * @package   yii2-grid
+ * @author    Kartik Visweswaran <kartikv2@gmail.com>
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
+ * @version   3.3.7
+ *
+ * Gridview edited row styling and enhancements
+ */
+.table > tbody > tr.kv-row-edit-highlight, .table-striped > tbody > tr.kv-row-edit-highlight, tr.kv-row-edit-highlight {
+    border-top: 2px rgb(167, 167, 10) ridge;
+    border-bottom: 2px rgb(167, 167, 10) ridge;
+    background-color: rgba(255, 255, 0, 0.2);
+}
+.table > tbody > tr.kv-row-edit-highlight:hover, .table-striped > tbody > tr.kv-row-edit-highlight:hover, tr.kv-row-edit-highlight:hover {
+    background-color: rgba(255, 255, 0, 0.3);
+}

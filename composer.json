@@ -1,38 +1,38 @@
 {
-    "name": "kartik-v/yii2-grid",
-    "description": "Yii 2 GridView on steroids. Various enhancements and utilities for the Yii 2.0 GridView widget.",
-    "keywords": [
-        "yii2",
-        "extension",
-        "widget",
-        "grid"
-    ],
-    "homepage": "https://github.com/kartik-v/yii2-grid",
-    "type": "yii2-extension",
-    "license": "BSD-3-Clause",
-    "authors": [
-        {
-            "name": "Kartik Visweswaran",
-            "email": "kartikv2@gmail.com",
-            "homepage": "http://www.krajee.com/"
-        }
-    ],
-    "require": {
-        "kartik-v/yii2-dialog": "~1.0",
-        "kartik-v/yii2-bootstrap4-dropdown": "~1.0",
-        "kartik-v/yii2-bootstrap5-dropdown": "~1.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "kartik\\grid\\": "src"
-        }
-    },
-    "suggest": {
-        "kartik-v/yii2-mpdf": "For exporting grids to PDF"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.3.x-dev"
-        }
+  "name": "kartik-v/yii2-grid",
+  "description": "Yii 2 GridView on steroids. Various enhancements and utilities for the Yii 2.0 GridView widget.",
+  "keywords": [
+    "yii2",
+    "extension",
+    "widget",
+    "grid"
+  ],
+  "homepage": "https://github.com/kartik-v/yii2-grid",
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Kartik Visweswaran",
+      "email": "kartikv2@gmail.com",
+      "homepage": "http://www.krajee.com/"
     }
+  ],
+  "require": {
+    "kartik-v/yii2-dialog": "~1.0",
+    "kartik-v/yii2-bootstrap4-dropdown": "~1.0",
+    "kartik-v/yii2-bootstrap5-dropdown": "~1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "kartik\\grid\\": "src"
+    }
+  },
+  "suggest": {
+    "kartik-v/yii2-mpdf": "For exporting grids to PDF"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "3.3.x-dev"
+    }
+  }
 }

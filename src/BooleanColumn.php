@@ -24,7 +24,7 @@ use yii\helpers\Html;
  * 'columns' => [
  *     // ...
  *     [
- *         'class' => BooleanColumn::className(),
+ *         'class' => BooleanColumn::class,
  *         // you may configure additional properties here
  *     ],
  * ]

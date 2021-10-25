@@ -26,7 +26,7 @@ use kartik\base\Config;
  * 'columns' => [
  *     // ...
  *     [
- *         'class' => EditableColumn::className(),
+ *         'class' => EditableColumn::class,
  *         // you may configure additional properties here
  *     ],
  * ]

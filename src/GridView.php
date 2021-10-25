@@ -710,6 +710,21 @@ HTML;
     public $pjaxSettings = [];
 
     /**
+     * @var bool whether to enable focused edited row feature
+     */
+    public $enableEditedRow = true;
+
+    /**
+     * @var array the configuration for the row being currently edited
+     */
+    public $editedRowConfig = [
+        'rowIdGetParam' => 'row',
+        'gridIdGetParam' => 'grid',
+        'gridFiltersSessionParam' => 'kvGridFiltersCache',
+        'highlightClass' => 'kv-row-edit-highlight',
+    ];
+
+    /**
      * @var boolean whether to allow resizing of columns
      */
     public $resizableColumns = true;
@@ -1066,10 +1081,15 @@ HTML;
     protected $_isShowAll = false;
 
     /**
+     * @var string|null the filter cache
+     */
+    protected $_filterCache = null;
+
+    /**
      * Parses export configuration and returns the merged defaults.
      *
-     * @param array $exportConfig the export configuration
-     * @param array $defaultExportConfig the default export configuration
+     * @param  array  $exportConfig  the export configuration
+     * @param  array  $defaultExportConfig  the default export configuration
      *
      * @return array
      */
@@ -1081,16 +1101,18 @@ HTML;
                 $exportConfig[$format] = empty($setup) ? $defaultExportConfig[$format] :
                     array_replace_recursive($defaultExportConfig[$format], $setup);
             }
+
             return $exportConfig;
         }
+
         return $defaultExportConfig;
     }
 
     /**
      * Sets a default css class within `options` if not set
      *
-     * @param array $options the HTML options
-     * @param string|array $css the CSS class to test and append
+     * @param  array  $options  the HTML options
+     * @param  string|array  $css  the CSS class to test and append
      */
     protected static function initCss(&$options, $css)
     {
@@ -1112,7 +1134,7 @@ HTML;
         $this->initBsVersion();
         $bsVer = $this->getBsVer();
         $notBs3 = $bsVer > 3;
-        Html::addCssClass($this->options, 'is-bs' . ($notBs3 ? '4' : '3'));
+        Html::addCssClass($this->options, 'is-bs'.($notBs3 ? '4' : '3'));
         $this->initPjaxContainerId();
         if (!isset($this->itemLabelSingle)) {
             $this->itemLabelSingle = Yii::t('kvgrid', 'item');
@@ -1137,9 +1159,10 @@ HTML;
         }
         if (!$this->toggleData) {
             parent::init();
+
             return;
         }
-        $this->_toggleDataKey = '_tog' . hash('crc32', $this->options['id']);
+        $this->_toggleDataKey = '_tog'.hash('crc32', $this->options['id']);
         /**
          * @var Request $request
          */
@@ -1151,7 +1174,7 @@ HTML;
         if ($this->_isShowAll) {
             $this->dataProvider->pagination = false;
         }
-        $this->_toggleButtonId = $this->options['id'] . '-togdata-' . ($this->_isShowAll ? 'all' : 'page');
+        $this->_toggleButtonId = $this->options['id'].'-togdata-'.($this->_isShowAll ? 'all' : 'page');
         parent::init();
     }
 
@@ -1162,6 +1185,7 @@ HTML;
     public function getPjaxContainerId()
     {
         $this->initPjaxContainerId();
+
         return $this->pjaxSettings['options']['id'];
     }
 
@@ -1174,8 +1198,30 @@ HTML;
             $this->options['id'] = $this->getId();
         }
         if (empty($this->pjaxSettings['options']['id'])) {
-            $this->pjaxSettings['options']['id'] = $this->options['id'] . '-pjax';
+            $this->pjaxSettings['options']['id'] = $this->options['id'].'-pjax';
         }
+    }
+
+    /**
+     * @return array|false
+     */
+    protected function initEditedRow()
+    {
+        if (!$this->enableEditedRow) {
+            return false;
+        }
+        $cfg = $this->editedRowConfig;
+        $session = Yii::$app->session;
+        $request = Yii::$app->request;
+        $row = !isset($cfg['rowIdGetParam']) ? null : $request->get($cfg['rowIdGetParam']);
+        $grid = !isset($cfg['gridIdGetParam']) ? null : $request->get($cfg['gridIdGetParam'], $this->options['id']);
+        if (!empty($session) && !empty($cfg['gridFiltersSessionParam'])) {
+            $filter = $cfg['gridFiltersSessionParam'];
+            $queryParams = $request->queryParams;
+            unset($queryParams[$cfg['rowIdGetParam']], $queryParams[$cfg['gridIdGetParam']]);
+            $session->set($filter, Json::encode($queryParams));
+        }
+        return ['row' => $row, 'grid' => $grid, 'css' => $cfg['highlightClass']];
     }
 
     /**
@@ -1204,14 +1250,14 @@ HTML;
             Config::checkDependency(
                 'mpdf\Pdf',
                 'yii2-mpdf',
-                'for PDF export functionality. To include PDF export, follow the install steps below. If you do not ' .
-                "need PDF export functionality, do not include 'PDF' as a format in the 'export' property. You can " .
+                'for PDF export functionality. To include PDF export, follow the install steps below. If you do not '.
+                "need PDF export functionality, do not include 'PDF' as a format in the 'export' property. You can ".
                 "otherwise set 'export' to 'false' to disable all export functionality"
             );
         }
         $this->initHeader();
         $this->initBootstrapStyle();
-        $this->containerOptions['id'] = $this->options['id'] . '-container';
+        $this->containerOptions['id'] = $this->options['id'].'-container';
         Html::addCssClass($this->containerOptions, 'kv-grid-container');
         $this->initPanel();
         $this->initLayout();
@@ -1238,7 +1284,7 @@ HTML;
         }
         $notBs3 = !$this->isBs(3);
         if (!isset($this->pageSummaryRowOptions['class'])) {
-            $this->pageSummaryRowOptions['class'] = ($notBs3 ? 'table-' : '') . 'warning kv-page-summary';
+            $this->pageSummaryRowOptions['class'] = ($notBs3 ? 'table-' : '').'warning kv-page-summary';
         }
         Html::addCssClass($this->pageSummaryRowOptions, $this->options['id']);
         $row = $this->getPageSummaryRow();
@@ -1247,6 +1293,7 @@ HTML;
         }
         $tag = ArrayHelper::remove($this->pageSummaryContainer, 'tag', 'tbody');
         $content = Html::tag('tr', $row, $this->pageSummaryRowOptions);
+
         return Html::tag($tag, $content, $this->pageSummaryContainer);
     }
 
@@ -1291,6 +1338,7 @@ HTML;
                 }
             }
         }
+
         return implode('', $cells);
     }
 
@@ -1303,16 +1351,18 @@ HTML;
         $content = parent::renderTableBody();
         if ($this->showPageSummary) {
             $summary = $this->renderPageSummary();
-            return $this->pageSummaryPosition === self::POS_TOP ? ($summary . $content) : ($content . $summary);
+
+            return $this->pageSummaryPosition === self::POS_TOP ? ($summary.$content) : ($content.$summary);
         }
+
         return $content;
     }
 
     /**
      * Renders a table row with the given data model and key.
-     * @param mixed $model the data model to be rendered
-     * @param mixed $key the key associated with the data model
-     * @param int $index the zero-based index of the data model among the model array returned by [[dataProvider]].
+     * @param  mixed  $model  the data model to be rendered
+     * @param  mixed  $key  the key associated with the data model
+     * @param  int  $index  the zero-based index of the data model among the model array returned by [[dataProvider]].
      * @return string the rendering result
      */
     public function renderTableRow($model, $key, $index)
@@ -1329,12 +1379,13 @@ HTML;
         }
         $options['data-key'] = static::parseKey($key);
         Html::addCssClass($options, $this->options['id']);
+
         return Html::tag('tr', implode('', $cells), $options);
     }
 
     /**
      * Parses the key and returns parsed key value as string based on the data type
-     * @param mixed $key
+     * @param  mixed  $key
      * @return string
      */
     public static function parseKey($key)
@@ -1362,6 +1413,7 @@ HTML;
         $label = ArrayHelper::remove($options, 'label', '');
         $url = Url::current([$this->_toggleDataKey => $tag]);
         static::initCss($this->toggleDataContainer, 'btn-group');
+
         return Html::tag('div', Html::a($label, $url, $options), $this->toggleDataContainer);
     }
 
@@ -1394,7 +1446,7 @@ HTML;
             $iconOptions = ArrayHelper::getValue($setting, 'iconOptions', []);
             Html::addCssClass($iconOptions, $setting['icon']);
             $label = (empty($setting['icon']) || $setting['icon'] == '') ? $setting['label'] :
-                Html::tag('i', '', $iconOptions) . ' ' . $setting['label'];
+                Html::tag('i', '', $iconOptions).' '.$setting['label'];
             $mime = ArrayHelper::getValue($setting, 'mime', 'text/plain');
             $config = ArrayHelper::getValue($setting, 'config', []);
             $cssStyles = ArrayHelper::getValue($setting, 'cssStyles', []);
@@ -1403,13 +1455,13 @@ HTML;
             }
             $cfg = $this->hashExportConfig ? Json::encode($config) : '';
             $intCfg = empty($this->hashExportConfig) ? 0 : 1;
-            $dataToHash = $this->moduleId . $setting['filename'] . $mime . $encoding . $bom . $intCfg . $cfg;
+            $dataToHash = $this->moduleId.$setting['filename'].$mime.$encoding.$bom.$intCfg.$cfg;
             $hash = Yii::$app->security->hashData($dataToHash, $this->_module->exportEncryptSalt);
             $items[] = [
                 'label' => $label,
                 'url' => '#',
                 'linkOptions' => [
-                    'class' => 'export-' . $format,
+                    'class' => 'export-'.$format,
                     'data-mime' => $mime,
                     'data-hash' => $hash,
                     'data-hash-export-config' => $intCfg,
@@ -1439,6 +1491,7 @@ HTML;
             /** @noinspection PhpUndefinedMethodInspection */
             $out = $dropdown::widget($opts);
         }
+
         return $out;
     }
 
@@ -1457,14 +1510,15 @@ HTML;
         }
         $content = Html::tag('tr', implode('', $cells), $this->headerRowOptions);
         if ($this->filterPosition == self::FILTER_POS_HEADER) {
-            $content = $this->renderFilters() . $content;
+            $content = $this->renderFilters().$content;
         } elseif ($this->filterPosition == self::FILTER_POS_BODY) {
             $content .= $this->renderFilters();
         }
-        return "<thead>\n" .
-            $this->generateRows($this->beforeHeader) . "\n" .
-            $content . "\n" .
-            $this->generateRows($this->afterHeader) . "\n" .
+
+        return "<thead>\n".
+            $this->generateRows($this->beforeHeader)."\n".
+            $content."\n".
+            $this->generateRows($this->afterHeader)."\n".
             '</thead>';
     }
 
@@ -1474,11 +1528,12 @@ HTML;
     public function renderTableFooter()
     {
         $content = parent::renderTableFooter();
+
         return strtr(
             $content,
             [
-                '<tfoot>' => "<tfoot>\n" . $this->generateRows($this->beforeFooter),
-                '</tfoot>' => $this->generateRows($this->afterFooter) . "\n</tfoot>",
+                '<tfoot>' => "<tfoot>\n".$this->generateRows($this->beforeFooter),
+                '</tfoot>' => $this->generateRows($this->afterFooter)."\n</tfoot>",
             ]
         );
     }
@@ -1586,6 +1641,7 @@ HTML;
             $this->_module = Module::getInstance();
             if (isset($this->_module)) {
                 $this->moduleId = $this->_module->id;
+
                 return;
             }
             $this->moduleId = Module::MODULE;
@@ -1631,19 +1687,19 @@ HTML;
                         'Request submitted! You may safely close this dialog after saving your downloaded file.'
                     ),
                 ],
-                'options' => ['class' => 'btn ' . $this->_defaultBtnCss, 'title' => Yii::t('kvgrid', 'Export')],
+                'options' => ['class' => 'btn '.$this->_defaultBtnCss, 'title' => Yii::t('kvgrid', 'Export')],
                 'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-right '],
                 'skipExportElements' => ['.sr-only', '.hide'],
             ],
             $this->export
         );
         if (!isset($this->export['header'])) {
-            $this->export['header'] = '<li role="presentation" class="dropdown-header">' .
-                Yii::t('kvgrid', 'Export Page Data') . '</li>';
+            $this->export['header'] = '<li role="presentation" class="dropdown-header">'.
+                Yii::t('kvgrid', 'Export Page Data').'</li>';
         }
         if (!isset($this->export['headerAll'])) {
-            $this->export['headerAll'] = '<li role="presentation" class="dropdown-header">' .
-                Yii::t('kvgrid', 'Export All Data') . '</li>';
+            $this->export['headerAll'] = '<li role="presentation" class="dropdown-header">'.
+                Yii::t('kvgrid', 'Export All Data').'</li>';
         }
         $title = empty($this->caption) ? Yii::t('kvgrid', 'Grid Export') : $this->caption;
         $pdfHeader = [
@@ -1658,7 +1714,7 @@ HTML;
                 'color' => '#333333',
             ],
             'R' => [
-                'content' => Yii::t('kvgrid', 'Generated') . ': ' . date('D, d-M-Y'),
+                'content' => Yii::t('kvgrid', 'Generated').': '.date('D, d-M-Y'),
                 'font-size' => 8,
                 'color' => '#333333',
             ],
@@ -1863,7 +1919,7 @@ HTML;
             return;
         }
         $notBs3 = !$this->isBs(3);
-        $defBtnCss = 'btn ' . $this->_defaultBtnCss;
+        $defBtnCss = 'btn '.$this->_defaultBtnCss;
         $defaultOptions = [
             'maxCount' => 10000,
             'minCount' => 500,
@@ -1892,7 +1948,7 @@ HTML;
         $icon = ArrayHelper::remove($this->toggleDataOptions[$tag], 'icon', '');
         $label = !isset($options['label']) ? $defaultOptions[$tag]['label'] : $options['label'];
         if (!empty($icon)) {
-            $label = "<i class='{$icon}'></i> " . $label;
+            $label = "<i class='{$icon}'></i> ".$label;
         }
         $this->toggleDataOptions[$tag]['label'] = $label;
         if (!isset($this->toggleDataOptions[$tag]['title'])) {
@@ -1987,7 +2043,7 @@ HTML;
 
     /**
      * Replace layout tokens
-     * @param array $pairs the token to find and its replaced value as key value pairs
+     * @param  array  $pairs  the token to find and its replaced value as key value pairs
      */
     protected function replaceLayoutTokens($pairs)
     {
@@ -2004,14 +2060,14 @@ HTML;
     protected function beginPjax()
     {
         $view = $this->getView();
-        $container = 'jQuery("#' . $this->pjaxSettings['options']['id'] . '")';
+        $container = 'jQuery("#'.$this->pjaxSettings['options']['id'].'")';
         $js = $container;
         if (ArrayHelper::getValue($this->pjaxSettings, 'neverTimeout', true)) {
             $js .= ".on('pjax:timeout', function(e){e.preventDefault()})";
         }
         $loadingCss = ArrayHelper::getValue($this->pjaxSettings, 'loadingCssClass', 'kv-grid-loading');
         $postPjaxJs = "setTimeout({$this->_gridClientFunc}, 2500);";
-        $pjaxCont = '$("#' . $this->pjaxSettings['options']['id'] . '")';
+        $pjaxCont = '$("#'.$this->pjaxSettings['options']['id'].'")';
         if ($loadingCss !== false) {
             if ($loadingCss === true) {
                 $loadingCss = 'kv-grid-loading';
@@ -2019,9 +2075,9 @@ HTML;
             $js .= ".on('pjax:send', function(){{$pjaxCont}.addClass('{$loadingCss}')})";
             $postPjaxJs .= "{$pjaxCont}.removeClass('{$loadingCss}');";
         }
-        $postPjaxJs .= "\n" . $this->_toggleScript;
+        $postPjaxJs .= "\n".$this->_toggleScript;
         if (!empty($postPjaxJs)) {
-            $event = 'pjax:complete.' . hash('crc32', $postPjaxJs);
+            $event = 'pjax:complete.'.hash('crc32', $postPjaxJs);
             $js .= ".off('{$event}').on('{$event}', function(){{$postPjaxJs}})";
         }
         if ($js != $container) {
@@ -2068,7 +2124,7 @@ HTML;
         $panelFooter = '';
         $notBs3 = !$this->isBs(3);
         if (isset($this->panelPrefix)) {
-            static::initCss($options, $this->panelPrefix . $type);
+            static::initCss($options, $this->panelPrefix.$type);
         } else {
             $this->addCssClass($options, self::BS_PANEL);
             $border = $type === self::TYPE_LIGHT ? 'border' : "border-{$type}";
@@ -2078,8 +2134,8 @@ HTML;
         $titleTag = ArrayHelper::remove($titleOptions, 'tag', ($notBs3 ? 'h5' : 'h3'));
         static::initCss($titleOptions, $notBs3 ? 'm-0' : $this->getCssClass(self::BS_PANEL_TITLE));
         if ($heading !== false) {
-            $color = ' ' . $this->getCssClass('panel-' . $type);
-            static::initCss($headingOptions, $this->getCssClass(self::BS_PANEL_HEADING) . $color);
+            $color = ' '.$this->getCssClass('panel-'.$type);
+            static::initCss($headingOptions, $this->getCssClass(self::BS_PANEL_HEADING).$color);
             $panelHeading = Html::tag('div', $this->panelHeadingTemplate, $headingOptions);
         }
         if ($footer !== false) {
@@ -2136,6 +2192,7 @@ HTML;
                 $toolbar .= "\n{$item}";
             }
         }
+
         return $toolbar;
     }
 
@@ -2189,11 +2246,12 @@ HTML;
                     $colOptions = ArrayHelper::getValue($col, 'options', []);
                     $colContent = ArrayHelper::getValue($col, 'content', '');
                     $tag = ArrayHelper::getValue($col, 'tag', 'th');
-                    $rows .= "\t" . Html::tag($tag, $colContent, $colOptions) . "\n";
+                    $rows .= "\t".Html::tag($tag, $colContent, $colOptions)."\n";
                 }
-                $rows .= Html::endTag('tr') . "\n";
+                $rows .= Html::endTag('tr')."\n";
             }
         }
+
         return $rows;
     }
 
@@ -2222,7 +2280,7 @@ HTML;
                 ),
             ]
         );
-        $this->_toggleOptionsVar = 'kvTogOpts_' . hash('crc32', $opts);
+        $this->_toggleOptionsVar = 'kvTogOpts_'.hash('crc32', $opts);
         $view->registerJs("{$this->_toggleOptionsVar}={$opts};");
         GridToggleDataAsset::register($view);
         $this->_toggleScript = "kvToggleData({$this->_toggleOptionsVar});";
@@ -2241,7 +2299,7 @@ HTML;
         }
         Dialog::widget($this->krajeeDialogSettings);
         $gridId = $this->options['id'];
-        $NS = '.' . str_replace('-', '_', $gridId);
+        $NS = '.'.str_replace('-', '_', $gridId);
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
             if (!isset($this->_module->downloadAction)) {
@@ -2263,7 +2321,7 @@ HTML;
                     'showConfirmAlert' => ArrayHelper::getValue($this->export, 'showConfirmAlert', true),
                 ]
             );
-            $gridOptsVar = 'kvGridExp_' . hash('crc32', $gridOpts);
+            $gridOptsVar = 'kvGridExp_'.hash('crc32', $gridOpts);
             $view->registerJs("var {$gridOptsVar}={$gridOpts};");
             foreach ($this->exportConfig as $format => $setting) {
                 $id = "jQuery('#{$gridId} .export-{$format}')";
@@ -2275,7 +2333,7 @@ HTML;
                         'showFooter' => $setting['showFooter'],
                     ]
                 );
-                $genOptsVar = 'kvGridExp_' . hash('crc32', $genOpts);
+                $genOptsVar = 'kvGridExp_'.hash('crc32', $genOpts);
                 $view->registerJs("var {$genOptsVar}={$genOpts};");
                 $expOpts = Json::encode(
                     [
@@ -2286,12 +2344,12 @@ HTML;
                         'config' => ArrayHelper::getValue($setting, 'config', []),
                     ]
                 );
-                $expOptsVar = 'kvGridExp_' . hash('crc32', $expOpts);
+                $expOptsVar = 'kvGridExp_'.hash('crc32', $expOpts);
                 $view->registerJs("var {$expOptsVar}={$expOpts};");
                 $script .= "{$id}.gridexport({$expOptsVar});";
             }
         }
-        $contId = '#' . $this->containerOptions['id'];
+        $contId = '#'.$this->containerOptions['id'];
         $container = "jQuery('{$contId}')";
         if ($this->resizableColumns) {
             $rcDefaults = [];
@@ -2304,11 +2362,17 @@ HTML;
             GridResizeColumnsAsset::register($view);
             $script .= "{$container}.resizableColumns('destroy').resizableColumns({$rcOptions});";
         }
+        $edited = $this->initEditedRow();
+        if (!empty($edited)) {
+            GridEditedRowAsset::register($view);
+            $opts = Json::encode($edited);
+            $script .= "kvGridEditedRow({$opts});";
+        }
         if ($this->floatHeader) {
             GridFloatHeadAsset::register($view);
             // fix floating header for IE browser when using group grid functionality
             $skipCss = '.kv-grid-group-row,.kv-group-header,.kv-group-footer'; // skip these CSS for IE
-            $js = 'function($table){return $table.find("tbody tr:not(' . $skipCss . '):visible:first>*");}';
+            $js = 'function($table){return $table.find("tbody tr:not('.$skipCss.'):visible:first>*");}';
             $opts = [
                 'floatTableClass' => 'kv-table-float',
                 'floatContainerClass' => 'kv-thead-float',
@@ -2322,20 +2386,20 @@ HTML;
             $script .= "jQuery('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
             // integrate resizeableColumns with floatThead
             if ($this->resizableColumns) {
-                $script .= "{$container}.off('{$NS}').on('column:resize{$NS}', function(e){" .
-                    "jQuery('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow');" .
+                $script .= "{$container}.off('{$NS}').on('column:resize{$NS}', function(e){".
+                    "jQuery('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow');".
                     '});';
             }
         }
-        $psVar = 'ps_' . Inflector::slug($this->containerOptions['id'], '_');
+        $psVar = 'ps_'.Inflector::slug($this->containerOptions['id'], '_');
         if ($this->perfectScrollbar) {
             GridPerfectScrollbarAsset::register($view);
-            $script .= "var {$psVar} = new PerfectScrollbar('{$contId}', " .
-                Json::encode($this->perfectScrollbarOptions) . ');';
+            $script .= "var {$psVar} = new PerfectScrollbar('{$contId}', ".
+                Json::encode($this->perfectScrollbarOptions).');';
         }
         $this->genToggleDataScript();
         $script .= $this->_toggleScript;
-        $this->_gridClientFunc = 'kvGridInit_' . hash('crc32', $script);
+        $this->_gridClientFunc = 'kvGridInit_'.hash('crc32', $script);
         $this->options['data-krajee-grid'] = $this->_gridClientFunc;
         $this->options['data-krajee-ps'] = $psVar;
         $view->registerJs("var {$this->_gridClientFunc}=function(){\n{$script}\n};\n{$this->_gridClientFunc}();");

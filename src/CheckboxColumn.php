@@ -24,7 +24,7 @@ use yii\helpers\Json;
  * 'columns' => [
  *     // ...
  *     [
- *         'class' => CheckboxColumn::className(),
+ *         'class' => CheckboxColumn::class,
  *         // you may configure additional properties here
  *     ],
  * ]

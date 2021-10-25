@@ -22,7 +22,7 @@ use yii\base\InvalidConfigException;
  * 'columns' => [
  *     // ...
  *     [
- *         'class' => FormulaColumn::className(),
+ *         'class' => FormulaColumn::class,
  *         // you may configure additional properties here
  *     ],
  * ]

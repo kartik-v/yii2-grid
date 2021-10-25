@@ -23,7 +23,7 @@ use yii\helpers\Html;
  * 'columns' => [
  *     // ...
  *     [
- *         'class' => SerialColumn::className(),
+ *         'class' => SerialColumn::class,
  *         // you may configure additional properties here
  *     ],
  * ]

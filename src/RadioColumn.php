@@ -27,7 +27,7 @@ use yii\helpers\Json;
  * 'columns' => [
  *     // ...
  *     [
- *         'class' => RadioColumn::className(),
+ *         'class' => RadioColumn::class,
  *         // you may configure additional properties here
  *     ],
  * ]

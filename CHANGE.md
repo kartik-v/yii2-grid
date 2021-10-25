@@ -5,7 +5,8 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
-- (enh #996): Fix compatibility with old php version .
+- (enh #1003): NEW: Edited Highlighted Row Functionality.
+- (enh #996, #997): Fix compatibility with old php version .
 
 ## Version 3.3.6
 
