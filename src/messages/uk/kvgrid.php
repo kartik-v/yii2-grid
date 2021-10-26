@@ -57,6 +57,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Зараз почнеться завантаження файлу. Будь ласка зачекайте...',
     'Reset Grid' => 'Скинути таблицю',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Зміна розміру стовпців таблиці відбувається так само, як таблиці - перетягуючи краю стовпців',
+    'Select...' => '',
     'Show all data' => 'Показати всі записи',
     'Show first page data' => 'Показати першу сторінку',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Показані <b>{begin, number}-{end, number}</b> із <b>{totalCount, number}</b> {totalCount, plural, one{запису} other{записів}}.',

@@ -63,6 +63,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Tulīt sāksies faila lejupielāde. Lūdzu uzgaidiet...',
     'Reset Grid' => 'Atstatīt tabulu',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Kolonnu izmēru izmaiņa notiek velkot kolonnu malas.',
+    'Select...' => '',
     'Show all data' => 'Rādīt visus ierakstus',
     'Show first page data' => 'Rādīt pirmo lapu',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Tiek rādīti ieraksti <b>{begin, number}-{end, number}</b> no <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

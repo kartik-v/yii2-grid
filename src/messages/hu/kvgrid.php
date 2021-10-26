@@ -55,6 +55,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Kérés elküldve! Letöltés után az ablakot bezárhatja.',
     'Reset Grid' => 'Táblázat alaphelyzetbe állítása',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Az oszlopok méretezéséhez húzza az éleket, mint egy táblázatkezelőben!',
+    'Select...' => '',
     'Show all data' => 'Összes adat mutatása',
     'Show first page data' => 'Első oldal mutatása',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => '<b>{begin, number}-{end, number}</b> megjelenítése a(z) <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

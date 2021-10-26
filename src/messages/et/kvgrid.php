@@ -42,6 +42,7 @@ return [
     'Page' => 'Leht',
     'Reset Grid' => 'Lähtesta tabel',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Muuda veergusid nagu Excelis lohistades veeru ääri.',
+    'Select...' => '',
     'Show all data' => 'Näita kõiki andmeid',
     'Show first page data' => 'Näita esimese lehe andmeid',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Näitan <b>{totalCount, number}</b>  {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}} <b>{begin, number}-{end, number}</b>.',

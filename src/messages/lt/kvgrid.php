@@ -48,6 +48,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Užklausa išsiųsta. Galite saugiai uždaryti šį langą kai išsisaugosit failą',
     'Reset Grid' => 'Atstatyti išdėstymą',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Galite reguliuoti lentelės stulpelių dydi taip pat kaip Microsoft Excel programoje',
+    'Select...' => '',
     'Show all data' => 'Rodyti visus duomenis',
     'Show first page data' => 'Rodyti pirmo puslapio duomenis',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Rodomi rezultatai <b>{begin, number}-{end, number}</b> iš <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

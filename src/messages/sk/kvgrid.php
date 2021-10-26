@@ -60,6 +60,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Požiadavka bola spracovaná. Po uložení súboru môžete bezpečne zatvoriť toto okno.',
     'Reset Grid' => 'Obnoviť tabuľku',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Nastavte veľkosť stĺpca ťahaním myšky rovnako ako v excely.',
+    'Select...' => '',
     'Show all data' => 'Zobraziť všetky dáta',
     'Show first page data' => 'Zobraziť dáta prvej stránky',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Zobrazujem <b>{begin, number}-{end, number}</b> z <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

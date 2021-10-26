@@ -44,6 +44,7 @@ return [
     'Page' => 'Z podziałem na strony',
     'Reset Grid' => 'Zresetuj',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Zmiana rozmiaru kolumny tabeli, tak jak w arkuszu kalkulacyjnym, przeciągając krawędzie kolumn.',
+    'Select...' => '',
     'Show all data' => 'Wyświetl wszystkie dane bez stronicowania',
     'Show first page data' => 'Wyświetl ze stronicowaniem',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Wyświetlone <b>{begin, number}-{end, number}</b> z <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

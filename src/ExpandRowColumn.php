@@ -220,12 +220,12 @@ class ExpandRowColumn extends DataColumn
     /**
      * Parses data for Closure and returns accordingly
      *
-     * @param string|Closure $data the data to parse.
-     * @param Model $model the data model.
-     * @param string|object $key the key associated with the data model.
-     * @param integer $index the zero-based index of the data model among the models array returned by
+     * @param  string|Closure  $data  the data to parse.
+     * @param  Model  $model  the data model.
+     * @param  string|object  $key  the key associated with the data model.
+     * @param  integer  $index  the zero-based index of the data model among the models array returned by
      * [[GridView::dataProvider]].
-     * @param ExpandRowColumn $column the column object instance.
+     * @param  ExpandRowColumn  $column  the column object instance.
      *
      * @return mixed
      */
@@ -234,6 +234,7 @@ class ExpandRowColumn extends DataColumn
         if ($data instanceof Closure) {
             $data = call_user_func($data, $model, $key, $index, $column);
         }
+
         return $data;
     }
 
@@ -303,12 +304,11 @@ class ExpandRowColumn extends DataColumn
                 'collapseAll' => false,
                 'expandAll' => false,
                 'extraData' => $this->extraData,
-                'msgDetailLoading' => $this->msgDetailLoading
+                'msgDetailLoading' => $this->msgDetailLoading,
             ]
         );
-        $this->_hashVar = 'kvExpandRow_' . hash('crc32', $clientOptions);
-        $this->_colId = $this->grid->options['id'] . '_' . $this->columnKey;
-        Html::addCssClass($this->contentOptions, $this->_colId);
+        $this->_hashVar = 'kvExpandRow_'.hash('crc32', $clientOptions);
+        $this->_colId = $this->grid->options['id'].'_'.$this->columnKey;
         Html::addCssClass($this->headerOptions, $this->_colId);
         $view->registerJs("var {$this->_hashVar} = {$clientOptions};\n", View::POS_HEAD);
         $view->registerJs("kvExpandRow({$this->_hashVar}, '{$this->_colId}');");
@@ -341,14 +341,16 @@ class ExpandRowColumn extends DataColumn
         $detailOptions['data-key'] = GridView::parseKey($key);
         Html::addCssClass($detailOptions, ['kv-expanded-row', $this->_colId]);
         $content = Html::tag('div', $detail, $detailOptions);
-        return <<< HTML
+        $out = <<< HTML
         <div class="kv-expand-row {$disabled}">
-            <div class="kv-expand-icon kv-state-{$type}{$disabled}">{$icon}</div>
+            <div class="kv-expand-icon kv-state-init-{$type}{$disabled}">{$icon}</div>
             <div class="kv-expand-detail skip-export" style="display:none;">
                 {$content}
             </div>
         </div>
 HTML;
+        return $out;
+        //die('<pre>' . Html::encode($out, false) . '</pre>');
     }
 
     /**
@@ -357,23 +359,24 @@ HTML;
     public function renderDataCell($model, $key, $index)
     {
         $options = $this->fetchContentOptions($model, $key, $index);
-        $css = 'kv-expand-icon-cell';
+        $css = ['kv-expand-icon-cell', $this->_colId];
         $options['title'] = $this->expandTitle;
         if ($this->value === GridView::ROW_EXPANDED) {
             $options['title'] = $this->collapseTitle;
         }
         if (static::parseData($this->disabled, $model, $key, $index, $this)) {
-            $css .= ' kv-state-disabled';
+            $css[] = 'kv-state-disabled';
         }
         Html::addCssClass($options, $css);
         $this->initPjax("kvExpandRow({$this->_hashVar}, '{$this->_colId}');");
+
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
 
     /**
      * Get icon indicator
      *
-     * @param string $type one of `expand` or `collapse`
+     * @param  string  $type  one of `expand` or `collapse`
      *
      * @return string the icon indicator markup
      * @throws InvalidConfigException|Exception
@@ -392,14 +395,15 @@ HTML;
         if ($type === 'collapse') {
             return $bs ? ($notBs3 ? GridView::ICON_COLLAPSE_BS4 : GridView::ICON_COLLAPSE) : '-';
         }
+
         return null;
     }
 
     /**
      * Sets property for the object instance if not set
      *
-     * @param string $prop the property name
-     * @param string $val the property value
+     * @param  string  $prop  the property name
+     * @param  string  $val  the property value
      */
     protected function setProp($prop, $val)
     {
@@ -422,6 +426,7 @@ HTML;
             $icon = $this->collapseIcon;
             $css = 'kv-expand-header-icon kv-state-collapsed';
         }
+
         return "<div class='{$css}'>{$icon}</div>";
     }
 }

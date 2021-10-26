@@ -61,6 +61,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Сейчас начнётся загрузка файла. Пожалуйста, ожидайте...',
     'Reset Grid' => 'Сбросить таблицу',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Размер столбцов таблицы меняется так же, как таблицы - перетаскиванием края столбцов.',
+    'Select...' => '',
     'Show all data' => 'Показать все записи',
     'Show first page data' => 'Показать первую страницу',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Показаны <b>{begin, number}-{end, number}</b> из <b>{totalCount, number}</b> {count, plural, one{{item}} few{{items-few}} other{{items}}}.',

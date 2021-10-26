@@ -61,6 +61,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Richiesta inviata! E\' possibile chiudere questo popup dopo aver salvato il file scaricato.',
     'Reset Grid' => 'Azzera griglia',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Ridimensionare le colonne della tabella come un foglio di calcolo trascinando i bordi delle colonne.',
+    'Select...' => '',
     'Show all data' => 'Mostra tutti i dati',
     'Show first page data' => 'Mostra i dati della prima pagina',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Visualizzo <b>{begin, number}-{end, number}</b> di <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.',

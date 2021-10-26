@@ -61,6 +61,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Aanvraag in behandeling. Na download kan deze dialoog gesloten worden.',
     'Reset Grid' => 'Herstart Grid',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Maak tabelkolommen breder/smaller net als in een spreadsheet door het slepen van de kolomranden.',
+    'Select...' => '',
     'Show all data' => 'Toon alle gevens',
     'Show first page data' => 'Toon eerste gegevenspagina',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Resultaat <b>{begin, number}-{end, number}</b> van <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

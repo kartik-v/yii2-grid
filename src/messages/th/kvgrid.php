@@ -34,6 +34,7 @@ return [
     'Generating the export file. Please wait...' => 'กำลังสร้างไฟล์ส่งออก กรุณารอ...',
     'No data found' => 'ไม่พบข้อมูล',
     'Page' => 'หน้า',
+    'Select...' => '',
     'Show all data' => 'แสดงข้อมูลทั้งหมด',
     'Show first page data' => 'แสดงข้อมูลหน้าแรก',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'แสดง <b>{begin, number} ถึง {end, number}</b> จาก <b>{totalCount, number}</b> ผลลัพธ์',

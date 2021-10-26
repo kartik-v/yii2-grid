@@ -33,6 +33,7 @@ return [
     'Page' => 'Halaman',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Permintaan disampaikan! Anda mungkin sudah bisa menutup dialog ini setelah menyimpan berkas yang anda unduh.',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Mengubah ukuran kolom tabel seperti spreadsheet dengan menyeret tepi kolom.',
+    'Select...' => '',
     'Show all data' => 'Tampilkan semua data',
     'Show first page data' => 'Tampilkan data halaman pertama',
     'Text' => 'Teks',

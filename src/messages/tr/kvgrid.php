@@ -57,6 +57,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'İstek gönderildi! İndirilen dosyayı kaydettikten sonra güvenle bu iletişim kutusunu kapatabilir.',
     'Reset Grid' => 'Izgarayı Sıfırla',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Sadece kolon kenarlarını sürükleyerek bir tablo gibi sütunları yeniden boyutlandırınız.',
+    'Select...' => '',
     'Show all data' => 'Tüm verileri göster',
     'Show first page data' => 'İlk sayfa verisini göster',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => '<b>{totalCount, number}</b>  {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}} <b>{begin, number}-{end, number} arası gösteriliyor.</b>',

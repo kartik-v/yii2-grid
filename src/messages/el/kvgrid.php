@@ -52,6 +52,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Η αίτηση καταχωρήθηκε! Μπορείτε να κλείσετε με ασφάλεια αυτό τον διάλογο αφού αποθηκεύσετε το αρχείο που κατεβάσατε',
     'Reset Grid' => 'Αρχικοποίηση πίνακα',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Αναδιάταξη των στηλών πίνακα όως θα κάνετε και με ένα φύλλο εργασίας τραβώντας τις άκρες των στηλών',
+    'Select...' => '',
     'Show all data' => 'Δείξε όλα τα δεδομένα',
     'Show first page data' => 'Δείξε τα δεδομένα της πρώτης σελίδας',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Εμφανίζονται <b>{begin, number}-{end, number}</b> από <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

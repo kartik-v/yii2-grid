@@ -52,6 +52,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Yêu cầu đã được thực hiện! Bạn có thể đóng thông báo này sau khi lưu thành công tệp đã tải về.',
     'Reset Grid' => 'Thiết lập lại',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Thay đổi kích thước cột bảng giống như một bảng tính bằng cách kéo các cạnh cột.',
+    'Select...' => '',
     'Show all data' => 'Xem toàn bộ dữ liệu',
     'Show first page data' => 'Xem trang đầu tiên',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Trình bày <b>{begin, number}-{end, number}</b> trong số <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

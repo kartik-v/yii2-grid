@@ -57,6 +57,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '請求已經提交,您可以在文件下載成功後關閉此對話.',
     'Reset Grid' => '重置表格',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => '拖動表格邊緣來進行縮放',
+    'Select...' => '',
     'Show all data' => '顯示所有數據',
     'Show first page data' => '顯示第一頁數據',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => '第 <b>{begin, number}-{end, number}</b> 項，共 <b>{totalCount, number}</b> 項資料.',

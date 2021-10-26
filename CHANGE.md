@@ -5,8 +5,10 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (enh #1004): Enhancements to Boolean Column and its filter styling.
 - (enh #1003): NEW: Edited Highlighted Row Functionality.
-- (enh #996, #997): Fix compatibility with old php version .
+- (enh #996, #997): Fix compatibility with old php version.
+- (bug #991, enh #912): Enhancements and fixes to ExpandRowColumn.
 
 ## Version 3.3.6
 

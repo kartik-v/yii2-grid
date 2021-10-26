@@ -12,7 +12,10 @@ namespace kartik\grid;
 use Exception;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\web\JsExpression;
 
 /**
  * A BooleanColumn will convert true/false values as user friendly indicators with an automated drop down filter for the
@@ -35,6 +38,7 @@ use yii\helpers\Html;
  */
 class BooleanColumn extends DataColumn
 {
+    public $width = '110px';
     /**
      * @inheritdoc
      */
@@ -68,6 +72,11 @@ class BooleanColumn extends DataColumn
     public $showNullAsFalse = false;
 
     /**
+     * @var bool whether to use Krajee Select2 widget as the filter
+     */
+    public $useSelect2Filter = false;
+
+    /**
      * @inheritdoc
      * @throws InvalidConfigException
      */
@@ -75,7 +84,7 @@ class BooleanColumn extends DataColumn
     {
         $this->initColumnSettings([
             'hAlign' => GridView::ALIGN_CENTER,
-            'width' => '90px'
+            'width' => '90px',
         ]);
         if (empty($this->trueLabel)) {
             $this->trueLabel = Yii::t('kvgrid', 'Active');
@@ -91,28 +100,80 @@ class BooleanColumn extends DataColumn
         if (empty($this->falseIcon)) {
             $this->falseIcon = $this->getIconMarkup('false');
         }
+        $this->initColumnFilter();
         parent::init();
     }
 
     /**
+     * Initialize column filter
+     */
+    protected function initColumnFilter()
+    {
+        $placeholder = Yii::t('kvgrid', 'Select...');
+        if (empty($this->useSelect2Filter)) {
+            if ($this->grid->bootstrap && $this->grid->isBs(5)) {
+                Html::removeCssClass($this->filterInputOptions, 'form-control');
+                Html::addCssClass($this->filterInputOptions, 'form-select');
+            }
+            if (!isset($this->filterInputOptions['prompt'])) {
+                $this->filterInputOptions['prompt'] = $placeholder;
+            }
+            return;
+        }
+        $this->filterType = GridView::FILTER_SELECT2;
+        $config = Json::encode([$this->getIconLabel('false'), $this->getIconLabel('true')]);
+        $format = <<< JS
+function(status) {
+    var cfg={$config}, out = cfg[status.id];
+    return !out || !out[0] ? status.text : '<span class="kv-bool-icon">' + out[0] + '</span> ' + out[1];
+}
+JS;
+        $format = new JsExpression($format);
+        $opts = [
+            'pluginOptions' => [
+                'templateResult' => $format,
+                'templateSelection' => $format,
+                'escapeMarkup' => new JsExpression('function(m){return m}'),
+                'allowClear' => true,
+            ],
+            'options' => ['placeholder' => $placeholder]
+        ];
+        $this->filterWidgetOptions = array_replace_recursive($opts, $this->filterWidgetOptions);
+    }
+
+    /**
+     * Gets the icon and label
+     * @param  string  $type
+     * @return array
+     * @throws Exception
+     */
+    protected function getIconLabel($type = 'true') {
+        $isTrue = $type === 'true';
+        $label = $isTrue ? $this->trueLabel : $this->falseLabel;
+        $notBs3 = !$this->grid->isBs(3);
+        $icon = $notBs3 ? GridView::ICON_INACTIVE_BS4 : GridView::ICON_INACTIVE;
+        if ($isTrue) {
+            $icon = $notBs3 ? GridView::ICON_ACTIVE_BS4 : GridView::ICON_ACTIVE;
+        }
+        return [$icon, $label];
+    }
+
+    /**
      * Get icon HTML markup
-     * @param string $type the type of markup `true` or `false`
+     * @param  string  $type  the type of markup `true` or `false`
      * @return string
      * @throws InvalidConfigException|Exception
      */
     protected function getIconMarkup($type = 'true')
     {
-        $label = $type === 'false' ? $this->falseLabel: $this->trueLabel;
+        $label = $type === 'true' ? $this->trueLabel : $this->falseLabel;
         if (!$this->grid->bootstrap) {
             return $label;
         }
-        $notBs3 = !$this->grid->isBs(3);
-        if ($type === 'true') {
-            return ($notBs3 ? GridView::ICON_ACTIVE_BS4 : GridView::ICON_ACTIVE) . 
-                Html::tag('span', $this->trueLabel, ['class' => 'kv-grid-boolean']);
-        }
-        return ($notBs3 ? GridView::ICON_INACTIVE_BS4 : GridView::ICON_INACTIVE) . 
-                Html::tag('span', $this->falseLabel, ['class' => 'kv-grid-boolean']);
+        $cfg = $this->getIconLabel($type);
+
+        return Html::tag('span', $cfg[0], ['class' => 'skip-export']).
+            Html::tag('span', $cfg[1], ['class' => 'kv-grid-boolean']);
     }
 
     /**
@@ -124,6 +185,7 @@ class BooleanColumn extends DataColumn
         if ($value !== null) {
             return $value ? $this->trueIcon : $this->falseIcon;
         }
+
         return $this->showNullAsFalse ? $this->falseIcon : $value;
     }
 }

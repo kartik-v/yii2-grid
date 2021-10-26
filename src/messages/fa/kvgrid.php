@@ -55,6 +55,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'درخواست ارسال شد! شما با خیال راحت ممکن می‌توانید این صفحه را پس از ذخیره فایل های دانلود شده خود ببندید.',
     'Reset Grid' => 'بازنشانی گرید',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'ستون های جدول را مثل یک صفحه گسترده با کشیدن لبه های ستون تغییر دهید.',
+    'Select...' => '',
     'Show all data' => 'نمایش تمام اطلاعات',
     'Show first page data' => 'نمایش اطلاعات صفحه اول',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'نمایش <b>{begin, number} تا {end, number}</b> مورد از کل <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

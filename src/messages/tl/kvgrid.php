@@ -66,6 +66,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '',
     'Reset Grid' => '',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => '',
+    'Select...' => '',
     'Show all data' => '',
     'Show first page data' => '',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => '',

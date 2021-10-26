@@ -60,6 +60,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Pedido enviado! Você pode fechar esta caixa de diálogo com segurança após baixar o arquivo.',
     'Reset Grid' => 'Redefinir Grade',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Redimensionar colunas da tabela como uma planilha arrastando as bordas das colunas.',
+    'Select...' => '',
     'Show all data' => 'Mostrar todos os registros',
     'Show first page data' => 'Mostrar os registros da primeira página',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'A exibir <b>{begin, number}-{end, number}</b> de <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

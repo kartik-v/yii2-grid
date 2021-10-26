@@ -39,6 +39,7 @@ return [
     'Ok to proceed?' => 'להמשיך?',
     'Page' => 'עמוד',
     'Reset Grid' => 'אתחול טבלה',
+    'Select...' => '',
     'Show all data' => 'הצגת כל הרשומות',
     'Show first page data' => 'הצג רשומות של העמוד הראשון',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'מציג <b>{begin, number}-{end, number}</b> מתוך <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

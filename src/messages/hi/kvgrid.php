@@ -56,6 +56,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'अनुरोध सबमिट किया गया! आप सुरक्षित रूप से अपने डाउनलोड की गई फ़ाइल को बचाने के बाद इस संवाद को बंद कर सकता है।',
     'Reset Grid' => 'ग्रिड को रीसेट करें',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'कॉलम के किनारों को खींच कर स्तंभों का आकार बदलें।',
+    'Select...' => '',
     'Show all data' => 'सभी डेटा दिखाएँ',
     'Show first page data' => 'पहले पेज डेटा दिखाएँ',
     'Tab Delimited Text' => 'टैब सीमांकित पाठ',

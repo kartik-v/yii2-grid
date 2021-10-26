@@ -424,3 +424,10 @@ td.kv-group-odd {
         overflow: hidden;
     }
 }
+
+/**
+ * Boolean column Select2 filter
+ */
+.select2-results__option--highlighted .kv-bool-icon > * {
+    color: inherit !important;
+}

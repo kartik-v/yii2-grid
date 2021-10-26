@@ -61,6 +61,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '请求已经提交,你可以在文件下载成功后关闭此对话.',
     'Reset Grid' => '重置表格',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => '像Excel那样拖动表格列边缘来进行缩放',
+    'Select...' => '',
     'Show all data' => '显示所有数据',
     'Show first page data' => '显示第一页数据',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => '第<b>{begin, number}-{end, number}</b>条，共<b>{totalCount, number}</b>条数据.',

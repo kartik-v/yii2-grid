@@ -70,6 +70,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '',
     'Reset Grid' => '',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => '',
+    'Select...' => '',
     'Show all data' => '',
     'Show first page data' => '',
     'Tab Delimited Text' => '',

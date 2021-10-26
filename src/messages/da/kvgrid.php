@@ -80,6 +80,7 @@ return [
     'Page' => '',
     'Portable Document Format' => '',
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => '',
+    'Select...' => '',
     'Show all data' => '',
     'Show first page data' => '',
     'Tab Delimited Text' => '',

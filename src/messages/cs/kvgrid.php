@@ -57,6 +57,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Požadavek byl zpracován. Po uložení souboru můžete bezpečně zavřít toto okno.',
     'Reset Grid' => 'Obnovit tabulku',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Nastavte velikost sloupce tažením myší stejně jako v excelu.',
+    'Select...' => '',
     'Show all data' => 'Zobrazit všechna data',
     'Show first page data' => 'Zobrazit data první stránky',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => '{totalCount, plural, one{Zobrazen} few{Zobrazeny} other{Zobrazeno}} <b>{totalCount, plural, one{{begin, number}} other{{begin, number}-{end, number}}}</b> z <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-few}} many{{items-many}} other{{items}}}.',

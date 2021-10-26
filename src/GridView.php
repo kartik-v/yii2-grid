@@ -125,12 +125,12 @@ class GridView extends YiiGridView implements BootstrapInterface
     /**
      * @var string the Bootstrap 3.x **active** icon markup for [[BooleanColumn]]
      */
-    const ICON_ACTIVE = '<span class="glyphicon glyphicon-ok text-success"></span>';
+    const ICON_ACTIVE = '<span class="glyphicon glyphicon-ok-sign text-success" style="font-weight:bold"></span>';
 
     /**
      * @var string the **inactive** icon markup for [[BooleanColumn]]
      */
-    const ICON_INACTIVE = '<span class="glyphicon glyphicon-remove text-danger"></span>';
+    const ICON_INACTIVE = '<span class="glyphicon glyphicon-remove-sign text-danger" style="font-weight:bold"></span>';
 
     /**
      * @var string the Bootstrap 3.x **expanded** icon markup for [[ExpandRowColumn]]
@@ -145,12 +145,12 @@ class GridView extends YiiGridView implements BootstrapInterface
     /**
      * @var string the Bootstrap 4.x / 5.x **active** icon markup for [[BooleanColumn]]
      */
-    const ICON_ACTIVE_BS4 = '<span class="fas fa-check text-success"></span>';
+    const ICON_ACTIVE_BS4 = '<span class="fas fa-check-circle text-success"></span>';
 
     /**
      * @var string the Bootstrap 4.x / 5.x **inactive** icon markup for [[BooleanColumn]]
      */
-    const ICON_INACTIVE_BS4 = '<span class="fas fa-times text-danger"></span>';
+    const ICON_INACTIVE_BS4 = '<span class="fas fa-times-circle text-danger"></span>';
 
     /**
      * @var string the Bootstrap 4.x / 5.x **expanded** icon markup for [[ExpandRowColumn]]
@@ -1221,6 +1221,7 @@ HTML;
             unset($queryParams[$cfg['rowIdGetParam']], $queryParams[$cfg['gridIdGetParam']]);
             $session->set($filter, Json::encode($queryParams));
         }
+
         return ['row' => $row, 'grid' => $grid, 'css' => $cfg['highlightClass']];
     }
 

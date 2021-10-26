@@ -61,6 +61,7 @@ return [
     'Request submitted! You may safely close this dialog after saving your downloaded file.' => 'Anfrage übermittelt! Sie können diesen Dialog schließen, nachdem Sie die Datei gespeichert haben.',
     'Reset Grid' => 'Tabelle zurücksetzen',
     'Resize table columns just like a spreadsheet by dragging the column edges.' => 'Ändern Sie die Größe von Tabellenspalten genau wie in einer Tabellenkalkulation, indem Sie die Spaltenränder verschieben.',
+    'Select...' => '',
     'Show all data' => 'Alle Daten anzeigen',
     'Show first page data' => 'Daten der ersten Seite anzeigen',
     'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{{item}} other{{items}}}.' => 'Zeige <b>{begin, number}-{end, number}</b> von <b>{totalCount, number}</b> {totalCount, plural, one{{item}} few{{items-acc}} many{{items-acc}} other{{items-acc}}}.',
