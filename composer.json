@@ -18,9 +18,7 @@
     }
   ],
   "require": {
-    "kartik-v/yii2-dialog": "~1.0",
-    "kartik-v/yii2-bootstrap4-dropdown": "~1.0",
-    "kartik-v/yii2-bootstrap5-dropdown": "~1.0"
+    "kartik-v/yii2-dialog": "~1.0"
   },
   "autoload": {
     "psr-4": {
@@ -28,7 +26,10 @@
     }
   },
   "suggest": {
-    "kartik-v/yii2-mpdf": "For exporting grids to PDF"
+    "kartik-v/yii2-mpdf": "For exporting grids to PDF",
+    "kartik-v/yii2-dropdown-x": "For enabling dropdown support when using with Bootstrap v3.x",
+    "kartik-v/yii2-bootstrap4-dropdown": "For enabling dropdown support when using with Bootstrap v4.x",
+    "kartik-v/yii2-bootstrap5-dropdown": "For enabling dropdown support when using with Bootstrap v5.x"
   },
   "extra": {
     "branch-alias": {
