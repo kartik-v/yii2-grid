@@ -5,6 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** _under development_
 
+- (enh #1006): Reorganize main widget code into trait and interface.
 - (bug #1005): Remove *requires* dependency on yii2-bootstrap4-dropdown & yii2-bootstrap5-dropdown move it to *suggests*.
 - (enh #1004): Enhancements to Boolean Column and its filter styling.
 - (enh #1003): NEW: Edited Highlighted Row Functionality.
