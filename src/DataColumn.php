@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
- * @version   3.3.7
+ * @version   3.5.0
  */
 
 namespace kartik\grid;
@@ -242,6 +242,7 @@ class DataColumn extends YiiDataColumn
         $this->parseGrouping($options, $model, $key, $index);
         $this->parseExcelFormats($options, $model, $key, $index);
         $this->initPjax($this->_clientScript);
+
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
 
@@ -285,7 +286,35 @@ class DataColumn extends YiiDataColumn
             return Html::activeCheckbox($this->grid->filterModel, $this->attribute, $this->filterInputOptions);
         }
         $options = array_replace_recursive($this->filterWidgetOptions, $options);
+
         /** @var Widget $widgetClass */
         return $widgetClass::widget($options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function renderHeaderCellContent()
+    {
+        if ($this->header !== null || $this->label === null && $this->attribute === null) {
+            return parent::renderHeaderCellContent();
+        }
+
+        $label = $this->getHeaderCellLabel();
+        if ($this->encodeLabel) {
+            $label = Html::encode($label);
+        }
+
+        if ($this->attribute !== null && $this->enableSorting &&
+            ($sort = $this->grid->dataProvider->getSort()) !== false && $sort->hasAttribute($this->attribute)) {
+            if (($direction = $sort->getAttributeOrder($this->attribute)) !== null) {
+                $label .= Html::tag('span', $this->grid->sorterIcons[$direction], ['class' => 'kv-sort-icon']);
+                Html::addCssClass($this->sortLinkOptions, 'kv-sort-link');
+            }
+
+            return $sort->link($this->attribute, array_merge($this->sortLinkOptions, ['label' => $label]));
+        }
+
+        return $label;
     }
 }

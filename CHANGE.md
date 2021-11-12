@@ -1,12 +1,19 @@
 Change Log: `yii2-grid`
 =======================
 
-## Version 3.3.7
+## Version 3.5.0
 
 **Date:** _under development_
 
+### BC Breaking new major release
+
+- (enh #1010): Enhance sorter link rendering to include customizable sorter icons.
+- (enh #1009): (BC Breaking) Enhancements to float header, footer, and page summary.
+    - floating the header, footer, or page summary is possible and will use the CSS *sticky* property supported in new browsers
+    - floatThead plugin is obsoleted
+    - properties `floatHeaderOptions` and `floatOverflowContainer` are deprecated and not used anymore
 - (enh #1006): Reorganize main widget code into trait and interface.
-- (bug #1005): Remove *requires* dependency on `yii2-bootstrap4-dropdown` & `yii2-bootstrap5-dropdown` and move it to *suggests*.
+- (bug #1005): (BC Breaking) Remove *requires* dependency on `yii2-bootstrap4-dropdown` & `yii2-bootstrap5-dropdown` and move it to *suggests*.
 - (enh #1004): Enhancements to Boolean Column and its filter styling.
 - (enh #1003): NEW: Edited Highlighted Row Functionality.
 - (enh #996, #997): Fix compatibility with old php version.

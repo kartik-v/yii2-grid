@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
- * @version   3.3.7
+ * @version   3.5.0
  */
 
 namespace kartik\grid;
@@ -441,12 +441,6 @@ trait ColumnTrait
     protected function parseFormat()
     {
         $format = isset($this->format) ? (array)$this->format : [];
-        if (!empty($format)) {
-            $fmt = $format[0];
-            if (in_array($fmt, ['integer', 'decimal', 'percent', 'scientific', 'currency', 'length', 'weight'])) {
-                Html::addCssClass($this->headerOptions, ['sort-numerical']);
-            }
-        }
         if ($this->isValidAlignment()) {
             $class = "kv-align-{$this->hAlign}";
             Html::addCssClass($this->headerOptions, $class);

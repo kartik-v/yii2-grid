@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
- * @version   3.3.7
+ * @version   3.5.0
  */
 
 namespace kartik\grid;
@@ -56,11 +56,6 @@ class GridView extends YiiGridView implements BootstrapInterface, GridViewInterf
      * column. Defaults to 'kartik\grid\DataColumn'.
      */
     public $dataColumnClass = 'kartik\grid\DataColumn';
-
-    /**
-     * @var array the HTML attributes for the grid footer row
-     */
-    public $footerRowOptions = ['class' => 'kv-table-footer'];
 
     /**
      * @var array the HTML attributes for the grid caption
@@ -117,26 +112,7 @@ class GridView extends YiiGridView implements BootstrapInterface, GridViewInterf
      */
     public function renderTableHeader()
     {
-        $cells = [];
-        foreach ($this->columns as $index => $column) {
-            /* @var DataColumn $column */
-            if ($this->resizableColumns && $this->persistResize) {
-                $column->headerOptions['data-resizable-column-id'] = "kv-col-{$index}";
-            }
-            $cells[] = $column->renderHeaderCell();
-        }
-        $content = Html::tag('tr', implode('', $cells), $this->headerRowOptions);
-        if ($this->filterPosition == self::FILTER_POS_HEADER) {
-            $content = $this->renderFilters().$content;
-        } elseif ($this->filterPosition == self::FILTER_POS_BODY) {
-            $content .= $this->renderFilters();
-        }
-
-        return "<thead>\n".
-            $this->generateRows($this->beforeHeader)."\n".
-            $content."\n".
-            $this->generateRows($this->afterHeader)."\n".
-            '</thead>';
+        return $this->renderTablePart('thead', parent::renderTableHeader());
     }
 
     /**
@@ -144,15 +120,7 @@ class GridView extends YiiGridView implements BootstrapInterface, GridViewInterf
      */
     public function renderTableFooter()
     {
-        $content = parent::renderTableFooter();
-
-        return strtr(
-            $content,
-            [
-                '<tfoot>' => "<tfoot>\n".$this->generateRows($this->beforeFooter),
-                '</tfoot>' => $this->generateRows($this->afterFooter)."\n</tfoot>",
-            ]
-        );
+        return $this->renderTablePart('tfoot', parent::renderTableFooter());
     }
 
     /**

@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
- * @version   3.3.7
+ * @version   3.5.0
  */
 
 namespace kartik\grid;
@@ -358,7 +358,7 @@ HTML;
     /**
      * @var bool whether to enable focused edited row feature
      */
-    public $enableEditedRow = true;
+    public $enableEditedRow = false;
 
     /**
      * @var array the configuration for the row being currently edited
@@ -419,6 +419,12 @@ HTML;
 
     /**
      * @var boolean whether the grid will have a `responsive` style. Applicable only if `bootstrap` is `true`.
+     * Note that if you set this to `true` and `floatHeader` or `floatFooter` or `floatPageSummary` is also
+     * enabled to `true` - then for effective behavior set a fixed height for the container in `containerOptions`
+     * or add the built in class `kv-grid-wrapper` to the `containerOptions` - for example:
+     * ```
+     *     'containerOptions' => ['class' => 'kv-grid-wrapper']
+     * ```
      */
     public $responsive = true;
 
@@ -433,29 +439,67 @@ HTML;
     public $hover = false;
 
     /**
-     * @var boolean whether the grid will have a floating table header.
+     * @var boolean whether the grid will have a floating table header. Note that the table header will stick to the
+     * top of the page by default if this is set to `true`. To add an offset - you can configure the CSS style
+     * within `headerContainer` - for example:
+     *
+     * ```
+     *    'headerContainer' => ['class' => 'kv-table-header, 'style' => 'top: 50px'] // to set an offset
+     * ```
      */
     public $floatHeader = false;
 
     /**
-     * @var boolean whether the table header will float and sticks around as you scroll within a container. If
-     * `responsive` is true then this is auto set to `true`.
+     * @var boolean whether the grid will have a floating table footer.
+     */
+    public $floatFooter = false;
+
+    /**
+     * @var boolean whether the grid will have a floating page summary. If this is set to `true` it will
+     * override one of the following based on `pageSummaryPosition` setting:
+     * - the `floatFooter` setting when `pageSummaryPosition` is `GridView::POS_BOTTOM`
+     * - the `floatHeader` setting when `pageSummaryPosition` is `GridView::POS_TOP`
+     * Note that when position is set to `POS_TOP`, the page summary will stick to the  top of the page by default.
+     * To add an offset - you can configure the CSS style within `pageSummaryContainer` - for example:
+     *
+     * ```
+     *    'pageSummaryContainer' => ['style' => 'top: 50px'] // to set an offset
+     * ```
+     */
+    public $floatPageSummary = false;
+
+    /**
+     * @var array the HTML options for the table `thead`. The CSS class 'kv-table-header' is added by default and
+     * creates the Krajee default header styling for a better float header behavior. In case you are overriding this
+     * property at runtime, either use your own CSS class/ style or add the default CSS 'kv-table-header'. Note that
+     * with `floatHeader` enabled to `true`, you may need to add an offset for the floated header from top when
+     * scrolling (e.g. in cases where you have a fixed bootstrap navbar on top). For example:
+     *
+     * ```
+     *    'headerContainer' => ['class' => 'kv-table-header, 'style' => 'top: 50px'] // to set an offset
+     * ```
+     */
+    public $headerContainer = ['class' => 'kv-table-header'];
+
+    /**
+     * @var array the HTML options for the table `tfoot`
+     */
+    public $footerContainer = ['class' => 'kv-table-footer'];
+
+    /**
+     * @deprecated since release v3.5.0
      */
     public $floatOverflowContainer = false;
 
     /**
-     * @var array the plugin options for the floatThead plugin that would render the floating/sticky table header
-     * behavior. The default offset from the top of the window where the floating header will 'stick' when scrolling
-     * down is set to `50` assuming a fixed bootstrap navbar on top. You can set this to `0` or any javascript
-     * function / expression.
-     * @see http://mkoryak.github.io/floatThead#options
+     * @deprecated since release v3.5.0
      */
-    public $floatHeaderOptions = ['top' => 50];
+    public $floatHeaderOptions = [];
 
     /**
      * @var boolean whether pretty perfect scrollbars using perfect scrollbar plugin is to be used. Defaults to
-     * `false`. If this is set to true, the `floatOverflowContainer` property will be auto set to `true`, if
-     * `floatHeader` is `true`.
+     * `false`.
+     *
      * @see https://github.com/utatti/perfect-scrollbar
      */
     public $perfectScrollbar = false;
@@ -628,7 +672,7 @@ HTML;
      *   configuration options are read specific to each file type:
      *     - `HTML`: The following properties can be set as array key-value pairs:
      *          - `cssFile`: _string_, the css file that will be used in the exported HTML file. Defaults to:
-     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css`.
+     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.5.0/css/bootstrap.min.css`.
      *     - `CSV` and `TEXT`: The following properties can be set as array key-value pairs:
      *          - `colDelimiter`: _string_, the column delimiter string for TEXT and CSV downloads.
      *          - `rowDelimiter`: _string_, the row delimiter string for TEXT and CSV downloads.
@@ -692,6 +736,24 @@ HTML;
     public $hashExportConfig = true;
 
     /**
+     * @var array the configuration for sorter icons. The array key must have an `SORT_ASC` and `SORT_DESC` entry.
+     * The `sorterIcons` property defaults to following if not overridden:
+     *
+     * For Bootstrap v4.x and v5.x:
+     * [
+     *   SORT_ASC => '<i class="fas fa-sort-amount-down-alt"></i>',
+     *   SORT_DESC => '<i class="fas fa-sort-amount-up"></i>'
+     * ]
+     *
+     * For Bootstrap v3.x:
+     * [
+     *   SORT_ASC => '<i class="glyphicon glyphicon-sort-by-attributes"></i>',
+     *   SORT_DESC => '<i class="glyphicon glyphicon-sort-by-attributes-alt"></i>',
+     * ]
+     */
+    public $sorterIcons = [];
+
+    /**
      * @var string the generated client script for the grid
      */
     protected $_gridClientFunc = '';
@@ -745,6 +807,7 @@ HTML;
         $bsVer = $this->getBsVer();
         $notBs3 = $bsVer > 3;
         Html::addCssClass($this->options, 'is-bs'.($notBs3 ? '4' : '3'));
+        $this->sorterIcons += static::getDefaultSorterIcons($notBs3);
         $this->initPjaxContainerId();
         if (!isset($this->itemLabelSingle)) {
             $this->itemLabelSingle = Yii::t('kvgrid', 'item');
@@ -766,6 +829,12 @@ HTML;
             $this->setPagerOptionClass('linkContainerOptions', 'page-item');
             $this->setPagerOptionClass('linkOptions', 'page-link');
             $this->setPagerOptionClass('disabledListItemSubTagOptions', 'page-link');
+        } else {
+            Html::addCssClass($this->options, 'kv-grid-bs3');
+        }
+        if (empty($this->sorter['class'])) {
+            $this->sorter['class'] = GridLinkSorter::class;
+            $this->sorter['sorterIcons'] = $this->sorterIcons;
         }
         if (!$this->toggleData) {
             parent::init();
@@ -804,13 +873,32 @@ HTML;
                 "otherwise set 'export' to 'false' to disable all export functionality"
             );
         }
-        $this->initHeader();
         $this->initBootstrapStyle();
         $this->containerOptions['id'] = $this->options['id'].'-container';
         Html::addCssClass($this->containerOptions, 'kv-grid-container');
         $this->initPanel();
         $this->initLayout();
         $this->registerAssets();
+    }
+
+    /**
+     * Gets default sorter icons
+     * @param  bool  $notBs3
+     * @return array
+     */
+    public static function getDefaultSorterIcons($notBs3)
+    {
+        if ($notBs3) {
+            return [
+                SORT_ASC => '<i class="fas fa-sort-amount-down-alt"></i>',
+                SORT_DESC => '<i class="fas fa-sort-amount-up"></i>',
+            ];
+        }
+
+        return [
+            SORT_ASC => '<i class="glyphicon glyphicon-sort-by-attributes"></i>',
+            SORT_DESC => '<i class="glyphicon glyphicon-sort-by-attributes-alt"></i>',
+        ];
     }
 
     /**
@@ -1466,14 +1554,22 @@ HTML;
         if ($this->condensed) {
             $this->addCssClass($this->tableOptions, self::BS_TABLE_CONDENSED);
         }
+        if ($this->floatPageSummary) {
+            if ($this->pageSummaryPosition === self::POS_BOTTOM) {
+                $this->floatFooter = false;
+                $css = 'kv-float-footer';
+            } else {
+                $this->floatHeader = false;
+                $css = 'kv-float-header';
+            }
+            Html::addCssClass($this->pageSummaryContainer, $css);
+        }
+        Html::addCssClass($this->headerContainer, [$this->options['id']]);
         if ($this->floatHeader) {
-            if ($this->perfectScrollbar) {
-                $this->floatOverflowContainer = true;
-            }
-            if ($this->floatOverflowContainer) {
-                $this->responsive = false;
-                Html::addCssClass($this->containerOptions, 'kv-grid-wrapper');
-            }
+            Html::addCssClass($this->headerContainer, 'kv-float-header');
+        }
+        if ($this->floatFooter) {
+            Html::addCssClass($this->footerContainer, 'kv-float-footer');
         }
         if ($this->responsive) {
             Html::addCssClass($this->containerOptions, 'table-responsive');
@@ -1484,24 +1580,12 @@ HTML;
     }
 
     /**
-     * Initialize table header.
-     */
-    protected function initHeader()
-    {
-        if ($this->filterPosition === self::FILTER_POS_HEADER) {
-            // Float header plugin misbehaves when filter is placed on the first row.
-            // So disable it when `filterPosition` is `header`.
-            $this->floatHeader = false;
-        }
-    }
-
-    /**
      * Initialize the grid layout.
      * @throws InvalidConfigException
      */
     protected function initLayout()
     {
-        Html::addCssClass($this->filterRowOptions, 'skip-export');
+        Html::addCssClass($this->filterRowOptions, ['filters', 'skip-export']);
         if ($this->resizableColumns && $this->persistResize) {
             $key = empty($this->resizeStorageKey) ? Yii::$app->user->id : $this->resizeStorageKey;
             $gridId = empty($this->options['id']) ? $this->getId() : $this->options['id'];
@@ -1785,7 +1869,6 @@ HTML;
         }
         Dialog::widget($this->krajeeDialogSettings);
         $gridId = $this->options['id'];
-        $NS = '.'.str_replace('-', '_', $gridId);
         if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
             if (!isset($this->_module->downloadAction)) {
@@ -1854,29 +1937,6 @@ HTML;
             $opts = Json::encode($edited);
             $script .= "kvGridEditedRow({$opts});";
         }
-        if ($this->floatHeader) {
-            GridFloatHeadAsset::register($view);
-            // fix floating header for IE browser when using group grid functionality
-            $skipCss = '.kv-grid-group-row,.kv-group-header,.kv-group-footer'; // skip these CSS for IE
-            $js = 'function($table){return $table.find("tbody tr:not('.$skipCss.'):visible:first>*");}';
-            $opts = [
-                'floatTableClass' => 'kv-table-float',
-                'floatContainerClass' => 'kv-thead-float',
-                'getSizingRow' => new JsExpression($js),
-            ];
-            if ($this->floatOverflowContainer) {
-                $opts['scrollContainer'] = new JsExpression("function(){return {$container};}");
-            }
-            $this->floatHeaderOptions = array_replace_recursive($opts, $this->floatHeaderOptions);
-            $opts = Json::encode($this->floatHeaderOptions);
-            $script .= "jQuery('#{$gridId} .kv-grid-table:first').floatThead({$opts});";
-            // integrate resizeableColumns with floatThead
-            if ($this->resizableColumns) {
-                $script .= "{$container}.off('{$NS}').on('column:resize{$NS}', function(e){".
-                    "jQuery('#{$gridId} .kv-grid-table:nth-child(2)').floatThead('reflow');".
-                    '});';
-            }
-        }
         $psVar = 'ps_'.Inflector::slug($this->containerOptions['id'], '_');
         if (!empty($this->perfectScrollbar)) {
             GridPerfectScrollbarAsset::register($view);
@@ -1889,5 +1949,33 @@ HTML;
         $this->options['data-krajee-grid'] = $this->_gridClientFunc;
         $this->options['data-krajee-ps'] = $psVar;
         $view->registerJs("var {$this->_gridClientFunc}=function(){\n{$script}\n};\n{$this->_gridClientFunc}();");
+    }
+
+    /**
+     * Renders the table header or footer part
+     * @param  string  $part  whether thead or tfoot
+     * @param  string  $content
+     * @return string
+     * @throws Exception
+     */
+    protected function renderTablePart(string $part, string $content)
+    {
+        $content = strtr($content, ["<{$part}>\n" => '', "\n</{$part}>" => '', "<{$part}>" => '', "</{$part}>" => '']);
+        $token = $part === 'thead' ? 'Header' : 'Footer';
+        $prop = strtolower($token).'Container';
+        $options = $this->$prop;
+        $before = "before{$token}";
+        $after = "after{$token}";
+        $out = [];
+        if (isset($this->$before)) {
+            $out[] = $this->generateRows($this->$before);
+        }
+        $out[] = $content;
+        if (isset($this->$after)) {
+            $out[] = $this->generateRows($this->$after);
+        }
+        $content = implode("\n", $out);
+
+        return Html::tag($part, $content, $options);
     }
 }

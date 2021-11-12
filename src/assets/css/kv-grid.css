@@ -2,11 +2,47 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
- * @version   3.3.7
+ * @version   3.5.0
  *
  * Yii2 Gridview widget styling and enhancements for Bootstrap.
  *
  */
+
+/**
+ * Table header and footer styling including floating header and footer
+ */
+.kv-table-header, .kv-table-footer {
+    background: #fff;
+}
+
+.kv-table-footer {
+    font-weight: bold;
+    background: linear-gradient(to top, #fff 0%, #eee 100%);
+}
+
+.kv-table-header {
+    background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+}
+
+.table-bordered > thead.kv-table-header > tr, .table-bordered > thead.kv-table-header > tr > th,
+.table-bordered > thead.kv-table-header > tr > td, .kv-table-header > tr, .kv-table-header > tr > th,
+.kv-table-header > tr > td {
+    border-bottom: none;
+    border-top: none;
+}
+
+.kv-float-header, .kv-float-footer {
+    position: sticky;
+}
+
+.kv-float-header {
+    inset-block-start: 0;
+}
+
+.kv-float-footer {
+    inset-block-end: 0;
+}
+
 .kv-grid-container {
     position: relative;
 }
@@ -31,27 +67,13 @@
     border: 0;
 }
 
-.kv-grid-bs4 a.asc:after,
-.kv-grid-bs4 a.desc:after {
-    /*noinspection CssNoGenericFontName*/
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+.kv-sort-link.asc:after, .kv-sort-link.desc:after {
+    content: "";
 }
 
-.kv-grid-bs4 a.asc:after {
-    content: "\f15e";
-}
-
-.kv-grid-bs4 a.desc:after {
-    content: "\f15d";
-}
-
-.kv-grid-bs4 .sort-numerical a.asc:after {
-    content: "\f163";
-}
-
-.kv-grid-bs4 .sort-numerical a.desc:after {
-    content: "\f162";
+.kv-sort-link .kv-sort-icon {
+    text-decoration: none;
+    margin-left: 5px;
 }
 
 /**
@@ -118,14 +140,9 @@
     border-bottom-width: 2px;
 }
 
-.kv-page-summary {
-    border-top: 4px double #ddd;
+.kv-page-summary-container {
     font-weight: bold;
-}
-
-.kv-table-footer {
-    border-top: 4px double #ddd;
-    font-weight: bold;
+    border-top: 3px double #ccc;
 }
 
 .kv-table-caption {
