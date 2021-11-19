@@ -837,8 +837,6 @@ HTML;
             $this->sorter['sorterIcons'] = $this->sorterIcons;
         }
         if (!$this->toggleData) {
-            parent::init();
-
             return;
         }
         $this->_toggleDataKey = '_tog'.hash('crc32', $this->options['id']);

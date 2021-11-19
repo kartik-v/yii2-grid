@@ -7,6 +7,7 @@ Change Log: `yii2-grid`
 
 ### BC Breaking new major release
 
+- (bug #1011): Correct GridView initialization for `toggleData` set to `false`.
 - (enh #1010): Enhance sorter link rendering to include customizable sorter icons.
 - (enh #1009): (BC Breaking) Enhancements to float header, footer, and page summary.
     - floating the header, footer, or page summary is possible and will use the CSS *sticky* property supported in new browsers
