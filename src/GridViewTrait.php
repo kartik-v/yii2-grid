@@ -455,12 +455,16 @@ HTML;
     public $floatFooter = false;
 
     /**
-     * @var boolean whether the grid will have a floating page summary. If this is set to `true` it will
-     * override one of the following based on `pageSummaryPosition` setting:
-     * - the `floatFooter` setting when `pageSummaryPosition` is `GridView::POS_BOTTOM`
-     * - the `floatHeader` setting when `pageSummaryPosition` is `GridView::POS_TOP`
-     * Note that when position is set to `POS_TOP`, the page summary will stick to the  top of the page by default.
-     * To add an offset - you can configure the CSS style within `pageSummaryContainer` - for example:
+     * @var boolean whether the grid table will have a floating page summary at the bottom or top depending on
+     * `pageSummaryPosition`.  Defaults to `false`. Note that this property also automatically overrides and disables
+     * the `floatHeader` or `floatFooter` properties. This is because only one sticky container can exist at the top
+     * or bottom. Note:
+     * - when `pageSummaryPosition` is set to `GridView::POS_BOTTOM`, the page summary sticks to the bottom of the page,
+     *   and overrides the `floatFooter` setting to `false`.
+     * - when `pageSummaryPosition` is set to `GridView::POS_TOP`, the page summary sticks to the top of the page,
+     *   and overrides the `floatHeader` setting to `false`.
+     * Note that, like header or footer, you can control the positioning or offset of the page summary container via
+     * `pageSummaryContainer`.
      *
      * ```
      *    'pageSummaryContainer' => ['style' => 'top: 50px'] // to set an offset
@@ -482,7 +486,15 @@ HTML;
     public $headerContainer = ['class' => 'kv-table-header'];
 
     /**
-     * @var array the HTML options for the table `tfoot`
+     * @var array the HTML options for the table <code>tfoot</code> container. The CSS class 'kv-table-footer' is added
+     * by default, and creates the Krajee default footer styling for a better float footer behavior. In case you are
+     * overriding this property at runtime, either use your own CSS class/ style or add the default CSS
+     * 'kv-table-footer' for maintaining a consistent sticky styling. Similar, to `headerContainer`, you can control
+     * other styling, like offsets. For example:
+     *
+     * ```
+     * 'footerContainer' => ['class' => 'kv-table-footer, 'style' => 'bottom: 50px'] // to set an offset from bottom
+     * ```
      */
     public $footerContainer = ['class' => 'kv-table-footer'];
 
@@ -1956,7 +1968,7 @@ HTML;
      * @return string
      * @throws Exception
      */
-    protected function renderTablePart(string $part, string $content)
+    protected function renderTablePart($part, $content)
     {
         $content = strtr($content, ["<{$part}>\n" => '', "\n</{$part}>" => '', "<{$part}>" => '', "</{$part}>" => '']);
         $token = $part === 'thead' ? 'Header' : 'Footer';

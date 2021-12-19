@@ -37,10 +37,12 @@
 
 .kv-float-header {
     inset-block-start: 0;
+    box-shadow: inset 0 -1px 0 #ccc;
 }
 
 .kv-float-footer {
     inset-block-end: 0;
+    box-shadow: inset 0 2px 0 #ccc;
 }
 
 .kv-grid-container {
@@ -142,7 +144,7 @@
 
 .kv-page-summary-container {
     font-weight: bold;
-    border-top: 3px double #ccc;
+    border-top: 2px solid #ccc;
 }
 
 .kv-table-caption {
@@ -430,7 +432,7 @@ td.kv-group-odd {
 .kv-grid-wrapper {
     position: relative;
     overflow: auto;
-    height: 300px;
+    height: 320px;
 }
 
 /**
