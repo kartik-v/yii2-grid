@@ -3,7 +3,7 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2022
  * @version   3.5.0
  */
 
@@ -16,21 +16,11 @@ use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\i18n\Formatter;
 use yii\web\View;
 
 /**
  * ColumnTrait maintains generic methods used by all column widgets in [[GridView]].
- *
- * @property array $options
- * @property array $headerOptions
- * @property array $filterOptions
- * @property array $footerOptions
- * @property array $contentOptions
- * @property string $footer
- * @property GridView $grid
- * @property string $format
- * @method getDataCellValue($model, $key, $index)
- * @method renderCell()
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
@@ -440,7 +430,6 @@ trait ColumnTrait
      */
     protected function parseFormat()
     {
-        $format = isset($this->format) ? (array)$this->format : [];
         if ($this->isValidAlignment()) {
             $class = "kv-align-{$this->hAlign}";
             Html::addCssClass($this->headerOptions, $class);

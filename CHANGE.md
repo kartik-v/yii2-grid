@@ -3,10 +3,11 @@ Change Log: `yii2-grid`
 
 ## Version 3.5.0
 
-**Date:** _under development_
+**Date:** 11-Jan-2022
 
 ### BC Breaking new major release
 
+- Enhance & standardize php docs for new website https://docs.krajee.com.
 - (bug #1011): Correct GridView initialization for `toggleData` set to `false`.
 - (enh #1010): Enhance sorter link rendering to include customizable sorter icons.
 - (enh #1009): (BC Breaking) Enhancements to float header, footer, and page summary.
@@ -18,6 +19,7 @@ Change Log: `yii2-grid`
 - (enh #1004): Enhancements to Boolean Column and its filter styling.
 - (enh #1003): NEW: Edited Highlighted Row Functionality.
 - (enh #996, #997): Fix compatibility with old php version.
+- (bug #995): Correct expand row behavior for nested grid views when used with grid grouping.
 - (bug #991, enh #912): Enhancements and fixes to ExpandRowColumn.
 
 ## Version 3.3.6

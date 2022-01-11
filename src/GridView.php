@@ -3,13 +3,14 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2022
  * @version   3.5.0
  */
 
 namespace kartik\grid;
 
 use kartik\base\BootstrapInterface;
+use kartik\base\BootstrapTrait;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\grid\Column;
@@ -50,6 +51,7 @@ use yii\helpers\Html;
 class GridView extends YiiGridView implements BootstrapInterface, GridViewInterface
 {
     use GridViewTrait;
+    use BootstrapTrait;
 
     /**
      * @var string the default data column class if the class name is not explicitly specified when configuring a data

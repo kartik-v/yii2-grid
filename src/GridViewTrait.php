@@ -3,7 +3,7 @@
 /**
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2022
  * @version   3.5.0
  */
 
@@ -35,8 +35,6 @@ use yii\widgets\Pjax;
  */
 trait GridViewTrait
 {
-    use BootstrapTrait;
-
     /**
      * @var string the module identifier if this widget is part of a module. If not set, the module identifier will
      * be auto derived based on the \yii\base\Module::getInstance method. This can be useful, if you are setting
@@ -1156,7 +1154,7 @@ HTML;
         $title = $this->export['label'];
         $icon = $this->export['icon'];
         $options = $this->export['options'];
-        static::initCss($options, ['btn', $this->_defaultBtnCss]);
+        static::initCss($options, ['btn', $this->getDefaultBtnCss()]);
         $menuOptions = $this->export['menuOptions'];
         $title = ($icon == '') ? $title : "<i class='{$icon}'></i> {$title}";
         $encoding = ArrayHelper::getValue($this->export, 'encoding', 'utf-8');
@@ -1271,7 +1269,7 @@ HTML;
                         'Request submitted! You may safely close this dialog after saving your downloaded file.'
                     ),
                 ],
-                'options' => ['class' => 'btn '.$this->_defaultBtnCss, 'title' => Yii::t('kvgrid', 'Export')],
+                'options' => ['class' => 'btn '.$this->getDefaultBtnCss(), 'title' => Yii::t('kvgrid', 'Export')],
                 'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-right '],
                 'skipExportElements' => ['.sr-only', '.hide'],
             ],
@@ -1503,7 +1501,7 @@ HTML;
             return;
         }
         $notBs3 = !$this->isBs(3);
-        $defBtnCss = 'btn '.$this->_defaultBtnCss;
+        $defBtnCss = 'btn '.$this->getDefaultBtnCss();
         $defaultOptions = [
             'maxCount' => 10000,
             'minCount' => 500,

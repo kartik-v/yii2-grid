@@ -5,16 +5,18 @@ namespace kartik\grid\controllers;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
-use yii\web\Controller;
 use yii\web\Response;
 
 /**
  * GridEditedRowTrait implements the specific actions and methods that can be used in any of controllers to
- * enable the Krajee GridView edited row functionality. You must define a property in your controller using this
- * trait called `editedRowConfig` (which should match the GridView::editedRowConfig specification).
+ * enable the Krajee GridView edited row functionality. You must define a property called `editedRowConfig` in your
+ * controller and use this trait. The property must match the [[kartik\grid\GridView::editedRowConfig]] property specification.
+ *
+ * This trait is used by [[GridEditedRowController]] which can alternatively be extended by your own controller classes.
  *
  * For example:
- * ```
+ *
+ * ```php
  * class BookController extends \yii\web\Controller {
  *   use \kartik\grid\controllers\GridEditedRowTrait;
  *
@@ -38,12 +40,17 @@ use yii\web\Response;
  *   }
  * }
  * ```
+ *
  * On your view file (for update or view) - you can create a Cancel button to go back to the edited row,
- * using the *back* action. For example
- * ```
+ * using the *back* action. For example,
+ *
+ * ```php
  *    use yii\helpers\Html;
  *    echo Html::a('Cancel', ['back', 'id' => $model->id], ['class' => 'btn btn-primary', 'title' => 'Go back']);
  * ```
+ *
+ * @see [[GridEditedRowController]]
+ *
  */
 trait GridEditedRowTrait
 {

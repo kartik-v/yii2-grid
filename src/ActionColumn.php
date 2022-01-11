@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2022
  * @package yii2-grid
  * @version 3.5.0
  */
@@ -161,14 +161,15 @@ class ActionColumn extends YiiActionColumn
     public function renderDataCell($model, $key, $index)
     {
         $options = $this->fetchContentOptions($model, $key, $index);
+
         return Html::tag('td', $this->renderDataCellContent($model, $key, $index), $options);
     }
 
     /**
      * Renders button icon
      *
-     * @param array $options HTML attributes for the action button element
-     * @param array $iconOptions HTML attributes for the icon element. The following additional options are recognized:
+     * @param  array  $options  HTML attributes for the action button element
+     * @param  array  $iconOptions  HTML attributes for the icon element. The following additional options are recognized:
      * - `tag`: _string_, the HTML tag to render the icon. Defaults to `span`.
      *
      * @return string
@@ -185,15 +186,16 @@ class ActionColumn extends YiiActionColumn
             $tag = ArrayHelper::remove($iconOptions, 'tag', 'span');
             $icon = Html::tag($tag, '', $iconOptions);
         }
+
         return $icon;
     }
 
     /**
      * Renders button label
      *
-     * @param array $options HTML attributes for the action button element
-     * @param string $title the action button title
-     * @param array $iconOptions HTML attributes for the icon element (see [[renderIcon]])
+     * @param  array  $options  HTML attributes for the action button element
+     * @param  string  $title  the action button title
+     * @param  array  $iconOptions  HTML attributes for the icon element (see [[renderIcon]])
      *
      * @return string
      */
@@ -203,20 +205,21 @@ class ActionColumn extends YiiActionColumn
         if (is_null($label)) {
             $icon = $this->renderIcon($options, $iconOptions);
             if (strlen($icon) > 0) {
-                $label = $this->_isDropdown ? ($icon . ' ' . $title) : $icon;
+                $label = $this->_isDropdown ? ($icon.' '.$title) : $icon;
             } else {
                 $label = $title;
             }
         }
+
         return $label;
     }
 
     /**
-     * Sets a default button configuration based on the button name (bit different than [[initDefaultButton]] method)
+     * Sets a default button configuration based on the button name.
      *
-     * @param string $name button name as written in the [[template]]
-     * @param string $title the title of the button
-     * @param string $icon the meaningful glyphicon suffix name for the button
+     * @param  string  $name  button name as written in the [[template]]
+     * @param  string  $title  the title of the button
+     * @param  string  $icon  the meaningful icon suffix name for the button
      * @throws InvalidConfigException|Exception
      */
     protected function setDefaultButton($name, $title, $icon)
@@ -228,23 +231,26 @@ class ActionColumn extends YiiActionColumn
         $this->buttons[$name] = function ($url) use ($name, $title, $icon, $notBs3) {
             $opts = "{$name}Options";
             $options = ['title' => $title, 'aria-label' => $title, 'data-pjax' => '0'];
-            if ($this->grid->enableEditedRow  && $name != 'delete') {
+            if ($this->grid->enableEditedRow && $name != 'delete') {
                 Html::addCssClass($options, 'enable-edited-row');
             }
             if ($name === 'delete') {
-                $item = $this->grid->itemLabelSingle ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item');
+                $item = !empty($this->grid->itemLabelSingle) ? $this->grid->itemLabelSingle : Yii::t('kvgrid', 'item');
                 $options['data-method'] = 'post';
                 $options['data-confirm'] = Yii::t('kvgrid', 'Are you sure to delete this {item}?', ['item' => $item]);
             }
             $options = array_replace_recursive($options, $this->buttonOptions, $this->$opts);
-            $label = $this->renderLabel($options, $title, ['class' => $this->grid->getDefaultIconPrefix() . $icon, 'aria-hidden' => 'true']);
-            $link = Html::a($label, $url, $options);
-            if ($this->_isDropdown) {
-                $options['tabindex'] = '-1';
-                return $notBs3 ? $link : "<li>{$link}</li>\n";
-            } else {
-                return $link;
+            $label = $this->renderLabel($options, $title,
+                ['class' => $this->grid->getDefaultIconPrefix().$icon, 'aria-hidden' => 'true']);
+            if (!$this->_isDropdown) {
+                return Html::a($label, $url, $options);
             }
+            if ($notBs3)  {
+                Html::addCssClass($options, ['dropdown-item']);
+            }
+            $options['tabindex'] = '-1';
+            $link = Html::a($label, $url, $options);
+            return $notBs3 ? $link : "<li>{$link}</li>\n";
         };
     }
 
@@ -276,20 +282,24 @@ class ActionColumn extends YiiActionColumn
             $options = $options($model, $key, $index);
         }
         if (!isset($options['class'])) {
-            $options['class'] = 'btn ' . $this->grid->getDefaultBtnCss();
+            $options['class'] = 'btn '.$this->grid->getDefaultBtnCss();
         }
         $trimmed = trim($content);
         if ($this->_isDropdown && !empty($trimmed)) {
             $label = ArrayHelper::remove($options, 'label', Yii::t('kvgrid', 'Actions'));
             $caret = $notBs3 ? '' : ArrayHelper::remove($options, 'caret', ' <span class="caret"></span>');
-            $options = array_replace_recursive($options, ['type' => 'button', 'data-toggle' => 'dropdown']);
+            $data = $this->grid->isBs(5) ? 'data-bs' : 'data';
+            $options = array_replace_recursive($options, ['type' => 'button', "{$data}-toggle" => 'dropdown']);
             Html::addCssClass($options, 'dropdown-toggle');
-            $button = Html::button($label . $caret, $options);
+            $button = Html::button($label.$caret, $options);
             Html::addCssClass($this->dropdownMenu, 'dropdown-menu');
-            $dropdown = $button . PHP_EOL . Html::tag($notBs3 ? 'div' : 'ul', $content, $this->dropdownMenu);
-            Html::addCssClass($this->dropdownOptions, $notBs3 ? 'btn-group' : 'dropdown');
+            $dropdown = $button.PHP_EOL.Html::tag($notBs3 ? 'div' : 'ul', $content, $this->dropdownMenu);
+            if (!$notBs3) {
+                Html::addCssClass($this->dropdownOptions,  'dropdown');
+            }
             return Html::tag('div', $dropdown, $this->dropdownOptions);
         }
+
         return $content;
     }
 }

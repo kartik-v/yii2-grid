@@ -1,13 +1,13 @@
 /*!
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2021
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2022
  * @version   3.5.0
  *
  * jQuery methods library for yii2-grid expand row column
  *
  * Author: Kartik Visweswaran
- * Copyright: 2014 - 2021, Kartik Visweswaran, Krajee.com
+ * Copyright: 2014 - 2022, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
@@ -304,17 +304,19 @@ var kvExpandRow;
                     $h.setCollapsed($icon);
                 }
                 // needed when used together with grouping
-                var $rowsBefore = $row.prevAll(), expandRowPosition = $row.index() + 1;
-                $rowsBefore.push($row);
-                $.each($rowsBefore, function (i, tr) {
-                    var $rowSpanTds = $(tr).find('td[rowspan]');
-                    $.each($rowSpanTds, function (j, td) {
-                        var rowSpan = parseInt($(td).attr('rowspan'));
-                        if ($(tr).index() + rowSpan > expandRowPosition) {
-                            $(td).attr('rowspan', rowSpan + 1);
-                        }
+                if ($row.attr('data-group-key')) {
+                    var $rowsBefore = $row.prevAll('.' + gridId), expandRowPosition = $row.index() + 1;
+                    $rowsBefore.push($row);
+                    $.each($rowsBefore, function (i, tr) {
+                        var $rowSpanTds = $(tr).find('td.' + gridId + '[rowspan]');
+                        $.each($rowSpanTds, function (j, td) {
+                            var rowSpan = parseInt($(td).attr('rowspan'));
+                            if (!isNaN(rowspan) && $(tr).index() + rowSpan > expandRowPosition) {
+                                $(td).attr('rowspan', rowSpan + 1);
+                            }
+                        });
                     });
-                });
+                }
                 if (!isAjax) {
                     endLoading($cell);
                 }
@@ -339,18 +341,20 @@ var kvExpandRow;
                     $detail.appendTo($container);
                     $h.setExpanded($icon);
                     // needed when used together with grouping
-                    var $rowsBefore = $row.prevAll();
-                    $rowsBefore.push($row);
-                    var expandRowPosition = $row.index() + 1;
-                    $.each($rowsBefore, function (i, tr) {
-                        var $rowSpanTds = $(tr).find('td[rowspan]');
-                        $.each($rowSpanTds, function (j, td) {
-                            var rowSpan = parseInt($(td).attr('rowspan'));
-                            if ($(tr).index() + rowSpan > expandRowPosition) {
-                                $(td).attr('rowspan', rowSpan - 1);
-                            }
+                    if ($row.attr('data-group-key')) {
+                        var $rowsBefore = $row.prevAll('.' + gridId);
+                        $rowsBefore.push($row);
+                        var expandRowPosition = $row.index() + 1;
+                        $.each($rowsBefore, function (i, tr) {
+                            var $rowSpanTds = $(tr).find('td.' + gridId + '[rowspan]');
+                            $.each($rowSpanTds, function (j, td) {
+                                var rowSpan = parseInt($(td).attr('rowspan'));
+                                if (!isNaN(rowspan) && $(tr).index() + rowSpan > expandRowPosition) {
+                                    $(td).attr('rowspan', rowSpan - 1);
+                                }
+                            });
                         });
-                    });
+                    }
                 });
                 if (!hideProgress) {
                     endLoading($cell);

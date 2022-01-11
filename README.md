@@ -29,8 +29,10 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 
 ![GridView Screenshot](https://lh4.googleusercontent.com/-4x-CdyyZAsY/VNxLPmaaAXI/AAAAAAAAAQ8/XYYxTiQZvJk/w868-h516-no/krajee-yii2-grid.jpg)
 
-### Documentation and Demo
-You can see detailed [documentation](http://demos.krajee.com/grid) and [demonstration](http://demos.krajee.com/grid-demo) on usage of the extension. You can also view the [grid grouping demo here](http://demos.krajee.com/group-grid).
+### Docs & Demo
+
+You can see detailed [documentation](http://demos.krajee.com/grid), [demonstration](http://demos.krajee.com/grid-demo)
+and API [code documentation](https://docs.krajee.com/kartik-grid-gridview) on usage of the extension. You can also view the [grid grouping demo here](http://demos.krajee.com/group-grid).
 
 ## Installation
 
