@@ -82,11 +82,16 @@ trait GridEditedRowTrait
     /**
      * Redirects to index page with cached query params containing the highlighted edited row
      * @param  int|string  $id  the record identifier
+     * @param  string  $grid  the grid identifier
      * @return Response
      */
-    protected function redirectIndex($id)
+    protected function redirectIndex($id, $grid = null)
     {
         $queryParams = $this->getQueryParamsCached($id);
+
+        if (isset($grid)) {
+            $queryParams[$this->editedRowConfig['gridIdGetParam']] = $grid;
+        }
 
         return $this->redirect(['index'] + $queryParams);
     }
@@ -99,6 +104,6 @@ trait GridEditedRowTrait
      */
     public function actionBack($id = null)
     {
-        return $this->redirectIndex($id);
+        return $this->redirectIndex($id, Yii::$app->request->get($this->editedRowConfig['gridIdGetParam']));
     }
 }

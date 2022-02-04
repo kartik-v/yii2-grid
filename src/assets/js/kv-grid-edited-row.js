@@ -23,8 +23,8 @@ var kvGridEditedRow;
                 $row[0].scrollIntoView({block: "center"});
             }
         }
-        $grid.find('.enable-edited-row').on('click', function() {
-            $grid.find('tr').removeClass(css);
+        $('.enable-edited-row').on('click', function() {
+            $(this).closest('table').find('> tbody > tr').removeClass(css);
             $(this).closest('tr').addClass(css);
         });
     };
