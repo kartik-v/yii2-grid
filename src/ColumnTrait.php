@@ -447,7 +447,7 @@ trait ColumnTrait
             Html::addCssClass($this->pageSummaryOptions, $class);
             Html::addCssClass($this->footerOptions, $class);
         }
-        if (trim($this->width) != '') {
+        if (null !== $this->width && trim($this->width) != '') {
             Html::addCssStyle($this->headerOptions, "width:{$this->width};");
             Html::addCssStyle($this->pageSummaryOptions, "width:{$this->width};");
             Html::addCssStyle($this->footerOptions, "width:{$this->width};");
@@ -516,7 +516,7 @@ trait ColumnTrait
         if ($this->isValidAlignment('vAlign')) {
             Html::addCssClass($options, "kv-align-{$this->vAlign}");
         }
-        if (trim($this->width) != '') {
+        if (null !== $this->width && trim($this->width) != '') {
             Html::addCssStyle($options, "width:{$this->width};");
         }
         $options['data-col-seq'] = array_search($this, $this->grid->columns);
