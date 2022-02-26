@@ -11,12 +11,12 @@ namespace kartik\grid;
 
 use Closure;
 use kartik\base\Config;
+use kartik\base\Lib;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use yii\i18n\Formatter;
 use yii\web\View;
 
 /**
@@ -248,8 +248,8 @@ trait ColumnTrait
         if (isset($this->xlFormat)) {
             $fmt = $this->xlFormat;
         } elseif ($autoFormat && isset($this->format)) {
-            $tSep = $formatter->thousandSeparator ? $formatter->thousandSeparator : ',';
-            $dSep = $formatter->decimalSeparator ? $formatter->decimalSeparator : '.';
+            $tSep = isset($formatter->thousandSeparator) ? $formatter->thousandSeparator : ',';
+            $dSep = isset($formatter->decimalSeparator) ? $formatter->decimalSeparator : '.';
             switch ($format) {
                 case 'text':
                 case 'html':
@@ -268,7 +268,7 @@ trait ColumnTrait
                 case 'percent':
                 case 'scientific':
                     $decimals = is_array($this->format) && isset($this->format[1]) ? $this->format[1] : 2;
-                    $append = $decimals > 0 ? "\\{$dSep}" . str_repeat('0', $decimals) : '';
+                    $append = $decimals > 0 ? "\\{$dSep}" . Lib::str_repeat('0', $decimals) : '';
                     if ($format == 'percent') {
                         $append .= '%';
                     }
@@ -281,7 +281,7 @@ trait ColumnTrait
                     break;
                 case 'date':
                 case 'time':
-                    $fmt = 'Short ' . ucfirst($format);
+                    $fmt = 'Short ' . Lib::ucfirst($format);
                     break;
                 case 'datetime':
                     $fmt = 'yyyy\-MM\-dd HH\:mm\:ss';
@@ -323,7 +323,7 @@ trait ColumnTrait
         }
         $content = $this->getPageSummaryCellContent();
         if ($this->pageSummary === true) {
-            $format = $this->pageSummaryFormat ? $this->pageSummaryFormat : $this->format;
+            $format = isset($this->pageSummaryFormat) ? $this->pageSummaryFormat : $this->format;
             return $this->grid->formatter->format($content, $format);
         }
         return ($content === null) ? $this->grid->emptyCell : $content;
@@ -447,7 +447,7 @@ trait ColumnTrait
             Html::addCssClass($this->pageSummaryOptions, $class);
             Html::addCssClass($this->footerOptions, $class);
         }
-        if (null !== $this->width && trim($this->width) != '') {
+        if (Lib::trim($this->width) != '') {
             Html::addCssStyle($this->headerOptions, "width:{$this->width};");
             Html::addCssStyle($this->pageSummaryOptions, "width:{$this->width};");
             Html::addCssStyle($this->footerOptions, "width:{$this->width};");
@@ -516,7 +516,7 @@ trait ColumnTrait
         if ($this->isValidAlignment('vAlign')) {
             Html::addCssClass($options, "kv-align-{$this->vAlign}");
         }
-        if (null !== $this->width && trim($this->width) != '') {
+        if (Lib::trim($this->width) != '') {
             Html::addCssStyle($options, "width:{$this->width};");
         }
         $options['data-col-seq'] = array_search($this, $this->grid->columns);

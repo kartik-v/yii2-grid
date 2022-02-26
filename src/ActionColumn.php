@@ -10,6 +10,7 @@ namespace kartik\grid;
 
 use Closure;
 use Exception;
+use kartik\base\Lib;
 use Yii;
 use yii\grid\ActionColumn as YiiActionColumn;
 use yii\helpers\ArrayHelper;
@@ -204,7 +205,7 @@ class ActionColumn extends YiiActionColumn
         $label = ArrayHelper::remove($options, 'label');
         if (is_null($label)) {
             $icon = $this->renderIcon($options, $iconOptions);
-            if (strlen($icon) > 0) {
+            if (Lib::strlen($icon) > 0) {
                 $label = $this->_isDropdown ? ($icon.' '.$title) : $icon;
             } else {
                 $label = $title;
@@ -284,7 +285,7 @@ class ActionColumn extends YiiActionColumn
         if (!isset($options['class'])) {
             $options['class'] = 'btn '.$this->grid->getDefaultBtnCss();
         }
-        $trimmed = trim($content);
+        $trimmed = Lib::trim($content);
         if ($this->_isDropdown && !empty($trimmed)) {
             $label = ArrayHelper::remove($options, 'label', Yii::t('kvgrid', 'Actions'));
             $caret = $notBs3 ? '' : ArrayHelper::remove($options, 'caret', ' <span class="caret"></span>');

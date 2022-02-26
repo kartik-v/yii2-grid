@@ -11,8 +11,8 @@ namespace kartik\grid;
 
 use Closure;
 use Exception;
-use kartik\base\BootstrapTrait;
 use kartik\base\Config;
+use kartik\base\Lib;
 use kartik\dialog\Dialog;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -1009,7 +1009,7 @@ HTML;
      * Renders the table page summary.
      *
      * @return string the rendering result.
-     * @throws InvalidConfigException|Exception
+     * @throws Exception
      */
     public function renderPageSummary()
     {
@@ -1233,7 +1233,7 @@ HTML;
 
     /**
      * Initialize grid export.
-     * @throws InvalidConfigException|Exception
+     * @throws Exception
      */
     protected function initExport()
     {
@@ -1493,7 +1493,7 @@ HTML;
 
     /**
      * Initialize toggle data button options.
-     * @throws InvalidConfigException|Exception
+     * @throws Exception
      */
     protected function initToggleData()
     {
@@ -1541,7 +1541,7 @@ HTML;
 
     /**
      * Initialize bootstrap specific styling.
-     * @throws InvalidConfigException|Exception
+     * @throws Exception
      */
     protected function initBootstrapStyle()
     {
@@ -1614,7 +1614,7 @@ HTML;
                 if ($value instanceof Closure) {
                     $value = call_user_func($value, $this);
                 }
-                $this->layout = str_replace($key, $value, $this->layout);
+                $this->layout = Lib::str_replace($key, $value, $this->layout);
             }
         }
     }
@@ -1626,8 +1626,8 @@ HTML;
     protected function replaceLayoutTokens($pairs)
     {
         foreach ($pairs as $token => $replace) {
-            if (strpos($this->layout, $token) !== false) {
-                $this->layout = str_replace($token, $replace, $this->layout);
+            if (Lib::strpos($this->layout, $token) !== false) {
+                $this->layout = Lib::str_replace($token, $replace, $this->layout);
             }
         }
     }
@@ -1677,7 +1677,7 @@ HTML;
 
     /**
      * Initializes and sets the grid panel layout based on the [[template]] and [[panel]] settings.
-     * @throws InvalidConfigException|Exception
+     * @throws Exception
      */
     protected function initPanel()
     {
@@ -1718,20 +1718,20 @@ HTML;
         }
         if ($footer !== false) {
             static::initCss($footerOptions, $this->getCssClass(self::BS_PANEL_FOOTER));
-            $content = strtr($this->panelFooterTemplate, ['{footer}' => $footer]);
+            $content = Lib::strtr($this->panelFooterTemplate, ['{footer}' => $footer]);
             $panelFooter = Html::tag('div', $content, $footerOptions);
         }
         if ($before !== false) {
             static::initCss($beforeOptions, 'kv-panel-before');
-            $content = strtr($this->panelBeforeTemplate, ['{before}' => $before]);
+            $content = Lib::strtr($this->panelBeforeTemplate, ['{before}' => $before]);
             $panelBefore = Html::tag('div', $content, $beforeOptions);
         }
         if ($after !== false) {
             static::initCss($afterOptions, 'kv-panel-after');
-            $content = strtr($this->panelAfterTemplate, ['{after}' => $after]);
+            $content = Lib::strtr($this->panelAfterTemplate, ['{after}' => $after]);
             $panelAfter = Html::tag('div', $content, $afterOptions);
         }
-        $out = strtr($this->panelTemplate, [
+        $out = Lib::strtr($this->panelTemplate, [
             '{panelHeading}' => $panelHeading,
             '{type}' => $type,
             '{panelFooter}' => $panelFooter,
@@ -1739,7 +1739,7 @@ HTML;
             '{panelAfter}' => $panelAfter,
         ]);
 
-        $this->layout = Html::tag('div', strtr($out, [
+        $this->layout = Html::tag('div', Lib::strtr($out, [
             '{title}' => Html::tag($titleTag, $heading, $titleOptions),
             '{summary}' => Html::tag('div', '{summary}', $summaryOptions),
         ]), $options);
@@ -1776,7 +1776,7 @@ HTML;
 
     /**
      * Generates the toolbar container with the toolbar
-     * @throws InvalidConfigException|Exception
+     * @throws Exception
      */
     protected function renderToolbarContainer()
     {
@@ -1787,8 +1787,8 @@ HTML;
          * forcing float-right only if no float is defined in toolbarContainerOptions
          */
         if (
-            !strpos($this->toolbarContainerOptions['class'], $this->getCssClass(self::BS_PULL_RIGHT))
-            && !strpos($this->toolbarContainerOptions['class'], $this->getCssClass(self::BS_PULL_LEFT))
+            !Lib::stripos($this->toolbarContainerOptions['class'], $this->getCssClass(self::BS_PULL_RIGHT))
+            && !Lib::stripos($this->toolbarContainerOptions['class'], $this->getCssClass(self::BS_PULL_LEFT))
         ) {
             $this->addCssClass($this->toolbarContainerOptions, self::BS_PULL_RIGHT);
         }
@@ -1968,9 +1968,9 @@ HTML;
      */
     protected function renderTablePart($part, $content)
     {
-        $content = strtr($content, ["<{$part}>\n" => '', "\n</{$part}>" => '', "<{$part}>" => '', "</{$part}>" => '']);
+        $content = Lib::strtr($content, ["<{$part}>\n" => '', "\n</{$part}>" => '', "<{$part}>" => '', "</{$part}>" => '']);
         $token = $part === 'thead' ? 'Header' : 'Footer';
-        $prop = strtolower($token).'Container';
+        $prop = Lib::strtolower($token).'Container';
         $options = $this->$prop;
         $before = "before{$token}";
         $after = "after{$token}";

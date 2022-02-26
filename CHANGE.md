@@ -3,10 +3,11 @@ Change Log: `yii2-grid`
 
 ## Version 3.5.0
 
-**Date:** 11-Jan-2022
+**Date:** 25-Feb-2022
 
 ### BC Breaking new major release
 
+- (enh #1017): PHP 8.1 enhancements for native functions.
 - Enhance & standardize php docs for new website https://docs.krajee.com.
 - (bug #1011): Correct GridView initialization for `toggleData` set to `false`.
 - (enh #1010): Enhance sorter link rendering to include customizable sorter icons.
