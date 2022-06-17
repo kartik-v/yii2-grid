@@ -1,6 +1,15 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.5.1
+
+**Date:** 17-Jun-2022
+
+- (enh #1037): Some enhancements to resizable columns.
+- (bug #1036): Correct usage of `layout` property in `GridView`.
+- (enh #1031, #1032, #1033, #1034): Update Uzbek Translations.
+- (enh #1019): Update Arabic Translations.
+
 ## Version 3.5.0
 
 **Date:** 25-Feb-2022

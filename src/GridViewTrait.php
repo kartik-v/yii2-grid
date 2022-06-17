@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2022
- * @version   3.5.0
+ * @version   3.5.1
  */
 
 namespace kartik\grid;
@@ -49,29 +49,6 @@ trait GridViewTrait
      * @see http://demos.krajee.com/dialog
      */
     public $krajeeDialogSettings = [];
-
-    /**
-     * @var string the layout that determines how different sections of the list view should be organized.
-     * The layout template will be automatically set based on the [[panel]] setting. If [[panel]] is a valid
-     * array, then the [[layout]] will default to the [[panelTemplate]] property. If the [[panel]] property
-     * is set to `false`, then the [[layout]] will default to `{summary}\n{items}\n{pager}`.
-     *
-     * The following tokens will be replaced with the corresponding section contents:
-     *
-     * - `{summary}`: the summary section. See [[renderSummary()]].
-     * - `{errors}`: the filter model error summary. See [[renderErrors()]].
-     * - `{items}`: the list items. See [[renderItems()]].
-     * - `{sorter}`: the sorter. See [[renderSorter()]].
-     * - `{pager}`: the pager. See [[renderPager()]].
-     * - `{export}`: the grid export button menu. See [[renderExport()]].
-     * - `{toolbar}`: the grid panel toolbar. See [[renderToolbar()]].
-     * - `{toolbarContainer}`: the toolbar container. See [[renderToolbarContainer()]].
-     *
-     * In addition to the above tokens, refer the [[panelTemplate]] property for other tokens supported as
-     * part of the bootstrap styled panel.
-     *
-     */
-    public $layout = "{summary}\n{items}\n{pager}";
 
     /**
      * @var string the default label shown for each record in the grid (singular). This label will replace the singular
@@ -497,12 +474,12 @@ HTML;
     public $footerContainer = ['class' => 'kv-table-footer'];
 
     /**
-     * @deprecated since release v3.5.0
+     * @deprecated since release v3.5.1
      */
     public $floatOverflowContainer = false;
 
     /**
-     * @deprecated since release v3.5.0
+     * @deprecated since release v3.5.1
      */
     public $floatHeaderOptions = [];
 
@@ -682,7 +659,7 @@ HTML;
      *   configuration options are read specific to each file type:
      *     - `HTML`: The following properties can be set as array key-value pairs:
      *          - `cssFile`: _string_, the css file that will be used in the exported HTML file. Defaults to:
-     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.5.0/css/bootstrap.min.css`.
+     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.5.1/css/bootstrap.min.css`.
      *     - `CSV` and `TEXT`: The following properties can be set as array key-value pairs:
      *          - `colDelimiter`: _string_, the column delimiter string for TEXT and CSV downloads.
      *          - `rowDelimiter`: _string_, the row delimiter string for TEXT and CSV downloads.
@@ -805,6 +782,7 @@ HTML;
 
     /**
      * Initializes the Krajee GridView widget
+     *
      * @throws InvalidConfigException
      */
     protected function initGridView()
@@ -866,6 +844,7 @@ HTML;
 
     /**
      * Prepares the Krajee GridView widget for run
+     *
      * @throws InvalidConfigException
      */
     protected function prepareGridView()
@@ -891,7 +870,9 @@ HTML;
 
     /**
      * Gets default sorter icons
+     *
      * @param  bool  $notBs3
+     *
      * @return array
      */
     public static function getDefaultSorterIcons($notBs3)
@@ -947,6 +928,7 @@ HTML;
 
     /**
      * Get pjax container identifier
+     *
      * @return string
      */
     public function getPjaxContainerId()
@@ -994,8 +976,10 @@ HTML;
 
     /**
      * Adds CSS class to the pager parameter
+     *
      * @param  string  $param  the pager param
      * @param  string  $css  the CSS class
+     *
      * @throws Exception
      */
     protected function setPagerOptionClass($param, $css)
@@ -1033,6 +1017,7 @@ HTML;
 
     /**
      * Get the page summary row markup
+     *
      * @return string
      * @throws Exception
      */
@@ -1078,9 +1063,11 @@ HTML;
 
     /**
      * Renders a table row with the given data model and key.
+     *
      * @param  mixed  $model  the data model to be rendered
      * @param  mixed  $key  the key associated with the data model
      * @param  int  $index  the zero-based index of the data model among the model array returned by [[dataProvider]].
+     *
      * @return string the rendering result
      */
     public function renderTableRow($model, $key, $index)
@@ -1103,7 +1090,9 @@ HTML;
 
     /**
      * Parses the key and returns parsed key value as string based on the data type
+     *
      * @param  mixed  $key
+     *
      * @return string
      */
     public static function parseKey($key)
@@ -1215,6 +1204,7 @@ HTML;
 
     /**
      * Initialize the module based on module identifier
+     *
      * @throws InvalidConfigException
      */
     protected function initModule()
@@ -1233,6 +1223,7 @@ HTML;
 
     /**
      * Initialize grid export.
+     *
      * @throws Exception
      */
     protected function initExport()
@@ -1493,6 +1484,7 @@ HTML;
 
     /**
      * Initialize toggle data button options.
+     *
      * @throws Exception
      */
     protected function initToggleData()
@@ -1541,6 +1533,7 @@ HTML;
 
     /**
      * Initialize bootstrap specific styling.
+     *
      * @throws Exception
      */
     protected function initBootstrapStyle()
@@ -1589,15 +1582,17 @@ HTML;
 
     /**
      * Initialize the grid layout.
+     *
      * @throws InvalidConfigException
      */
     protected function initLayout()
     {
         Html::addCssClass($this->filterRowOptions, ['filters', 'skip-export']);
         if ($this->resizableColumns && $this->persistResize) {
-            $key = empty($this->resizeStorageKey) ? Yii::$app->user->id : $this->resizeStorageKey;
-            $gridId = empty($this->options['id']) ? $this->getId() : $this->options['id'];
-            $this->containerOptions['data-resizable-columns-id'] = (empty($key) ? "kv-{$gridId}" : "kv-{$key}-{$gridId}");
+            $userId = ArrayHelper::getValue(Yii::$app->user, 'id', '_');
+            $key = ArrayHelper::getValue($this, 'resizeStorageKey', $userId);
+            $gridId = ArrayHelper::getValue($this->options, 'id', $this->getId());
+            $this->containerOptions['data-resizable-columns-id'] = "kv-{$key}-{$gridId}";
         }
         if ($this->hideResizeMobile) {
             Html::addCssClass($this->options, 'hide-resize');
@@ -1621,6 +1616,7 @@ HTML;
 
     /**
      * Replace layout tokens
+     *
      * @param  array  $pairs  the token to find and its replaced value as key value pairs
      */
     protected function replaceLayoutTokens($pairs)
@@ -1677,6 +1673,7 @@ HTML;
 
     /**
      * Initializes and sets the grid panel layout based on the [[template]] and [[panel]] settings.
+     *
      * @throws Exception
      */
     protected function initPanel()
@@ -1776,6 +1773,7 @@ HTML;
 
     /**
      * Generates the toolbar container with the toolbar
+     *
      * @throws Exception
      */
     protected function renderToolbarContainer()
@@ -1866,6 +1864,7 @@ HTML;
 
     /**
      * Registers client assets for the [[GridView]] widget.
+     *
      * @throws Exception
      */
     protected function registerAssets()
@@ -1961,14 +1960,17 @@ HTML;
 
     /**
      * Renders the table header or footer part
+     *
      * @param  string  $part  whether thead or tfoot
      * @param  string  $content
+     *
      * @return string
      * @throws Exception
      */
     protected function renderTablePart($part, $content)
     {
-        $content = Lib::strtr($content, ["<{$part}>\n" => '', "\n</{$part}>" => '', "<{$part}>" => '', "</{$part}>" => '']);
+        $content = Lib::strtr($content,
+            ["<{$part}>\n" => '', "\n</{$part}>" => '', "<{$part}>" => '', "</{$part}>" => '']);
         $token = $part === 'thead' ? 'Header' : 'Footer';
         $prop = Lib::strtolower($token).'Container';
         $options = $this->$prop;

@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2022
- * @version   3.5.0
+ * @version   3.5.1
  */
 
 namespace kartik\grid;
@@ -244,8 +244,12 @@ class ExpandRowColumn extends DataColumn
      */
     public function init()
     {
+        /**
+         * @var GridView $grid
+         */
+        $grid = $this->grid;
         if (!isset($this->detailRowCssClass)) {
-            $this->detailRowCssClass = $this->grid->getCssClass(GridView::BS_TABLE_INFO);
+            $this->detailRowCssClass = $grid->getCssClass(GridView::BS_TABLE_INFO);
         }
         if (!isset($this->msgDetailLoading)) {
             $this->msgDetailLoading = Yii::t('kvgrid', '<small>Loading &hellip;</small>');
@@ -261,6 +265,7 @@ class ExpandRowColumn extends DataColumn
         if (empty($this->detail) && empty($this->detailUrl)) {
             throw new InvalidConfigException("Either the 'detail' or 'detailUrl' must be entered");
         }
+        $gridId = $grid->options['id'];
         $this->format = 'raw';
         $this->expandIcon = $this->getIcon('expand');
         $this->collapseIcon = $this->getIcon('collapse');
@@ -281,11 +286,11 @@ class ExpandRowColumn extends DataColumn
         $class = 'kv-expand-header-cell';
         $class .= $this->allowBatchToggle ? ' kv-batch-toggle' : ' text-muted';
         Html::addCssClass($this->headerOptions, $class);
-        $view = $this->grid->getView();
+        $view = $grid->getView();
         ExpandRowColumnAsset::register($view);
         $clientOptions = Json::encode(
             [
-                'gridId' => $this->grid->options['id'],
+                'gridId' => $gridId,
                 'hiddenFromExport' => $this->hiddenFromExport,
                 'detailUrl' => empty($this->detailUrl) ? '' : $this->detailUrl,
                 'onDetailLoaded' => $onDetailLoaded,
@@ -308,7 +313,7 @@ class ExpandRowColumn extends DataColumn
             ]
         );
         $this->_hashVar = 'kvExpandRow_'.hash('crc32', $clientOptions);
-        $this->_colId = $this->grid->options['id'].'_'.$this->columnKey;
+        $this->_colId = "{$gridId}_{$this->columnKey}";
         Html::addCssClass($this->headerOptions, $this->_colId);
         $view->registerJs("var {$this->_hashVar} = {$clientOptions};\n", View::POS_HEAD);
         $view->registerJs("kvExpandRow({$this->_hashVar}, '{$this->_colId}');");
@@ -349,6 +354,7 @@ class ExpandRowColumn extends DataColumn
             </div>
         </div>
 HTML;
+
         return $out;
         //die('<pre>' . Html::encode($out, false) . '</pre>');
     }
@@ -387,8 +393,12 @@ HTML;
         if (!empty($this->$setting)) {
             return $this->$setting;
         }
-        $bs = $this->grid->bootstrap;
-        $notBs3 = !$this->grid->isBs(3);
+        /**
+         * @var GridView $grid
+         */
+        $grid = $this->grid;
+        $bs = $grid->bootstrap;
+        $notBs3 = !$grid->isBs(3);
         if ($type === 'expand') {
             return $bs ? ($notBs3 ? GridView::ICON_EXPAND_BS4 : GridView::ICON_EXPAND) : '+';
         }

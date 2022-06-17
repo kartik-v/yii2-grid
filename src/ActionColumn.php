@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2022
  * @package yii2-grid
- * @version 3.5.0
+ * @version 3.5.1
  */
 
 namespace kartik\grid;

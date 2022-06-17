@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2022
- * @version   3.5.0
+ * @version   3.5.1
  *
  * Gridview edited row styling and enhancements
  */.table-striped>tbody>tr.kv-row-edit-highlight,.table>tbody>tr.kv-row-edit-highlight,tr.kv-row-edit-highlight{border-top:2px #a7a70a ridge;border-bottom:2px #a7a70a ridge;background-color:rgba(255,255,0,.2)}.table-striped>tbody>tr.kv-row-edit-highlight:hover,.table>tbody>tr.kv-row-edit-highlight:hover,tr.kv-row-edit-highlight:hover{background-color:rgba(255,255,0,.3)}
