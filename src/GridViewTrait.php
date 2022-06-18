@@ -1589,8 +1589,11 @@ HTML;
     {
         Html::addCssClass($this->filterRowOptions, ['filters', 'skip-export']);
         if ($this->resizableColumns && $this->persistResize) {
-            $userId = ArrayHelper::getValue(Yii::$app->user, 'id', '_');
-            $key = ArrayHelper::getValue($this, 'resizeStorageKey', $userId);
+            if (Lib::strlen($this->resizeStorageKey) > 0) {
+                $key = $this->resizeStorageKey;
+            } else {
+                $key = Lib::strlen(Yii::$app->user->id) > 0 ? Yii::$app->user->id : 'guest';
+            }
             $gridId = ArrayHelper::getValue($this->options, 'id', $this->getId());
             $this->containerOptions['data-resizable-columns-id'] = "kv-{$key}-{$gridId}";
         }
@@ -1802,7 +1805,7 @@ HTML;
      * @return string
      * @throws Exception
      */
-    protected function generateRows($data)
+    protected static function generateRows($data)
     {
         if (empty($data)) {
             return '';
@@ -1969,8 +1972,6 @@ HTML;
      */
     protected function renderTablePart($part, $content)
     {
-        $content = Lib::strtr($content,
-            ["<{$part}>\n" => '', "\n</{$part}>" => '', "<{$part}>" => '', "</{$part}>" => '']);
         $token = $part === 'thead' ? 'Header' : 'Footer';
         $prop = Lib::strtolower($token).'Container';
         $options = $this->$prop;
@@ -1978,11 +1979,11 @@ HTML;
         $after = "after{$token}";
         $out = [];
         if (isset($this->$before)) {
-            $out[] = $this->generateRows($this->$before);
+            $out[] = static::generateRows($this->$before);
         }
         $out[] = $content;
         if (isset($this->$after)) {
-            $out[] = $this->generateRows($this->$after);
+            $out[] = static::generateRows($this->$after);
         }
         $content = implode("\n", $out);
 

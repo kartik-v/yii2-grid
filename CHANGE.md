@@ -5,7 +5,7 @@ Change Log: `yii2-grid`
 
 **Date:** 17-Jun-2022
 
-- (enh #1037): Some enhancements to resizable columns.
+- (bug #1037): Correct resizable columns persist resize.
 - (bug #1036): Correct usage of `layout` property in `GridView`.
 - (enh #1031, #1032, #1033, #1034): Update Uzbek Translations.
 - (enh #1019): Update Arabic Translations.

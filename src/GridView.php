@@ -137,7 +137,22 @@ class GridView extends YiiGridView implements BootstrapInterface, GridViewInterf
      */
     public function renderTableHeader()
     {
-        return $this->renderTablePart('thead', parent::renderTableHeader());
+        $cells = [];
+        foreach ($this->columns as $index => $column) {
+            /* @var DataColumn $column */
+            if ($this->resizableColumns && $this->persistResize) {
+                $column->headerOptions['data-resizable-column-id'] = "kv-col-{$index}";
+            }
+            $cells[] = $column->renderHeaderCell();
+        }
+        $content = Html::tag('tr', implode('', $cells), $this->headerRowOptions);
+        if ($this->filterPosition == self::FILTER_POS_HEADER) {
+            $content = $this->renderFilters() . $content;
+        } elseif ($this->filterPosition == self::FILTER_POS_BODY) {
+            $content .= $this->renderFilters();
+        }
+
+        return $this->renderTablePart('thead', $content);
     }
 
     /**
@@ -145,7 +160,16 @@ class GridView extends YiiGridView implements BootstrapInterface, GridViewInterf
      */
     public function renderTableFooter()
     {
-        return $this->renderTablePart('tfoot', parent::renderTableFooter());
+        $cells = [];
+        foreach ($this->columns as $column) {
+            /* @var $column Column */
+            $cells[] = $column->renderFooterCell();
+        }
+        $content = Html::tag('tr', implode('', $cells), $this->footerRowOptions);
+        if ($this->filterPosition === self::FILTER_POS_FOOTER) {
+            $content .= $this->renderFilters();
+        }
+        return $this->renderTablePart('tfoot', $content);
     }
 
     /**
