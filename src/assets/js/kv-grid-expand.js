@@ -285,7 +285,7 @@ var kvExpandRow;
                 if (!isAjax) {
                     beginLoading($cell);
                 }
-                $grid.find('tr[data-index="' + vInd + '"]').remove();
+                $grid.find('tr[data-index="' + vKey + '"]').remove();
                 $detail.hide();
                 $row.after($detail);
                 var newRow = '<tr class="kv-expand-detail-row ' + rowCssClass + '" data-key="' + vKey +
