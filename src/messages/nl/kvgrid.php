@@ -21,7 +21,7 @@ return [
     'Active' => 'Actief',
     'Add Book' => 'Nieuw boek',
     'All' => 'Alles',
-    'Are you sure to delete this {item}?' => 'Weet u zeker dat u dit item wilt {item}?',
+    'Are you sure to delete this {item}?' => 'Weet u zeker dat u dit {item} wilt verwijderen?',
     'Book Listing' => 'Boekenlijst',
     'CSV' => 'CSV',
     'Clear selection' => 'Selecties opnieuw',
