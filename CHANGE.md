@@ -6,6 +6,8 @@ Change Log: `yii2-grid`
 **Date:** 08-Mar-2023
 
 - (enh #1057): Persist resize uniq column ids.
+- (enh #1054): Update Dutch Translations.
+- (enh #1045): Add `isFilterEqual` method to validate filters correctly.
 - (bug #1037): Correct resizable columns persist resize.
 - (bug #1036): Correct usage of `layout` property in `GridView`.
 - (enh #1031, #1032, #1033, #1034): Update Uzbek Translations.

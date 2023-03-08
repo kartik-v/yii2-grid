@@ -255,9 +255,9 @@ class DataColumn extends YiiDataColumn
     protected function renderFilterCellContent()
     {
         $content = parent::renderFilterCellContent();
-        $chkType = !empty($this->filterType) && $this->filterType !== GridView::FILTER_CHECKBOX &&
-            $this->filterType !== GridView::FILTER_RADIO && !class_exists($this->filterType);
-        if ($this->filter === false || empty($this->filterType) || $content === $this->grid->emptyCell || $chkType) {
+        if ($this->filter === false || empty($this->filterType) || $content === $this->grid->emptyCell || 
+            (class_exists($this->filterType) && $this->isFilterEqual(GridView::FILTER_CHECKBOX) && $this->isFilterEqual
+                (GridView::FILTER_RADIO))) {
             return $content;
         }
         $widgetClass = $this->filterType;
@@ -270,10 +270,10 @@ class DataColumn extends YiiDataColumn
             if (Config::isInputWidget($this->filterType) && $this->grid->pjax) {
                 $options['pjaxContainerId'] = $this->grid->getPjaxContainerId();
             }
-            if ($this->filterType === GridView::FILTER_SELECT2 || $this->filterType === GridView::FILTER_TYPEAHEAD) {
+            if ($this->isFilterEqual(GridView::FILTER_SELECT2) || $this->isFilterEqual(GridView::FILTER_TYPEAHEAD)) {
                 $options['data'] = $this->filter;
             }
-            if ($this->filterType === GridView::FILTER_RADIO) {
+            if ($this->isFilterEqual(GridView::FILTER_RADIO)) {
                 return Html::activeRadioList(
                     $this->grid->filterModel,
                     $this->attribute,
@@ -282,7 +282,7 @@ class DataColumn extends YiiDataColumn
                 );
             }
         }
-        if ($this->filterType === GridView::FILTER_CHECKBOX) {
+        if ($this->isFilterEqual(GridView::FILTER_CHECKBOX)) {
             return Html::activeCheckbox($this->grid->filterModel, $this->attribute, $this->filterInputOptions);
         }
         $options = array_replace_recursive($this->filterWidgetOptions, $options);

@@ -645,4 +645,15 @@ trait ColumnTrait
             $this->columnKey = hash('crc32', spl_object_hash($this));
         }
     }
+    
+    /**
+     * Filter equal check
+     *
+     * @param string $class
+     * @return bool
+     */
+    public function isFilterEqual($class) {
+        return !empty($this->filterType) && 
+            ($this->filterType === $class || $this->filterType === "\\{$class}");
+    }
 }
