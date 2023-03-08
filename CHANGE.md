@@ -1,18 +1,17 @@
 Change Log: `yii2-grid`
 =======================
 
-## Version 3.5.2
- - ability to set custom "resizable-colimn-id" for resizable colums
-     - set via column's `headerOptions['data-resizable-column-id']` property
-
 ## Version 3.5.1
 
-**Date:** 17-Jun-2022
+**Date:** 08-Mar-2023
 
+- (enh #1057): Persist resize uniq column ids.
 - (bug #1037): Correct resizable columns persist resize.
 - (bug #1036): Correct usage of `layout` property in `GridView`.
 - (enh #1031, #1032, #1033, #1034): Update Uzbek Translations.
 - (enh #1019): Update Arabic Translations.
+- ability to set custom "resizable-colimn-id" for resizable colums
+     - set via column's `headerOptions['data-resizable-column-id']` property
 
 ## Version 3.5.0
 
