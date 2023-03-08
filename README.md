@@ -39,7 +39,7 @@ and API [code documentation](https://docs.krajee.com/kartik-grid-gridview) on us
 ```
 <script>
 $(document).on("ready", function() {
-    $(".popover-x").hide(); // or use the right CSS selector as per your need
+    $('.popover-x:visible').popoverX('hide'); // or use the right CSS selector as per your need
 });
 </script>
 ```
