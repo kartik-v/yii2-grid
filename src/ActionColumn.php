@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2022
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2023
  * @package yii2-grid
  * @version 3.5.1
  */
