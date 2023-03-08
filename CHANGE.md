@@ -1,6 +1,10 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.5.2
+ - ability to set custom "resizable-colimn-id" for resizable colums
+     - set via column's `headerOptions['data-resizable-column-id']` property
+
 ## Version 3.5.1
 
 **Date:** 17-Jun-2022

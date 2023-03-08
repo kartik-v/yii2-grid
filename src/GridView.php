@@ -140,7 +140,7 @@ class GridView extends YiiGridView implements BootstrapInterface, GridViewInterf
         $cells = [];
         foreach ($this->columns as $index => $column) {
             /* @var DataColumn $column */
-            if ($this->resizableColumns && $this->persistResize) {
+            if ($this->resizableColumns && $this->persistResize && !isset($column->headerOptions['data-resizable-column-id'])) {
                 $column->headerOptions['data-resizable-column-id'] = "kv-col-{$index}";
             }
             $cells[] = $column->renderHeaderCell();
