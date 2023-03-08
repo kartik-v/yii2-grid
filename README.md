@@ -34,6 +34,16 @@ Refer [detailed documentation](http://demos.krajee.com/grid) and/or a [complete 
 You can see detailed [documentation](http://demos.krajee.com/grid), [demonstration](http://demos.krajee.com/grid-demo)
 and API [code documentation](https://docs.krajee.com/kartik-grid-gridview) on usage of the extension. You can also view the [grid grouping demo here](http://demos.krajee.com/group-grid).
 
+> Note: If you face an issue of bootstrap popovers loading on page load for editable columns - you can disable it by hiding the bootstrap popovers in your yii2 view layout after document ready. For example in your yii2 view layout:
+
+```
+<script>
+$(document).on("ready", function() {
+    $(".popover-x").hide(); // or use the right CSS selector as per your need
+});
+</script>
+```
+
 ## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).

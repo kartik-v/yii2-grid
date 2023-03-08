@@ -9,6 +9,7 @@ Change Log: `yii2-grid`
 - (enh #1054): Update Dutch Translations.
 - (enh #1050): Fix documentation and code mismatch.
 - (enh #1045): Add `isFilterEqual` method to validate filters correctly.
+- (enh #1040): Add sample code to docs for use cases where editable popover is always shown on page load.
 - (bug #1037): Correct resizable columns persist resize.
 - (bug #1036): Correct usage of `layout` property in `GridView`.
 - (enh #1031, #1032, #1033, #1034): Update Uzbek Translations.
