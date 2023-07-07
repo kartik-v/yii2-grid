@@ -25,14 +25,16 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
       syncHandlers: true,
       resizeFromBody: true,
       maxWidth: null,
-      minWidth: null
+      minWidth: null,
+      visWaitTimeout: 0,
     };
 
-    function ResizableColumns($table, options) {
-      this.pointerdown = __bind(this.pointerdown, this);
-      this.constrainWidth = __bind(this.constrainWidth, this);
-      this.options = $.extend({}, this.defaults, options);
-      this.$table = $table;
+    ResizableColumns.prototype.initTable = function() {
+      if (this.visWaitTimeout && this.$table && !this.$table.is(":visible")) {
+        let _this = this;
+        setTimeout(function(){_this.initTable()},this.options.visWaitTimeout);
+        return;
+      }
       this.setHeaders();
       this.restoreColumnWidths();
       this.syncHandleWidths();
@@ -49,6 +51,18 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
       }
       if (this.options.stop) {
         this.$table.bind('column:resize:stop.rc', this.options.stop);
+      }
+    }
+
+    function ResizableColumns($table, options) {
+      this.pointerdown = __bind(this.pointerdown, this);
+      this.constrainWidth = __bind(this.constrainWidth, this);
+      this.options = $.extend({}, this.defaults, options);
+      this.$table = $table;
+      if (options==='destroy') {
+        this.destroy();
+      } else {
+        this.initTable();
       }
     }
 
@@ -70,7 +84,7 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
     };
 
     ResizableColumns.prototype.destroy = function() {
-      this.$handleContainer.remove();
+      if (this.$handleContainer) this.$handleContainer.remove();
       this.$table.removeData('resizableColumns');
       return this.$table.add(window).off('.rc');
     };
