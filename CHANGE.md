@@ -5,6 +5,8 @@ Change Log: `yii2-grid`
 
 **Date:** 23-Jul-2023
 
+- (enh #1066, #1067): Enhance resizable columns plugin with new `visibilityWaitTimeout` setting.
+- (enh #1065): Add back `kv-export-form` class to export form.
 - (enh #1057): Persist resize uniq column ids.
 - (enh #1056): Enhance GridView layout parts rendering for preventing wrong Bootstrap 5 plugin initializations.  
 - (enh #1054): Update Dutch Translations.
@@ -15,7 +17,7 @@ Change Log: `yii2-grid`
 - (bug #1036): Correct usage of `layout` property in `GridView`.
 - (enh #1031, #1032, #1033, #1034): Update Uzbek Translations.
 - (enh #1019): Update Arabic Translations.
-- ability to set custom "resizable-colimn-id" for resizable colums
+- Ability to set custom "resizable-column-id" for resizable colums
      - set via column's `headerOptions['data-resizable-column-id']` property
 
 ## Version 3.5.0
