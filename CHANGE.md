@@ -3,9 +3,10 @@ Change Log: `yii2-grid`
 
 ## Version 3.5.1
 
-**Date:** 08-Mar-2023
+**Date:** 23-Jul-2023
 
 - (enh #1057): Persist resize uniq column ids.
+- (enh #1056): Enhance GridView layout parts rendering for preventing wrong Bootstrap 5 plugin initializations.  
 - (enh #1054): Update Dutch Translations.
 - (enh #1050): Fix documentation and code mismatch.
 - (enh #1045): Add `isFilterEqual` method to validate filters correctly.

@@ -832,7 +832,7 @@ HTML;
          * @var Request $request
          */
         $request = $this->_module->get('request', false);
-        if ($request === null || !($request instanceof Request)) {
+        if (!($request instanceof Request)) {
             $request = Yii::$app->request;
         }
         $this->_isShowAll = $request->getQueryParam($this->_toggleDataKey, $this->defaultPagination) === 'all';
@@ -1583,7 +1583,7 @@ HTML;
     /**
      * Initialize the grid layout.
      *
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Exception
      */
     protected function initLayout()
     {
@@ -1600,33 +1600,14 @@ HTML;
         if ($this->hideResizeMobile) {
             Html::addCssClass($this->options, 'hide-resize');
         }
-        $this->replaceLayoutTokens([
-            '{toolbarContainer}' => $this->renderToolbarContainer(),
-            '{toolbar}' => $this->renderToolbar(),
-            '{export}' => $this->renderExport(),
-            '{toggleData}' => $this->renderToggleData(),
-            '{items}' => Html::tag('div', '{items}', $this->containerOptions),
-        ]);
+        $this->replaceLayoutPart('{toolbarContainer}', [$this, 'renderToolbarContainer']);
+        $this->replaceLayoutPart('{toolbar}', [$this, 'renderToolbar']);
+        $this->replaceLayoutPart('{export}', [$this, 'renderExport']);
+        $this->replaceLayoutPart('{toggleData}', [$this, 'renderToggleData']);
+        $this->replaceLayoutPart('{items}', [$this, 'renderGridItems']);
         if (is_array($this->replaceTags) && !empty($this->replaceTags)) {
-            foreach ($this->replaceTags as $key => $value) {
-                if ($value instanceof Closure) {
-                    $value = call_user_func($value, $this);
-                }
-                $this->layout = Lib::str_replace($key, $value, $this->layout);
-            }
-        }
-    }
-
-    /**
-     * Replace layout tokens
-     *
-     * @param  array  $pairs  the token to find and its replaced value as key value pairs
-     */
-    protected function replaceLayoutTokens($pairs)
-    {
-        foreach ($pairs as $token => $replace) {
-            if (Lib::strpos($this->layout, $token) !== false) {
-                $this->layout = Lib::str_replace($token, $replace, $this->layout);
+            foreach ($this->replaceTags as $key => $callback) {
+                $this->replaceLayoutPart($key, $callback, ['grid' => $this]);
             }
         }
     }
@@ -1672,6 +1653,45 @@ HTML;
     {
         echo ArrayHelper::getValue($this->pjaxSettings, 'afterGrid', '');
         Pjax::end();
+    }
+
+    /**
+     * Replaces token within haystack using custom callable.
+     *
+     * @param  string  $prop  the template property in this module
+     * @param  string  $needle
+     * @param  string|array  $callback  the callback function name
+     * @param  array  $params  arguments to the callback
+     */
+    protected function replacePart($prop, $needle, $callback, $params = [])
+    {
+        if (!property_exists($this, $prop)) {
+            return;
+        }
+        if (is_array($callback)) {
+            if (count($callback) > 1) {
+                $exists = method_exists($callback[0], $callback[1]);
+            } else {
+                return;
+            }
+        } else {
+            $exists = is_callable($callback);
+        }
+        if (Lib::strpos($this->$prop, $needle) !== false) {
+            $this->$prop = Lib::strtr($this->layout, [$needle => $exists ? call_user_func_array($callback, $params) : '']);
+        }
+    }
+
+    /**
+     * Replaces layout token using custom callable.
+     *
+     * @param  string  $needle
+     * @param  string|array  $callback  the callback function name
+     * @param  array  $params  arguments to the callback
+     */
+    protected function replaceLayoutPart($needle, $callback, $params = [])
+    {
+        $this->replacePart('layout', $needle, $callback, $params);
     }
 
     /**
@@ -1743,6 +1763,14 @@ HTML;
             '{title}' => Html::tag($titleTag, $heading, $titleOptions),
             '{summary}' => Html::tag('div', '{summary}', $summaryOptions),
         ]), $options);
+    }
+
+    /**
+     * @return string
+     */
+    protected function renderGridItems()
+    {
+        return Html::tag('div', '{items}', $this->containerOptions);
     }
 
     /**
