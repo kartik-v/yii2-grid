@@ -263,7 +263,7 @@ class DataColumn extends YiiDataColumn
         $widgetClass = $this->filterType;
         $options = [
             'model' => $this->grid->filterModel,
-            'attribute' => $this->attribute,
+            'attribute' => $this->filterAttribute,
             'options' => $this->filterInputOptions,
         ];
         if (is_array($this->filter)) {
@@ -276,14 +276,14 @@ class DataColumn extends YiiDataColumn
             if ($this->isFilterEqual(GridView::FILTER_RADIO)) {
                 return Html::activeRadioList(
                     $this->grid->filterModel,
-                    $this->attribute,
+                    $this->filterAttribute,
                     $this->filter,
                     $this->filterInputOptions
                 );
             }
         }
         if ($this->isFilterEqual(GridView::FILTER_CHECKBOX)) {
-            return Html::activeCheckbox($this->grid->filterModel, $this->attribute, $this->filterInputOptions);
+            return Html::activeCheckbox($this->grid->filterModel, $this->filterAttribute, $this->filterInputOptions);
         }
         $options = array_replace_recursive($this->filterWidgetOptions, $options);
 

@@ -7,6 +7,7 @@ Change Log: `yii2-grid`
 
 - (enh #1066, #1067): Enhance resizable columns plugin with new `visibilityWaitTimeout` setting.
 - (enh #1065): Add back `kv-export-form` class to export form.
+- (bug #1064): Fix `filterAttribute` usage in `renderFilterCellContent`.
 - (enh #1057): Persist resize uniq column ids.
 - (enh #1056): Enhance GridView layout parts rendering for preventing wrong Bootstrap 5 plugin initializations.  
 - (enh #1054): Update Dutch Translations.
