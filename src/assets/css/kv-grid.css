@@ -2,7 +2,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2023
- * @version   3.5.1
+ * @version   3.5.2
  *
  * Yii2 Gridview widget styling and enhancements for Bootstrap.
  *
@@ -24,9 +24,12 @@
     background: linear-gradient(to bottom, #fff 0%, #eee 100%);
 }
 
-.table-bordered > thead.kv-table-header > tr, .table-bordered > thead.kv-table-header > tr > th,
-.table-bordered > thead.kv-table-header > tr > td, .kv-table-header > tr, .kv-table-header > tr > th,
-.kv-table-header > tr > td {
+.kv-grid-panel .table-bordered > thead.kv-table-header > tr,
+.kv-grid-panel .table-bordered > thead.kv-table-header > tr > th,
+.kv-grid-panel .table-bordered > thead.kv-table-header > tr > td,
+.kv-grid-panel .kv-table-header > tr,
+.kv-grid-panel .kv-table-header > tr > th,
+.kv-grid-panel .kv-table-header > tr > td {
     border-bottom: none;
     border-top: none;
 }

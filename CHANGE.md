@@ -1,6 +1,13 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.5.2
+
+**Date:** _Under development_
+
+- (enh #1070): Enhance grid header styling for use without panel.
+
+
 ## Version 3.5.1
 
 **Date:** 23-Jul-2023

@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2023
- * @version   3.5.1
+ * @version   3.5.2
  */
 
 namespace kartik\grid;
@@ -474,12 +474,12 @@ HTML;
     public $footerContainer = ['class' => 'kv-table-footer'];
 
     /**
-     * @deprecated since release v3.5.1
+     * @deprecated since release v3.5.2
      */
     public $floatOverflowContainer = false;
 
     /**
-     * @deprecated since release v3.5.1
+     * @deprecated since release v3.5.2
      */
     public $floatHeaderOptions = [];
 
@@ -659,7 +659,7 @@ HTML;
      *   configuration options are read specific to each file type:
      *     - `HTML`: The following properties can be set as array key-value pairs:
      *          - `cssFile`: _string_, the css file that will be used in the exported HTML file. Defaults to:
-     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.5.1/css/bootstrap.min.css`.
+     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.5.2/css/bootstrap.min.css`.
      *     - `CSV` and `TEXT`: The following properties can be set as array key-value pairs:
      *          - `colDelimiter`: _string_, the column delimiter string for TEXT and CSV downloads.
      *          - `rowDelimiter`: _string_, the row delimiter string for TEXT and CSV downloads.
@@ -1704,6 +1704,7 @@ HTML;
         if (!$this->bootstrap || !is_array($this->panel) || empty($this->panel)) {
             return;
         }
+        Html::addCssClass($this->options, 'kv-grid-panel');
         $options = ArrayHelper::getValue($this->panel, 'options', []);
         $type = ArrayHelper::getValue($this->panel, 'type', 'default');
         $heading = ArrayHelper::getValue($this->panel, 'heading', '');
