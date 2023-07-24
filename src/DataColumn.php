@@ -21,6 +21,8 @@ use yii\helpers\Html;
  * The DataColumn is the default column type for the [[GridView]] widget and extends the [[YiiDataColumn]] with various
  * enhancements.
  *
+ * @property GridView $grid
+ *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since  1.0
  */

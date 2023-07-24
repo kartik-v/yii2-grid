@@ -6,7 +6,7 @@ Change Log: `yii2-grid`
 **Date:** _Under development_
 
 - (enh #1070): Enhance grid header styling for use without panel.
-
+- (enh #1071): Enhance default dropdown filters styling for Bootstrap 5.x.
 
 ## Version 3.5.1
 
