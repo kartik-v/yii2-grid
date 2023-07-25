@@ -3,10 +3,11 @@ Change Log: `yii2-grid`
 
 ## Version 3.5.2
 
-**Date:** _Under development_
+**Date:** 25-Jul-2023
 
-- (enh #1070): Enhance grid header styling for use without panel.
+- (enh #1072): *BC Breaking*: Gridview `replaceTags` optimized to render content only if necessary using callbacks.
 - (enh #1071): Enhance default dropdown filters styling for Bootstrap 5.x.
+- (enh #1070): Enhance grid header styling for use without panel.
 
 ## Version 3.5.1
 

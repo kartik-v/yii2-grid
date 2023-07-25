@@ -14,6 +14,7 @@ use Exception;
 use kartik\base\Config;
 use kartik\base\Lib;
 use kartik\dialog\Dialog;
+use Throwable;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\grid\Column;
@@ -294,17 +295,50 @@ HTML;
     public $toolbarContainerOptions = ['class' => 'btn-toolbar kv-grid-toolbar toolbar-container'];
 
     /**
-     * @var array tags to replace in the rendered layout. Enter this as `$key => $value` pairs, where:
+     * @var array tags to replace in the rendered layout. Enter this as `$key => $callback` pairs, where:
      * - `$key`: _string_, defines the flag.
-     * - `$value`: _string_|_Closure_, the value that will be replaced. You can set it as a callback function to return
-     *   a string of the signature: `function ($widget) { return 'custom'; }`.
-     *
-     * For example, a custom tag like `{star}` can be set as:
+     * - `$callback`: _string_|_array_,  the callback function name that will return the value to be replaced. This can be a
+     *    global function name or a callback setting in an array format as understood by PHP's `call_user_func_array`
+     *    method. For example:
      *
      * ```php
-     * [
-     *     '{star}' => '<span class="glyphicon glyphicon-asterisk"></span>'
-     * ]
+     * function renderTag1() { // global function
+     *     $string = ''; // do your stuff to render;
+     *     return $string;
+     * };
+     * echo GridView::widget([
+     *     'replaceTags' => [
+     *         '{tag1}' => 'renderTag1'
+     *     ]
+     *     // other gridview settings
+     * ]);
+     * ```
+     *
+     * Alternatively you can return a function name from your class or object as an array format. For example:
+     *
+     * ```php
+     *
+     * class YourClass {
+     *   public function renderToken2() {       // object function
+     *      $string = ''; // do your stuff to render;
+     *      return $string;
+     *   }
+     *
+     *   public static function renderToken3() { // static function
+     *      $string = ''; // do your stuff to render;
+     *      return $string;
+     *   }
+     *
+     *   public function render() {
+     *      return GridView::widget([
+     *          'replaceTags' => [
+     *              '{token2}' => [$this, 'renderToken2'],
+     *              '{token3}' => [YourClass::class, 'renderToken3']
+     *          ]
+     *          // other gridview settings
+     *     ]);
+     *   }
+     * }
      * ```
      */
     public $replaceTags = [];
@@ -845,7 +879,7 @@ HTML;
     /**
      * Prepares the Krajee GridView widget for run
      *
-     * @throws InvalidConfigException
+     * @throws InvalidConfigException|Throwable
      */
     protected function prepareGridView()
     {
@@ -1607,7 +1641,7 @@ HTML;
         $this->replaceLayoutPart('{items}', [$this, 'renderGridItems']);
         if (is_array($this->replaceTags) && !empty($this->replaceTags)) {
             foreach ($this->replaceTags as $key => $callback) {
-                $this->replaceLayoutPart($key, $callback, ['grid' => $this]);
+                $this->replaceLayoutPart($key, $callback);
             }
         }
     }
@@ -1656,7 +1690,7 @@ HTML;
     }
 
     /**
-     * Replaces token within haystack using custom callable.
+     * Replaces token within the grid's property value using custom callable.
      *
      * @param  string  $prop  the template property in this module
      * @param  string  $needle
@@ -1678,12 +1712,13 @@ HTML;
             $exists = is_callable($callback);
         }
         if (Lib::strpos($this->$prop, $needle) !== false) {
-            $this->$prop = Lib::strtr($this->layout, [$needle => $exists ? call_user_func_array($callback, $params) : '']);
+            $this->$prop = Lib::strtr($this->layout,
+                [$needle => $exists ? call_user_func_array($callback, $params) : '']);
         }
     }
 
     /**
-     * Replaces layout token using custom callable.
+     * Replaces layout token part using custom callable.
      *
      * @param  string  $needle
      * @param  string|array  $callback  the callback function name
@@ -1811,15 +1846,12 @@ HTML;
     protected function renderToolbarContainer()
     {
         $tag = ArrayHelper::remove($this->toolbarContainerOptions, 'tag', 'div');
-
         /**
          * allow to override the float declaration:
          * forcing float-right only if no float is defined in toolbarContainerOptions
          */
-        if (
-            !Lib::stripos($this->toolbarContainerOptions['class'], $this->getCssClass(self::BS_PULL_RIGHT))
-            && !Lib::stripos($this->toolbarContainerOptions['class'], $this->getCssClass(self::BS_PULL_LEFT))
-        ) {
+        if (!Config::hasCssClass($this->toolbarContainerOptions, self::BS_PULL_RIGHT) &&
+            !Config::hasCssClass($this->toolbarContainerOptions, self::BS_PULL_LEFT)) {
             $this->addCssClass($this->toolbarContainerOptions, self::BS_PULL_RIGHT);
         }
 
@@ -1897,7 +1929,7 @@ HTML;
     /**
      * Registers client assets for the [[GridView]] widget.
      *
-     * @throws Exception
+     * @throws Exception|Throwable
      */
     protected function registerAssets()
     {
@@ -1908,7 +1940,7 @@ HTML;
         }
         Dialog::widget($this->krajeeDialogSettings);
         $gridId = $this->options['id'];
-        if ($this->export !== false && is_array($this->export) && !empty($this->export)) {
+        if (is_array($this->export) && !empty($this->export)) {
             GridExportAsset::register($view);
             if (!isset($this->_module->downloadAction)) {
                 $action = ["/{$this->moduleId}/export/download"];
