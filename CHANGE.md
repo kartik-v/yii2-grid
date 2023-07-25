@@ -1,6 +1,12 @@
 Change Log: `yii2-grid`
 =======================
 
+## Version 3.5.3
+
+**Date:** 25-Jul-2023
+
+- (enh #1073): Fix bug in `GridView::replacePart`.
+ 
 ## Version 3.5.2
 
 **Date:** 25-Jul-2023

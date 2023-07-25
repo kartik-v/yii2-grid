@@ -4,7 +4,7 @@
  * @package   yii2-grid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2023
- * @version   3.5.2
+ * @version   3.5.3
  */
 
 namespace kartik\grid;
@@ -296,10 +296,10 @@ HTML;
 
     /**
      * @var array tags to replace in the rendered layout. Enter this as `$key => $callback` pairs, where:
-     * - `$key`: _string_, defines the flag.
-     * - `$callback`: _string_|_array_,  the callback function name that will return the value to be replaced. This can be a
-     *    global function name or a callback setting in an array format as understood by PHP's `call_user_func_array`
-     *    method. For example:
+     * - `$key`: _string_, the token string that will be replaced.
+     * - `$callback`: _string_|_array_, the callback function name that will return the value to be replaced. This can
+     *    be a global function name or a callback setting in an array format as understood by PHP's
+     *    `call_user_func_array` method. For example:
      *
      * ```php
      * function renderTag1() { // global function
@@ -489,7 +489,7 @@ HTML;
      * scrolling (e.g. in cases where you have a fixed bootstrap navbar on top). For example:
      *
      * ```
-     *    'headerContainer' => ['class' => 'kv-table-header, 'style' => 'top: 50px'] // to set an offset
+     *    'headerContainer' => ['class' => 'kv-table-header', 'style' => 'top: 50px'] // to set an offset
      * ```
      */
     public $headerContainer = ['class' => 'kv-table-header'];
@@ -508,12 +508,12 @@ HTML;
     public $footerContainer = ['class' => 'kv-table-footer'];
 
     /**
-     * @deprecated since release v3.5.2
+     * @deprecated since release v3.5.3
      */
     public $floatOverflowContainer = false;
 
     /**
-     * @deprecated since release v3.5.2
+     * @deprecated since release v3.5.3
      */
     public $floatHeaderOptions = [];
 
@@ -693,7 +693,7 @@ HTML;
      *   configuration options are read specific to each file type:
      *     - `HTML`: The following properties can be set as array key-value pairs:
      *          - `cssFile`: _string_, the css file that will be used in the exported HTML file. Defaults to:
-     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.5.2/css/bootstrap.min.css`.
+     *            `https://maxcdn.bootstrapcdn.com/bootstrap/3.5.3/css/bootstrap.min.css`.
      *     - `CSV` and `TEXT`: The following properties can be set as array key-value pairs:
      *          - `colDelimiter`: _string_, the column delimiter string for TEXT and CSV downloads.
      *          - `rowDelimiter`: _string_, the row delimiter string for TEXT and CSV downloads.
@@ -1693,7 +1693,7 @@ HTML;
      * Replaces token within the grid's property value using custom callable.
      *
      * @param  string  $prop  the template property in this module
-     * @param  string  $needle
+     * @param  string  $needle the token to be replaced.
      * @param  string|array  $callback  the callback function name
      * @param  array  $params  arguments to the callback
      */
@@ -1712,7 +1712,7 @@ HTML;
             $exists = is_callable($callback);
         }
         if (Lib::strpos($this->$prop, $needle) !== false) {
-            $this->$prop = Lib::strtr($this->layout,
+            $this->$prop = Lib::strtr($this->$prop,
                 [$needle => $exists ? call_user_func_array($callback, $params) : '']);
         }
     }
@@ -1720,7 +1720,7 @@ HTML;
     /**
      * Replaces layout token part using custom callable.
      *
-     * @param  string  $needle
+     * @param  string  $needle the token to be replaced.
      * @param  string|array  $callback  the callback function name
      * @param  array  $params  arguments to the callback
      */
