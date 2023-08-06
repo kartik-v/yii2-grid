@@ -34,7 +34,7 @@ var __bind = function (fn, me) {
         };
 
         ResizableColumns.prototype.initTable = function () {
-            if (this.visibilityWaitTimeout && this.$table && !this.$table.is(":visible")) {
+            if (this.options.visibilityWaitTimeout && this.$table && !this.$table.is(":visible")) {
                 let _this = this;
                 setTimeout(function () {
                     _this.initTable()
