@@ -311,7 +311,7 @@ var kvExpandRow;
                         var $rowSpanTds = $(tr).find('td.' + gridId + '[rowspan]');
                         $.each($rowSpanTds, function (j, td) {
                             var rowSpan = parseInt($(td).attr('rowspan'));
-                            if (!isNaN(rowspan) && $(tr).index() + rowSpan > expandRowPosition) {
+                            if (!isNaN(rowSpan) && $(tr).index() + rowSpan > expandRowPosition) {
                                 $(td).attr('rowspan', rowSpan + 1);
                             }
                         });
@@ -349,7 +349,7 @@ var kvExpandRow;
                             var $rowSpanTds = $(tr).find('td.' + gridId + '[rowspan]');
                             $.each($rowSpanTds, function (j, td) {
                                 var rowSpan = parseInt($(td).attr('rowspan'));
-                                if (!isNaN(rowspan) && $(tr).index() + rowSpan > expandRowPosition) {
+                                if (!isNaN(rowSpan) && $(tr).index() + rowSpan > expandRowPosition) {
                                     $(td).attr('rowspan', rowSpan - 1);
                                 }
                             });
