@@ -34,13 +34,15 @@ var __bind = function (fn, me) {
         };
 
         ResizableColumns.prototype.initTable = function () {
-            if (this.visibilityWaitTimeout && this.$table && !this.$table.is(":visible")) {
+            if (this.options.visibilityWaitTimeout && this.$table && !this.$table.is(":visible")) {
+                if (this.options.debug) console.log("Resizable Columns: Delaying init for " + this.options.visibilityWaitTimeout + "ms...");
                 let _this = this;
                 setTimeout(function () {
                     _this.initTable()
                 }, this.options.visibilityWaitTimeout);
                 return;
             }
+            if (this.options.debug) console.log("Resizable Columns: init now");
             this.setHeaders();
             this.restoreColumnWidths();
             this.syncHandleWidths();
