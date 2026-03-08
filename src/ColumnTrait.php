@@ -279,8 +279,8 @@ trait ColumnTrait
                     $fmt = ($format == 'scientific') ? "0{$append}E+00" : "\\#\\{$tSep}\\#\\#0" . $append;
                     break;
                 case 'currency':
-                    $curr = is_array($this->format) && isset($this->format[1]) ? $this->format[1] :
-                        (isset($formatter->currencyCode) ? $formatter->currencyCode . ' ' : '');
+                    $curr = (is_array($this->format) && isset($this->format[1])) ? $this->format[1] :
+                     (isset($formatter->currencyCode) ? $formatter->currencyCode . ' ' : '');
                     $fmt = "{$curr}\\#\\{$tSep}\\#\\#0{$dSep}00";
                     break;
                 case 'date':
