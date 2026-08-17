@@ -373,10 +373,11 @@ trait ColumnTrait
         switch ($type) {
             case null:
             case GridView::F_SUM:
-                return array_sum($data);
+                return array_sum(array_filter($data, 'is_numeric'));
             case GridView::F_COUNT:
                 return count($data);
             case GridView::F_AVG:
+                $data = array_filter($data, 'is_numeric');
                 return count($data) > 0 ? array_sum($data) / count($data) : null;
             case GridView::F_MAX:
                 return max($data);
